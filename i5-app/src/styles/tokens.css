@@ -1,0 +1,329 @@
+/* ============================================================
+   DESIGN TOKENS — i5 Trading Platform (True 0% Neutral Palette)
+   Source: design-tokens.md
+   ============================================================ */
+
+:root {
+  /* ----------------------------------------------------------
+     1. NEUTRAL SCALE (Fully Desaturated 0% Saturation)
+     ---------------------------------------------------------- */
+  --neutral-950: #080808;  /* Vampire Black desaturated — app bg dark */
+  --neutral-900: #0e0e0e;  /* Base surface */
+  --neutral-850: #161616;  /* Chinese Black desaturated — card surface */
+  --neutral-800: #1c1c1c;  /* Raised card / popover */
+  --neutral-700: #292929;  /* Border strong */
+  --neutral-600: #3c3c3c;  /* Border default */
+  --neutral-500: #535353;  /* Disabled text/icon */
+  --neutral-400: #787878;  /* Muted text/placeholder (4.5:1 on dark bg) */
+  --neutral-300: #9a9a9a;  /* Secondary text dark */
+  --neutral-200: #c2c2c2;  /* Jet Stream desaturated */
+  --neutral-100: #e4e4e4;  /* Platinum desaturated — primary text dark */
+  --neutral-50:  #f4f4f4;  /* App bg light */
+  --neutral-0:   #ffffff;  /* Pure white */
+
+  /* ----------------------------------------------------------
+     2. GAIN SCALE — EMERALD (Market data & Buy actions ONLY)
+     ---------------------------------------------------------- */
+  --emerald-950: #072f1b;
+  --emerald-900: #0b4a2a;
+  --emerald-800: #11663a;
+  --emerald-700: #17864a;
+  --emerald-600: #1fa65a;  /* Deep Emerald — light-mode base / dark hover */
+  --emerald-500: #2fcb73;  /* Emerald Green — dark-mode gain/Buy */
+  --emerald-400: #56d68f;
+  --emerald-300: #8fe8b8;  /* Mint Green */
+  --emerald-200: #b3efce;
+  --emerald-100: #ddf8e9;  /* Soft Mint */
+  --emerald-50:  #e9fbf1;
+
+  /* ----------------------------------------------------------
+     3. LOSS SCALE — RED (Market data & Sell/destructive ONLY)
+     ---------------------------------------------------------- */
+  --red-950: #2e0a0a;
+  --red-900: #521212;
+  --red-800: #781b1b;
+  --red-700: #9e2424;
+  --red-600: #c42e2e;  /* Base danger fill */
+  --red-500: #e13b3b;  /* Text/icon loss color */
+  --red-400: #ea5e5e;  /* Caution text dark */
+  --red-300: #ef8686;
+  --red-200: #f5afaf;
+  --red-100: #fbd8d8;
+  --red-50:  #fdecec;
+
+  /* ----------------------------------------------------------
+     4. CAUTION & INFO TIERS
+     ---------------------------------------------------------- */
+  --color-caution-text:   var(--red-400);
+  --color-caution-bg:     rgba(225, 59, 59, 0.10);
+  --color-caution-border: rgba(225, 59, 59, 0.30);
+
+  --color-info-text:     var(--neutral-100);
+  --color-info-bg:       var(--neutral-800);
+  --color-info-border:   var(--border-color-strong);
+
+  /* ----------------------------------------------------------
+     5. SEMANTIC ALIASES — DARK MODE
+     ---------------------------------------------------------- */
+  --color-success:       var(--emerald-500);
+  --color-danger:        var(--red-600);
+  --color-price-up:      var(--emerald-500);
+  --color-price-down:    var(--red-500);
+  --color-price-neutral: var(--neutral-400);
+  --color-chart-bullish: var(--emerald-500);
+  --color-chart-bearish: var(--red-500);
+  --color-chart-bullish-fill: rgba(47, 203, 115, 0.12);
+  --color-chart-bearish-fill: rgba(225, 59, 59, 0.12);
+
+  /* ----------------------------------------------------------
+     6. SURFACE & TEXT — DARK MODE (Desaturated Monochrome)
+     ---------------------------------------------------------- */
+  --bg-app:              var(--neutral-950);
+  --bg-surface:          var(--neutral-900);
+  --bg-surface-raised:   var(--neutral-850);
+  --bg-surface-overlay:  var(--neutral-800);
+  --text-primary:        var(--neutral-100);
+  --text-secondary:      var(--neutral-200);
+  --text-tertiary:       var(--neutral-400);
+  --text-disabled:       var(--neutral-600);
+  --text-on-inverse:     var(--neutral-950);
+  --text-link:           var(--neutral-100);
+
+  /* ----------------------------------------------------------
+     7. BORDERS — DARK MODE
+     ---------------------------------------------------------- */
+  --border-color-default:  rgba(228, 228, 228, 0.10);
+  --border-color-strong:   rgba(228, 228, 228, 0.18);
+  --border-color-emphasis: var(--neutral-100);
+  --border-color-danger:   var(--red-500);
+  --border-width-hairline: 1px;
+  --border-width-default:  1px;
+  --border-width-thick:    2px;
+
+  /* ----------------------------------------------------------
+     8. SPACING — 4px base grid
+     ---------------------------------------------------------- */
+  --space-0:  0px;
+  --space-1:  2px;
+  --space-2:  4px;
+  --space-3:  6px;
+  --space-4:  8px;
+  --space-5:  10px;
+  --space-6:  12px;
+  --space-8:  16px;
+  --space-10: 20px;
+  --space-12: 24px;
+  --space-16: 32px;
+  --space-20: 40px;
+  --space-24: 48px;
+  --space-32: 64px;
+  --space-40: 80px;
+
+  /* ----------------------------------------------------------
+     9. RADIUS
+     ---------------------------------------------------------- */
+  --radius-sm:   4px;
+  --radius-md:   8px;
+  --radius-lg:   12px;
+  --radius-xl:   16px;
+  --radius-2xl:  20px;
+  --radius-full: 9999px;
+
+  /* ----------------------------------------------------------
+     10. ELEVATION / SHADOW — DARK MODE (Neutral focus ring)
+     ---------------------------------------------------------- */
+  --shadow-none: none;
+  --shadow-xs:   0 1px 2px rgba(0, 0, 0, 0.40);
+  --shadow-sm:   0 2px 4px rgba(0, 0, 0, 0.45);
+  --shadow-md:   0 4px 12px rgba(0, 0, 0, 0.50);
+  --shadow-lg:   0 8px 24px rgba(0, 0, 0, 0.55);
+  --shadow-xl:   0 16px 40px rgba(0, 0, 0, 0.60);
+  --shadow-focus-ring: 0 0 0 3px rgba(228, 228, 228, 0.35);
+
+  /* ----------------------------------------------------------
+     11. MOTION
+     ---------------------------------------------------------- */
+  --duration-instant:      100ms;
+  --duration-fast:         150ms;
+  --duration-base:         200ms;
+  --duration-slow:         300ms;
+  --duration-price-flash:  400ms;
+  --easing-standard:       cubic-bezier(0.4, 0, 0.2, 1);
+  --easing-decelerate:     cubic-bezier(0, 0, 0.2, 1);
+  --easing-accelerate:     cubic-bezier(0.4, 0, 1, 1);
+
+  /* ----------------------------------------------------------
+     12. LAYOUT
+     ---------------------------------------------------------- */
+  --layout-sidebar-width:           260px;
+  --layout-sidebar-collapsed-width: 72px;
+  --layout-content-max-width:       1440px;
+  --layout-header-height:           64px;
+
+  /* ----------------------------------------------------------
+     13. Z-INDEX
+     ---------------------------------------------------------- */
+  --z-base:      0;
+  --z-dropdown:  100;
+  --z-sticky:    200;
+  --z-header:    300;
+  --z-sidebar:   300;
+  --z-overlay:   400;
+  --z-modal:     500;
+  --z-toast:     600;
+  --z-tooltip:   700;
+
+  /* ----------------------------------------------------------
+     14. OPACITY
+     ---------------------------------------------------------- */
+  --opacity-disabled:         0.40;
+  --opacity-hover-overlay:    0.06;
+  --opacity-pressed-overlay:  0.10;
+  --opacity-scrim:            0.60;
+
+  /* ----------------------------------------------------------
+     15. COMPONENT TOKENS — BUTTONS
+     ---------------------------------------------------------- */
+  --button-primary-bg:          var(--neutral-100);
+  --button-primary-bg-hover:    var(--neutral-0);
+  --button-primary-text:        var(--neutral-950);
+
+  --button-secondary-bg:        var(--neutral-800);
+  --button-secondary-bg-hover:  var(--neutral-700);
+  --button-secondary-text:      var(--neutral-100);
+  --button-secondary-border:    var(--border-color-default);
+
+  --button-ghost-bg:            transparent;
+  --button-ghost-bg-hover:      var(--neutral-800);
+
+  --button-danger-bg:           var(--red-600);
+  --button-danger-bg-hover:     var(--red-700);
+  --button-danger-text:         var(--neutral-0);
+
+  --button-buy-bg:              var(--emerald-500);
+  --button-buy-bg-hover:        var(--emerald-600);
+  --button-buy-text:            var(--neutral-950);
+
+  --button-sell-bg:             var(--red-600);
+  --button-sell-bg-hover:       var(--red-700);
+  --button-sell-text:           var(--neutral-0);
+
+  --button-height-sm:           32px;
+  --button-height-md:           40px;
+  --button-height-lg:           48px;
+  --button-radius:              var(--radius-md);
+  --button-padding-x:           var(--space-8);
+
+  /* ----------------------------------------------------------
+     16. COMPONENT TOKENS — INPUTS
+     ---------------------------------------------------------- */
+  --input-bg:             var(--neutral-900);
+  --input-border:         var(--border-color-default);
+  --input-border-focus:   var(--border-color-emphasis);
+  --input-text:           var(--text-primary);
+  --input-placeholder:    var(--text-tertiary);
+  --input-height:         40px;
+  --input-radius:         var(--radius-md);
+
+  /* ----------------------------------------------------------
+     17. COMPONENT TOKENS — CARDS & KANBAN
+     ---------------------------------------------------------- */
+  --card-bg:      var(--neutral-850);
+  --card-border:  var(--border-color-default);
+  --card-radius:  var(--radius-lg);
+  --card-padding: var(--space-12);
+  --card-shadow:  var(--shadow-sm);
+
+  --kanban-column-accent-todo:        var(--neutral-600);
+  --kanban-column-accent-in-progress: var(--neutral-400);
+  --kanban-column-accent-review:      var(--neutral-200);
+  --kanban-column-accent-done:        var(--emerald-500);
+
+  /* ----------------------------------------------------------
+     18. COMPONENT TOKENS — NAVIGATION
+     ---------------------------------------------------------- */
+  --nav-bg:               var(--bg-surface);
+  --nav-border:           var(--border-color-default);
+  --nav-item-text:        var(--text-secondary);
+  --nav-item-text-active: var(--text-primary);
+  --nav-item-bg-active:   var(--neutral-800);
+  --nav-item-radius:      var(--radius-md);
+
+  /* ----------------------------------------------------------
+     19. COMPONENT TOKENS — MENU / DROPDOWN
+     ---------------------------------------------------------- */
+  --menu-bg:           var(--neutral-900);
+  --menu-border:       var(--border-color-default);
+  --menu-radius:       var(--radius-xl);
+  --menu-shadow:       var(--shadow-lg);
+  --menu-item-radius:  var(--radius-md);
+  --menu-item-bg-hover: var(--neutral-800);
+
+  /* ----------------------------------------------------------
+     20. COMPONENT TOKENS — TABLE
+     ---------------------------------------------------------- */
+  --table-row-bg:       transparent;
+  --table-row-bg-hover: var(--neutral-850);
+  --table-header-text:  var(--text-tertiary);
+}
+
+/* ----------------------------------------------------------
+   LIGHT MODE OVERRIDES
+   Apply .light class to <html> or <body>
+   ---------------------------------------------------------- */
+.light {
+  --color-caution-text:   var(--red-600);
+  --color-caution-bg:     rgba(225, 59, 59, 0.08);
+  --color-caution-border: rgba(225, 59, 59, 0.25);
+
+  --color-info-text:     var(--neutral-950);
+  --color-info-bg:       var(--neutral-100);
+
+  --color-success:        var(--emerald-600);
+  --color-danger:         var(--red-600);
+  --color-price-up:       var(--emerald-600);
+  --color-price-down:     var(--red-600);
+  --color-chart-bullish-fill: rgba(47, 203, 115, 0.10);
+  --color-chart-bearish-fill: rgba(225, 59, 59, 0.10);
+
+  --bg-app:             var(--neutral-50);
+  --bg-surface:         var(--neutral-0);
+  --bg-surface-raised:  var(--neutral-0);
+  --bg-surface-overlay: var(--neutral-100);
+  --text-primary:       var(--neutral-950);
+  --text-secondary:     var(--neutral-700);
+  --text-tertiary:      var(--neutral-500);
+  --text-disabled:      var(--neutral-300);
+  --text-on-inverse:    var(--neutral-0);
+  --text-link:          var(--neutral-950);
+
+  --border-color-default:  rgba(8, 8, 8, 0.10);
+  --border-color-strong:   rgba(8, 8, 8, 0.18);
+  --border-color-emphasis: var(--neutral-950);
+
+  --shadow-xs: 0 1px 2px rgba(8, 8, 8, 0.06);
+  --shadow-sm: 0 2px 4px rgba(8, 8, 8, 0.08);
+  --shadow-md: 0 4px 12px rgba(8, 8, 8, 0.10);
+  --shadow-lg: 0 8px 24px rgba(8, 8, 8, 0.12);
+  --shadow-xl: 0 16px 40px rgba(8, 8, 8, 0.14);
+  --shadow-focus-ring: 0 0 0 3px rgba(8, 8, 8, 0.30);
+
+  --button-primary-bg:       var(--neutral-950);
+  --button-primary-bg-hover: var(--neutral-800);
+  --button-primary-text:     var(--neutral-0);
+
+  --button-secondary-bg:       var(--neutral-100);
+  --button-secondary-bg-hover: var(--neutral-200);
+  --button-secondary-text:     var(--neutral-950);
+
+  --button-ghost-bg-hover:     var(--neutral-100);
+
+  --button-buy-bg:            var(--emerald-600);
+  --button-buy-bg-hover:      var(--emerald-700);
+  --button-buy-text:          var(--neutral-950);
+
+  --input-bg:  var(--neutral-0);
+  --card-bg:   var(--neutral-0);
+  --nav-bg:    var(--neutral-0);
+  --menu-bg:   var(--neutral-0);
+}

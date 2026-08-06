@@ -1,0 +1,148 @@
+"use client";
+
+import React, { useState } from "react";
+import styles from "./Topbar.module.css";
+
+/* Search Icon */
+function IconSearch() {
+  return (
+    <svg width={15} height={15} viewBox="0 0 16 16" fill="none" aria-hidden>
+      <circle cx="7" cy="7" r="4.5" stroke="currentColor" strokeWidth="1.4" />
+      <path d="M10.5 10.5l3 3" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+/* Bell Icon */
+function IconBell() {
+  return (
+    <svg width={16} height={16} viewBox="0 0 18 18" fill="none" aria-hidden>
+      <path
+        d="M9 2a5 5 0 0 1 5 5v3l1.5 2.5H2.5L4 10V7a5 5 0 0 1 5-5z"
+        stroke="currentColor"
+        strokeWidth="1.4"
+        strokeLinejoin="round"
+      />
+      <path d="M7 13.5a2 2 0 0 0 4 0" stroke="currentColor" strokeWidth="1.4" />
+    </svg>
+  );
+}
+
+/* Sun / Theme Icon */
+function IconSun() {
+  return (
+    <svg width={16} height={16} viewBox="0 0 18 18" fill="none" aria-hidden>
+      <circle cx="9" cy="9" r="3.5" stroke="currentColor" strokeWidth="1.4" />
+      <path d="M9 1.5v1.5M9 15v1.5M1.5 9h1.5M15 9h1.5M3.7 3.7l1 1M13.3 13.3l1 1M3.7 14.3l1-1M13.3 4.7l1-1" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+/* Wallet Icon */
+function IconWallet() {
+  return (
+    <svg width={16} height={16} viewBox="0 0 18 18" fill="none" aria-hidden>
+      <rect x="2" y="3.5" width="14" height="11" rx="2.5" stroke="currentColor" strokeWidth="1.4" />
+      <path d="M2 7h14" stroke="currentColor" strokeWidth="1.4" />
+      <circle cx="12.5" cy="10.5" r="1" fill="currentColor" />
+    </svg>
+  );
+}
+
+export default function Topbar() {
+  const [isConnected, setIsConnected] = useState<boolean>(false);
+  const [walletAddress] = useState<string>("0x8f2A1346...c41B");
+  const [searchValue, setSearchValue] = useState<string>("");
+
+  return (
+    <header className={styles.topbar} role="banner">
+      {/* Left: Brand Logo + Divider + Page Title */}
+      <div className={styles.left}>
+        <div className={styles.brandMark} aria-label="i5">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden>
+            <rect x="2" y="2" width="20" height="20" rx="6" fill="var(--neutral-100)" />
+            <text
+              x="12"
+              y="16"
+              textAnchor="middle"
+              fill="var(--neutral-950)"
+              fontSize="11"
+              fontWeight="700"
+              fontFamily="system-ui"
+            >
+              i5
+            </text>
+          </svg>
+        </div>
+        <div className={styles.headerDivider} aria-hidden />
+        <h1 className={`${styles.pageTitle} text-h4`}>Dashboard</h1>
+      </div>
+
+      {/* Right: Search, Status Badges, Bell, Sun, Wallet Connect, Avatar */}
+      <div className={styles.right}>
+        {/* Search Bar */}
+        <div className={styles.searchBar}>
+          <IconSearch />
+          <input
+            type="text"
+            className={styles.searchInput}
+            placeholder="Search stocks, sectors or themes"
+            value={searchValue}
+            onChange={(e) => setSearchValue(e.target.value)}
+          />
+        </div>
+
+        {/* Status Pill 1: Demo data */}
+        <div className={styles.badgeDemo}>
+          <span className={styles.dotGrey} />
+          Demo data
+        </div>
+
+        {/* Status Pill 2: US Market Open */}
+        <div className={styles.badgeMarket}>
+          <span className={styles.dotGreen} />
+          US Market Open
+        </div>
+
+        {/* Notification Bell */}
+        <div className={styles.bellWrap}>
+          <button className={styles.iconBtn} aria-label="Notifications">
+            <IconBell />
+          </button>
+          <span className={styles.notifDotPurple} aria-hidden />
+        </div>
+
+        {/* Theme Toggle Sun Icon */}
+        <button className={styles.iconBtn} aria-label="Toggle Theme">
+          <IconSun />
+        </button>
+
+        {/* Wallet Connect / Connected State Button */}
+        {!isConnected ? (
+          <button
+            className={styles.connectWalletBtn}
+            onClick={() => setIsConnected(true)}
+            title="Connect your crypto wallet"
+          >
+            <IconWallet />
+            <span>Connect Wallet</span>
+          </button>
+        ) : (
+          <button
+            className={styles.connectedPill}
+            onClick={() => setIsConnected(false)}
+            title="Click to disconnect wallet"
+          >
+            <span className={styles.dotGreenPulse} />
+            <span className={styles.addressText}>{walletAddress}</span>
+          </button>
+        )}
+
+        {/* User Avatar Circle */}
+        <button className={styles.avatar} aria-label="Account Menu">
+          <span>I5</span>
+        </button>
+      </div>
+    </header>
+  );
+}

@@ -1,0 +1,154 @@
+/* Button — Monochrome & Market Action Variants */
+
+/* ----------------------------------------------------------
+   Base
+   ---------------------------------------------------------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  border: none;
+  border-radius: var(--button-radius);
+  padding: 0 var(--button-padding-x);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1;
+  white-space: nowrap;
+  cursor: pointer;
+  text-decoration: none;
+  transition:
+    background-color var(--duration-fast) var(--easing-standard),
+    color var(--duration-fast) var(--easing-standard),
+    box-shadow var(--duration-fast) var(--easing-standard),
+    opacity var(--duration-fast) var(--easing-standard);
+  position: relative;
+  overflow: hidden;
+}
+
+.btn:focus-visible {
+  box-shadow: var(--shadow-focus-ring);
+}
+
+/* ----------------------------------------------------------
+   Sizes
+   ---------------------------------------------------------- */
+.sm {
+  height: var(--button-height-sm);
+  font-size: 13px;
+  padding: 0 var(--space-6);
+}
+
+.md {
+  height: var(--button-height-md);
+}
+
+.lg {
+  height: var(--button-height-lg);
+  font-size: 15px;
+  padding: 0 var(--space-12);
+}
+
+/* ----------------------------------------------------------
+   Variants — design-tokens.md §11.1
+   ---------------------------------------------------------- */
+
+/* Primary — Inverse Monochrome (Save, Submit, Continue) */
+.primary {
+  background-color: var(--button-primary-bg);
+  color: var(--button-primary-text);
+}
+.primary:hover:not(:disabled) {
+  background-color: var(--button-primary-bg-hover);
+}
+
+/* Secondary */
+.secondary {
+  background-color: var(--button-secondary-bg);
+  color: var(--button-secondary-text);
+  border: var(--border-width-default) solid var(--button-secondary-border);
+}
+.secondary:hover:not(:disabled) {
+  background-color: var(--button-secondary-bg-hover);
+}
+
+/* Ghost */
+.ghost {
+  background-color: var(--button-ghost-bg);
+  color: var(--text-secondary);
+}
+.ghost:hover:not(:disabled) {
+  background-color: var(--button-ghost-bg-hover);
+  color: var(--text-primary);
+}
+
+/* Danger / Destructive */
+.danger {
+  background-color: var(--button-danger-bg);
+  color: var(--button-danger-text);
+}
+.danger:hover:not(:disabled) {
+  background-color: var(--button-danger-bg-hover);
+}
+
+/* Buy CTA — Reserved strictly for market trade actions */
+.buy {
+  background-color: var(--button-buy-bg);
+  color: var(--button-buy-text);
+  font-weight: 600;
+}
+.buy:hover:not(:disabled) {
+  background-color: var(--button-buy-bg-hover);
+}
+
+/* Sell CTA — Reserved strictly for market trade actions */
+.sell {
+  background-color: var(--button-sell-bg);
+  color: var(--button-sell-text);
+  font-weight: 600;
+}
+.sell:hover:not(:disabled) {
+  background-color: var(--button-sell-bg-hover);
+}
+
+/* ----------------------------------------------------------
+   States
+   ---------------------------------------------------------- */
+.disabled {
+  opacity: var(--opacity-disabled);
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.fullWidth {
+  width: 100%;
+}
+
+/* ----------------------------------------------------------
+   Icon / label slots
+   ---------------------------------------------------------- */
+.icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ----------------------------------------------------------
+   Spinner animation
+   ---------------------------------------------------------- */
+.spinner {
+  animation: spinBtn 0.7s linear infinite;
+  flex-shrink: 0;
+}
+
+@keyframes spinBtn {
+  to { transform: rotate(360deg); }
+}

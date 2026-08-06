@@ -1,0 +1,441 @@
+/* Alpha Trade Landing Page — Strict Design Token Palette */
+
+.container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+  padding: var(--space-4) 0 var(--space-8);
+  box-sizing: border-box;
+}
+
+/* Centered Hero Section with Magic Rings */
+.heroSection {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  width: 100%;
+  min-height: calc(100vh - 120px);
+  padding: var(--space-8) 0;
+  border-radius: var(--radius-xl);
+  /* Removed overflow: hidden so the MagicRings glow isn't clipped */
+}
+
+.magicRingsWrapper {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  pointer-events: none; /* Let clicks pass through to buttons */
+}
+
+.heroContent {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-8); /* Space between text group and action group */
+  max-width: 600px;
+}
+
+.textContentGroup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.actionContentGroup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+@media (max-width: 1024px) {
+  .heroSection {
+    min-height: 500px;
+  }
+}
+
+/* Hero Content Elements */
+.heroLeft {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
+  max-width: 620px;
+}
+
+/* Top Trust Badge Pill */
+.trustBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background-color: rgba(36, 161, 222, 0.1);
+  border: 1px solid rgba(36, 161, 222, 0.3);
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
+  width: fit-content;
+}
+
+.pulseDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #24A1DE;
+  box-shadow: 0 0 10px #24A1DE;
+}
+
+.trustBadgeText {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.trustBadgeText strong {
+  color: var(--text-primary);
+  font-weight: 700;
+}
+
+/* Huge Main Headline */
+.mainTitle {
+  font-family: var(--font-sans);
+  font-size: 64px;
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  color: var(--text-primary);
+  line-height: 1.05;
+  margin: var(--space-2) 0;
+}
+
+@media (max-width: 768px) {
+  .mainTitle {
+    font-size: 44px;
+  }
+}
+
+.tradeHighlight {
+  color: #24A1DE;
+  text-shadow: 0 0 30px rgba(36, 161, 222, 0.35);
+}
+
+/* Tagline Sub-heading */
+.taglineGroup {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.greenDash {
+  width: 24px;
+  height: 2px;
+  background-color: #24A1DE;
+  border-radius: 2px;
+}
+
+.taglineText {
+  font-family: var(--font-sans);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
+}
+
+/* Paragraph Description */
+.description {
+  font-family: var(--font-sans);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 26px;
+  color: var(--text-secondary);
+  max-width: 500px;
+  text-align: center;
+}
+
+.subDescription {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-tertiary);
+  margin-top: -6px;
+}
+
+/* Primary CTA Button */
+.ctaWrapper {
+  margin-top: var(--space-3);
+}
+
+.ctaBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-sans);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--neutral-950);
+  background-color: #24A1DE;
+  border: none;
+  padding: 14px 28px;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  box-shadow: 0 8px 24px rgba(36, 161, 222, 0.35);
+  transition:
+    background-color var(--duration-fast) var(--easing-standard),
+    transform var(--duration-fast) var(--easing-standard),
+    box-shadow var(--duration-fast) var(--easing-standard);
+}
+
+.ctaBtn:hover {
+  background-color: #2AABEE;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px rgba(36, 161, 222, 0.5);
+}
+
+/* Social Proof Row */
+.socialProofRow {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: var(--space-4);
+}
+
+.avatarGroup {
+  display: flex;
+  align-items: center;
+}
+
+.avatarCircle {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 2px solid var(--neutral-900);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  margin-left: -10px;
+}
+
+.avatarCircle:first-child {
+  margin-left: 0;
+}
+
+.countBadge {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background-color: var(--neutral-800);
+  border: 2px solid var(--neutral-900);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  color: #24A1DE;
+  margin-left: -10px;
+}
+
+.socialProofText {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  color: var(--text-tertiary);
+  line-height: 18px;
+}
+
+.socialProofText strong {
+  color: var(--text-primary);
+  font-weight: 700;
+}
+
+/* Hero Right Column — 3D Holographic Globe */
+.heroRight {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: 100%;
+  height: 380px;
+}
+
+.globeGraphicWrapper {
+  position: relative;
+  width: 340px;
+  height: 340px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.orbitRingOuter {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 1px stroke rgba(47, 203, 115, 0.2);
+  border-style: dashed;
+  animation: rotateSpin 40s linear infinite;
+}
+
+.orbitRingInner {
+  position: absolute;
+  inset: 24px;
+  border-radius: 50%;
+  border: 1px stroke rgba(47, 203, 115, 0.25);
+  animation: rotateSpinReverse 25s linear infinite;
+}
+
+@keyframes rotateSpin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes rotateSpinReverse {
+  from {
+    transform: rotate(360deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}
+
+.globeSvg {
+  width: 280px;
+  height: 280px;
+  filter: drop-shadow(0 0 30px rgba(47, 203, 115, 0.25));
+}
+
+/* Orbital Badges */
+.orbitalBadgeLong {
+  position: absolute;
+  top: 30px;
+  right: -10px;
+  background-color: var(--neutral-900);
+  border: 1px solid rgba(47, 203, 115, 0.4);
+  border-radius: var(--radius-full);
+  padding: 6px 14px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--emerald-500);
+  box-shadow: var(--shadow-lg);
+  backdrop-filter: blur(8px);
+}
+
+.badgePulseGreen {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--emerald-500);
+  box-shadow: 0 0 8px var(--emerald-500);
+}
+
+.longVal {
+  color: var(--emerald-500);
+}
+
+.orbitalBadgeShort {
+  position: absolute;
+  bottom: 40px;
+  left: -20px;
+  background-color: var(--neutral-900);
+  border: 1px solid rgba(234, 94, 94, 0.4);
+  border-radius: var(--radius-full);
+  padding: 6px 14px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--red-400);
+  box-shadow: var(--shadow-lg);
+  backdrop-filter: blur(8px);
+}
+
+.badgePulseRed {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--red-400);
+  box-shadow: 0 0 8px var(--red-400);
+}
+
+.shortVal {
+  color: var(--red-400);
+}
+
+/* Bottom 3 Feature Cards Banner */
+.featuresBanner {
+  background-color: var(--neutral-950);
+  border: 1px solid var(--border-color-default);
+  border-radius: var(--radius-2xl);
+  padding: var(--space-8);
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-8);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+@media (max-width: 900px) {
+  .featuresBanner {
+    grid-template-columns: 1fr;
+  }
+}
+
+.featureCard {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-4);
+}
+
+.iconBox {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-xl);
+  background-color: rgba(47, 203, 115, 0.12);
+  border: 1px solid rgba(47, 203, 115, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--emerald-500);
+}
+
+.featureMeta {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.featureTitle {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-primary);
+}
+
+.featureDesc {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 20px;
+  color: var(--text-secondary);
+}

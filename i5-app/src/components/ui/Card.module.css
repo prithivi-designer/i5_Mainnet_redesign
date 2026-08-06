@@ -1,0 +1,58 @@
+/* Card */
+
+.card {
+  background-color: var(--card-bg);
+  border: var(--border-width-default) solid var(--card-border);
+  border-radius: var(--card-radius);
+  box-shadow: var(--card-shadow);
+  overflow: hidden;
+  transition:
+    box-shadow var(--duration-base) var(--easing-standard),
+    border-color var(--duration-base) var(--easing-standard);
+}
+
+/* Emerald accent — top border stripe */
+.accent {
+  border-top: 2px solid var(--emerald-500);
+}
+
+/* ----------------------------------------------------------
+   Header
+   ---------------------------------------------------------- */
+.header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-8) var(--card-padding);
+  border-bottom: var(--border-width-default) solid var(--border-color-default);
+}
+
+.headerNoPad {
+  padding: var(--space-8) var(--card-padding);
+}
+
+/* ----------------------------------------------------------
+   Body
+   ---------------------------------------------------------- */
+.body {
+  padding: var(--card-padding);
+}
+
+.noPadding {
+  padding: 0;
+}
+
+/* ----------------------------------------------------------
+   Footer
+   ---------------------------------------------------------- */
+.footer {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-6) var(--card-padding);
+  border-top: var(--border-width-default) solid var(--border-color-default);
+}
+
+.footerNoPad {
+  padding: var(--space-6) var(--card-padding);
+}

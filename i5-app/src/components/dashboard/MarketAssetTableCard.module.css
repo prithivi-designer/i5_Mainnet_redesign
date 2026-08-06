@@ -1,0 +1,362 @@
+/* Market Asset Intelligence Radar Card — Image 1 content in Image 2 Table Style */
+
+.card {
+  flex: 1 1 0%;
+  min-width: 0;
+  background-color: var(--neutral-900);
+  border: var(--border-width-default) solid var(--border-color-default);
+  border-radius: var(--radius-xl);
+  padding: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  transition:
+    background-color var(--duration-fast) var(--easing-standard),
+    border-color var(--duration-fast) var(--easing-standard);
+}
+
+.card:hover {
+  background-color: var(--neutral-850);
+  border-color: var(--border-color-strong);
+}
+
+/* Top Header Bar */
+.topHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: var(--space-4);
+}
+
+.headerTitleGroup {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.headerIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary);
+}
+
+.titleText {
+  font-family: var(--font-sans);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
+}
+
+.headerRight {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.filterBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  background-color: var(--neutral-800);
+  border: 1px solid var(--border-color-default);
+  padding: 5px 12px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition:
+    background-color var(--duration-fast) var(--easing-standard),
+    color var(--duration-fast) var(--easing-standard);
+}
+
+.filterBtn:hover {
+  background-color: var(--neutral-750);
+  color: var(--text-primary);
+}
+
+/* Category Pills Row */
+.pillsRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+  flex-wrap: wrap;
+}
+
+.pillsList {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.pillBtn {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-tertiary);
+  background-color: transparent;
+  border: 1px solid transparent;
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition:
+    background-color var(--duration-fast) var(--easing-standard),
+    color var(--duration-fast) var(--easing-standard);
+}
+
+.pillBtn:hover {
+  color: var(--text-primary);
+  background-color: var(--neutral-800);
+}
+
+.activePill {
+  color: var(--text-primary);
+  background-color: var(--neutral-800);
+  border-color: var(--border-color-strong);
+}
+
+/* Search Group */
+.searchGroup {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background-color: var(--neutral-950);
+  border: 1px solid var(--border-color-default);
+  border-radius: var(--radius-full);
+  padding: 4px 12px;
+  color: var(--text-tertiary);
+}
+
+.searchInput {
+  background: transparent;
+  border: none;
+  outline: none;
+  font-family: var(--font-sans);
+  font-size: 11px;
+  color: var(--text-primary);
+  width: 100px;
+}
+
+.searchInput::placeholder {
+  color: var(--text-tertiary);
+}
+
+.perpsBadge {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--emerald-500);
+  background-color: rgba(47, 203, 115, 0.12);
+  padding: 2px 8px;
+  border-radius: 12px;
+  white-space: nowrap;
+}
+
+/* Table Wrapper */
+.tableWrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.table th {
+  font-family: var(--font-sans);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+  padding: 10px 10px;
+  border-bottom: 1px solid var(--border-color-default);
+  white-space: nowrap;
+}
+
+.table td {
+  padding: 10px 10px;
+  border-bottom: 1px solid var(--border-color-default);
+  font-family: var(--font-sans);
+  font-size: 13px;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.table tbody tr {
+  transition: background-color var(--duration-fast) var(--easing-standard);
+}
+
+.table tbody tr:hover {
+  background-color: var(--neutral-850);
+}
+
+/* Asset Cell */
+.assetCell {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.assetAvatar {
+  width: 26px;
+  height: 26px;
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-sans);
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--text-primary);
+  flex-shrink: 0;
+  border: 1px solid var(--border-color-default);
+}
+
+.assetMeta {
+  display: flex;
+  flex-direction: column;
+}
+
+.assetSymbol {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.2;
+}
+
+.assetName {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 400;
+  color: var(--text-tertiary);
+  line-height: 1.2;
+}
+
+/* Price & Gain / Loss */
+.priceCell {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.gainCell {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  color: var(--gain-text);
+}
+
+.lossCell {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  color: var(--loss-text);
+}
+
+.volCell {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+/* Smart Money Badges */
+.smartBadge {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  padding: 3px 8px;
+  border-radius: var(--radius-full);
+  white-space: nowrap;
+}
+
+.accumulating {
+  color: var(--emerald-500);
+  background-color: rgba(47, 203, 115, 0.12);
+  border: 1px solid rgba(47, 203, 115, 0.25);
+}
+
+.distribution {
+  color: var(--red-400);
+  background-color: rgba(234, 94, 94, 0.12);
+  border: 1px solid rgba(234, 94, 94, 0.25);
+}
+
+.whale {
+  color: var(--emerald-400);
+  background-color: rgba(86, 214, 143, 0.12);
+  border: 1px solid rgba(86, 214, 143, 0.25);
+}
+
+.smartLong {
+  color: var(--emerald-300);
+  background-color: rgba(143, 232, 184, 0.12);
+  border: 1px solid rgba(143, 232, 184, 0.25);
+}
+
+/* AI Score */
+.aiScoreCell {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.aiScoreNum {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-primary);
+  width: 18px;
+}
+
+.aiProgressBar {
+  width: 44px;
+  height: 4px;
+  border-radius: 2px;
+  background-color: var(--neutral-800);
+  overflow: hidden;
+}
+
+.aiProgressFill {
+  height: 100%;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--emerald-600) 0%, var(--emerald-500) 100%);
+}
+
+/* Narrative Cell */
+.narrativeCell {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text-tertiary);
+}
+
+/* Trade Action Button */
+.tradeBtn {
+  font-family: var(--font-sans);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: var(--emerald-500);
+  background-color: transparent;
+  border: 1px solid rgba(47, 203, 115, 0.4);
+  padding: 4px 12px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition:
+    background-color var(--duration-fast) var(--easing-standard),
+    border-color var(--duration-fast) var(--easing-standard);
+}
+
+.tradeBtn:hover {
+  background-color: rgba(47, 203, 115, 0.14);
+  border-color: var(--emerald-500);
+}

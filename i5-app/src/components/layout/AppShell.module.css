@@ -1,0 +1,34 @@
+/* AppShell — Layout Root */
+
+.shell {
+  display: flex;
+  min-height: 100dvh;
+  width: 100vw;
+  background-color: var(--bg-app);
+}
+
+/* Right column body (under full-width topbar) */
+.body {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 0%;
+  min-width: 0;
+  width: calc(100vw - var(--sidebar-w, var(--layout-sidebar-width)));
+  margin-left: var(--sidebar-w, var(--layout-sidebar-width));
+  padding-top: var(--layout-header-height); /* Offset for fixed 100% full-width header */
+  height: 100dvh;
+  box-sizing: border-box;
+  transition:
+    margin-left var(--duration-slow) var(--easing-standard),
+    width var(--duration-slow) var(--easing-standard);
+}
+
+/* Page content area (Primary Scroll Container) */
+.main {
+  flex: 1 1 0%;
+  overflow-y: auto;
+  padding: var(--space-6);
+  width: 100%;
+  box-sizing: border-box;
+  position: relative;
+}

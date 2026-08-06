@@ -1,0 +1,47 @@
+/* Badge — design-tokens.md §11.4 */
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  height: 20px;
+  padding: 0 var(--space-3);
+  border-radius: var(--radius-full);
+  font-weight: 500;
+  white-space: nowrap;
+  line-height: 1;
+}
+
+/* ----------------------------------------------------------
+   Variants
+   ---------------------------------------------------------- */
+
+/* Neutral Tier 1 — default category tag */
+.neutral-1 {
+  background-color: var(--neutral-800);
+  color: var(--neutral-200);
+}
+
+/* Neutral Tier 2 — emphasis category tag */
+.neutral-2 {
+  background-color: var(--neutral-700);
+  color: var(--neutral-100);
+}
+
+/* Outline — subtle border tag */
+.outline {
+  background-color: transparent;
+  border: var(--border-width-default) solid var(--neutral-600);
+  color: var(--neutral-300);
+}
+
+/* Gain — Market-specific label (+2.4%, Bullish) */
+.gain {
+  background-color: rgba(221, 248, 233, 0.15);
+  color: var(--emerald-400);
+}
+
+/* Loss — Market-specific label (-1.8%, Bearish) */
+.loss {
+  background-color: rgba(251, 216, 216, 0.15);
+  color: var(--red-400);
+}
