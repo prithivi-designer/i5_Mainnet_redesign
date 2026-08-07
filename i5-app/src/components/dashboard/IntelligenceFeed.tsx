@@ -10,6 +10,7 @@ export interface FeedItem {
   companyName: string;
   avatarBg: string;
   category: string; // e.g. "EARNINGS RESULTS", "BREAKING NEWS", "PRICE MOVEMENT"
+  assetType?: "STOCKS" | "CRYPTO";
   stance: "BULLISH" | "BEARISH" | "NEUTRAL";
   position?: "LONG" | "SHORT";
   title: string;
@@ -29,6 +30,7 @@ const mockFeedData: FeedItem[] = [
     companyName: "NVIDIA Corp.",
     avatarBg: "#163A24",
     category: "EARNINGS RESULTS",
+    assetType: "STOCKS",
     stance: "BULLISH",
     position: "LONG",
     title: "NVIDIA beats on EPS and revenue, guides Q3 datacenter above street",
@@ -47,6 +49,7 @@ const mockFeedData: FeedItem[] = [
     companyName: "Microsoft Corp.",
     avatarBg: "#112F4E",
     category: "BREAKING NEWS",
+    assetType: "STOCKS",
     stance: "BULLISH",
     title: "Microsoft says Azure AI revenue run-rate crossed $18B, up 41% YoY",
     summary:
@@ -64,6 +67,7 @@ const mockFeedData: FeedItem[] = [
     companyName: "Tesla Inc.",
     avatarBg: "#4A181C",
     category: "PRICE MOVEMENT",
+    assetType: "STOCKS",
     stance: "BEARISH",
     position: "SHORT",
     title: "Tesla Q2 deliveries land at 384,100 — roughly 6% below consensus",
@@ -82,6 +86,7 @@ const mockFeedData: FeedItem[] = [
     companyName: "Apple Inc.",
     avatarBg: "#2B2B2F",
     category: "ANALYST RATINGS",
+    assetType: "STOCKS",
     stance: "BULLISH",
     position: "LONG",
     title: "Morgan Stanley upgrades Apple to Overweight on AI iPhone supercycle",
@@ -100,6 +105,7 @@ const mockFeedData: FeedItem[] = [
     companyName: "Ethereum Network",
     avatarBg: "#262348",
     category: "ON-CHAIN SIGNALS",
+    assetType: "CRYPTO",
     stance: "BULLISH",
     title: "Institutional staking inflows reach record $1.4B weekly net positive",
     summary:
@@ -117,6 +123,7 @@ const mockFeedData: FeedItem[] = [
     companyName: "Advanced Micro Devices",
     avatarBg: "#3A2A14",
     category: "AI COMPUTE",
+    assetType: "STOCKS",
     stance: "BULLISH",
     position: "LONG",
     title: "AMD MI350X chip benchmarks show 1.4x inferencing lead over H100",
@@ -129,6 +136,98 @@ const mockFeedData: FeedItem[] = [
     isPositiveChange: true,
     aiConfidence: 88,
   },
+  {
+    id: "7",
+    ticker: "BTC",
+    companyName: "Bitcoin Network",
+    avatarBg: "#3A2A14",
+    category: "INSTITUTIONAL FLOW",
+    assetType: "CRYPTO",
+    stance: "BULLISH",
+    position: "LONG",
+    title: "Spot Bitcoin ETFs log $890M net inflow, led by BlackRock IBIT",
+    summary:
+      "Institutional demand spikes as sovereign funds and wealth managers expand allocations following favorable SEC custody rule clarifications.",
+    timeAgo: "5h ago",
+    source: "Farside Investors",
+    publishPrice: "$67,420.00 at publish",
+    priceChange: "+3.85%",
+    isPositiveChange: true,
+    aiConfidence: 89,
+  },
+  {
+    id: "8",
+    ticker: "SOL",
+    companyName: "Solana Protocol",
+    avatarBg: "#1F2B37",
+    category: "OPTIONS ACTIVITY",
+    assetType: "CRYPTO",
+    stance: "BULLISH",
+    title: "Solana call volume surges 340% as $180 strike open interest explodes",
+    summary:
+      "Deribit options data reveals aggressive institutional call buying for Q3 expiry, signaling strong bullish sentiment ahead of Firedancer testnet metrics.",
+    timeAgo: "6h ago",
+    source: "Deribit Metrics",
+    publishPrice: "$172.50 at publish",
+    priceChange: "+6.42%",
+    isPositiveChange: true,
+    aiConfidence: 85,
+  },
+  {
+    id: "9",
+    ticker: "COIN",
+    companyName: "Coinbase Global Inc.",
+    avatarBg: "#112F4E",
+    category: "SEC FILINGS",
+    assetType: "STOCKS",
+    stance: "NEUTRAL",
+    title: "Coinbase files Form 8-K announcing expansion of institutional prime services",
+    summary:
+      "SEC filing detail discloses strategic asset acquisition for staking custody infrastructure, boosting institutional fee margin projections.",
+    timeAgo: "7h ago",
+    source: "SEC EDGAR",
+    publishPrice: "$242.10 at publish",
+    priceChange: "+1.15%",
+    isPositiveChange: true,
+    aiConfidence: 74,
+  },
+  {
+    id: "10",
+    ticker: "PLTR",
+    companyName: "Palantir Technologies",
+    avatarBg: "#2B2B2F",
+    category: "UNUSUAL VOLUME",
+    assetType: "STOCKS",
+    stance: "BULLISH",
+    position: "LONG",
+    title: "Palantir trades 3.2x average daily volume following Defense Department award",
+    summary:
+      "AIP adoption in military logistics contracts drives unprecedented institutional accumulation with block trades over 500k shares.",
+    timeAgo: "8h ago",
+    source: "MarketWatch",
+    publishPrice: "$28.40 at publish",
+    priceChange: "+8.90%",
+    isPositiveChange: true,
+    aiConfidence: 91,
+  },
+  {
+    id: "11",
+    ticker: "META",
+    companyName: "Meta Platforms Inc.",
+    avatarBg: "#163A24",
+    category: "INSIDER TRANSACTIONS",
+    assetType: "STOCKS",
+    stance: "NEUTRAL",
+    title: "Form 4 filing indicates scheduled 10b5-1 executive stock sale",
+    summary:
+      "Pre-planned insider transaction of 25,000 shares executed at market price, maintaining over 98% of executive holding intact.",
+    timeAgo: "9h ago",
+    source: "SEC EDGAR",
+    publishPrice: "$512.30 at publish",
+    priceChange: "-0.45%",
+    isPositiveChange: false,
+    aiConfidence: 65,
+  },
 ];
 
 const feedFilterTabs = [
@@ -139,10 +238,31 @@ const feedFilterTabs = [
   { id: "sec-filings", label: "SEC Filings" },
 ];
 
+const sidepanelSubIdToCategory: Record<string, string[]> = {
+  "all-intelligence": [],
+  "breaking-news": ["BREAKING NEWS"],
+  "earnings-results": ["EARNINGS RESULTS"],
+  "sec-filings": ["SEC FILINGS"],
+  "analyst-ratings": ["ANALYST RATINGS"],
+  "insider-transactions": ["INSIDER TRANSACTIONS"],
+  "institutional-flow": ["INSTITUTIONAL FLOW"],
+  "options-activity": ["OPTIONS ACTIVITY"],
+  "on-chain-signals": ["ON-CHAIN SIGNALS"],
+  "ai-trade-ideas": ["AI TRADE IDEAS", "AI COMPUTE"],
+  "unusual-volume": ["UNUSUAL VOLUME"],
+  "price-movement": ["PRICE MOVEMENT"],
+};
+
 export default function IntelligenceFeed() {
   const [activeTab, setActiveTab] = useState<string>("timeline");
   const [filterOpen, setFilterOpen] = useState<boolean>(false);
   const [selectedAnalysisItem, setSelectedAnalysisItem] = useState<FeedItem | null>(null);
+
+  // Sidepanel linked filter state
+  const [sidepanelFilter, setSidepanelFilter] = useState<{ tab: string; subId: string }>({
+    tab: "all",
+    subId: "all-intelligence",
+  });
 
   // Filter Popover States
   const [watchlistOnly, setWatchlistOnly] = useState<boolean>(false);
@@ -155,6 +275,42 @@ export default function IntelligenceFeed() {
   const [dateRange, setDateRange] = useState<string>("All");
 
   const popoverRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLElement>(null);
+
+  // Listen to sidepanel filter clicks & scroll feed to top sticky position
+  useEffect(() => {
+    const handleSidepanelFilter = (e: Event) => {
+      const customEvent = e as CustomEvent<{ tab: string; subId: string }>;
+      if (customEvent.detail) {
+        setSidepanelFilter(customEvent.detail);
+
+        // Scroll feed container smoothly to top of main viewport
+        requestAnimationFrame(() => {
+          if (containerRef.current) {
+            const mainEl = containerRef.current.closest("main") || (document.querySelector("main") as HTMLElement | null);
+            if (mainEl) {
+              const mainRect = mainEl.getBoundingClientRect();
+              const feedRect = containerRef.current.getBoundingClientRect();
+              const targetScrollTop = mainEl.scrollTop + (feedRect.top - mainRect.top);
+
+              mainEl.scrollTo({
+                top: Math.max(0, targetScrollTop),
+                behavior: "smooth",
+              });
+            } else {
+              containerRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+            }
+          }
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        });
+      }
+    };
+
+    window.addEventListener("i5-sidepanel-filter", handleSidepanelFilter);
+    return () => {
+      window.removeEventListener("i5-sidepanel-filter", handleSidepanelFilter);
+    };
+  }, []);
 
   // Reset all filters function
   const handleResetFilters = () => {
@@ -166,6 +322,7 @@ export default function IntelligenceFeed() {
     setSignalFilter("Any");
     setMinConfidence(0);
     setDateRange("All");
+    setSidepanelFilter({ tab: "all", subId: "all-intelligence" });
   };
 
   // Close filter dropdown on click outside
@@ -192,10 +349,38 @@ export default function IntelligenceFeed() {
     (indexFilter !== "All" ? 1 : 0) +
     (signalFilter !== "Any" ? 1 : 0) +
     (minConfidence > 0 ? 1 : 0) +
-    (dateRange !== "All" ? 1 : 0);
+    (dateRange !== "All" ? 1 : 0) +
+    (sidepanelFilter.tab !== "all" ? 1 : 0) +
+    (sidepanelFilter.subId !== "all-intelligence" ? 1 : 0);
+
+  // Filter feed items based on sidepanel selection, top tabs, and popover drawer options
+  const filteredFeedData = mockFeedData.filter((item) => {
+    // 1. Sidepanel Tab Filter (stocks / crypto / all)
+    if (sidepanelFilter.tab === "stocks" && item.assetType !== "STOCKS") return false;
+    if (sidepanelFilter.tab === "crypto" && item.assetType !== "CRYPTO") return false;
+
+    // 2. Sidepanel SubId Filter
+    const targetCategories = sidepanelSubIdToCategory[sidepanelFilter.subId] || [];
+    if (targetCategories.length > 0 && !targetCategories.includes(item.category)) {
+      return false;
+    }
+
+    // 3. Top Tab Filter (timeline / results / latest-news / trade-ideas / sec-filings)
+    if (activeTab === "results" && item.category !== "EARNINGS RESULTS") return false;
+    if (activeTab === "latest-news" && item.category !== "BREAKING NEWS") return false;
+    if (activeTab === "trade-ideas" && item.category !== "AI COMPUTE" && item.category !== "AI TRADE IDEAS") return false;
+    if (activeTab === "sec-filings" && item.category !== "SEC FILINGS") return false;
+
+    // 4. Popover Drawer Filters
+    if (signalFilter === "Bullish" && item.stance !== "BULLISH") return false;
+    if (signalFilter === "Bearish" && item.stance !== "BEARISH") return false;
+    if (minConfidence > 0 && item.aiConfidence < minConfidence) return false;
+
+    return true;
+  });
 
   return (
-    <section className={styles.container} aria-label="Live Intelligence Feed">
+    <section ref={containerRef} className={styles.container} aria-label="Live Intelligence Feed">
       {/* Sticky Header Bar */}
       <div className={styles.tabsHeader}>
         {/* Left Tabs List */}
@@ -337,13 +522,13 @@ export default function IntelligenceFeed() {
               {/* Index */}
               <div className={styles.filterGroup}>
                 <div className={styles.groupHeader}>
-                  <span>Index</span>
+                  <span>Index / Universe</span>
                   <svg width={10} height={6} viewBox="0 0 10 6" fill="none" aria-hidden>
                     <path d="M1 5L5 1L9 5" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
                 </div>
                 <div className={styles.pillsContainer}>
-                  {["All", "S&P 500", "Nasdaq 100", "Dow Jones", "Russell 2000"].map((item) => (
+                  {["All", "S&P 500", "Nasdaq 100", "Russell 2000", "Top 100 Crypto"].map((item) => (
                     <button
                       key={item}
                       className={`${styles.filterPill} ${indexFilter === item ? styles.filterPillSelected : ""}`}
@@ -355,27 +540,19 @@ export default function IntelligenceFeed() {
                 </div>
               </div>
 
-              {/* Signal */}
+              {/* Signal Stance */}
               <div className={styles.filterGroup}>
                 <div className={styles.groupHeader}>
-                  <span>Signal</span>
+                  <span>Signal Direction</span>
                   <svg width={10} height={6} viewBox="0 0 10 6" fill="none" aria-hidden>
                     <path d="M1 5L5 1L9 5" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
                 </div>
                 <div className={styles.pillsContainer}>
-                  {["Any", "Long", "Short", "Neutral"].map((item) => (
+                  {["Any", "Bullish", "Bearish"].map((item) => (
                     <button
                       key={item}
-                      className={`${styles.filterPill} ${
-                        signalFilter === item
-                          ? item === "Long"
-                            ? styles.signalLongSelected
-                            : item === "Short"
-                            ? styles.signalShortSelected
-                            : styles.filterPillSelected
-                          : ""
-                      }`}
+                      className={`${styles.filterPill} ${signalFilter === item ? styles.filterPillSelected : ""}`}
                       onClick={() => setSignalFilter(item)}
                     >
                       {item}
@@ -384,18 +561,16 @@ export default function IntelligenceFeed() {
                 </div>
               </div>
 
-              {/* Confidence level */}
+              {/* AI Confidence Slider */}
               <div className={styles.filterGroup}>
                 <div className={styles.groupHeader}>
-                  <span>Confidence level</span>
-                  <svg width={10} height={6} viewBox="0 0 10 6" fill="none" aria-hidden>
-                    <path d="M1 5L5 1L9 5" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
+                  <span>Min AI Confidence Score ({minConfidence}%)</span>
                 </div>
-                <div className={styles.sliderBox}>
-                  <div className={styles.sliderHeader}>
-                    <span className={styles.sliderSubLabel}>Minimum Score</span>
-                    <span className={styles.sliderValueText}>{minConfidence} / 100</span>
+                <div className={styles.sliderContainer}>
+                  <div className={styles.sliderLabels}>
+                    <span>0%</span>
+                    <span>50%</span>
+                    <span>100%</span>
                   </div>
                   <input
                     type="range"
@@ -435,7 +610,12 @@ export default function IntelligenceFeed() {
 
       {/* 2 Cards Per Row Grid Layout */}
       <div className={styles.feedList}>
-        {mockFeedData.map((item) => (
+        {filteredFeedData.length === 0 ? (
+          <div style={{ gridColumn: "1 / -1", textAlign: "center", padding: "64px 24px", color: "var(--text-tertiary)", fontSize: "14px" }}>
+            No feed items match the selected filter criteria.
+          </div>
+        ) : (
+          filteredFeedData.map((item) => (
           <article key={item.id} className={styles.feedCard}>
             {/* TOP SECTION (Title, Summary, Tags, Time, Source, Price & AI Confidence) */}
             <div className={styles.cardTopSection}>
@@ -557,7 +737,7 @@ export default function IntelligenceFeed() {
               </div>
             </div>
           </article>
-        ))}
+        )))}
       </div>
 
       {selectedAnalysisItem && (

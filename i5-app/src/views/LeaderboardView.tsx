@@ -57,7 +57,7 @@ export default function LeaderboardView() {
   const podiumCardStyle = (place: 1 | 2 | 3): React.CSSProperties => ({
     background:
       place === 1
-        ? "linear-gradient(160deg, var(--neutral-800) 0%, var(--neutral-850) 100%)"
+        ? "linear-gradient(160deg, var(--bg-surface-overlay) 0%, var(--bg-surface-raised) 100%)"
         : "var(--bg-surface)",
     border: `1px solid ${
       place === 1

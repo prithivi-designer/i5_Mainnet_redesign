@@ -51,11 +51,11 @@
   }
 }
 
-/* Compact Metric Card — Secondary Surface Color (var(--neutral-850)) */
+/* Compact Metric Card — Secondary Surface Color (var(--bg-surface-raised)) */
 .card {
   width: 190px;
   flex-shrink: 0;
-  background-color: var(--neutral-850);
+  background-color: var(--bg-surface-raised);
   border: var(--border-width-default) solid var(--border-color-default);
   border-radius: var(--radius-md);
   padding: 10px 12px;
@@ -73,7 +73,7 @@
 }
 
 .card:hover {
-  background-color: var(--neutral-800);
+  background-color: var(--bg-surface-overlay);
   border-color: var(--border-color-strong);
   transform: translateY(-1px);
 }

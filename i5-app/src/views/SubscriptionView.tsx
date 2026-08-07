@@ -114,7 +114,7 @@ export default function SubscriptionView() {
           {PLANS.map((plan) => (
             <div key={plan.id} style={{
               background: plan.highlight
-                ? "linear-gradient(160deg, var(--neutral-800) 0%, var(--neutral-850) 100%)"
+                ? "linear-gradient(160deg, var(--bg-surface-overlay) 0%, var(--bg-surface-raised) 100%)"
                 : "var(--bg-surface)",
               border: `1px solid ${plan.highlight ? "rgba(228,228,228,0.25)" : "var(--border-color-default)"}`,
               borderRadius: "var(--radius-xl)",

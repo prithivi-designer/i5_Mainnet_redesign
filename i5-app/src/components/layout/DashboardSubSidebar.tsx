@@ -211,6 +211,16 @@ export default function DashboardSubSidebar() {
   const [activeSubId, setActiveSubId] = useState<string>("all-intelligence");
   const [earningsModalOpen, setEarningsModalOpen] = useState<boolean>(false);
 
+  const dispatchFilterEvent = (tab: string, subId: string) => {
+    if (typeof window !== "undefined") {
+      window.dispatchEvent(
+        new CustomEvent("i5-sidepanel-filter", {
+          detail: { tab, subId },
+        })
+      );
+    }
+  };
+
   return (
     <>
       <aside className={styles.subSidebar} aria-label="Dashboard sub navigation">
@@ -221,19 +231,28 @@ export default function DashboardSubSidebar() {
             <div className={styles.segmentedControl}>
               <button
                 className={`${styles.tabBtn} ${activeTab === "all" ? styles.tabBtnActive : ""}`}
-                onClick={() => setActiveTab("all")}
+                onClick={() => {
+                  setActiveTab("all");
+                  dispatchFilterEvent("all", activeSubId);
+                }}
               >
                 All
               </button>
               <button
                 className={`${styles.tabBtn} ${activeTab === "stocks" ? styles.tabBtnActive : ""}`}
-                onClick={() => setActiveTab("stocks")}
+                onClick={() => {
+                  setActiveTab("stocks");
+                  dispatchFilterEvent("stocks", activeSubId);
+                }}
               >
                 Stocks
               </button>
               <button
                 className={`${styles.tabBtn} ${activeTab === "crypto" ? styles.tabBtnActive : ""}`}
-                onClick={() => setActiveTab("crypto")}
+                onClick={() => {
+                  setActiveTab("crypto");
+                  dispatchFilterEvent("crypto", activeSubId);
+                }}
               >
                 Crypto
               </button>
@@ -257,6 +276,7 @@ export default function DashboardSubSidebar() {
                         }`}
                         onClick={() => {
                           setActiveSubId(item.id);
+                          dispatchFilterEvent(activeTab, item.id);
                         }}
                       >
                         <span className={styles.itemIcon} style={{ color: item.iconColor }}>
@@ -284,38 +304,8 @@ export default function DashboardSubSidebar() {
             tabIndex={0}
             aria-label="Open Upcoming Earnings Overlay Modal"
           >
-            <div className={styles.actionCardHeader}>
-              <div className={styles.actionHeaderLeft}>
-                <div className={styles.actionIconBox}>
-                  <svg width={18} height={18} viewBox="0 0 16 16" fill="none" aria-hidden>
-                    <rect x="2" y="3" width="12" height="11" rx="1.5" stroke="currentColor" strokeWidth="1.4" />
-                    <path d="M5 1.5v3M11 1.5v3M2 6h12" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
-                    <circle cx="5.5" cy="8.5" r="0.75" fill="currentColor" />
-                    <circle cx="8" cy="8.5" r="0.75" fill="currentColor" />
-                    <circle cx="10.5" cy="8.5" r="0.75" fill="currentColor" />
-                  </svg>
-                </div>
-                <span className={styles.actionCategoryBadge}>UPCOMING CALENDAR</span>
-              </div>
-              <span className={styles.actionArrowBtn}>→</span>
-            </div>
-
-            <div className={styles.actionMetaRow}>
-              <h4 className={styles.actionTitle}>Upcoming Earnings</h4>
-              <span className={styles.reportsBadge}>12 Reports</span>
-            </div>
-
-            <p className={styles.actionBodyText}>
-              Jul 30 – Aug 06 · Track consensus EPS, revenue estimates &amp; implied volatility moves.
-            </p>
-
-            {/* Live Ticker Chips Preview Bar */}
-            <div className={styles.actionTickersRow}>
-              <span className={styles.tickerPill}>AAPL</span>
-              <span className={styles.tickerPill}>AMZN</span>
-              <span className={styles.tickerPill}>COIN</span>
-              <span className={`${styles.tickerPill} ${styles.tickerHighlight}`}>PLTR ±11.2%</span>
-            </div>
+            <h4 className={styles.actionTitle}>Upcoming Earnings</h4>
+            <span className={styles.animatedArrow}>→</span>
           </div>
         </div>
       </aside>

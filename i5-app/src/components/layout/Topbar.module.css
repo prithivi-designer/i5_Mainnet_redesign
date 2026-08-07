@@ -16,11 +16,6 @@
   z-index: var(--z-header);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  background-image: linear-gradient(
-    to bottom,
-    rgba(14, 14, 14, 0.96),
-    rgba(14, 14, 14, 0.90)
-  );
   user-select: none;
 }
 
@@ -73,7 +68,7 @@
   display: flex;
   align-items: center;
   gap: var(--space-4);
-  background-color: var(--neutral-850);
+  background-color: var(--bg-surface-raised);
   border: var(--border-width-default) solid var(--border-color-default);
   border-radius: var(--radius-full);
   padding: 0 var(--space-8);
@@ -111,7 +106,7 @@
   font-size: 12px;
   font-weight: 500;
   color: var(--text-secondary);
-  background-color: var(--neutral-850);
+  background-color: var(--bg-surface-raised);
   border: var(--border-width-default) solid var(--border-color-default);
   border-radius: var(--radius-full);
   padding: 6px 14px;
@@ -166,7 +161,7 @@
 }
 
 .iconBtn:hover {
-  background-color: var(--neutral-800);
+  background-color: var(--bg-surface-overlay);
   color: var(--text-primary);
 }
 
@@ -226,7 +221,7 @@
   font-size: 13px;
   font-weight: 600;
   color: var(--text-primary);
-  background-color: var(--neutral-850);
+  background-color: var(--bg-surface-raised);
   border: var(--border-width-default) solid var(--border-color-strong);
   border-radius: var(--radius-full);
   padding: 0 var(--space-8);
@@ -238,7 +233,7 @@
 
 .connectedPill:hover {
   border-color: rgba(47, 203, 115, 0.4);
-  background-color: var(--neutral-800);
+  background-color: var(--bg-surface-overlay);
 }
 
 .dotGreenPulse {
@@ -262,7 +257,7 @@
   width: 36px;
   height: 36px;
   border-radius: var(--radius-full);
-  background-color: var(--neutral-800);
+  background-color: var(--bg-surface-overlay);
   color: var(--text-primary);
   font-family: var(--font-sans);
   font-weight: 700;

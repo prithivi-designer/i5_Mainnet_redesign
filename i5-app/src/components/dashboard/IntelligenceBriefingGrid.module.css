@@ -15,7 +15,7 @@
 
 /* Individual Card */
 .card {
-  background-color: var(--neutral-900);
+  background-color: var(--bg-surface);
   border: var(--border-width-default) solid var(--border-color-default);
   border-radius: var(--radius-lg);
   padding: var(--space-4);
@@ -30,7 +30,7 @@
 }
 
 .card:hover {
-  background-color: var(--neutral-850);
+  background-color: var(--bg-surface-raised);
   border-color: var(--border-color-strong);
   transform: translateY(-1px);
 }
@@ -89,7 +89,7 @@
 
 /* Inset Value Box (Image 2 style inner container) */
 .valueBox {
-  background-color: var(--neutral-950);
+  background-color: var(--bg-app);
   border: 1px solid rgba(255, 255, 255, 0.04);
   border-radius: var(--radius-md);
   margin: var(--space-3) 0;
@@ -154,7 +154,7 @@
 
 .neutralBadge {
   color: var(--text-primary);
-  background-color: var(--neutral-800);
+  background-color: var(--bg-surface-overlay);
   border: 1px solid var(--border-color-default);
 }
 

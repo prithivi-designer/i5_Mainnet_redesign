@@ -42,13 +42,6 @@ export default function AlphaTradeView() {
         <div className={styles.heroContent}>
           {/* Text Elements Group */}
           <div className={styles.textContentGroup}>
-            {/* Top Trust Badge */}
-            <div className={styles.trustBadge}>
-              <span className={styles.pulseDot} />
-              <span className={styles.trustBadgeText}>
-                Trusted by <strong>12,000+</strong> traders
-              </span>
-            </div>
 
             {/* Main Title using DepthText Component */}
             <div style={{ margin: "var(--space-2) 0", display: "flex", justifyContent: "center" }}>
@@ -111,26 +104,6 @@ export default function AlphaTradeView() {
               </button>
             </div>
 
-            {/* Social Proof Row */}
-            <div className={styles.socialProofRow} style={{ marginTop: "var(--space-2)" }}>
-              <div className={styles.avatarGroup}>
-                <div className={styles.avatarCircle} style={{ backgroundColor: "#2A2D34" }}>
-                  <span>👩</span>
-                </div>
-                <div className={styles.avatarCircle} style={{ backgroundColor: "#112F4E" }}>
-                  <span>👩‍💻</span>
-                </div>
-                <div className={styles.avatarCircle} style={{ backgroundColor: "#3A2A14" }}>
-                  <span>👨‍💼</span>
-                </div>
-                <div className={styles.countBadge}>+12K</div>
-              </div>
-
-              <p className={styles.socialProofText}>
-                Join <strong>12,000+</strong> traders <br />
-                growing together
-              </p>
-            </div>
           </div>
         </div>
       </div>

@@ -16,7 +16,7 @@
 }
 
 .modalContent {
-  background-color: var(--neutral-900);
+  background-color: var(--bg-surface);
   border: var(--border-width-default) solid var(--border-color-strong);
   border-radius: var(--radius-2xl);
   width: 1140px;
@@ -66,7 +66,7 @@
   width: 48px;
   height: 48px;
   border-radius: var(--radius-xl);
-  background-color: var(--neutral-850);
+  background-color: var(--bg-surface-raised);
   border: 1px solid var(--border-color-strong);
   display: flex;
   align-items: center;
@@ -119,7 +119,7 @@
 .viewToggleGroup {
   display: flex;
   align-items: center;
-  background-color: var(--neutral-950);
+  background-color: var(--bg-app);
   border: 1px solid var(--border-color-default);
   border-radius: var(--radius-md);
   padding: 4px;
@@ -143,7 +143,7 @@
 }
 
 .activeViewBtn {
-  background-color: var(--neutral-800);
+  background-color: var(--bg-surface-overlay);
   color: var(--text-primary);
   border: 1px solid var(--border-color-strong);
   box-shadow: var(--shadow-xs);
@@ -174,7 +174,7 @@
 }
 
 .summaryCard {
-  background-color: var(--neutral-950);
+  background-color: var(--bg-app);
   border: 1px solid var(--border-color-default);
   border-radius: var(--radius-xl);
   padding: 14px 16px;
@@ -227,7 +227,7 @@
 
 /* Inset Middle Container Box (Image 2 Signature Element) */
 .insetMainBox {
-  background-color: var(--neutral-900);
+  background-color: var(--bg-surface);
   border: 1px solid var(--border-color-default);
   border-radius: var(--radius-lg);
   padding: 12px 16px;
@@ -301,14 +301,14 @@
 }
 
 .darkBadge {
-  background-color: var(--neutral-800);
+  background-color: var(--bg-surface-overlay);
   color: var(--text-secondary);
   border: 1px solid var(--border-color-default);
 }
 
 /* DEDICATED DATE, MONTH & YEAR FILTER SECTION — LEVEL 3 HIERARCHY */
 .dateFilterSection {
-  background-color: var(--neutral-950);
+  background-color: var(--bg-app);
   border: 1px solid var(--border-color-strong);
   border-radius: var(--radius-xl);
   padding: 16px 20px;
@@ -365,7 +365,7 @@
 }
 
 .dateSelect {
-  background-color: var(--neutral-900);
+  background-color: var(--bg-surface);
   border: 1px solid var(--border-color-default);
   border-radius: var(--radius-md);
   color: var(--text-primary);
@@ -379,7 +379,7 @@
 }
 
 .nativeDatePicker {
-  background-color: var(--neutral-900);
+  background-color: var(--bg-surface);
   border: 1px solid var(--border-color-default);
   border-radius: var(--radius-md);
   color: var(--text-primary);
@@ -404,7 +404,7 @@
   font-size: 12px;
   font-weight: 600;
   color: var(--text-secondary);
-  background-color: var(--neutral-900);
+  background-color: var(--bg-surface);
   border: 1px solid var(--border-color-default);
   border-radius: var(--radius-md);
   padding: 8px 12px;
@@ -414,7 +414,7 @@
 }
 
 .activePreset {
-  background-color: var(--neutral-800);
+  background-color: var(--bg-surface-overlay);
   color: var(--emerald-500);
   border-color: rgba(47, 203, 115, 0.4);
 }
@@ -425,7 +425,7 @@
   align-items: center;
   gap: var(--space-4);
   width: 100%;
-  background-color: var(--neutral-950);
+  background-color: var(--bg-app);
   border: 1px solid var(--border-color-default);
   border-radius: var(--radius-xl);
   padding: 12px 18px;
@@ -436,7 +436,7 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  background-color: var(--neutral-900);
+  background-color: var(--bg-surface);
   border: 1px solid var(--border-color-default);
   border-radius: var(--radius-md);
   padding: 0 14px;
@@ -469,7 +469,7 @@
 }
 
 .selectFilter {
-  background-color: var(--neutral-900);
+  background-color: var(--bg-surface);
   border: 1px solid var(--border-color-default);
   border-radius: var(--radius-md);
   color: var(--text-primary);
@@ -493,7 +493,7 @@
   font-size: 12px;
   font-weight: 600;
   color: var(--text-secondary);
-  background-color: var(--neutral-900);
+  background-color: var(--bg-surface);
   border: 1px solid var(--border-color-default);
   border-radius: var(--radius-md);
   padding: 9px 14px;
@@ -503,7 +503,7 @@
 }
 
 .activeFilterPill {
-  background-color: var(--neutral-800);
+  background-color: var(--bg-surface-overlay);
   color: var(--emerald-500);
   border-color: rgba(47, 203, 115, 0.4);
 }
@@ -513,7 +513,7 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-4);
-  background-color: var(--neutral-950);
+  background-color: var(--bg-app);
   border: 1px solid var(--border-color-default);
   border-radius: var(--radius-xl);
   padding: var(--space-6);
@@ -565,7 +565,7 @@
 }
 
 .dayCell {
-  background-color: var(--neutral-900);
+  background-color: var(--bg-surface);
   border: 1px solid var(--border-color-default);
   border-radius: var(--radius-lg);
   min-height: 82px;
@@ -584,13 +584,13 @@
 
 .hasEventsCell {
   cursor: pointer;
-  background-color: var(--neutral-850);
+  background-color: var(--bg-surface-raised);
   border-color: var(--border-color-strong);
 }
 
 .hasEventsCell:hover {
   border-color: var(--emerald-500);
-  background-color: var(--neutral-800);
+  background-color: var(--bg-surface-overlay);
 }
 
 .selectedCell {
@@ -695,7 +695,7 @@
   width: 40px;
   height: 40px;
   border-radius: var(--radius-lg);
-  background-color: var(--neutral-850);
+  background-color: var(--bg-surface-raised);
   border: 1px solid var(--border-color-strong);
   display: flex;
   flex-direction: column;
@@ -746,7 +746,7 @@
 }
 
 .reportCard {
-  background-color: var(--neutral-850);
+  background-color: var(--bg-surface-raised);
   border: 1px solid var(--border-color-default);
   border-radius: var(--radius-xl);
   padding: 16px;
@@ -855,7 +855,7 @@
 }
 
 .statBox {
-  background-color: var(--neutral-950);
+  background-color: var(--bg-app);
   border: 1px solid var(--border-color-default);
   border-radius: var(--radius-md);
   padding: 8px 10px;
@@ -897,7 +897,7 @@
   font-weight: 600;
   padding: 8px 12px;
   border-radius: var(--radius-md);
-  background-color: var(--neutral-800);
+  background-color: var(--bg-surface-overlay);
   border: 1px solid var(--border-color-strong);
   color: var(--text-primary);
   cursor: pointer;
@@ -920,7 +920,7 @@
   font-weight: 600;
   padding: 8px 12px;
   border-radius: var(--radius-md);
-  background-color: var(--neutral-800);
+  background-color: var(--bg-surface-overlay);
   border: 1px solid var(--border-color-strong);
   color: var(--text-primary);
   cursor: pointer;
@@ -943,7 +943,7 @@
   justify-content: center;
   padding: var(--space-12) var(--space-6);
   text-align: center;
-  background-color: var(--neutral-950);
+  background-color: var(--bg-app);
   border: 1px dashed var(--border-color-strong);
   border-radius: var(--radius-xl);
   gap: 12px;
@@ -970,7 +970,7 @@
   font-family: var(--font-sans);
   font-size: 13px;
   font-weight: 700;
-  color: var(--neutral-950);
+  color: var(--bg-app);
   background-color: var(--emerald-500);
   border: none;
   padding: 10px 20px;

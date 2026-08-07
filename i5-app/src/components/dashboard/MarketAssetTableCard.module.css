@@ -3,7 +3,7 @@
 .card {
   flex: 1 1 0%;
   min-width: 0;
-  background-color: var(--neutral-900);
+  background-color: var(--bg-surface);
   border: var(--border-width-default) solid var(--border-color-default);
   border-radius: var(--radius-xl);
   padding: var(--space-6);
@@ -15,7 +15,7 @@
 }
 
 .card:hover {
-  background-color: var(--neutral-850);
+  background-color: var(--bg-surface-raised);
   border-color: var(--border-color-strong);
 }
 
@@ -63,7 +63,7 @@
   font-size: 12px;
   font-weight: 500;
   color: var(--text-secondary);
-  background-color: var(--neutral-800);
+  background-color: var(--bg-surface-overlay);
   border: 1px solid var(--border-color-default);
   padding: 5px 12px;
   border-radius: var(--radius-sm);
@@ -74,7 +74,7 @@
 }
 
 .filterBtn:hover {
-  background-color: var(--neutral-750);
+  background-color: var(--bg-surface-overlay);
   color: var(--text-primary);
 }
 
@@ -112,12 +112,12 @@
 
 .pillBtn:hover {
   color: var(--text-primary);
-  background-color: var(--neutral-800);
+  background-color: var(--bg-surface-overlay);
 }
 
 .activePill {
   color: var(--text-primary);
-  background-color: var(--neutral-800);
+  background-color: var(--bg-surface-overlay);
   border-color: var(--border-color-strong);
 }
 
@@ -126,7 +126,7 @@
   display: flex;
   align-items: center;
   gap: 6px;
-  background-color: var(--neutral-950);
+  background-color: var(--bg-app);
   border: 1px solid var(--border-color-default);
   border-radius: var(--radius-full);
   padding: 4px 12px;
@@ -196,7 +196,7 @@
 }
 
 .table tbody tr:hover {
-  background-color: var(--neutral-850);
+  background-color: var(--bg-surface-raised);
 }
 
 /* Asset Cell */
@@ -321,7 +321,7 @@
   width: 44px;
   height: 4px;
   border-radius: 2px;
-  background-color: var(--neutral-800);
+  background-color: var(--bg-surface-overlay);
   overflow: hidden;
 }
 

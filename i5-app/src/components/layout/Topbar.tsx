@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./Topbar.module.css";
 
 /* Search Icon */
@@ -38,6 +38,15 @@ function IconSun() {
   );
 }
 
+/* Moon / Theme Icon */
+function IconMoon() {
+  return (
+    <svg width={16} height={16} viewBox="0 0 18 18" fill="none" aria-hidden>
+      <path d="M15.5 10.5a5.5 5.5 0 1 1-7-7 7 7 0 1 0 7 7z" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
 /* Wallet Icon */
 function IconWallet() {
   return (
@@ -53,6 +62,30 @@ export default function Topbar() {
   const [isConnected, setIsConnected] = useState<boolean>(false);
   const [walletAddress] = useState<string>("0x8f2A1346...c41B");
   const [searchValue, setSearchValue] = useState<string>("");
+  const [theme, setTheme] = useState<"dark" | "light">("dark");
+
+  // Load theme from localStorage on mount
+  useEffect(() => {
+    const savedTheme = localStorage.getItem("i5-theme");
+    if (savedTheme === "light") {
+      setTheme("light");
+      document.documentElement.setAttribute("data-theme", "light");
+      document.documentElement.classList.add("light");
+    }
+  }, []);
+
+  const toggleTheme = () => {
+    const newTheme = theme === "dark" ? "light" : "dark";
+    setTheme(newTheme);
+    localStorage.setItem("i5-theme", newTheme);
+    if (newTheme === "light") {
+      document.documentElement.setAttribute("data-theme", "light");
+      document.documentElement.classList.add("light");
+    } else {
+      document.documentElement.removeAttribute("data-theme");
+      document.documentElement.classList.remove("light");
+    }
+  };
 
   return (
     <header className={styles.topbar} role="banner">
@@ -60,12 +93,12 @@ export default function Topbar() {
       <div className={styles.left}>
         <div className={styles.brandMark} aria-label="i5">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden>
-            <rect x="2" y="2" width="20" height="20" rx="6" fill="var(--neutral-100)" />
+            <rect x="2" y="2" width="20" height="20" rx="6" fill="var(--text-primary)" />
             <text
               x="12"
               y="16"
               textAnchor="middle"
-              fill="var(--neutral-950)"
+              fill="var(--bg-app)"
               fontSize="11"
               fontWeight="700"
               fontFamily="system-ui"
@@ -112,9 +145,9 @@ export default function Topbar() {
           <span className={styles.notifDotPurple} aria-hidden />
         </div>
 
-        {/* Theme Toggle Sun Icon */}
-        <button className={styles.iconBtn} aria-label="Toggle Theme">
-          <IconSun />
+        {/* Theme Toggle Sun/Moon Icon */}
+        <button className={styles.iconBtn} aria-label="Toggle Theme" onClick={toggleTheme}>
+          {theme === "light" ? <IconMoon /> : <IconSun />}
         </button>
 
         {/* Wallet Connect / Connected State Button */}

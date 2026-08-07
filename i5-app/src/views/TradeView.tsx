@@ -247,7 +247,7 @@ function TradingViewChart() {
   }, []);
 
   return (
-    <div style={{ position: "relative", width: "100%", height: "100%", background: "var(--neutral-950)", display: "flex", flexDirection: "column" }}>
+    <div style={{ position: "relative", width: "100%", height: "100%", background: "var(--bg-app)", display: "flex", flexDirection: "column" }}>
       {/* TradingView Chart Top Info Bar */}
       <div style={{ padding: "8px 14px", borderBottom: "1px solid var(--border-color-default)", display: "flex", alignItems: "center", gap: 12, fontSize: 11, fontFamily: "var(--font-mono)", color: "var(--text-tertiary)", flexWrap: "wrap", flexShrink: 0 }}>
         <span style={{ color: "var(--text-primary)", fontWeight: 700 }}>BTC/USD · 1D · Hyperdash</span>
@@ -269,12 +269,12 @@ function TradingViewChart() {
         <canvas ref={canvasRef} style={{ width: "100%", height: "100%", display: "block" }} />
 
         {/* Floating TV Logo Badge */}
-        <div style={{ position: "absolute", bottom: 12, left: 14, background: "var(--neutral-900)", border: "1px solid var(--border-color-default)", borderRadius: "var(--radius-md)", padding: "4px 8px", fontSize: 11, fontWeight: 800, color: "var(--text-primary)", display: "flex", alignItems: "center", gap: 4 }}>
+        <div style={{ position: "absolute", bottom: 12, left: 14, background: "var(--bg-surface)", border: "1px solid var(--border-color-default)", borderRadius: "var(--radius-md)", padding: "4px 8px", fontSize: 11, fontWeight: 800, color: "var(--text-primary)", display: "flex", alignItems: "center", gap: 4 }}>
           <span>TV</span>
         </div>
 
         {/* Bottom Right Volume Badge Tag (5.4 K) */}
-        <div style={{ position: "absolute", bottom: 12, right: 75, background: "var(--emerald-500)", color: "var(--neutral-950)", borderRadius: "3px", padding: "2px 6px", fontSize: 10, fontWeight: 800, fontFamily: "var(--font-mono)" }}>
+        <div style={{ position: "absolute", bottom: 12, right: 75, background: "var(--emerald-500)", color: "var(--bg-app)", borderRadius: "3px", padding: "2px 6px", fontSize: 10, fontWeight: 800, fontFamily: "var(--font-mono)" }}>
           5.4 K
         </div>
       </div>
@@ -338,7 +338,7 @@ export default function TradeView() {
          ────────────────────────────────────────────────────────── */}
       <div style={{ height: 46, background: "var(--bg-surface)", borderBottom: "1px solid var(--border-color-default)", display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 14px", flexShrink: 0 }}>
         <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-          <button style={{ display: "flex", alignItems: "center", gap: 6, background: "var(--neutral-850)", border: "1px solid var(--border-color-strong)", borderRadius: "var(--radius-md)", padding: "4px 10px", color: "var(--text-primary)", fontSize: 13, fontWeight: 700, cursor: "pointer" }}>
+          <button style={{ display: "flex", alignItems: "center", gap: 6, background: "var(--bg-surface-raised)", border: "1px solid var(--border-color-strong)", borderRadius: "var(--radius-md)", padding: "4px 10px", color: "var(--text-primary)", fontSize: 13, fontWeight: 700, cursor: "pointer" }}>
             <span style={{ color: "#F59E0B" }}>₿</span> {STATS.symbol} <span style={{ fontSize: 11, color: "#60A5FA" }}>{STATS.leverage}</span> <span>+</span>
           </button>
 
@@ -376,7 +376,7 @@ export default function TradeView() {
               <Maximize size={12} key="maximize" />,
               <LayoutGrid size={12} key="layout" />
             ].map((icon, idx) => (
-              <button key={idx} style={{ background: "var(--neutral-850)", border: "1px solid var(--border-color-default)", borderRadius: "var(--radius-sm)", padding: "3px 6px", color: "var(--text-tertiary)", cursor: "pointer", display: "flex", alignItems: "center" }}>
+              <button key={idx} style={{ background: "var(--bg-surface-raised)", border: "1px solid var(--border-color-default)", borderRadius: "var(--radius-sm)", padding: "3px 6px", color: "var(--text-tertiary)", cursor: "pointer", display: "flex", alignItems: "center" }}>
                 {icon}
               </button>
             ))}
@@ -437,7 +437,7 @@ export default function TradeView() {
         <div style={{ gridColumn: 1, gridRow: 1, borderRight: "1px solid var(--border-color-default)", borderBottom: "1px solid var(--border-color-default)", display: "flex", flexDirection: "column", overflow: "hidden" }}>
           <div style={{ height: 34, background: "var(--bg-surface)", borderBottom: "1px solid var(--border-color-default)", display: "flex", alignItems: "center", gap: 6, padding: "0 12px", fontSize: 12, flexShrink: 0 }}>
             {["1m", "5m", "15m", "1h", "D ∨"].map((tf) => (
-              <button key={tf} style={{ background: tf.startsWith("D") ? "var(--neutral-800)" : "transparent", border: tf.startsWith("D") ? "1px solid var(--border-color-strong)" : "none", color: tf.startsWith("D") ? "var(--text-primary)" : "var(--text-tertiary)", padding: "2px 8px", borderRadius: "var(--radius-sm)", fontSize: 12, fontWeight: 600, cursor: "pointer" }}>
+              <button key={tf} style={{ background: tf.startsWith("D") ? "var(--bg-surface-overlay)" : "transparent", border: tf.startsWith("D") ? "1px solid var(--border-color-strong)" : "none", color: tf.startsWith("D") ? "var(--text-primary)" : "var(--text-tertiary)", padding: "2px 8px", borderRadius: "var(--radius-sm)", fontSize: 12, fontWeight: 600, cursor: "pointer" }}>
                 {tf}
               </button>
             ))}
@@ -452,7 +452,7 @@ export default function TradeView() {
         </div>
 
         {/* MIDDLE: ORDERBOOK */}
-        <div style={{ gridColumn: 2, gridRow: 1, background: "var(--neutral-900)", borderRight: "1px solid var(--border-color-default)", borderBottom: "1px solid var(--border-color-default)", display: "flex", flexDirection: "column", overflow: "hidden" }}>
+        <div style={{ gridColumn: 2, gridRow: 1, background: "var(--bg-surface)", borderRight: "1px solid var(--border-color-default)", borderBottom: "1px solid var(--border-color-default)", display: "flex", flexDirection: "column", overflow: "hidden" }}>
           <div style={{ height: 34, background: "var(--bg-surface)", borderBottom: "1px solid var(--border-color-default)", display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 12px", flexShrink: 0 }}>
             <div style={{ display: "flex", gap: 16, fontSize: 12, fontWeight: 700 }}>
               <span style={{ color: "var(--text-primary)", borderBottom: "2px solid var(--text-primary)", paddingBottom: 6 }}>Orderbook</span>
@@ -482,7 +482,7 @@ export default function TradeView() {
               ))}
             </div>
 
-            <div style={{ display: "flex", justifyContent: "space-between", padding: "5px 12px", background: "var(--neutral-950)", borderTop: "1px solid var(--border-color-default)", borderBottom: "1px solid var(--border-color-default)", fontSize: 11, fontFamily: "var(--font-mono)", color: "var(--text-tertiary)" }}>
+            <div style={{ display: "flex", justifyContent: "space-between", padding: "5px 12px", background: "var(--bg-app)", borderTop: "1px solid var(--border-color-default)", borderBottom: "1px solid var(--border-color-default)", fontSize: 11, fontFamily: "var(--font-mono)", color: "var(--text-tertiary)" }}>
               <span style={{ fontWeight: 700, color: "var(--text-primary)" }}>Spread</span>
               <span>$1</span>
               <span style={{ color: "var(--text-primary)", fontWeight: 700 }}>0.002%</span>
@@ -502,14 +502,14 @@ export default function TradeView() {
 
           <div style={{ padding: "6px 12px", borderTop: "1px solid var(--border-color-default)", background: "var(--bg-surface)" }}>
             <div style={{ display: "flex", borderRadius: "var(--radius-sm)", overflow: "hidden", height: 16, fontSize: 10, fontFamily: "var(--font-mono)", fontWeight: 800 }}>
-              <div style={{ width: "20%", background: "var(--neutral-700)", color: "var(--neutral-100)", display: "flex", alignItems: "center", paddingLeft: 4 }}>B 20%</div>
+              <div style={{ width: "20%", background: "var(--neutral-700)", color: "var(--text-primary)", display: "flex", alignItems: "center", paddingLeft: 4 }}>B 20%</div>
               <div style={{ width: "80%", background: "var(--red-600)", color: "var(--neutral-0)", display: "flex", alignItems: "center", justifyContent: "flex-end", paddingRight: 4 }}>80% S</div>
             </div>
           </div>
         </div>
 
         {/* BOTTOM LEFT: MULTI-TAB ANALYTICS TABLE */}
-        <div style={{ gridColumn: isTerminalOpen ? "1 / 3" : "1 / 3", gridRow: 2, background: "var(--neutral-900)", borderRight: "1px solid var(--border-color-default)", display: "flex", flexDirection: "column", overflow: "hidden" }}>
+        <div style={{ gridColumn: isTerminalOpen ? "1 / 3" : "1 / 3", gridRow: 2, background: "var(--bg-surface)", borderRight: "1px solid var(--border-color-default)", display: "flex", flexDirection: "column", overflow: "hidden" }}>
           <div style={{ height: 38, background: "var(--bg-surface)", borderBottom: "1px solid var(--border-color-default)", display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 14px", flexShrink: 0 }}>
             <div style={{ display: "flex", gap: 16, fontSize: 12, overflowX: "auto" }}>
               {["Positions", "Copytrade", "Balances", "Open Orders", "TWAP", "History", "Top Traders", "Cohorts", "Position Changes", "Current TWAPs"].map((tab) => (
@@ -534,7 +534,7 @@ export default function TradeView() {
                   key={f}
                   onClick={() => setTopTradersFilter(f)}
                   style={{
-                    background: topTradersFilter === f ? "var(--neutral-800)" : "transparent",
+                    background: topTradersFilter === f ? "var(--bg-surface-overlay)" : "transparent",
                     border: topTradersFilter === f ? "1px solid var(--border-color-strong)" : "none",
                     color: f === "Long" ? "var(--text-primary)" : f === "Short" ? "var(--red-500)" : "var(--text-primary)",
                     padding: "2px 8px", borderRadius: "var(--radius-sm)", cursor: "pointer", fontWeight: 700,
@@ -582,15 +582,15 @@ export default function TradeView() {
             FAR RIGHT: 3-MODE TRADING TERMINAL (NEUTRAL / NO GREEN BUTTONS)
            ────────────────────────────────────────────────────────── */}
         {isTerminalOpen && (
-          <div style={{ gridColumn: 3, gridRow: "1 / 3", background: "var(--neutral-900)", borderLeft: "1px solid var(--border-color-default)", padding: 14, display: "flex", flexDirection: "column", gap: 14, overflowY: "auto" }}>
+          <div style={{ gridColumn: 3, gridRow: "1 / 3", background: "var(--bg-surface)", borderLeft: "1px solid var(--border-color-default)", padding: 14, display: "flex", flexDirection: "column", gap: 14, overflowY: "auto" }}>
             
             {/* Top Segmented Mode Selector Tab Bar (Neutral Design Tokens) */}
-            <div style={{ background: "var(--neutral-950)", border: "1px solid var(--border-color-strong)", borderRadius: "var(--radius-xl)", padding: 4, display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 4, flexShrink: 0 }}>
+            <div style={{ background: "var(--bg-app)", border: "1px solid var(--border-color-strong)", borderRadius: "var(--radius-xl)", padding: 4, display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 4, flexShrink: 0 }}>
               <button
                 onClick={() => setActiveRightTab("autopilot")}
                 style={{
                   padding: "8px 0", borderRadius: "var(--radius-lg)", border: activeRightTab === "autopilot" ? "1px solid var(--border-color-strong)" : "none",
-                  background: activeRightTab === "autopilot" ? "var(--neutral-800)" : "transparent",
+                  background: activeRightTab === "autopilot" ? "var(--bg-surface-overlay)" : "transparent",
                   color: activeRightTab === "autopilot" ? "var(--text-primary)" : "var(--text-tertiary)",
                   fontSize: 11, fontWeight: 700, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 4,
                   transition: "all 0.15s ease",
@@ -603,7 +603,7 @@ export default function TradeView() {
                 onClick={() => setActiveRightTab("copilot")}
                 style={{
                   padding: "8px 0", borderRadius: "var(--radius-lg)", border: activeRightTab === "copilot" ? "1px solid var(--border-color-strong)" : "none",
-                  background: activeRightTab === "copilot" ? "var(--neutral-800)" : "transparent",
+                  background: activeRightTab === "copilot" ? "var(--bg-surface-overlay)" : "transparent",
                   color: activeRightTab === "copilot" ? "var(--text-primary)" : "var(--text-tertiary)",
                   fontSize: 11, fontWeight: 700, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 4,
                   transition: "all 0.15s ease",
@@ -616,7 +616,7 @@ export default function TradeView() {
                 onClick={() => setActiveRightTab("manual")}
                 style={{
                   padding: "8px 0", borderRadius: "var(--radius-lg)", border: activeRightTab === "manual" ? "1px solid var(--border-color-strong)" : "none",
-                  background: activeRightTab === "manual" ? "var(--neutral-800)" : "transparent",
+                  background: activeRightTab === "manual" ? "var(--bg-surface-overlay)" : "transparent",
                   color: activeRightTab === "manual" ? "var(--text-primary)" : "var(--text-tertiary)",
                   fontSize: 11, fontWeight: 700, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 4,
                   transition: "all 0.15s ease",
@@ -633,10 +633,10 @@ export default function TradeView() {
               <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
                 {/* Margin & Leverage selector */}
                 <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
-                  <button style={{ padding: "9px 0", borderRadius: "var(--radius-lg)", border: "1px solid var(--border-color-strong)", background: "var(--neutral-950)", color: "var(--text-primary)", fontSize: 12, fontWeight: 700, cursor: "pointer" }}>
+                  <button style={{ padding: "9px 0", borderRadius: "var(--radius-lg)", border: "1px solid var(--border-color-strong)", background: "var(--bg-app)", color: "var(--text-primary)", fontSize: 12, fontWeight: 700, cursor: "pointer" }}>
                     Cross
                   </button>
-                  <button style={{ padding: "9px 0", borderRadius: "var(--radius-lg)", border: "1px solid var(--border-color-strong)", background: "var(--neutral-950)", color: "var(--text-primary)", fontSize: 12, fontWeight: 700, cursor: "pointer" }}>
+                  <button style={{ padding: "9px 0", borderRadius: "var(--radius-lg)", border: "1px solid var(--border-color-strong)", background: "var(--bg-app)", color: "var(--text-primary)", fontSize: 12, fontWeight: 700, cursor: "pointer" }}>
                     10x
                   </button>
                 </div>
@@ -678,7 +678,7 @@ export default function TradeView() {
                     style={{
                       padding: "10px 0", borderRadius: "var(--radius-lg)",
                       border: side === "Long" ? "1px solid var(--border-color-strong)" : "1px solid var(--border-color-default)",
-                      background: side === "Long" ? "var(--neutral-800)" : "var(--neutral-950)",
+                      background: side === "Long" ? "var(--bg-surface-overlay)" : "var(--bg-app)",
                       color: side === "Long" ? "var(--text-primary)" : "var(--text-secondary)",
                       fontSize: 13, fontWeight: 700, cursor: "pointer",
                     }}
@@ -690,7 +690,7 @@ export default function TradeView() {
                     style={{
                       padding: "10px 0", borderRadius: "var(--radius-lg)",
                       border: side === "Short" ? "1px solid var(--border-color-strong)" : "1px solid var(--border-color-default)",
-                      background: side === "Short" ? "var(--neutral-800)" : "var(--neutral-950)",
+                      background: side === "Short" ? "var(--bg-surface-overlay)" : "var(--bg-app)",
                       color: side === "Short" ? "var(--text-primary)" : "var(--text-secondary)",
                       fontSize: 13, fontWeight: 700, cursor: "pointer",
                     }}
@@ -700,7 +700,7 @@ export default function TradeView() {
                 </div>
 
                 {/* Size Input Box */}
-                <div style={{ background: "var(--neutral-950)", border: "1px solid var(--border-color-strong)", borderRadius: "var(--radius-lg)", padding: "8px 12px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                <div style={{ background: "var(--bg-app)", border: "1px solid var(--border-color-strong)", borderRadius: "var(--radius-lg)", padding: "8px 12px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                   <span style={{ fontSize: 11, color: "var(--text-tertiary)", fontWeight: 600 }}>Size</span>
                   <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
                     <input
@@ -722,16 +722,16 @@ export default function TradeView() {
                     max={100}
                     value={sliderPct}
                     onChange={(e) => setSliderPct(Number(e.target.value))}
-                    style={{ flex: 1, accentColor: "var(--neutral-100)" }}
+                    style={{ flex: 1, accentColor: "var(--text-primary)" }}
                   />
-                  <span style={{ fontSize: 10, fontFamily: "var(--font-mono)", background: "var(--neutral-950)", border: "1px solid var(--border-color-default)", borderRadius: "var(--radius-sm)", padding: "3px 6px", color: "var(--text-secondary)" }}>
+                  <span style={{ fontSize: 10, fontFamily: "var(--font-mono)", background: "var(--bg-app)", border: "1px solid var(--border-color-default)", borderRadius: "var(--radius-sm)", padding: "3px 6px", color: "var(--text-secondary)" }}>
                     {sliderPct}%
                   </span>
                 </div>
 
                 {/* Checkbox */}
                 <label style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 11, color: "var(--text-secondary)", cursor: "pointer" }}>
-                  <input type="checkbox" checked={tpSlChecked} onChange={(e) => setTpSlChecked(e.target.checked)} style={{ accentColor: "var(--neutral-100)" }} />
+                  <input type="checkbox" checked={tpSlChecked} onChange={(e) => setTpSlChecked(e.target.checked)} style={{ accentColor: "var(--text-primary)" }} />
                   Take Profit / Stop Loss
                 </label>
 
@@ -779,7 +779,7 @@ export default function TradeView() {
             {activeRightTab === "copilot" && (
               <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 12, overflow: "hidden" }}>
                 <div style={{ display: "flex", justifyContent: "center" }}>
-                  <span style={{ fontSize: 10, fontWeight: 800, fontFamily: "var(--font-mono)", color: "var(--text-primary)", background: "var(--neutral-800)", border: "1px solid var(--border-color-strong)", borderRadius: "var(--radius-full)", padding: "3px 10px" }}>
+                  <span style={{ fontSize: 10, fontWeight: 800, fontFamily: "var(--font-mono)", color: "var(--text-primary)", background: "var(--bg-surface-overlay)", border: "1px solid var(--border-color-strong)", borderRadius: "var(--radius-full)", padding: "3px 10px" }}>
                     ACTIVE SESSION
                   </span>
                 </div>
@@ -788,13 +788,13 @@ export default function TradeView() {
                   {copilotMsgs.map((m) => (
                     <div key={m.id} style={{ display: "flex", gap: 8, alignItems: "flex-start" }}>
                       {m.sender === "ai" && (
-                        <div style={{ width: 26, height: 26, borderRadius: "var(--radius-md)", background: "var(--neutral-800)", border: "1px solid var(--border-color-strong)", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--text-primary)", flexShrink: 0 }}>
+                        <div style={{ width: 26, height: 26, borderRadius: "var(--radius-md)", background: "var(--bg-surface-overlay)", border: "1px solid var(--border-color-strong)", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--text-primary)", flexShrink: 0 }}>
                           <Bot size={14} />
                         </div>
                       )}
                       <div
                         style={{
-                          background: m.sender === "ai" ? "var(--neutral-950)" : "var(--neutral-800)",
+                          background: m.sender === "ai" ? "var(--bg-app)" : "var(--bg-surface-overlay)",
                           border: "1px solid var(--border-color-strong)", borderRadius: "var(--radius-xl)",
                           padding: "8px 12px", fontSize: 11, lineHeight: 1.4, color: "var(--text-primary)", maxWidth: "85%",
                           marginLeft: m.sender === "user" ? "auto" : 0,
@@ -806,25 +806,25 @@ export default function TradeView() {
                   ))}
                 </div>
 
-                <div style={{ background: "var(--neutral-950)", border: "1px solid var(--border-color-strong)", borderRadius: "var(--radius-xl)", padding: 10, display: "flex", flexDirection: "column", gap: 6 }}>
+                <div style={{ background: "var(--bg-app)", border: "1px solid var(--border-color-strong)", borderRadius: "var(--radius-xl)", padding: 10, display: "flex", flexDirection: "column", gap: 6 }}>
                   <span style={{ fontSize: 9, fontWeight: 700, color: "var(--text-tertiary)", letterSpacing: "0.06em" }}>SETUP (OPTIONAL)</span>
                   <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 6 }}>
                     <div>
                       <span style={{ fontSize: 8, color: "var(--text-tertiary)", display: "block", marginBottom: 2 }}>MARGIN</span>
-                      <div style={{ background: "var(--neutral-900)", border: "1px solid var(--border-color-default)", borderRadius: "var(--radius-md)", padding: "4px 6px", fontSize: 10, fontWeight: 700, fontFamily: "var(--font-mono)" }}>$ 100</div>
+                      <div style={{ background: "var(--bg-surface)", border: "1px solid var(--border-color-default)", borderRadius: "var(--radius-md)", padding: "4px 6px", fontSize: 10, fontWeight: 700, fontFamily: "var(--font-mono)" }}>$ 100</div>
                     </div>
                     <div>
                       <span style={{ fontSize: 8, color: "var(--text-tertiary)", display: "block", marginBottom: 2 }}>STYLE</span>
-                      <div style={{ background: "var(--neutral-900)", border: "1px solid var(--border-color-default)", borderRadius: "var(--radius-md)", padding: "4px 6px", fontSize: 10, fontWeight: 700 }}>Day ∨</div>
+                      <div style={{ background: "var(--bg-surface)", border: "1px solid var(--border-color-default)", borderRadius: "var(--radius-md)", padding: "4px 6px", fontSize: 10, fontWeight: 700 }}>Day ∨</div>
                     </div>
                     <div>
                       <span style={{ fontSize: 8, color: "var(--text-tertiary)", display: "block", marginBottom: 2 }}>STRATEGY</span>
-                      <div style={{ background: "var(--neutral-900)", border: "1px solid var(--border-color-default)", borderRadius: "var(--radius-md)", padding: "4px 6px", fontSize: 10, fontWeight: 700 }}>Max Gain ∨</div>
+                      <div style={{ background: "var(--bg-surface)", border: "1px solid var(--border-color-default)", borderRadius: "var(--radius-md)", padding: "4px 6px", fontSize: 10, fontWeight: 700 }}>Max Gain ∨</div>
                     </div>
                   </div>
                 </div>
 
-                <div style={{ background: "var(--neutral-950)", border: "1px solid var(--border-color-strong)", borderRadius: "var(--radius-xl)", padding: "6px 10px", display: "flex", alignItems: "center", gap: 6 }}>
+                <div style={{ background: "var(--bg-app)", border: "1px solid var(--border-color-strong)", borderRadius: "var(--radius-xl)", padding: "6px 10px", display: "flex", alignItems: "center", gap: 6 }}>
                   <span style={{ color: "var(--text-secondary)", display: "flex", alignItems: "center" }}><Sparkles size={14} /></span>
                   <input
                     type="text"
@@ -846,7 +846,7 @@ export default function TradeView() {
               <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 12, overflowY: "auto" }}>
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                   <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                    <div style={{ width: 32, height: 32, borderRadius: "50%", background: "var(--neutral-800)", border: "1px solid var(--border-color-strong)", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--text-primary)" }}>
+                    <div style={{ width: 32, height: 32, borderRadius: "50%", background: "var(--bg-surface-overlay)", border: "1px solid var(--border-color-strong)", display: "flex", alignItems: "center", justifyContent: "center", color: "var(--text-primary)" }}>
                       <Bot size={16} />
                     </div>
                     <div>
@@ -855,7 +855,7 @@ export default function TradeView() {
                     </div>
                   </div>
 
-                  <div style={{ background: "var(--neutral-950)", border: "1px solid var(--border-color-strong)", borderRadius: "var(--radius-md)", padding: "4px 8px", display: "flex", flexDirection: "column", gap: 1 }}>
+                  <div style={{ background: "var(--bg-app)", border: "1px solid var(--border-color-strong)", borderRadius: "var(--radius-md)", padding: "4px 8px", display: "flex", flexDirection: "column", gap: 1 }}>
                     <div style={{ display: "flex", alignItems: "center", gap: 4, fontSize: 11, fontWeight: 700 }}>
                       <span style={{ color: "#F59E0B" }}>₿</span> BTC
                     </div>
@@ -863,10 +863,10 @@ export default function TradeView() {
                   </div>
                 </div>
 
-                <div style={{ background: "var(--neutral-950)", border: "1px solid var(--border-color-strong)", borderRadius: "var(--radius-xl)", padding: 12, display: "flex", flexDirection: "column", gap: 10 }}>
+                <div style={{ background: "var(--bg-app)", border: "1px solid var(--border-color-strong)", borderRadius: "var(--radius-xl)", padding: 12, display: "flex", flexDirection: "column", gap: 10 }}>
                   <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                     <div style={{ fontSize: 10, fontWeight: 800, color: "var(--text-tertiary)", letterSpacing: "0.05em" }}>⚡ MISSION STATUS</div>
-                    <span style={{ fontSize: 10, fontWeight: 700, color: "var(--text-primary)", background: "var(--neutral-800)", border: "1px solid var(--border-color-strong)", borderRadius: "var(--radius-full)", padding: "2px 6px" }}>
+                    <span style={{ fontSize: 10, fontWeight: 700, color: "var(--text-primary)", background: "var(--bg-surface-overlay)", border: "1px solid var(--border-color-strong)", borderRadius: "var(--radius-full)", padding: "2px 6px" }}>
                       Favorable 🗸
                     </span>
                   </div>
@@ -911,12 +911,12 @@ export default function TradeView() {
                 </button>
 
                 <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
-                  <button style={{ background: "var(--neutral-950)", border: "1px solid var(--border-color-strong)", borderRadius: "var(--radius-lg)", padding: "8px 10px", color: "var(--text-primary)", cursor: "pointer", textAlign: "left" }}>
+                  <button style={{ background: "var(--bg-app)", border: "1px solid var(--border-color-strong)", borderRadius: "var(--radius-lg)", padding: "8px 10px", color: "var(--text-primary)", cursor: "pointer", textAlign: "left" }}>
                     <div style={{ fontSize: 11, fontWeight: 700 }}>Add Funds</div>
                     <div style={{ fontSize: 9, color: "var(--text-tertiary)" }}>Deposit to start ›</div>
                   </button>
 
-                  <button style={{ background: "var(--neutral-950)", border: "1px solid var(--border-color-strong)", borderRadius: "var(--radius-lg)", padding: "8px 10px", color: "var(--text-primary)", cursor: "pointer", textAlign: "left" }}>
+                  <button style={{ background: "var(--bg-app)", border: "1px solid var(--border-color-strong)", borderRadius: "var(--radius-lg)", padding: "8px 10px", color: "var(--text-primary)", cursor: "pointer", textAlign: "left" }}>
                     <div style={{ fontSize: 11, fontWeight: 700 }}>Settings</div>
                     <div style={{ fontSize: 9, color: "var(--text-tertiary)" }}>Preferences ›</div>
                   </button>
@@ -936,7 +936,7 @@ export default function TradeView() {
           onClick={() => setIsTerminalOpen(!isTerminalOpen)}
           style={{
             position: "absolute", right: isTerminalOpen ? 368 : 12, top: 60, zIndex: 10,
-            width: 32, height: 32, borderRadius: "50%", background: "var(--neutral-850)",
+            width: 32, height: 32, borderRadius: "50%", background: "var(--bg-surface-raised)",
             border: "1px solid var(--border-color-strong)", color: "var(--text-primary)",
             display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer",
             boxShadow: "var(--shadow-md)", transition: "right 0.2s ease",
@@ -950,7 +950,7 @@ export default function TradeView() {
       {/* ──────────────────────────────────────────────────────────
           3. BOTTOM LIVE TICKER FOOTER BAR
          ────────────────────────────────────────────────────────── */}
-      <div style={{ height: 30, background: "var(--neutral-950)", borderTop: "1px solid var(--border-color-default)", display: "flex", alignItems: "center", gap: 16, padding: "0 14px", fontSize: 11, fontFamily: "var(--font-mono)", color: "var(--text-tertiary)", overflowX: "auto", flexShrink: 0 }}>
+      <div style={{ height: 30, background: "var(--bg-app)", borderTop: "1px solid var(--border-color-default)", display: "flex", alignItems: "center", gap: 16, padding: "0 14px", fontSize: 11, fontFamily: "var(--font-mono)", color: "var(--text-tertiary)", overflowX: "auto", flexShrink: 0 }}>
         <span style={{ color: "var(--emerald-500)", fontWeight: 700, display: "flex", alignItems: "center", gap: 4 }}>
           <span style={{ width: 6, height: 6, borderRadius: "50%", background: "var(--emerald-500)" }} /> Connected
         </span>

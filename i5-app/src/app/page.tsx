@@ -42,8 +42,8 @@ export default function HomePage() {
         </p>
       </div>
 
-      {/* Intelligence Briefing Metric Cards */}
-      <IntelligenceBriefingGrid />
+      {/* Intelligence Briefing Metric Cards (Hidden) */}
+      {/* <IntelligenceBriefingGrid /> */}
 
       {/* Two Column Layout: Market Breadth (Vertical Stack) + Market Asset Radar (Table) */}
       <div

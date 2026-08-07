@@ -64,7 +64,7 @@
 
 /* Selected state: dark raised pill surface */
 .navItemActive {
-  background-color: var(--neutral-800);
+  background-color: var(--bg-surface-overlay);
   color: var(--text-primary);
   font-weight: 500;
 }
@@ -118,7 +118,7 @@
 }
 
 .collapseBtn:hover {
-  background-color: var(--neutral-800);
+  background-color: var(--bg-surface-overlay);
   color: var(--text-primary);
   border-color: var(--border-color-strong);
 }

@@ -3,7 +3,7 @@
 .card {
   width: 360px;
   flex-shrink: 0;
-  background-color: var(--neutral-900);
+  background-color: var(--bg-surface);
   border: var(--border-width-default) solid var(--border-color-default);
   border-radius: var(--radius-xl);
   padding: var(--space-6);
@@ -17,7 +17,7 @@
 }
 
 .card:hover {
-  background-color: var(--neutral-850);
+  background-color: var(--bg-surface-raised);
   border-color: var(--border-color-strong);
 }
 
@@ -66,7 +66,7 @@
 .contentSection {
   width: 100%;
   flex: 1 1 0%;
-  background-color: var(--neutral-950);
+  background-color: var(--bg-app);
   border: 1px solid rgba(255, 255, 255, 0.04);
   border-radius: var(--radius-lg);
   padding: var(--space-4) var(--space-5);
