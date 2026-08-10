@@ -1,12 +1,14 @@
 "use client";
+import { BarChart3, Wallet, Send } from "lucide-react";
+
 
 import React, { useState } from "react";
 
 const ALERT_TYPES = [
   { id: "Price", emoji: "💲", label: "Price" },
-  { id: "Percent", emoji: "📊", label: "Percent" },
+  { id: "Percent", emoji: <BarChart3 size={16} />, label: "Percent" },
   { id: "Volume", emoji: "📦", label: "Volume" },
-  { id: "Funding", emoji: "💰", label: "Funding" },
+  { id: "Funding", emoji: <Wallet size={16} />, label: "Funding" },
   { id: "Periodic", emoji: "⏱", label: "Periodic" },
   { id: "Marketcap", emoji: "🌐", label: "Mktcap" },
 ];
@@ -14,7 +16,7 @@ const ALERT_TYPES = [
 const NOTIFY_CHANNELS = [
   { id: "Email", emoji: "📧" },
   { id: "SMS", emoji: "💬" },
-  { id: "Telegram", emoji: "✈️" },
+  { id: "Telegram", emoji: <Send size={16} /> },
   { id: "Discord", emoji: "🎮" },
   { id: "Browser", emoji: "🖥" },
   { id: "Webhook", emoji: "🔗" },

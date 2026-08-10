@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
-import { Settings, Maximize, LayoutGrid, Users, Bookmark, Sparkles, Globe, Bell, CandlestickChart, Smartphone, Zap, Bot, Star, Send } from "lucide-react";
+import { ChevronRight, AlertTriangle, Settings, Maximize, LayoutGrid, Users, Bookmark, Sparkles, Globe, Bell, CandlestickChart, Smartphone, Zap, Bot, Star, Send } from "lucide-react";
 
 /* ──────────────────────────────────────────────────────────
    MOCK TRADING DESK DATA
@@ -865,7 +865,7 @@ export default function TradeView() {
 
                 <div style={{ background: "var(--bg-app)", border: "1px solid var(--border-color-strong)", borderRadius: "var(--radius-xl)", padding: 12, display: "flex", flexDirection: "column", gap: 10 }}>
                   <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                    <div style={{ fontSize: 10, fontWeight: 800, color: "var(--text-tertiary)", letterSpacing: "0.05em" }}>⚡ MISSION STATUS</div>
+                    <div style={{ fontSize: 10, fontWeight: 800, color: "var(--text-tertiary)", letterSpacing: "0.05em" }}> MISSION STATUS</div>
                     <span style={{ fontSize: 10, fontWeight: 700, color: "var(--text-primary)", background: "var(--bg-surface-overlay)", border: "1px solid var(--border-color-strong)", borderRadius: "var(--radius-full)", padding: "2px 6px" }}>
                       Favorable 🗸
                     </span>
@@ -943,7 +943,7 @@ export default function TradeView() {
           }}
           title={isTerminalOpen ? "Collapse Right Terminal Panel" : "Expand Right Terminal Panel"}
         >
-          {isTerminalOpen ? "❯" : "≡⚙"}
+          {isTerminalOpen ? <ChevronRight size={16} /> : <Settings size={16} />}
         </button>
       </div>
 

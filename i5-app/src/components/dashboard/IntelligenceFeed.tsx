@@ -3,6 +3,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import styles from "./IntelligenceFeed.module.css";
 import AnalysisDetailModal from "./AnalysisDetailModal";
+import MemeTrenchesView from "./MemeTrenchesView";
 
 export interface FeedItem {
   id: string;
@@ -10,7 +11,7 @@ export interface FeedItem {
   companyName: string;
   avatarBg: string;
   category: string; // e.g. "EARNINGS RESULTS", "BREAKING NEWS", "PRICE MOVEMENT"
-  assetType?: "STOCKS" | "CRYPTO";
+  assetType?: "STOCKS" | "CRYPTO" | "MEME";
   stance: "BULLISH" | "BEARISH" | "NEUTRAL";
   position?: "LONG" | "SHORT";
   title: string;
@@ -228,6 +229,44 @@ const mockFeedData: FeedItem[] = [
     isPositiveChange: false,
     aiConfidence: 65,
   },
+  {
+    id: "12",
+    ticker: "PEPE",
+    companyName: "Pepe Coin",
+    avatarBg: "#14532D",
+    category: "PRICE MOVEMENT",
+    assetType: "MEME",
+    stance: "BULLISH",
+    position: "LONG",
+    title: "PEPE surges 22% in 24 hours amid massive retail accumulation",
+    summary:
+      "DEX volume indicates heavy on-chain buying on Uniswap, with top whale wallets adding over 2 trillion tokens to their balances.",
+    timeAgo: "2h ago",
+    source: "DEXTools",
+    publishPrice: "$0.0000124 at publish",
+    priceChange: "+22.40%",
+    isPositiveChange: true,
+    aiConfidence: 89,
+  },
+  {
+    id: "13",
+    ticker: "WIF",
+    companyName: "Dogwifhat",
+    avatarBg: "#7C2D12",
+    category: "UNUSUAL VOLUME",
+    assetType: "MEME",
+    stance: "BULLISH",
+    position: "LONG",
+    title: "Solana meme token WIF hits new high with institutional market maker interest",
+    summary:
+      "Aggregated futures open interest on Binance and Bybit surges to record $450M as WIF breaks key resistance levels.",
+    timeAgo: "4h ago",
+    source: "Coinglass",
+    publishPrice: "$3.85 at publish",
+    priceChange: "+14.10%",
+    isPositiveChange: true,
+    aiConfidence: 82,
+  },
 ];
 
 const feedFilterTabs = [
@@ -358,6 +397,7 @@ export default function IntelligenceFeed() {
     // 1. Sidepanel Tab Filter (stocks / crypto / all)
     if (sidepanelFilter.tab === "stocks" && item.assetType !== "STOCKS") return false;
     if (sidepanelFilter.tab === "crypto" && item.assetType !== "CRYPTO") return false;
+    if (sidepanelFilter.tab === "meme" && item.assetType !== "MEME") return false;
 
     // 2. Sidepanel SubId Filter
     const targetCategories = sidepanelSubIdToCategory[sidepanelFilter.subId] || [];
@@ -378,6 +418,14 @@ export default function IntelligenceFeed() {
 
     return true;
   });
+
+  if (sidepanelFilter.tab === "meme") {
+    return (
+      <section ref={containerRef} className={styles.container} aria-label="Meme Coin Trenches">
+        <MemeTrenchesView />
+      </section>
+    );
+  }
 
   return (
     <section ref={containerRef} className={styles.container} aria-label="Live Intelligence Feed">

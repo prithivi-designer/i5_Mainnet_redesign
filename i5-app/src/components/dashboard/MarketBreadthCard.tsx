@@ -4,7 +4,7 @@ import React from "react";
 import styles from "./MarketBreadthCard.module.css";
 
 /* ----------------------------------------------------------
-   Market Breadth Research Card (Filled Vertical Layout)
+   Market Breadth Research Card (Horizontal Layout)
    ---------------------------------------------------------- */
 export default function MarketBreadthCard() {
   const percentage = 68;
@@ -51,7 +51,7 @@ export default function MarketBreadthCard() {
 
   return (
     <div className={styles.card} role="region" aria-label="Market Breadth Strength Research">
-      {/* Top Progress Bar Section with Spacing */}
+      {/* Left Column: Radial Dotted Arc Gauge */}
       <div className={styles.gaugeSection}>
         <div className={styles.radialWrapper}>
           <svg className={styles.gaugeSvg} viewBox="0 0 260 165" aria-hidden>
@@ -116,9 +116,12 @@ export default function MarketBreadthCard() {
         </div>
       </div>
 
-      {/* Bottom Content Inset Container (Filled Card Style) */}
+      {/* Right Column: Inset Text Content */}
       <div className={styles.contentSection}>
-        <h3 className={styles.title}>MARKET BREADTH STRENGTH</h3>
+        <div className={styles.headerGroup}>
+          <h3 className={styles.title}>MARKET BREADTH STRENGTH</h3>
+          <span className={styles.statusBadge}>REGIME: RISK-ON</span>
+        </div>
 
         <p className={styles.bodyText}>
           Megacap semis are carrying the tape after NVDA&apos;s guidance reset expectations for

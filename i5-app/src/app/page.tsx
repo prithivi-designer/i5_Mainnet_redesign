@@ -3,6 +3,7 @@ import MarketOverviewGrid from "@/components/dashboard/MarketOverviewGrid";
 import IntelligenceBriefingGrid from "@/components/dashboard/IntelligenceBriefingGrid";
 import MarketBreadthCard from "@/components/dashboard/MarketBreadthCard";
 import MarketAssetTableCard from "@/components/dashboard/MarketAssetTableCard";
+import BubbleMapCard from "@/components/dashboard/BubbleMapCard";
 import IntelligenceFeed from "@/components/dashboard/IntelligenceFeed";
 
 export const metadata: Metadata = {
@@ -45,7 +46,12 @@ export default function HomePage() {
       {/* Intelligence Briefing Metric Cards (Hidden) */}
       {/* <IntelligenceBriefingGrid /> */}
 
-      {/* Two Column Layout: Market Breadth (Vertical Stack) + Market Asset Radar (Table) */}
+      {/* Horizontal Market Breadth Strength Card Banner */}
+      <div style={{ width: "100%", marginBottom: "var(--space-6)" }}>
+        <MarketBreadthCard />
+      </div>
+
+      {/* Two Column Row: Market Asset Radar Table + Crypto Bubble Map */}
       <div
         style={{
           display: "flex",
@@ -53,13 +59,14 @@ export default function HomePage() {
           width: "100%",
           marginBottom: "var(--space-6)",
           alignItems: "stretch",
+          flexWrap: "wrap",
         }}
       >
-        {/* Left Column: Vertical Stacked Market Breadth Strength Card */}
-        <MarketBreadthCard />
-
-        {/* Right Column: Market Asset Radar Table Card */}
+        {/* Market Asset Radar Table Card */}
         <MarketAssetTableCard />
+
+        {/* Interactive Crypto Bubble Map Card */}
+        <BubbleMapCard />
       </div>
 
       {/* Live Intelligence Feed Cards (Linked with Side Panel) */}

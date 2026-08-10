@@ -207,7 +207,7 @@ const subSections: SubSection[] = [
 ];
 
 export default function DashboardSubSidebar() {
-  const [activeTab, setActiveTab] = useState<"all" | "stocks" | "crypto">("all");
+  const [activeTab, setActiveTab] = useState<"all" | "stocks" | "crypto" | "meme">("all");
   const [activeSubId, setActiveSubId] = useState<string>("all-intelligence");
   const [earningsModalOpen, setEarningsModalOpen] = useState<boolean>(false);
 
@@ -255,6 +255,15 @@ export default function DashboardSubSidebar() {
                 }}
               >
                 Crypto
+              </button>
+              <button
+                className={`${styles.tabBtn} ${activeTab === "meme" ? styles.tabBtnActive : ""}`}
+                onClick={() => {
+                  setActiveTab("meme");
+                  dispatchFilterEvent("meme", activeSubId);
+                }}
+              >
+                Meme
               </button>
             </div>
           </div>

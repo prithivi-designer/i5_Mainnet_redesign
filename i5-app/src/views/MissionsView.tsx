@@ -1,4 +1,6 @@
 "use client";
+import { Users, CheckCircle2, Lock, Check } from "lucide-react";
+
 
 import React, { useState } from "react";
 
@@ -62,7 +64,7 @@ export default function MissionsReferralsView() {
           {[
             { label: "Points Earned", value: totalPoints.toLocaleString(), color: "#F4C23A", emoji: "⭐" },
             { label: "Points Pending", value: pendingPoints.toLocaleString(), color: "var(--text-tertiary)", emoji: "⏳" },
-            { label: "Referrals", value: "2 active", color: "var(--color-price-up)", emoji: "👥" },
+            { label: "Referrals", value: "2 active", color: "var(--color-price-up)", emoji: <Users size={16} /> },
           ].map((stat) => (
             <div key={stat.label} style={{ background: "var(--bg-surface)", border: "1px solid var(--border-color-default)", borderRadius: "var(--radius-xl)", padding: 20 }}>
               <div style={{ fontSize: 24, marginBottom: 8 }}>{stat.emoji}</div>
@@ -75,7 +77,7 @@ export default function MissionsReferralsView() {
         {/* Tabs */}
         <div style={{ display: "flex", gap: 4, background: "var(--bg-surface)", border: "1px solid var(--border-color-default)", borderRadius: "var(--radius-lg)", padding: 4, marginBottom: 24, width: "fit-content" }}>
           <button style={tabStyle(activeTab === "missions")} onClick={() => setActiveTab("missions")}>🎯 Missions</button>
-          <button style={tabStyle(activeTab === "referrals")} onClick={() => setActiveTab("referrals")}>👥 Referrals</button>
+          <button style={{...tabStyle(activeTab === "referrals"), display: "flex", alignItems: "center", gap: 4, justifyContent: "center" }} onClick={() => setActiveTab("referrals")}><Users size={16} /> Referrals</button>
         </div>
 
         {activeTab === "missions" ? (
@@ -144,7 +146,7 @@ export default function MissionsReferralsView() {
                   fontSize: 13, fontWeight: 700, fontFamily: "var(--font-sans)", flexShrink: 0,
                   transition: "all 0.2s",
                 }}>
-                  {copied ? "✓ Copied!" : "Copy"}
+                  {copied ? (<span style={{display:"flex", alignItems:"center", gap:4}}><Check size={14}/> Copied!</span>) : "Copy"}
                 </button>
               </div>
 
@@ -191,7 +193,7 @@ export default function MissionsReferralsView() {
                   border: `1px solid ${tier.unlocked ? "rgba(47,203,115,0.2)" : "var(--border-color-default)"}`,
                 }}>
                   <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-                    <span style={{ fontSize: 14 }}>{tier.unlocked ? "✅" : "🔒"}</span>
+                    <span style={{ fontSize: 14 }}>{tier.unlocked ? <CheckCircle2 size={14} color="var(--color-price-up)" /> : <Lock size={14} color="var(--text-disabled)" />}</span>
                     <span style={{ fontSize: 13, fontWeight: 600 }}>{tier.count}</span>
                   </div>
                   <span style={{ fontSize: 13, color: tier.unlocked ? "var(--color-price-up)" : "var(--text-tertiary)" }}>{tier.reward}</span>

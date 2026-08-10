@@ -1,49 +1,73 @@
 "use client";
+import { Check, X } from "lucide-react";
+
 
 import React, { useState } from "react";
+import styles from "./SubscriptionView.module.css";
 
-const PLANS = [
+interface Plan {
+  id: string;
+  name: string;
+  price: string;
+  numericPrice?: number;
+  period: string;
+  description: string;
+  cta: string;
+  highlight: boolean;
+  themeClass: string;
+  features: string[];
+  current?: boolean;
+}
+
+const PLANS: Plan[] = [
   {
     id: "free",
     name: "Free",
     price: "$0",
+    numericPrice: 0,
     period: "",
     description: "Perfect to explore the AI Agent platform.",
+    cta: "Current Plan",
+    highlight: false,
+    themeClass: styles.cardGrey,
+    current: true,
     features: [
       "Top 10 daily aggregate signals",
       "Delayed signals (15 min delay)",
       "Community marketplace access",
       "10 AI messages / day",
-      "Basic market overview",
-    ],
-    cta: "Current Plan",
-    current: true,
-    highlight: false,
+      "Basic market overview"
+    ]
   },
   {
     id: "starter",
     name: "Starter",
     price: "$19",
+    numericPrice: 19,
     period: "/month",
     description: "For active traders seeking AI edge.",
+    cta: "Upgrade to Starter",
+    highlight: false,
+    themeClass: styles.cardTurquoise,
     features: [
       "100 AI messages / day",
       "Smart Slippage Protection AI",
       "Telegram & News Analyzers (Real-time)",
       "Basic Perp Alerts (Funding rates)",
       "Earn 2× Points (Missions)",
-      "Priority support",
-    ],
-    cta: "Upgrade to Starter",
-    current: false,
-    highlight: false,
+      "Priority support"
+    ]
   },
   {
     id: "pro",
     name: "Pro",
     price: "$79",
+    numericPrice: 79,
     period: "/month",
     description: "Full unmetered access to advanced AI models.",
+    cta: "Upgrade to Pro",
+    highlight: true,
+    themeClass: styles.cardPurple,
     features: [
       "Unlimited messaging & Execution",
       "Advanced Perp Alerts (Liq clusters)",
@@ -51,23 +75,20 @@ const PLANS = [
       "Unlimited AI Smart Execution",
       "Whale Tracking alerts",
       "Early access to new agents",
-      "Dedicated trading desk support",
-    ],
-    cta: "Upgrade to Pro",
-    current: false,
-    highlight: true,
-  },
+      "Dedicated trading desk support"
+    ]
+  }
 ];
 
 const FEATURE_COMPARISON = [
   { name: "Crypto Assets Coverage", free: "Top 100", starter: "Top 1,000", pro: "15,000+" },
-  { name: "Equities & Global Indices", free: "✓", starter: "✓", pro: "✓" },
+  { name: "Equities & Global Indices", free: <Check size={16} />, starter: <Check size={16} />, pro: <Check size={16} /> },
   { name: "Trading Signals Stream", free: "5 / day", starter: "50 / day", pro: "Unlimited" },
-  { name: "Smart Money & Whale Tracking", free: "✗", starter: "✗", pro: "✓" },
-  { name: "Alpha AI Bot Copilot", free: "✗", starter: "Basic", pro: "Advanced" },
-  { name: "DEX & Liquidity Tracking", free: "✗", starter: "✗", pro: "✓" },
-  { name: "Real-time Funding Rate Alerts", free: "✗", starter: "✓", pro: "✓" },
-  { name: "Chart Pattern Recognition", free: "✗", starter: "✗", pro: "✓" },
+  { name: "Smart Money & Whale Tracking", free: <X size={16} />, starter: <X size={16} />, pro: <Check size={16} /> },
+  { name: "Alpha AI Bot Copilot", free: <X size={16} />, starter: "Basic", pro: "Advanced" },
+  { name: "DEX & Liquidity Tracking", free: <X size={16} />, starter: <X size={16} />, pro: <Check size={16} /> },
+  { name: "Real-time Funding Rate Alerts", free: <X size={16} />, starter: <Check size={16} />, pro: <Check size={16} /> },
+  { name: "Chart Pattern Recognition", free: <X size={16} />, starter: <X size={16} />, pro: <Check size={16} /> },
   { name: "Support", free: "Community", starter: "Email", pro: "Priority" },
 ];
 
@@ -81,108 +102,141 @@ export default function SubscriptionView() {
   const [billingCycle, setBillingCycle] = useState<"monthly" | "annual">("monthly");
   const [openFaq, setOpenFaq] = useState<number | null>(null);
 
-  const tabStyle = (active: boolean): React.CSSProperties => ({
-    padding: "7px 20px", borderRadius: "var(--radius-md)", border: "none",
-    background: active ? "var(--bg-surface-overlay)" : "transparent",
-    color: active ? "var(--text-primary)" : "var(--text-tertiary)",
-    fontSize: 13, fontWeight: active ? 700 : 400, cursor: "pointer",
-    fontFamily: "var(--font-sans)", transition: "all 0.15s ease",
-  });
+  const IconCheck = () => (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
+      <polyline points="20 6 9 17 4 12" />
+    </svg>
+  );
+
+  // SVG Icons for headers
+  const LogoFree = () => (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ffffff" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="12" r="10" />
+      <path d="m10 15 5-3-5-3v6z" />
+    </svg>
+  );
+
+  const LogoStarter = () => (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ffffff" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+    </svg>
+  );
+
+  const LogoPro = () => (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ffffff" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+    </svg>
+  );
 
   return (
-    <div style={{ height: "100%", overflowY: "auto", background: "var(--bg-app)", color: "var(--text-primary)", padding: 24, fontFamily: "var(--font-sans)" }}>
-      <div style={{ maxWidth: 1000, margin: "0 auto" }}>
+    <div className={styles.container}>
+      <div className={styles.inner}>
 
         {/* Header */}
-        <div style={{ textAlign: "center", marginBottom: 32 }}>
-          <h1 style={{ fontSize: 28, fontWeight: 800, margin: "0 0 8px 0" }}>Choose Your Plan</h1>
-          <p style={{ fontSize: 14, color: "var(--text-tertiary)", marginBottom: 20 }}>
-            Unlock professional AI trading tools with transparent pricing
+        <div className={styles.header}>
+          <h1 className={styles.title}>Subscription Plans</h1>
+          <p className={styles.subtitle}>
+            Choose the plan that fits your trading style. Supercharge your portfolio with AI-based decentralized tools.
           </p>
-          {/* Billing toggle */}
-          <div style={{ display: "inline-flex", gap: 4, background: "var(--bg-surface)", border: "1px solid var(--border-color-default)", borderRadius: "var(--radius-lg)", padding: 4 }}>
-            <button style={tabStyle(billingCycle === "monthly")} onClick={() => setBillingCycle("monthly")}>Monthly</button>
-            <button style={tabStyle(billingCycle === "annual")} onClick={() => setBillingCycle("annual")}>
+          
+          {/* Billing Toggle */}
+          <div className={styles.billingToggleWrapper}>
+            <button
+              className={`${styles.toggleBtn} ${billingCycle === "monthly" ? styles.toggleBtnActive : ""}`}
+              onClick={() => setBillingCycle("monthly")}
+            >
+              Monthly
+            </button>
+            <button
+              className={`${styles.toggleBtn} ${billingCycle === "annual" ? styles.toggleBtnActive : ""}`}
+              onClick={() => setBillingCycle("annual")}
+            >
               Annual
-              <span style={{ marginLeft: 6, fontSize: 10, padding: "2px 6px", borderRadius: "var(--radius-full)", background: "rgba(47,203,115,0.15)", color: "var(--color-price-up)" }}>-20%</span>
+              <span className={styles.discountBadge}>-20%</span>
             </button>
           </div>
         </div>
 
-        {/* Plan cards */}
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 16, marginBottom: 40 }}>
-          {PLANS.map((plan) => (
-            <div key={plan.id} style={{
-              background: plan.highlight
-                ? "linear-gradient(160deg, var(--bg-surface-overlay) 0%, var(--bg-surface-raised) 100%)"
-                : "var(--bg-surface)",
-              border: `1px solid ${plan.highlight ? "rgba(228,228,228,0.25)" : "var(--border-color-default)"}`,
-              borderRadius: "var(--radius-xl)",
-              padding: 24,
-              position: "relative",
-              transition: "transform 0.15s",
-            }}
-              onMouseEnter={(e) => { (e.currentTarget as HTMLDivElement).style.transform = "translateY(-3px)"; }}
-              onMouseLeave={(e) => { (e.currentTarget as HTMLDivElement).style.transform = "none"; }}
-            >
-              {plan.highlight && (
-                <div style={{ position: "absolute", top: -12, left: "50%", transform: "translateX(-50%)", background: "var(--text-primary)", color: "var(--bg-app)", fontSize: 11, fontWeight: 800, padding: "4px 14px", borderRadius: "var(--radius-full)", letterSpacing: "0.05em", whiteSpace: "nowrap" }}>
-                  ⭐ MOST POPULAR
-                </div>
-              )}
-              <div style={{ marginBottom: 16 }}>
-                <div style={{ fontSize: 14, fontWeight: 700, color: "var(--text-secondary)", marginBottom: 8 }}>{plan.name}</div>
-                <div style={{ display: "flex", alignItems: "baseline", gap: 4, marginBottom: 8 }}>
-                  <span style={{ fontSize: 32, fontWeight: 800, fontFamily: "var(--font-mono)" }}>
-                    {billingCycle === "annual" && plan.price !== "$0"
-                      ? `$${Math.round(parseInt(plan.price.replace("$", "")) * 0.8)}`
-                      : plan.price}
-                  </span>
-                  <span style={{ fontSize: 13, color: "var(--text-tertiary)" }}>{plan.period}</span>
-                </div>
-                <p style={{ fontSize: 13, color: "var(--text-tertiary)", margin: 0 }}>{plan.description}</p>
-              </div>
+        {/* Plan Cards Grid */}
+        <div className={styles.plansGrid}>
+          {PLANS.map((plan) => {
+            // Apply annual discount
+            let displayPrice = plan.price;
+            if (billingCycle === "annual" && plan.numericPrice) {
+              const discounted = Math.round(plan.numericPrice * 0.8);
+              displayPrice = `$${discounted}`;
+            }
 
-              <div style={{ display: "flex", flexDirection: "column", gap: 8, marginBottom: 20 }}>
-                {plan.features.map((feat) => (
-                  <div key={feat} style={{ display: "flex", alignItems: "flex-start", gap: 8, fontSize: 13, color: "var(--text-secondary)" }}>
-                    <span style={{ color: "var(--color-price-up)", flexShrink: 0 }}>✓</span>
-                    {feat}
+            return (
+              <div key={plan.id} className={`${styles.card} ${plan.themeClass} ${plan.highlight ? styles.cardHighlighted : ""}`}>
+                <div className={styles.cardContent}>
+                  
+                  {/* Card Header (Logo Circle + Popular Badge) */}
+                  <div className={styles.cardHeader}>
+                    <div className={styles.iconCircle}>
+                      {plan.id === "free" && <LogoFree />}
+                      {plan.id === "starter" && <LogoStarter />}
+                      {plan.id === "pro" && <LogoPro />}
+                    </div>
+                    {plan.highlight && (
+                      <span className={styles.popularBadge}>★ MOST POPULAR</span>
+                    )}
                   </div>
-                ))}
-              </div>
 
-              <button style={{
-                width: "100%", padding: "10px 0", borderRadius: "var(--radius-md)", border: `1px solid ${plan.current ? "var(--border-color-default)" : "transparent"}`, cursor: plan.current ? "default" : "pointer",
-                background: plan.current ? "transparent" : plan.highlight ? "var(--button-primary-bg)" : "var(--bg-surface-overlay)",
-                color: plan.current ? "var(--text-tertiary)" : plan.highlight ? "var(--button-primary-text)" : "var(--text-primary)",
-                fontSize: 13, fontWeight: 700, fontFamily: "var(--font-sans)",
-              }}>
-                {plan.cta}
-              </button>
-            </div>
-          ))}
+                  {/* Plan Meta */}
+                  <h3 className={styles.planName}>{plan.name}</h3>
+                  <p className={styles.planDescription}>{plan.description}</p>
+
+                  {/* Pricing */}
+                  <div className={styles.priceWrapper}>
+                    <span className={styles.price}>{displayPrice}</span>
+                    {plan.numericPrice !== 0 && <span className={styles.period}>{plan.period}</span>}
+                  </div>
+
+                  {/* CTA Button */}
+                  <button
+                    className={`${styles.ctaBtn} ${plan.highlight ? styles.ctaPrimary : styles.ctaSecondary}`}
+                    style={plan.current ? { opacity: 0.6, cursor: "default" } : {}}
+                    disabled={plan.current}
+                  >
+                    {plan.cta}
+                  </button>
+
+                  {/* Features List */}
+                  <div className={styles.featuresList}>
+                    {plan.features.map((feature, index) => (
+                      <div key={index} className={styles.featureItem}>
+                        <span className={styles.featureIcon}><IconCheck /></span>
+                        <span className={styles.featureText}>{feature}</span>
+                      </div>
+                    ))}
+                  </div>
+
+                </div>
+              </div>
+            );
+          })}
         </div>
 
-        {/* Feature comparison table */}
-        <div style={{ marginBottom: 40 }}>
-          <h2 style={{ fontSize: 18, fontWeight: 700, marginBottom: 16 }}>Full Feature Comparison</h2>
+        {/* Feature Comparison Table */}
+        <div style={{ marginTop: "var(--space-6)" }}>
+          <h2 style={{ fontSize: 20, fontWeight: 800, marginBottom: 16 }}>Full Feature Comparison</h2>
           <div style={{ background: "var(--bg-surface)", border: "1px solid var(--border-color-default)", borderRadius: "var(--radius-xl)", overflow: "hidden" }}>
             <table style={{ width: "100%", borderCollapse: "collapse" }}>
               <thead>
                 <tr>
-                  <th style={{ padding: "12px 16px", fontSize: 11, fontWeight: 600, color: "var(--text-tertiary)", textTransform: "uppercase", letterSpacing: "0.06em", background: "var(--bg-surface-raised)", borderBottom: "1px solid var(--border-color-default)", textAlign: "left" }}>Feature</th>
+                  <th style={{ padding: "14px 20px", fontSize: 11, fontWeight: 700, color: "var(--text-tertiary)", textTransform: "uppercase", letterSpacing: "0.06em", background: "var(--bg-surface-raised)", borderBottom: "1px solid var(--border-color-default)", textAlign: "left" }}>Feature</th>
                   {["Free", "Starter", "Pro"].map((h) => (
-                    <th key={h} style={{ padding: "12px 16px", fontSize: 11, fontWeight: 600, color: h === "Pro" ? "var(--text-primary)" : "var(--text-tertiary)", textTransform: "uppercase", letterSpacing: "0.06em", background: "var(--bg-surface-raised)", borderBottom: "1px solid var(--border-color-default)", textAlign: "center" }}>{h}</th>
+                    <th key={h} style={{ padding: "14px 20px", fontSize: 11, fontWeight: 700, color: h === "Pro" ? "var(--text-primary)" : "var(--text-tertiary)", textTransform: "uppercase", letterSpacing: "0.06em", background: "var(--bg-surface-raised)", borderBottom: "1px solid var(--border-color-default)", textAlign: "center" }}>{h}</th>
                   ))}
                 </tr>
               </thead>
               <tbody>
                 {FEATURE_COMPARISON.map((feat, i) => (
                   <tr key={feat.name} style={{ background: i % 2 === 0 ? "transparent" : "var(--bg-surface-raised)" }}>
-                    <td style={{ padding: "10px 16px", fontSize: 13, color: "var(--text-secondary)", borderBottom: "1px solid var(--border-color-default)" }}>{feat.name}</td>
+                    <td style={{ padding: "12px 20px", fontSize: 13, color: "var(--text-secondary)", borderBottom: "1px solid var(--border-color-default)" }}>{feat.name}</td>
                     {[feat.free, feat.starter, feat.pro].map((val, vi) => (
-                      <td key={vi} style={{ padding: "10px 16px", fontSize: 12, textAlign: "center", borderBottom: "1px solid var(--border-color-default)", fontFamily: val === "✓" || val === "✗" ? undefined : "var(--font-mono)", color: val === "✓" ? "var(--color-price-up)" : val === "✗" ? "var(--text-disabled)" : "var(--text-secondary)", fontWeight: val === "✓" || val === "✗" ? 700 : 500 }}>
+                      <td key={vi} style={{ padding: "12px 20px", fontSize: 12, textAlign: "center", borderBottom: "1px solid var(--border-color-default)", fontFamily: val === <Check size={16} /> || val === <X size={16} /> ? undefined : "var(--font-mono)", color: val === <Check size={16} /> ? "var(--color-price-up)" : val === <X size={16} /> ? "var(--text-disabled)" : "var(--text-secondary)", fontWeight: val === <Check size={16} /> || val === <X size={16} /> ? 700 : 500 }}>
                         {val}
                       </td>
                     ))}
@@ -193,21 +247,21 @@ export default function SubscriptionView() {
           </div>
         </div>
 
-        {/* FAQ */}
-        <div style={{ marginBottom: 24 }}>
-          <h2 style={{ fontSize: 18, fontWeight: 700, marginBottom: 16 }}>Frequently Asked Questions</h2>
+        {/* FAQ Section */}
+        <div style={{ marginBottom: "var(--space-4)" }}>
+          <h2 style={{ fontSize: 20, fontWeight: 800, marginBottom: 16 }}>Frequently Asked Questions</h2>
           <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
             {FAQ.map((faq, i) => (
               <div key={i} style={{ background: "var(--bg-surface)", border: "1px solid var(--border-color-default)", borderRadius: "var(--radius-xl)", overflow: "hidden" }}>
                 <button
                   onClick={() => setOpenFaq(openFaq === i ? null : i)}
-                  style={{ width: "100%", padding: "14px 16px", display: "flex", alignItems: "center", justifyContent: "space-between", background: "none", border: "none", cursor: "pointer", color: "var(--text-primary)", fontSize: 14, fontWeight: 600, fontFamily: "var(--font-sans)", textAlign: "left" }}
+                  style={{ width: "100%", padding: "16px 20px", display: "flex", alignItems: "center", justifyContent: "space-between", background: "none", border: "none", cursor: "pointer", color: "var(--text-primary)", fontSize: 14, fontWeight: 700, fontFamily: "var(--font-sans)", textAlign: "left" }}
                 >
                   {faq.q}
                   <span style={{ fontSize: 12, color: "var(--text-tertiary)", transition: "transform 0.2s", transform: openFaq === i ? "rotate(180deg)" : "none", display: "inline-block" }}>▼</span>
                 </button>
                 {openFaq === i && (
-                  <div style={{ padding: "0 16px 14px", fontSize: 14, color: "var(--text-secondary)", lineHeight: 1.6 }}>{faq.a}</div>
+                  <div style={{ padding: "0 20px 16px", fontSize: 13, color: "var(--text-secondary)", lineHeight: 1.6 }}>{faq.a}</div>
                 )}
               </div>
             ))}

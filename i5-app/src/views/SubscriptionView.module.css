@@ -1,0 +1,412 @@
+.container {
+  height: 100%;
+  overflow-y: auto;
+  background-color: var(--bg-app);
+  color: var(--text-primary);
+  padding: var(--space-8) var(--space-6);
+  font-family: var(--font-sans);
+}
+
+.inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+}
+
+/* Header Section */
+.header {
+  text-align: center;
+  margin-bottom: var(--space-4);
+}
+
+.title {
+  font-size: 32px;
+  font-weight: 800;
+  margin: 0 0 var(--space-2) 0;
+  letter-spacing: -0.02em;
+}
+
+.subtitle {
+  font-size: 15px;
+  color: var(--text-tertiary);
+  margin-bottom: var(--space-6);
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Billing Toggle */
+.billingToggleWrapper {
+  display: inline-flex;
+  gap: 4px;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-color-default);
+  border-radius: var(--radius-xl);
+  padding: 4px;
+}
+
+.toggleBtn {
+  padding: 8px 24px;
+  border-radius: var(--radius-lg);
+  border: none;
+  font-size: 13px;
+  font-weight: 500;
+  font-family: var(--font-sans);
+  cursor: pointer;
+  background: transparent;
+  color: var(--text-tertiary);
+  transition: all var(--duration-fast) var(--easing-standard);
+}
+
+.toggleBtnActive {
+  background-color: var(--bg-surface-overlay);
+  color: var(--text-primary);
+  font-weight: 700;
+  box-shadow: var(--shadow-sm);
+}
+
+.discountBadge {
+  margin-left: var(--space-2);
+  font-size: 10px;
+  font-weight: 800;
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+  background-color: rgba(47, 203, 115, 0.15);
+  color: #56D68F;
+  border: 1px solid rgba(47, 203, 115, 0.3);
+}
+
+/* Plan Cards Grid */
+.plansGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  align-items: stretch;
+  margin-top: var(--space-6);
+}
+
+/* Base Card Styling */
+.card {
+  border-radius: 24px;
+  padding: 32px 28px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  transition:
+    transform var(--duration-normal) var(--easing-standard),
+    box-shadow var(--duration-normal) var(--easing-standard),
+    border-color var(--duration-normal) var(--easing-standard);
+  overflow: hidden;
+  height: 100%;
+}
+
+/* Glassmorphism theme backgrounds for both Dark & Light */
+:global([data-theme="dark"]) .card {
+  background: rgba(14, 14, 14, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+:global([data-theme="light"]) .card {
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(8, 8, 8, 0.08);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+}
+
+/* Card Hover Elevation */
+.card:hover {
+  transform: translateY(-8px);
+}
+
+/* Card Radial Gradients (Mockup glows) */
+.cardTurquoise {
+  --accent-color: #24A1DE;
+}
+.cardTurquoise::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 250px;
+  height: 250px;
+  background: radial-gradient(circle, rgba(36, 161, 222, 0.12) 0%, transparent 70%);
+  z-index: 0;
+  pointer-events: none;
+}
+.cardTurquoise:hover {
+  border-color: rgba(36, 161, 222, 0.4);
+  box-shadow: 0 12px 40px rgba(36, 161, 222, 0.15);
+}
+
+.cardPurple {
+  --accent-color: #a855f7;
+  transform: scale(1.02); /* Make it look "Most Popular" elevated */
+  z-index: 2;
+}
+.cardPurple::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 280px;
+  height: 280px;
+  background: radial-gradient(circle, rgba(168, 85, 247, 0.15) 0%, transparent 70%);
+  z-index: 0;
+  pointer-events: none;
+}
+.cardPurple:hover {
+  transform: translateY(-8px) scale(1.02);
+  border-color: rgba(168, 85, 247, 0.45);
+  box-shadow: 0 12px 40px rgba(168, 85, 247, 0.2);
+}
+
+.cardGrey {
+  --accent-color: #9a9a9a;
+}
+.cardGrey::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 250px;
+  height: 250px;
+  background: radial-gradient(circle, rgba(154, 154, 154, 0.08) 0%, transparent 70%);
+  z-index: 0;
+  pointer-events: none;
+}
+.cardGrey:hover {
+  border-color: rgba(154, 154, 154, 0.35);
+  box-shadow: 0 12px 40px rgba(154, 154, 154, 0.1);
+}
+
+/* Card Elements */
+.cardContent {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-6);
+}
+
+.iconCircle {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: inset 0 2px 6px rgba(255, 255, 255, 0.1);
+}
+
+.cardTurquoise .iconCircle {
+  background: linear-gradient(135deg, #112f4e 0%, #24a1de 100%);
+}
+.cardPurple .iconCircle {
+  background: linear-gradient(135deg, #3b0764 0%, #a855f7 100%);
+}
+.cardGrey .iconCircle {
+  background: linear-gradient(135deg, #262626 0%, #737373 100%);
+}
+
+.popularBadge {
+  background: rgba(168, 85, 247, 0.15);
+  border: 1px solid rgba(168, 85, 247, 0.35);
+  color: #c084fc;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: var(--radius-full);
+  letter-spacing: 0.02em;
+}
+
+.planName {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin-bottom: var(--space-2);
+}
+
+.planDescription {
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--text-tertiary);
+  margin-bottom: var(--space-6);
+  min-height: 40px;
+}
+
+/* Pricing */
+.priceWrapper {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  margin-bottom: var(--space-6);
+}
+
+.price {
+  font-family: var(--font-mono);
+  font-size: 32px;
+  font-weight: 800;
+  color: var(--text-primary);
+}
+
+.period {
+  font-size: 13px;
+  color: var(--text-tertiary);
+}
+
+/* CTA Buttons */
+.ctaBtn {
+  width: 100%;
+  padding: 14px 0;
+  border-radius: var(--radius-xl);
+  font-size: 14px;
+  font-weight: 700;
+  font-family: var(--font-sans);
+  cursor: pointer;
+  transition: all var(--duration-fast) var(--easing-standard);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: var(--space-6);
+}
+
+/* Orange/Red CTA Button (Purple Lift) */
+.ctaPrimary {
+  background: linear-gradient(135deg, #ff4e20 0%, #ff6e20 100%);
+  border: none;
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(255, 78, 32, 0.3);
+}
+
+.ctaPrimary:hover {
+  background: linear-gradient(135deg, #ff6e20 0%, #ff8e20 100%);
+  box-shadow: 0 6px 20px rgba(255, 78, 32, 0.45);
+  transform: translateY(-1px);
+}
+
+/* Grey CTA Button (Turquoise Trek & Off-white) */
+.ctaSecondary {
+  background-color: var(--bg-surface-overlay);
+  border: 1px solid var(--border-color-default);
+  color: var(--text-primary);
+}
+
+.ctaSecondary:hover {
+  background-color: var(--bg-surface-raised);
+  border-color: var(--border-color-strong);
+  transform: translateY(-1px);
+}
+
+/* Features List */
+.featuresList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  text-align: left;
+}
+
+.featureItem {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.featureIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+}
+
+.featureText {
+  line-height: 1.4;
+}
+
+/* Add-ons Separator Header */
+.addOnsSeparator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: var(--space-3) 0 var(--space-2) 0;
+  position: relative;
+}
+
+.addOnsLine {
+  width: 100%;
+  height: 1px;
+  background-color: var(--border-color-default);
+}
+
+.addOnsLabel {
+  position: absolute;
+  background-color: var(--bg-surface);
+  padding: 0 12px;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 800;
+  color: var(--text-tertiary);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* Override background of label if inside absolute styled cards */
+:global([data-theme="dark"]) .card .addOnsLabel {
+  background-color: #0E0E0E;
+}
+
+:global([data-theme="light"]) .card .addOnsLabel {
+  background-color: #ffffff;
+}
+
+/* Inline badges inside lists */
+.aiBadge {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 800;
+  background-color: rgba(168, 85, 247, 0.15);
+  color: #c084fc;
+  border: 1px solid rgba(168, 85, 247, 0.3);
+  padding: 1px 6px;
+  border-radius: var(--radius-sm);
+  margin-left: 6px;
+}
+
+.cardHighlighted {
+  transform: scale(1.02);
+  z-index: 2;
+}
+
+.cardHighlighted:hover {
+  transform: translateY(-8px) scale(1.02) !important;
+}
+
+/* Responsive Scaling */
+@media (max-width: 1024px) {
+  .plansGrid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .cardPurple,
+  .cardHighlighted {
+    transform: none;
+  }
+
+  .cardPurple:hover,
+  .cardHighlighted:hover {
+    transform: translateY(-8px) !important;
+  }
+}
