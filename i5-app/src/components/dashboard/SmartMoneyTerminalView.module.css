@@ -1,0 +1,261 @@
+.container {
+  display: flex;
+  gap: var(--space-4);
+  width: 100%;
+  height: 100%;
+  padding: 24px;
+  background-color: var(--bg-app);
+  overflow-x: auto;
+}
+
+.column {
+  flex: 1;
+  min-width: 320px;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-color-default);
+  border-radius: var(--radius-xl);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  border-bottom: 2px solid;
+}
+
+.blueHeader {
+  border-bottom-color: var(--blue-500);
+}
+
+.yellowHeader {
+  border-bottom-color: var(--yellow-500);
+}
+
+.redHeader {
+  border-bottom-color: var(--red-500);
+}
+
+.headerLeft {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.mascot {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+}
+
+.headerTitle {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--text-primary);
+  letter-spacing: 0.05em;
+}
+
+.statsBar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background-color: var(--bg-app);
+  border-bottom: 1px solid var(--border-color-default);
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+.statPill {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background-color: var(--bg-surface-raised);
+  border: 1px solid var(--border-color-strong);
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.smartCard {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--border-color-default);
+  cursor: pointer;
+  transition: background-color var(--duration-fast) var(--easing-standard);
+}
+
+.smartCard:hover {
+  background-color: var(--bg-surface-overlay);
+}
+
+.smartLeft {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.smartAvatarWrapper {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--bg-surface-raised);
+  border: 1px solid var(--border-color-default);
+  flex-shrink: 0;
+}
+
+.smartIdentity {
+  display: flex;
+  flex-direction: column;
+}
+
+.symbolNameRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.symbol {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.name {
+  font-size: 12px;
+  color: var(--text-tertiary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100px;
+}
+
+.subMetaRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 2px;
+}
+
+.ageBadge {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  background-color: var(--bg-surface-raised);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.contractAddress {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-tertiary);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.copyBtn {
+  background: none;
+  border: none;
+  color: var(--text-disabled);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.copyBtn:hover {
+  color: var(--text-primary);
+}
+
+.smartRight {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.priceRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+}
+
+.priceText {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.changeRed {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--color-price-down);
+}
+
+.changeGreen {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--color-price-up);
+}
+
+.changeGrey {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-tertiary);
+}
+
+.mcSpan {
+  font-size: 11px;
+  color: var(--text-tertiary);
+}
+
+.mcBold {
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.bottomSignalsRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.volSignal {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--emerald-500);
+}
+
+.brainBadge {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--yellow-500);
+}
+
+.nestedViewWrapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--border-color-default);
+}

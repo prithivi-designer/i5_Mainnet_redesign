@@ -30,7 +30,7 @@ const newTokens: MemeToken[] = [
     id: "new-1",
     symbol: "Frohorse",
     name: "HE BOUGHT",
-    avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80",
+    avatar: "https://cryptologos.cc/logos/dogecoin-doge-logo.png",
     contract: "3T2W...pump",
     time: "12s",
     timeType: "green",
@@ -53,7 +53,7 @@ const newTokens: MemeToken[] = [
     id: "new-2",
     symbol: "Frohorse",
     name: "HE BOUGHT",
-    avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80",
+    avatar: "https://cryptologos.cc/logos/shiba-inu-shib-logo.png",
     contract: "HK3f...pump",
     time: "11s",
     timeType: "green",
@@ -76,7 +76,7 @@ const newTokens: MemeToken[] = [
     id: "new-3",
     symbol: "Frohorse",
     name: "HE BOUGHT",
-    avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80",
+    avatar: "https://cryptologos.cc/logos/pepe-pepe-logo.png",
     contract: "9jkj...pump",
     time: "14s",
     timeType: "green",
@@ -99,7 +99,7 @@ const newTokens: MemeToken[] = [
     id: "new-4",
     symbol: "Frohorse",
     name: "HE BOUGHT",
-    avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80",
+    avatar: "https://cryptologos.cc/logos/floki-inu-floki-logo.png",
     contract: "4Mv8...pump",
     time: "15s",
     timeType: "green",
@@ -122,7 +122,7 @@ const newTokens: MemeToken[] = [
     id: "new-5",
     symbol: "UNIKING",
     name: "Uniking",
-    avatar: "https://images.unsplash.com/photo-1579783902614-a3fb3927b675?w=100&auto=format&fit=crop&q=80",
+    avatar: "https://cryptologos.cc/logos/bonk1-bonk-logo.png",
     contract: "7kJm...eMJ2",
     time: "21s",
     timeType: "green",
@@ -145,7 +145,7 @@ const newTokens: MemeToken[] = [
     id: "new-6",
     symbol: "ultramegamayh",
     name: "UltraMegaMayhenMC",
-    avatar: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=100&auto=format&fit=crop&q=80",
+    avatar: "https://cryptologos.cc/logos/dogwifhat-wif-logo.png",
     contract: "CzA1...pump",
     time: "21s",
     timeType: "green",
@@ -169,7 +169,7 @@ const mcTokens: MemeToken[] = [
     id: "mc-1",
     symbol: "GUN",
     name: "Gun",
-    avatar: "https://images.unsplash.com/photo-1595590424283-b8f17842773f?w=100&auto=format&fit=crop&q=80",
+    avatar: "https://cryptologos.cc/logos/myro-myro-logo.png",
     contract: "5Ca2...MG3U",
     time: "14h",
     timeType: "orange",
@@ -189,7 +189,7 @@ const mcTokens: MemeToken[] = [
     id: "mc-2",
     symbol: "STOCKLY",
     name: "Stockly",
-    avatar: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=100&auto=format&fit=crop&q=80",
+    avatar: "https://cryptologos.cc/logos/dogecoin-doge-logo.png",
     contract: "4Z6W...pump",
     time: "21h",
     timeType: "orange",
@@ -212,7 +212,7 @@ const mcTokens: MemeToken[] = [
     id: "mc-3",
     symbol: "lickingcat",
     name: "world licking cat",
-    avatar: "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=100&auto=format&fit=crop&q=80",
+    avatar: "https://cryptologos.cc/logos/shiba-inu-shib-logo.png",
     contract: "EjD5...pump",
     time: "48m",
     timeType: "orange",
@@ -235,7 +235,7 @@ const mcTokens: MemeToken[] = [
     id: "mc-4",
     symbol: "Gany",
     name: "Gany",
-    avatar: "https://images.unsplash.com/photo-1573865526739-10659fec78a5?w=100&auto=format&fit=crop&q=80",
+    avatar: "https://cryptologos.cc/logos/pepe-pepe-logo.png",
     contract: "79Wm...6AoK",
     time: "2h",
     timeType: "orange",
@@ -258,7 +258,7 @@ const mcTokens: MemeToken[] = [
     id: "mc-5",
     symbol: "$DISCORD",
     name: "Discord",
-    avatar: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=100&auto=format&fit=crop&q=80",
+    avatar: "https://cryptologos.cc/logos/floki-inu-floki-logo.png",
     contract: "J2JX...pump",
     time: "13h",
     timeType: "orange",
@@ -279,7 +279,7 @@ const mcTokens: MemeToken[] = [
     id: "mc-6",
     symbol: "OIIAOIIA",
     name: "spinning cat",
-    avatar: "https://images.unsplash.com/photo-1543852786-1cf6624b9987?w=100&auto=format&fit=crop&q=80",
+    avatar: "https://cryptologos.cc/logos/bonk1-bonk-logo.png",
     contract: "7Feu...6xpn",
     time: "3m",
     timeType: "green",
@@ -303,7 +303,7 @@ const migratedTokens: MemeToken[] = [
     id: "mig-1",
     symbol: "GROKBOT",
     name: "Grok Bot",
-    avatar: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=100&auto=format&fit=crop&q=80",
+    avatar: "https://cryptologos.cc/logos/dogwifhat-wif-logo.png",
     contract: "FPa8...pump",
     time: "22s",
     timeType: "green",
@@ -326,7 +326,7 @@ const migratedTokens: MemeToken[] = [
     id: "mig-2",
     symbol: "MBJ",
     name: "MayhemBattleJoin",
-    avatar: "https://images.unsplash.com/photo-1579783902614-a3fb3927b675?w=100&auto=format&fit=crop&q=80",
+    avatar: "https://cryptologos.cc/logos/myro-myro-logo.png",
     contract: "4cMM...pump",
     time: "25s",
     timeType: "green",
@@ -347,7 +347,7 @@ const migratedTokens: MemeToken[] = [
     id: "mig-3",
     symbol: "PEPE",
     name: "El Sapo Pepe",
-    avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80",
+    avatar: "https://cryptologos.cc/logos/dogecoin-doge-logo.png",
     contract: "A6X9...ZcT4",
     time: "1m",
     timeType: "green",
@@ -370,7 +370,7 @@ const migratedTokens: MemeToken[] = [
     id: "mig-4",
     symbol: "GREENCAT",
     name: "The Green Cat",
-    avatar: "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=100&auto=format&fit=crop&q=80",
+    avatar: "https://cryptologos.cc/logos/shiba-inu-shib-logo.png",
     contract: "hHb3...vSMP",
     time: "2m",
     timeType: "green",
@@ -393,7 +393,7 @@ const migratedTokens: MemeToken[] = [
     id: "mig-5",
     symbol: "PEPE",
     name: "El Sapo Pepe",
-    avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80",
+    avatar: "https://cryptologos.cc/logos/pepe-pepe-logo.png",
     contract: "SG9K...scGt",
     time: "2m",
     timeType: "green",
@@ -416,7 +416,7 @@ const migratedTokens: MemeToken[] = [
     id: "mig-6",
     symbol: "SWAGCATS",
     name: "SWAGCATS",
-    avatar: "https://images.unsplash.com/photo-1573865526739-10659fec78a5?w=100&auto=format&fit=crop&q=80",
+    avatar: "https://cryptologos.cc/logos/floki-inu-floki-logo.png",
     contract: "Buvm...pump",
     time: "4m",
     timeType: "green",
@@ -526,7 +526,7 @@ export default function MemeTrenchesView() {
       <div className={styles.topBar}>
         <div className={styles.brandGroup}>
           <div className={styles.brandTitle}>
-            <span><Zap size={14} /> Trenches</span>
+            <Zap size={16} /> Trenches
           </div>
 
           {/* Chain Pill Badges */}
@@ -542,7 +542,7 @@ export default function MemeTrenchesView() {
 
         <div className={styles.topRightActions}>
           <button className={styles.customizeBtn}>
-            <span><Settings size={14} /> Customize</span>
+            <Settings size={14} /> Customize
           </button>
           <button className={styles.actionIconBtn} aria-label="Layout mode">
             <LayoutGrid size={14} />

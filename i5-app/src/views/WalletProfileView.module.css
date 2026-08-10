@@ -1,0 +1,344 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  background-color: var(--bg-app);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  position: relative;
+  overflow-y: auto;
+}
+
+/* Header */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 32px;
+  border-bottom: 1px solid var(--border-color-default);
+  background-color: var(--bg-surface);
+}
+
+.headerLeft {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.walletAddress {
+  font-family: var(--font-mono);
+  font-size: 24px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ageBadge {
+  background-color: var(--bg-surface-raised);
+  border: 1px solid var(--border-color-default);
+  padding: 4px 8px;
+  border-radius: var(--radius-sm);
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.copyBtn {
+  background: none;
+  border: none;
+  color: var(--text-disabled);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.copyBtn:hover {
+  color: var(--text-primary);
+}
+
+.netWorth {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--emerald-500);
+}
+
+.headerRight {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.sparkline {
+  width: 120px;
+  height: 40px;
+  background: linear-gradient(rgba(255,255,255,0.05), transparent);
+  border-bottom: 2px solid var(--emerald-500);
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: flex-end;
+  position: relative;
+}
+
+.sparkline::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 50%;
+  background: repeating-linear-gradient(90deg, var(--emerald-500) 0px, var(--emerald-500) 2px, transparent 2px, transparent 6px);
+  opacity: 0.3;
+}
+
+/* Content Area */
+.content {
+  padding: 24px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Filters */
+.filtersRow {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.filterBtn {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-color-default);
+  color: var(--text-secondary);
+  padding: 8px 16px;
+  border-radius: var(--radius-md);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.filterBtnActive {
+  background-color: var(--accent-primary);
+  border-color: var(--accent-primary);
+  color: var(--text-primary);
+}
+
+/* Top Stats Grid */
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.statCard {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-color-default);
+  border-radius: var(--radius-xl);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.statLabel {
+  font-size: 13px;
+  color: var(--text-tertiary);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.statValue {
+  font-family: var(--font-mono);
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.statValueGreen {
+  color: var(--emerald-500);
+}
+
+.statSub {
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.profitBar {
+  display: flex;
+  height: 6px;
+  border-radius: 3px;
+  overflow: hidden;
+  margin-top: 8px;
+}
+
+.profitSegment {
+  height: 100%;
+}
+
+/* Main Layout (Left: Calendar/Suspicious, Right: Table) */
+.mainLayout {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+}
+
+.leftSidebar {
+  width: 320px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  flex-shrink: 0;
+}
+
+.rightContent {
+  flex: 1;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-color-default);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+}
+
+/* Panels */
+.panel {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-color-default);
+  border-radius: var(--radius-xl);
+  padding: 20px;
+}
+
+.panelTitle {
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Calendar */
+.calendarGrid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+}
+
+.calDay {
+  aspect-ratio: 1;
+  border-radius: 4px;
+  background-color: var(--bg-surface-raised);
+}
+
+.calGreen1 { background-color: rgba(16, 185, 129, 0.2); }
+.calGreen2 { background-color: rgba(16, 185, 129, 0.5); }
+.calGreen3 { background-color: rgba(16, 185, 129, 0.8); }
+.calGreen4 { background-color: rgba(16, 185, 129, 1); }
+.calRed1 { background-color: rgba(239, 68, 68, 0.2); }
+.calRed2 { background-color: rgba(239, 68, 68, 0.5); }
+
+/* Suspicious Actions */
+.suspiciousList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.susItem {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.susHeader {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.susBar {
+  width: 100%;
+  height: 6px;
+  background-color: var(--bg-surface-raised);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.susFill {
+  height: 100%;
+  background-color: var(--red-500);
+}
+
+/* Traded Tokens Table */
+.tokensTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.tokensTable th {
+  text-align: left;
+  padding: 16px;
+  color: var(--text-tertiary);
+  font-weight: 500;
+  border-bottom: 1px solid var(--border-color-default);
+  background-color: var(--bg-surface-raised);
+}
+
+.tokensTable td {
+  padding: 16px;
+  border-bottom: 1px solid var(--border-color-default);
+}
+
+.tokenCol {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.tokenAvatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+}
+
+.tokenDetails {
+  display: flex;
+  flex-direction: column;
+}
+
+.tokenSymbol {
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.tokenName {
+  font-size: 11px;
+  color: var(--text-tertiary);
+}
+
+.cellStack {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.cellPrimary {
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+}
+
+.cellSecondary {
+  color: var(--text-tertiary);
+  font-size: 11px;
+}
+
+.greenText {
+  color: var(--color-price-up);
+  font-family: var(--font-mono);
+}
+
+.redText {
+  color: var(--color-price-down);
+  font-family: var(--font-mono);
+}

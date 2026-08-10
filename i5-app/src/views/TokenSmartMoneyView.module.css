@@ -1,0 +1,281 @@
+.container {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  background-color: var(--bg-app);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  position: relative;
+}
+
+/* Left Pane (Chart & Tables) */
+.leftPane {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  border-right: 1px solid var(--border-color-default);
+}
+
+/* Header inside left pane */
+.leftHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 16px;
+  background-color: var(--bg-surface);
+  border-bottom: 1px solid var(--border-color-default);
+}
+
+.chartContainer {
+  flex: 1;
+  background-color: var(--bg-app);
+  position: relative;
+  min-height: 300px;
+}
+
+.bottomTabsBar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 0 16px;
+  background-color: var(--bg-surface);
+  border-top: 1px solid var(--border-color-default);
+  border-bottom: 1px solid var(--border-color-default);
+  overflow-x: auto;
+}
+
+.bottomTab {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 13px;
+  font-weight: 500;
+  padding: 12px 0;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.bottomTabActive {
+  color: var(--text-primary);
+  font-weight: 700;
+  border-bottom: 2px solid var(--accent-primary);
+}
+
+.bottomContent {
+  flex: 1;
+  overflow-y: auto;
+  background-color: var(--bg-app);
+  min-height: 250px;
+}
+
+/* Right Pane (Token Info) */
+.rightPane {
+  width: 320px;
+  background-color: var(--bg-surface);
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  overflow-y: auto;
+}
+
+.rightHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
+  border-bottom: 1px solid var(--border-color-default);
+}
+
+.rightHeaderTitle {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+/* Pills Grid */
+.pillsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  padding: 16px;
+}
+
+.infoPill {
+  background-color: var(--bg-app);
+  border: 1px solid var(--border-color-default);
+  border-radius: var(--radius-md);
+  padding: 10px 6px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.infoPillValue {
+  font-size: 14px;
+  font-weight: 700;
+  font-family: var(--font-mono);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.infoPillLabel {
+  font-size: 10px;
+  color: var(--text-tertiary);
+  text-align: center;
+}
+
+/* Addresses */
+.addressBlock {
+  padding: 0 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.addressRow {
+  background-color: var(--bg-app);
+  border: 1px solid var(--border-color-default);
+  border-radius: var(--radius-md);
+  padding: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--font-mono);
+  font-size: 13px;
+}
+
+.addressLabel {
+  color: var(--text-tertiary);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.addressValue {
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.copyBtn {
+  background: none;
+  border: none;
+  color: var(--text-disabled);
+  cursor: pointer;
+}
+
+.copyBtn:hover {
+  color: var(--text-primary);
+}
+
+/* Stats list */
+.statsList {
+  padding: 0 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.statRow {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+}
+
+.statLabel {
+  color: var(--text-secondary);
+}
+
+.statValue {
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+  font-weight: 600;
+}
+
+/* Action Buttons */
+.actionGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  padding: 0 16px 16px 16px;
+}
+
+.actionBtn {
+  background-color: var(--bg-surface-raised);
+  border: 1px solid var(--border-color-default);
+  color: var(--text-primary);
+  border-radius: var(--radius-md);
+  padding: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.actionBtn:hover {
+  background-color: var(--bg-surface-overlay);
+}
+
+/* Traders Table */
+.tradersTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+  font-family: var(--font-sans);
+}
+
+.tradersTable th {
+  text-align: left;
+  padding: 12px 16px;
+  color: var(--text-tertiary);
+  font-weight: 500;
+  border-bottom: 1px solid var(--border-color-default);
+  background-color: var(--bg-surface);
+}
+
+.tradersTable td {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border-color-default);
+}
+
+.tradersTable tr:hover {
+  background-color: var(--bg-surface-overlay);
+  cursor: pointer;
+}
+
+.walletCol {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.walletIcon {
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+}
+
+.walletBadge {
+  background-color: var(--bg-surface-raised);
+  border: 1px solid var(--border-color-default);
+  padding: 2px 4px;
+  border-radius: 4px;
+  font-size: 10px;
+  color: var(--text-secondary);
+}
+
+.greenText {
+  color: var(--color-price-up);
+}
+
+.redText {
+  color: var(--color-price-down);
+}
