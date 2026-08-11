@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Brain, Copy, SlidersHorizontal } from "lucide-react";
+import { Brain, Copy, SlidersHorizontal, Info, ArrowRightLeft } from "lucide-react";
 import styles from "./SmartMoneyTerminalView.module.css";
 import TokenSmartMoneyView from "../../views/TokenSmartMoneyView";
 import WalletProfileView from "../../views/WalletProfileView";
@@ -77,6 +77,7 @@ export default function SmartMoneyTerminalView() {
              <img src="https://images.unsplash.com/photo-1634152962476-4b8a00e1915c?w=100&auto=format&fit=crop&q=80" alt="Risk Averse Mascot" className={styles.mascot} />
              <h3 className={styles.headerTitle}>RISK AVERSE</h3>
           </div>
+          <button className={styles.moreBtn}>...</button>
         </div>
         <div className={styles.statsBar}>
           <span className={styles.statPill} style={{color:"var(--text-tertiary)"}}>💬 2.68K</span>
@@ -141,6 +142,7 @@ export default function SmartMoneyTerminalView() {
              <img src="https://images.unsplash.com/photo-1634152962476-4b8a00e1915c?w=100&auto=format&fit=crop&q=80" alt="Risk Balancers Mascot" className={styles.mascot} />
              <h3 className={styles.headerTitle}>RISK BALANCERS</h3>
           </div>
+          <button className={styles.moreBtn}>...</button>
         </div>
         <div className={styles.statsBar}>
           <span className={styles.statPill} style={{color:"var(--text-tertiary)"}}>💬 828</span>
@@ -205,6 +207,7 @@ export default function SmartMoneyTerminalView() {
              <img src="https://images.unsplash.com/photo-1634152962476-4b8a00e1915c?w=100&auto=format&fit=crop&q=80" alt="Trenchers Mascot" className={styles.mascot} />
              <h3 className={styles.headerTitle}>TRENCHERS</h3>
           </div>
+          <button className={styles.moreBtn}>...</button>
         </div>
         <div className={styles.statsBar}>
           <span className={styles.statPill} style={{color:"var(--text-tertiary)"}}>💬 8.4K</span>

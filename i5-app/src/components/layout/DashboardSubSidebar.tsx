@@ -239,6 +239,15 @@ export default function DashboardSubSidebar() {
                 All
               </button>
               <button
+                className={`${styles.tabBtn} ${activeTab === "meme" ? styles.tabBtnActive : ""}`}
+                onClick={() => {
+                  setActiveTab("meme");
+                  dispatchFilterEvent("meme", activeSubId);
+                }}
+              >
+                Meme
+              </button>
+              <button
                 className={`${styles.tabBtn} ${activeTab === "stocks" ? styles.tabBtnActive : ""}`}
                 onClick={() => {
                   setActiveTab("stocks");
@@ -255,15 +264,6 @@ export default function DashboardSubSidebar() {
                 }}
               >
                 Crypto
-              </button>
-              <button
-                className={`${styles.tabBtn} ${activeTab === "meme" ? styles.tabBtnActive : ""}`}
-                onClick={() => {
-                  setActiveTab("meme");
-                  dispatchFilterEvent("meme", activeSubId);
-                }}
-              >
-                Meme
               </button>
             </div>
           </div>

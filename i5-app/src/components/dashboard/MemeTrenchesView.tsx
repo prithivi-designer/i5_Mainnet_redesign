@@ -450,71 +450,66 @@ export default function MemeTrenchesView() {
 
     return (
       <div key={token.id} className={styles.card}>
-        {/* Left Avatar Column */}
-        <div className={styles.avatarCol}>
-          <div className={styles.avatarWrapper}>
-            <img src={token.avatar} alt={token.symbol} className={styles.avatarImg} />
-            <span className={styles.avatarChainDot} style={{ backgroundColor: "#22c55e" }} />
+        <div className={styles.cardMain}>
+          <div className={styles.gridColAvatar}>
+            <div className={styles.avatarWrapper}>
+              <img src={token.avatar} alt={token.symbol} className={styles.avatarImg} />
+              <span className={styles.avatarChainDot} style={{ backgroundColor: "#22c55e" }} />
+            </div>
           </div>
-          <span className={styles.contractTag}>{token.contract}</span>
+
+          <div className={styles.gridColIdentity}>
+            <span className={styles.tokenSymbol}>{token.symbol}</span>
+            <span className={styles.tokenName}>{token.name}</span>
+            <div className={styles.metaRowSmall}>
+              <span className={token.timeType === "orange" ? styles.timeOrange : styles.timeGreen}>
+                {token.time}
+              </span>
+              <span className={styles.contractTag}>{token.contract}</span>
+            </div>
+          </div>
+
+          <div className={styles.gridColMetrics1}>
+            <div className={styles.metricRow}>
+              <span className={styles.metricLabel}>MC</span>
+              <span className={`${styles.mcValue} ${mcClass}`}>{token.mc}</span>
+            </div>
+            <div className={styles.metricRow}>
+              <span className={styles.metricLabel}>V</span>
+              <span className={styles.vValue}>{token.vol}</span>
+            </div>
+          </div>
+
+          <div className={styles.gridColMetrics2}>
+            {token.fee && (
+              <div className={styles.metricRow}>
+                <span className={styles.metricLabel}>F</span>
+                <span className={styles.vValue}><span className={styles.silverCoin} /> {token.fee}</span>
+              </div>
+            )}
+            {token.tx && (
+              <div className={styles.metricRow}>
+                <span className={styles.metricLabel}>TX</span>
+                <span className={styles.vValue}>{token.tx}</span>
+              </div>
+            )}
+          </div>
         </div>
 
-        {/* Main Content Column */}
-        <div className={styles.mainCol}>
-          {/* Header Row: Symbol, Name & MC / Volume */}
-          <div className={styles.rowHeader}>
-            <div className={styles.titleRow}>
-              <span className={styles.tokenSymbol}>{token.symbol}</span>
-              <span className={styles.tokenName}>{token.name}</span>
-              <span className={styles.editIcon}><Edit2 size={14} /></span>
-            </div>
+        {/* Security / Holder pills rendered below horizontally */}
+        <div className={styles.pillsRowHorizontal}>
+          {token.pills.map((pill, idx) => {
+            let pillClass = styles.pillGreen;
+            if (pill.type === "red") pillClass = styles.pillRed;
+            if (pill.type === "blue") pillClass = styles.pillBlue;
+            if (pill.type === "amber") pillClass = styles.pillAmber;
 
-            <div className={styles.metricsCol}>
-              <div className={styles.metricRow}>
-                <span className={styles.metricLabel}>MC</span>
-                <span className={`${styles.mcValue} ${mcClass}`}>{token.mc}</span>
-              </div>
-              <div className={styles.metricRow}>
-                <span className={styles.metricLabel}>V</span>
-                <span className={styles.vValue}>{token.vol}</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Time & Social Proof Row */}
-          <div className={styles.metaRow}>
-            <span className={token.timeType === "orange" ? styles.timeOrange : styles.timeGreen}>
-              {token.time}
-            </span>
-            <span><Flame size={14} /></span>
-            <span><Search size={14} /></span>
-            {token.handle && <span className={styles.handleText}>{token.handle}</span>}
-            {token.followers && <span className={styles.followersText}><Users size={14} /> {token.followers}</span>}
-          </div>
-
-          {/* Sub Metrics (Fee & TX count if applicable) */}
-          {(token.fee || token.tx) && (
-            <div className={styles.subMetricsRow}>
-              {token.fee && <span>F 🪙 {token.fee}</span>}
-              {token.tx && <span>TX {token.tx}</span>}
-            </div>
-          )}
-
-          {/* Bottom Security / Holder Pills */}
-          <div className={styles.pillsRow}>
-            {token.pills.map((pill, idx) => {
-              let pillClass = styles.pillGreen;
-              if (pill.type === "red") pillClass = styles.pillRed;
-              if (pill.type === "blue") pillClass = styles.pillBlue;
-              if (pill.type === "amber") pillClass = styles.pillAmber;
-
-              return (
-                <span key={idx} className={`${styles.statPill} ${pillClass}`}>
-                  {pill.label}
-                </span>
-              );
-            })}
-          </div>
+            return (
+              <span key={idx} className={`${styles.statPill} ${pillClass}`}>
+                {pill.label}
+              </span>
+            );
+          })}
         </div>
       </div>
     );
@@ -563,7 +558,14 @@ export default function MemeTrenchesView() {
       <div className={styles.columnsGrid}>
         {/* Column 1: New */}
         <div className={styles.column}>
-          <div className={styles.columnHeader}>
+          <div className={`${styles.header} ${styles.blueHeader}`}>
+            <div className={styles.headerLeft}>
+               <img src="https://images.unsplash.com/photo-1634152962476-4b8a00e1915c?w=100&auto=format&fit=crop&q=80" alt="New Mascot" className={styles.mascot} />
+               <h3 className={styles.headerTitle}>NEW PAIRS</h3>
+            </div>
+            <button className={styles.moreBtn}>...</button>
+          </div>
+          <div className={styles.columnHeader} style={{display: 'none'}}>
             <span className={styles.columnTitle}>New</span>
             <div className={styles.columnSearch}>
               <input
@@ -591,7 +593,14 @@ export default function MemeTrenchesView() {
 
         {/* Column 2: % MC */}
         <div className={styles.column}>
-          <div className={styles.columnHeader}>
+          <div className={`${styles.header} ${styles.yellowHeader}`}>
+            <div className={styles.headerLeft}>
+               <img src="https://images.unsplash.com/photo-1634152962476-4b8a00e1915c?w=100&auto=format&fit=crop&q=80" alt="MC Mascot" className={styles.mascot} />
+               <h3 className={styles.headerTitle}>% MC MACD CROSS</h3>
+            </div>
+            <button className={styles.moreBtn}>...</button>
+          </div>
+          <div className={styles.columnHeader} style={{display: 'none'}}>
             <span className={styles.columnTitle}>% MC</span>
             <div className={styles.columnSearch}>
               <input
@@ -619,7 +628,14 @@ export default function MemeTrenchesView() {
 
         {/* Column 3: Migrated */}
         <div className={styles.column}>
-          <div className={styles.columnHeader}>
+          <div className={`${styles.header} ${styles.redHeader}`}>
+            <div className={styles.headerLeft}>
+               <img src="https://images.unsplash.com/photo-1634152962476-4b8a00e1915c?w=100&auto=format&fit=crop&q=80" alt="Migrated Mascot" className={styles.mascot} />
+               <h3 className={styles.headerTitle}>MIGRATING TO RAYDIUM</h3>
+            </div>
+            <button className={styles.moreBtn}>...</button>
+          </div>
+          <div className={styles.columnHeader} style={{display: 'none'}}>
             <span className={styles.columnTitle}>Migrated</span>
             <div className={styles.columnSearch}>
               <input
