@@ -5,6 +5,8 @@ import styles from "./IntelligenceFeed.module.css";
 import AnalysisDetailModal from "./AnalysisDetailModal";
 import MemeTrenchesView from "./MemeTrenchesView";
 import SmartMoneyTerminalView from "./SmartMoneyTerminalView";
+import MemeDiscoverView from "./MemeDiscoverView";
+import MemeTrackersView from "./MemeTrackersView";
 
 export interface FeedItem {
   id: string;
@@ -295,7 +297,7 @@ const sidepanelSubIdToCategory: Record<string, string[]> = {
 
 export default function IntelligenceFeed() {
   const [activeTab, setActiveTab] = useState<string>("timeline");
-  const [memeSubTab, setMemeSubTab] = useState<"trenches" | "smartMoney">("trenches");
+  const [memeSubTab, setMemeSubTab] = useState<"discover" | "trackers">("discover");
   const [filterOpen, setFilterOpen] = useState<boolean>(false);
   const [selectedAnalysisItem, setSelectedAnalysisItem] = useState<FeedItem | null>(null);
 
@@ -423,24 +425,28 @@ export default function IntelligenceFeed() {
 
   if (sidepanelFilter.tab === "meme") {
     return (
-      <section ref={containerRef} className={styles.container} aria-label="Meme Coin Trenches">
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", borderBottom: "1px solid var(--border-color-default)", padding: "0 16px", flexShrink: 0, height: 48 }}>
+      <section ref={containerRef} className={styles.container} aria-label="Meme Coin Terminal">
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            borderBottom: "1px solid var(--border-color-default)",
+            padding: "0 16px",
+            flexShrink: 0,
+            height: 48,
+            backgroundColor: "var(--neutral-950, #080808)",
+          }}
+        >
           <div style={{ display: "flex", gap: 24, height: "100%", alignItems: "center" }}>
-            {["Top MC", "Trending", "Smart", "RWAs", "Pump Live", "More"].map(tab => {
-              const tabId = tab === "Smart" ? "smartMoney" : tab === "Trending" ? "trenches" : tab.toLowerCase();
-              const isActive = memeSubTab === tabId;
-              
-              if (tab === "More") {
-                return (
-                  <button key={tab} style={{ background: "none", border: "none", color: "var(--text-secondary)", fontSize: 13, fontWeight: 500, display: "flex", alignItems: "center", gap: 4, cursor: "pointer" }}>
-                    {tab} <span style={{ fontSize: 10 }}>▼</span>
-                  </button>
-                )
-              }
-              
+            {[
+              { id: "discover", label: "Discover" },
+              { id: "trackers", label: "Trackers" },
+            ].map((tab) => {
+              const isActive = memeSubTab === tab.id;
               return (
                 <button
-                  key={tab}
+                  key={tab.id}
                   style={{
                     background: "none",
                     border: "none",
@@ -450,35 +456,92 @@ export default function IntelligenceFeed() {
                     fontWeight: isActive ? 700 : 500,
                     fontSize: 14,
                     cursor: "pointer",
+                    padding: "0 4px",
+                    display: "flex",
+                    alignItems: "center",
                   }}
-                  onClick={() => setMemeSubTab(tabId as any)}
+                  onClick={() => setMemeSubTab(tab.id as "discover" | "trackers")}
                 >
-                  {tab}
+                  {tab.label}
                 </button>
               );
             })}
           </div>
-          
+
           <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-            <div style={{ display: "flex", background: "var(--bg-surface-raised)", borderRadius: 4, overflow: "hidden", fontSize: 11, fontWeight: 600 }}>
-              <button style={{ padding: "4px 8px", background: "var(--bg-surface-raised)", border: "none", color: "var(--text-secondary)", cursor: "pointer" }}>24H</button>
-              <button style={{ padding: "4px 8px", background: "var(--bg-surface-hover)", border: "none", color: "var(--text-primary)", cursor: "pointer" }}>7D</button>
-              <button style={{ padding: "4px 8px", background: "var(--bg-surface-raised)", border: "none", color: "var(--text-secondary)", cursor: "pointer", position: "relative" }}>
-                30D <span style={{ position: "absolute", top: -6, right: -6, background: "var(--orange-500)", color: "#000", fontSize: 8, padding: "1px 4px", borderRadius: 2 }}>PRO</span>
+            <div
+              style={{
+                display: "flex",
+                background: "var(--bg-surface-raised, #161616)",
+                borderRadius: 4,
+                overflow: "hidden",
+                fontSize: 11,
+                fontWeight: 600,
+              }}
+            >
+              <button
+                style={{
+                  padding: "4px 8px",
+                  background: "var(--bg-surface-raised, #161616)",
+                  border: "none",
+                  color: "var(--text-secondary, #9a9a9a)",
+                  cursor: "pointer",
+                }}
+              >
+                24H
+              </button>
+              <button
+                style={{
+                  padding: "4px 8px",
+                  background: "var(--bg-surface-hover, #222222)",
+                  border: "none",
+                  color: "var(--text-primary, #ffffff)",
+                  cursor: "pointer",
+                }}
+              >
+                7D
+              </button>
+              <button
+                style={{
+                  padding: "4px 8px",
+                  background: "var(--bg-surface-raised, #161616)",
+                  border: "none",
+                  color: "var(--text-secondary, #9a9a9a)",
+                  cursor: "pointer",
+                  position: "relative",
+                }}
+              >
+                30D{" "}
+                <span
+                  style={{
+                    position: "absolute",
+                    top: -6,
+                    right: -6,
+                    background: "var(--orange-500, #f97316)",
+                    color: "#000",
+                    fontSize: 8,
+                    padding: "1px 4px",
+                    borderRadius: 2,
+                    fontWeight: 700,
+                  }}
+                >
+                  PRO
+                </span>
               </button>
             </div>
-            
+
             <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-               <div style={{ width: 16, height: 16, borderRadius: "50%", background: "#F3BA2F" }}></div>
-               <div style={{ width: 16, height: 16, borderRadius: "50%", background: "#627EEA" }}></div>
-               <div style={{ width: 16, height: 16, borderRadius: "50%", background: "#26A17B" }}></div>
-               <div style={{ width: 16, height: 16, borderRadius: "50%", background: "#F5B612" }}></div>
-               <div style={{ width: 16, height: 16, borderRadius: "50%", background: "#8247E5" }}></div>
+              <div style={{ width: 16, height: 16, borderRadius: "50%", background: "#F3BA2F" }} />
+              <div style={{ width: 16, height: 16, borderRadius: "50%", background: "#627EEA" }} />
+              <div style={{ width: 16, height: 16, borderRadius: "50%", background: "#26A17B" }} />
+              <div style={{ width: 16, height: 16, borderRadius: "50%", background: "#F5B612" }} />
+              <div style={{ width: 16, height: 16, borderRadius: "50%", background: "#8247E5" }} />
             </div>
           </div>
         </div>
+
         <div style={{ flex: 1, overflow: "hidden", position: "relative" }}>
-          {memeSubTab === "trenches" ? <MemeTrenchesView /> : <SmartMoneyTerminalView />}
+          {memeSubTab === "discover" ? <MemeDiscoverView /> : <MemeTrackersView />}
         </div>
       </section>
     );
