@@ -529,14 +529,6 @@ export default function IntelligenceFeed() {
                 </span>
               </button>
             </div>
-
-            <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-              <div style={{ width: 16, height: 16, borderRadius: "50%", background: "#F3BA2F" }} />
-              <div style={{ width: 16, height: 16, borderRadius: "50%", background: "#627EEA" }} />
-              <div style={{ width: 16, height: 16, borderRadius: "50%", background: "#26A17B" }} />
-              <div style={{ width: 16, height: 16, borderRadius: "50%", background: "#F5B612" }} />
-              <div style={{ width: 16, height: 16, borderRadius: "50%", background: "#8247E5" }} />
-            </div>
           </div>
         </div>
 
