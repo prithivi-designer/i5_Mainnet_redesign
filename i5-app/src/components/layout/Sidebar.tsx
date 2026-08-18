@@ -120,7 +120,6 @@ const menuItems: MenuItem[] = [
   { id: "market-radar", label: "Market Radar", icon: navIcons.marketRadar },
   { id: "missions-referrals", label: "Missions & Referrals", icon: navIcons.missionsReferrals },
   { id: "create-alerts", label: "Create Alerts", icon: navIcons.createAlerts },
-  { id: "community", label: "Community", icon: navIcons.community },
   { id: "leaderboard", label: "Leaderboard", icon: navIcons.leaderboard },
   { id: "subscription", label: "Subscription", icon: navIcons.subscription },
 ];
