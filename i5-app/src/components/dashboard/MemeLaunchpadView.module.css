@@ -27,8 +27,10 @@
 
 /* ── Top Telemetry & Launchpad Header ─────────────────────── */
 .headerCard {
+  position: relative;
+  overflow: hidden;
   margin: var(--space-6) var(--space-8) var(--space-4);
-  background-color: var(--card-bg);
+  background-color: transparent;
   border: var(--border-width-default) solid var(--card-border);
   border-radius: var(--radius-xl);
   padding: var(--space-6) var(--space-8);
@@ -40,6 +42,8 @@
 }
 
 .headerTopRow {
+  position: relative;
+  z-index: 10;
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
@@ -121,6 +125,8 @@
 
 /* Header Telemetry Grid */
 .telemetryGrid {
+  position: relative;
+  z-index: 10;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: var(--space-3);
@@ -133,7 +139,8 @@
   flex-direction: column;
   gap: 2px;
   padding: var(--space-3) var(--space-4);
-  background-color: var(--neutral-900);
+  background-color: rgba(14, 14, 14, 0.55);
+  backdrop-filter: blur(12px);
   border: var(--border-width-default) solid var(--border-color-default);
   border-radius: var(--radius-md);
 }

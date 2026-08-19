@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useMemo } from "react";
+import MoltenMetal from "../ui/MoltenMetal";
 import {
   Rocket,
   Sparkles,
@@ -561,6 +562,28 @@ export default function MemeLaunchpadView() {
 
       {/* ── TOP TELEMETRY & LAUNCHPAD HEADER ─────────────────── */}
       <div className={styles.headerCard}>
+        <div style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
+          <MoltenMetal
+            color1="#2fcb73"
+            color2="#148344"
+            color3="#0a1a10"
+            speed={0.15}
+            scale={2.5}
+            detail={3}
+            glow={1.4}
+            coreSize={0.1}
+            swirl={0.8}
+            fold={-0.1}
+            blackPoint={0.05}
+            brightness={1.3}
+            colorMode="molten"
+            grain={true}
+            grainIntensity={0.03}
+            mouseInteraction={true}
+            mouseStrength={0.2}
+            opacity={1.0}
+          />
+        </div>
         <div className={styles.headerTopRow}>
           <div className={styles.headerTitleBlock}>
             <span className={styles.headerBadge}>
@@ -721,6 +744,7 @@ export default function MemeLaunchpadView() {
 
               {/* ── BUBBLE MAP CANVAS ───────────────────────── */}
               <div className={styles.bubbleMapArea}>
+                
                 {/* Bottom Guide Legend */}
                 <div className={styles.bubbleLegendBar}>
                   <div className={styles.legendItem}>
