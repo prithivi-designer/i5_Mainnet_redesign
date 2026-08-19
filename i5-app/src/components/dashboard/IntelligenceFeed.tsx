@@ -5,8 +5,7 @@ import styles from "./IntelligenceFeed.module.css";
 import AnalysisDetailModal from "./AnalysisDetailModal";
 import MemeTrenchesView from "./MemeTrenchesView";
 import SmartMoneyTerminalView from "./SmartMoneyTerminalView";
-import MemeDiscoverView from "./MemeDiscoverView";
-import MemeTrackersView from "./MemeTrackersView";
+import MemeLaunchpadView from "./MemeLaunchpadView";
 
 export interface FeedItem {
   id: string;
@@ -297,7 +296,6 @@ const sidepanelSubIdToCategory: Record<string, string[]> = {
 
 export default function IntelligenceFeed() {
   const [activeTab, setActiveTab] = useState<string>("timeline");
-  const [memeSubTab, setMemeSubTab] = useState<"discover" | "trackers">("discover");
   const [filterOpen, setFilterOpen] = useState<boolean>(false);
   const [selectedAnalysisItem, setSelectedAnalysisItem] = useState<FeedItem | null>(null);
 
@@ -425,116 +423,13 @@ export default function IntelligenceFeed() {
 
   if (sidepanelFilter.tab === "meme") {
     return (
-      <section ref={containerRef} className={styles.container} aria-label="Meme Coin Terminal">
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            borderBottom: "1px solid var(--border-color-default)",
-            padding: "0 16px",
-            flexShrink: 0,
-            height: 48,
-            backgroundColor: "var(--neutral-950, #080808)",
-          }}
-        >
-          <div style={{ display: "flex", gap: 24, height: "100%", alignItems: "center" }}>
-            {[
-              { id: "discover", label: "Discover" },
-              { id: "trackers", label: "Trackers" },
-            ].map((tab) => {
-              const isActive = memeSubTab === tab.id;
-              return (
-                <button
-                  key={tab.id}
-                  style={{
-                    background: "none",
-                    border: "none",
-                    height: "100%",
-                    borderBottom: isActive ? "2px solid var(--text-primary)" : "2px solid transparent",
-                    color: isActive ? "var(--text-primary)" : "var(--text-secondary)",
-                    fontWeight: isActive ? 700 : 500,
-                    fontSize: 14,
-                    cursor: "pointer",
-                    padding: "0 4px",
-                    display: "flex",
-                    alignItems: "center",
-                  }}
-                  onClick={() => setMemeSubTab(tab.id as "discover" | "trackers")}
-                >
-                  {tab.label}
-                </button>
-              );
-            })}
-          </div>
-
-          <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-            <div
-              style={{
-                display: "flex",
-                background: "var(--bg-surface-raised, #161616)",
-                borderRadius: 4,
-                overflow: "hidden",
-                fontSize: 11,
-                fontWeight: 600,
-              }}
-            >
-              <button
-                style={{
-                  padding: "4px 8px",
-                  background: "var(--bg-surface-raised, #161616)",
-                  border: "none",
-                  color: "var(--text-secondary, #9a9a9a)",
-                  cursor: "pointer",
-                }}
-              >
-                24H
-              </button>
-              <button
-                style={{
-                  padding: "4px 8px",
-                  background: "var(--bg-surface-hover, #222222)",
-                  border: "none",
-                  color: "var(--text-primary, #ffffff)",
-                  cursor: "pointer",
-                }}
-              >
-                7D
-              </button>
-              <button
-                style={{
-                  padding: "4px 8px",
-                  background: "var(--bg-surface-raised, #161616)",
-                  border: "none",
-                  color: "var(--text-secondary, #9a9a9a)",
-                  cursor: "pointer",
-                  position: "relative",
-                }}
-              >
-                30D{" "}
-                <span
-                  style={{
-                    position: "absolute",
-                    top: -6,
-                    right: -6,
-                    background: "var(--orange-500, #f97316)",
-                    color: "#000",
-                    fontSize: 8,
-                    padding: "1px 4px",
-                    borderRadius: 2,
-                    fontWeight: 700,
-                  }}
-                >
-                  PRO
-                </span>
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <div style={{ flex: 1, overflow: "hidden", position: "relative" }}>
-          {memeSubTab === "discover" ? <MemeDiscoverView /> : <MemeTrackersView />}
-        </div>
+      <section
+        ref={containerRef}
+        className={styles.container}
+        aria-label="Meme Token Launchpad"
+        style={{ margin: 0, minHeight: "unset", height: "100%", display: "flex", flexDirection: "column", overflow: "hidden" }}
+      >
+        <MemeLaunchpadView />
       </section>
     );
   }

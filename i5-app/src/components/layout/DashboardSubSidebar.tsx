@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import styles from "./DashboardSubSidebar.module.css";
 import EarningsModal from "@/components/dashboard/EarningsModal";
+import DashboardMemeSidepanel from "@/components/dashboard/DashboardMemeSidepanel";
 
 /* ----------------------------------------------------------
    Sub-Sidebar Icons (Clean 16x16 SVG strokes)
@@ -268,40 +269,44 @@ export default function DashboardSubSidebar() {
             </div>
           </div>
 
-          {/* Menu Sections & List Items */}
-          {subSections.map((section, idx) => (
-            <div key={section.title || idx} className={styles.section}>
-              {section.title && (
-                <h3 className={`${styles.sectionTitle} text-overline`}>{section.title}</h3>
-              )}
-              <ul className={styles.list}>
-                {section.items.map((item) => {
-                  const isActive = activeSubId === item.id;
-                  return (
-                    <li key={item.id}>
-                      <button
-                        className={`${styles.itemButton} ${
-                          isActive ? styles.itemButtonActive : ""
-                        }`}
-                        onClick={() => {
-                          setActiveSubId(item.id);
-                          dispatchFilterEvent(activeTab, item.id);
-                        }}
-                      >
-                        <span className={styles.itemIcon} style={{ color: item.iconColor }}>
-                          {item.icon}
-                        </span>
-                        <span className={`${styles.itemLabel} text-body-sm`}>{item.label}</span>
-                        {item.count !== undefined && (
-                          <span className={styles.itemBadge}>{item.count}</span>
-                        )}
-                      </button>
-                    </li>
-                  );
-                })}
-              </ul>
-            </div>
-          ))}
+          {/* Conditional Content: Meme Sidepanel View or Standard Intelligence Sections */}
+          {activeTab === "meme" ? (
+            <DashboardMemeSidepanel />
+          ) : (
+            subSections.map((section, idx) => (
+              <div key={section.title || idx} className={styles.section}>
+                {section.title && (
+                  <h3 className={`${styles.sectionTitle} text-overline`}>{section.title}</h3>
+                )}
+                <ul className={styles.list}>
+                  {section.items.map((item) => {
+                    const isActive = activeSubId === item.id;
+                    return (
+                      <li key={item.id}>
+                        <button
+                          className={`${styles.itemButton} ${
+                            isActive ? styles.itemButtonActive : ""
+                          }`}
+                          onClick={() => {
+                            setActiveSubId(item.id);
+                            dispatchFilterEvent(activeTab, item.id);
+                          }}
+                        >
+                          <span className={styles.itemIcon} style={{ color: item.iconColor }}>
+                            {item.icon}
+                          </span>
+                          <span className={`${styles.itemLabel} text-body-sm`}>{item.label}</span>
+                          {item.count !== undefined && (
+                            <span className={styles.itemBadge}>{item.count}</span>
+                          )}
+                        </button>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
+            ))
+          )}
         </div>
 
         {/* Fixed Pinned Bottom Section for Action Callout Banner Card */}
@@ -311,9 +316,11 @@ export default function DashboardSubSidebar() {
             onClick={() => setEarningsModalOpen(true)}
             role="button"
             tabIndex={0}
-            aria-label="Open Upcoming Earnings Overlay Modal"
+            aria-label={activeTab === "meme" ? "Open Meme Trenches Terminal" : "Open Upcoming Earnings Overlay Modal"}
           >
-            <h4 className={styles.actionTitle}>Upcoming Earnings</h4>
+            <h4 className={styles.actionTitle}>
+              {activeTab === "meme" ? "Live Meme Radar" : "Upcoming Earnings"}
+            </h4>
             <span className={styles.animatedArrow}>→</span>
           </div>
         </div>

@@ -1,75 +1,89 @@
-import type { Metadata } from "next";
+"use client";
+import { useState, useEffect } from "react";
 import MarketOverviewGrid from "@/components/dashboard/MarketOverviewGrid";
-import IntelligenceBriefingGrid from "@/components/dashboard/IntelligenceBriefingGrid";
 import MarketBreadthCard from "@/components/dashboard/MarketBreadthCard";
 import MarketAssetTableCard from "@/components/dashboard/MarketAssetTableCard";
 import BubbleMapCard from "@/components/dashboard/BubbleMapCard";
 import IntelligenceFeed from "@/components/dashboard/IntelligenceFeed";
 
-export const metadata: Metadata = {
-  title: "Dashboard | i5 Mainnet",
-};
-
 export default function HomePage() {
-  return (
-    <div style={{ display: "flex", flexDirection: "column", width: "100%" }}>
-      {/* Top Market Overview Metric Cards Auto-Scroller */}
-      <MarketOverviewGrid />
+  const [activeTab, setActiveTab] = useState<string>("timeline");
 
-      {/* Title & Subtitle Section below top scroller */}
-      <div style={{ paddingLeft: "var(--space-1)", marginBottom: "var(--space-6)" }}>
-        <h2
-          className="text-h2"
-          style={{
-            color: "var(--text-primary)",
-            fontWeight: 700,
-            fontSize: "26px",
-            lineHeight: "32px",
-            letterSpacing: "-0.02em",
-          }}
-        >
-          i5 Market Intelligence
-        </h2>
-        <p
-          className="text-body-md"
-          style={{
-            color: "var(--text-tertiary)",
-            fontSize: "14px",
-            lineHeight: "20px",
-            marginTop: "var(--space-1)",
-          }}
-        >
-          AI briefing · updated 1m ago
-        </p>
-      </div>
+  useEffect(() => {
+    const handler = (e: Event) => {
+      const evt = e as CustomEvent<{ tab: string; subId: string }>;
+      if (evt.detail?.tab) {
+        setActiveTab(evt.detail.tab);
+      }
+    };
+    window.addEventListener("i5-sidepanel-filter", handler);
+    return () => window.removeEventListener("i5-sidepanel-filter", handler);
+  }, []);
+
+  const isMeme = activeTab === "meme";
+
+  return (
+    <div style={{ display: "flex", flexDirection: "column", width: "100%", height: isMeme ? "100%" : undefined }}>
+      {/* Top Market Overview Metric Cards Auto-Scroller — hidden on meme */}
+      {!isMeme && <MarketOverviewGrid />}
+
+      {/* Title & Subtitle — hidden on meme */}
+      {!isMeme && (
+        <div style={{ paddingLeft: "var(--space-1)", marginBottom: "var(--space-6)" }}>
+          <h2
+            className="text-h2"
+            style={{
+              color: "var(--text-primary)",
+              fontWeight: 700,
+              fontSize: "26px",
+              lineHeight: "32px",
+              letterSpacing: "-0.02em",
+            }}
+          >
+            i5 Market Intelligence
+          </h2>
+          <p
+            className="text-body-md"
+            style={{
+              color: "var(--text-tertiary)",
+              fontSize: "14px",
+              lineHeight: "20px",
+              marginTop: "var(--space-1)",
+            }}
+          >
+            AI briefing · updated 1m ago
+          </p>
+        </div>
+      )}
 
       {/* Intelligence Briefing Metric Cards (Hidden) */}
       {/* <IntelligenceBriefingGrid /> */}
 
-      {/* Horizontal Market Breadth Strength Card Banner */}
-      <div style={{ width: "100%", marginBottom: "var(--space-6)" }}>
-        <MarketBreadthCard />
-      </div>
+      {/* Horizontal Market Breadth Strength Card Banner — hidden on meme */}
+      {!isMeme && (
+        <div style={{ width: "100%", marginBottom: "var(--space-6)" }}>
+          <MarketBreadthCard />
+        </div>
+      )}
 
-      {/* Two Column Row: Market Asset Radar Table + Crypto Bubble Map */}
-      <div
-        style={{
-          display: "flex",
-          gap: "var(--space-6)",
-          width: "100%",
-          marginBottom: "var(--space-6)",
-          alignItems: "stretch",
-          flexWrap: "wrap",
-        }}
-      >
-        {/* Market Asset Radar Table Card */}
-        <MarketAssetTableCard />
+      {/* Two Column Row: Market Asset Radar Table + Crypto Bubble Map — hidden on meme */}
+      {!isMeme && (
+        <div
+          style={{
+            display: "flex",
+            gap: "var(--space-6)",
+            width: "100%",
+            marginBottom: "var(--space-6)",
+            alignItems: "stretch",
+            flexWrap: "wrap",
+          }}
+        >
+          <MarketAssetTableCard />
+          <BubbleMapCard />
+        </div>
+      )}
 
-        {/* Interactive Crypto Bubble Map Card */}
-        <BubbleMapCard />
-      </div>
-
-      {/* Live Intelligence Feed Cards (Linked with Side Panel) */}
+      {/* Live Intelligence Feed / Meme Launchpad */}
       <IntelligenceFeed />
     </div>
   );

@@ -1,0 +1,976 @@
+/* ============================================================
+   MemeTradingTerminal — i5 Trading Platform Design System
+   Full 3-Pane High Performance Meme Trading Terminal
+   ============================================================ */
+
+.terminalOverlay {
+  position: fixed;
+  inset: 0;
+  background-color: var(--neutral-950);
+  z-index: var(--z-modal);
+  display: flex;
+  flex-direction: column;
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  overflow: hidden;
+  animation: fadeIn var(--duration-base) var(--easing-decelerate);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.99); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+/* ── Top Navigation Bar ───────────────────────────────────── */
+.terminalTopbar {
+  height: 56px;
+  background-color: var(--neutral-900);
+  border-bottom: var(--border-width-default) solid var(--border-color-default);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--space-6);
+  flex-shrink: 0;
+  gap: var(--space-4);
+}
+
+.topbarLeft {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.backBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  height: var(--button-height-sm);
+  padding: 0 var(--space-3);
+  background: var(--neutral-800);
+  border: var(--border-width-default) solid var(--border-color-default);
+  border-radius: var(--radius-md);
+  color: var(--text-secondary);
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--duration-fast) var(--easing-standard);
+}
+
+.backBtn:hover {
+  background: var(--neutral-700);
+  color: var(--text-primary);
+  border-color: var(--border-color-strong);
+}
+
+.tokenIdentityHeader {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.tokenAvatar {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-md);
+  background: var(--neutral-800);
+  border: var(--border-width-default) solid var(--border-color-default);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+.tokenAvatarImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.tokenTitleBlock {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.tokenName {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--text-primary);
+  line-height: 1;
+}
+
+.tokenTickerBadge {
+  padding: 1px 6px;
+  border-radius: var(--radius-sm);
+  background: var(--neutral-800);
+  border: var(--border-width-default) solid var(--border-color-strong);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--emerald-400);
+}
+
+.tokenAuditBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  padding: 1px 6px;
+  border-radius: var(--radius-sm);
+  background: var(--color-chart-bullish-fill);
+  border: var(--border-width-default) solid rgba(47, 203, 115, 0.3);
+  font-size: 10.5px;
+  font-weight: 600;
+  color: var(--emerald-400);
+}
+
+.tokenGraduatedBadge {
+  padding: 1px 6px;
+  border-radius: var(--radius-sm);
+  background: var(--neutral-800);
+  border: var(--border-width-default) solid var(--border-color-default);
+  font-size: 10.5px;
+  font-weight: 600;
+  color: var(--text-tertiary);
+}
+
+.tokenMetaSub {
+  font-size: 11px;
+  color: var(--text-tertiary);
+  margin-left: var(--space-2);
+}
+
+.topbarRight {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.socialIconBtn {
+  width: 30px;
+  height: 30px;
+  border-radius: var(--radius-sm);
+  background: var(--neutral-850);
+  border: var(--border-width-default) solid var(--border-color-default);
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all var(--duration-fast) var(--easing-standard);
+}
+
+.socialIconBtn:hover {
+  background: var(--neutral-800);
+  color: var(--text-primary);
+  border-color: var(--border-color-strong);
+}
+
+/* ── 3-Pane Body Grid ─────────────────────────────────────── */
+.terminalBody {
+  display: grid;
+  grid-template-columns: 280px 1fr 340px;
+  flex: 1;
+  min-height: 0;
+  background-color: var(--neutral-950);
+  overflow: hidden;
+}
+
+/* ══════════════════════════════════════════════════════════
+   LEFT PANE: TOKEN LIST & CATEGORIES
+   ══════════════════════════════════════════════════════════ */
+.leftPane {
+  background-color: var(--neutral-900);
+  border-right: var(--border-width-default) solid var(--border-color-default);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.leftTabsRow {
+  display: flex;
+  align-items: center;
+  padding: var(--space-2) var(--space-3);
+  gap: 4px;
+  border-bottom: var(--border-width-default) solid var(--border-color-default);
+}
+
+.leftTabBtn {
+  flex: 1;
+  height: 28px;
+  border: none;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--text-tertiary);
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  transition: all var(--duration-fast) var(--easing-standard);
+}
+
+.leftTabBtn:hover {
+  color: var(--text-primary);
+  background: var(--neutral-800);
+}
+
+.leftTabBtnActive {
+  background: var(--neutral-800);
+  color: var(--text-primary);
+  font-weight: 700;
+  border: var(--border-width-default) solid var(--border-color-strong);
+}
+
+.leftSearchWrap {
+  padding: var(--space-2) var(--space-3);
+  border-bottom: var(--border-width-default) solid var(--border-color-default);
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.leftSearchInput {
+  width: 100%;
+  height: 30px;
+  padding: 0 var(--space-3) 0 28px;
+  background: var(--neutral-850);
+  border: var(--border-width-default) solid var(--border-color-default);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  font-size: 11.5px;
+  outline: none;
+}
+
+.leftSearchInput:focus {
+  border-color: var(--border-color-emphasis);
+}
+
+.leftSearchIcon {
+  position: absolute;
+  left: 18px;
+  color: var(--text-tertiary);
+  pointer-events: none;
+}
+
+.leftCategoriesBar {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: var(--space-2) var(--space-3);
+  overflow-x: auto;
+  border-bottom: var(--border-width-default) solid var(--border-color-default);
+}
+
+.categoryPill {
+  height: 24px;
+  padding: 0 var(--space-3);
+  border-radius: var(--radius-full);
+  background: var(--neutral-850);
+  border: var(--border-width-default) solid var(--border-color-default);
+  color: var(--text-tertiary);
+  font-size: 10.5px;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.categoryPillActive {
+  background: var(--neutral-800);
+  color: var(--text-primary);
+  border-color: var(--border-color-emphasis);
+}
+
+.tokenItemsList {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.tokenItemRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-3) var(--space-4);
+  border-bottom: var(--border-width-default) solid var(--border-color-default);
+  cursor: pointer;
+  transition: background-color var(--duration-fast) var(--easing-standard);
+}
+
+.tokenItemRow:hover {
+  background-color: var(--neutral-850);
+}
+
+.tokenItemRowActive {
+  background-color: var(--neutral-800);
+  border-left: 2px solid var(--emerald-500);
+}
+
+.tokenItemLeft {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-width: 0;
+}
+
+.tokenItemAvatar {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-md);
+  background: var(--neutral-800);
+  border: var(--border-width-default) solid var(--border-color-default);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+.tokenItemText {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+}
+
+.tokenItemName {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tokenItemMeta {
+  font-size: 10.5px;
+  color: var(--text-tertiary);
+  font-family: var(--font-mono);
+}
+
+.tokenItemRight {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+  flex-shrink: 0;
+}
+
+.tokenItemGain {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--emerald-500);
+}
+
+.tokenItemLoss {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--red-500);
+}
+
+.tokenItemKolPill {
+  font-size: 9.5px;
+  padding: 1px 4px;
+  border-radius: var(--radius-sm);
+  background: var(--neutral-800);
+  border: var(--border-width-default) solid var(--border-color-default);
+  color: var(--text-secondary);
+}
+
+/* ══════════════════════════════════════════════════════════
+   CENTER PANE: LIVE CHART, TELEMETRY & SWAPS STREAM
+   ══════════════════════════════════════════════════════════ */
+.centerPane {
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  background-color: var(--neutral-950);
+}
+
+.marketTelemetryBar {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  padding: var(--space-4) var(--space-6);
+  border-bottom: var(--border-width-default) solid var(--border-color-default);
+  background: var(--neutral-900);
+  flex-wrap: wrap;
+  gap: var(--space-4);
+}
+
+.priceDisplayBlock {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-3);
+}
+
+.bigPriceText {
+  font-family: var(--font-mono);
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--text-primary);
+  line-height: 1;
+}
+
+.bigChangeText {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--emerald-500);
+}
+
+.quickStatsRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-5);
+}
+
+.quickStatItem {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.quickStatLabel {
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+}
+
+.quickStatVal {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+/* Chart Canvas & Intervals Bar */
+.chartControlsBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-2) var(--space-6);
+  background: var(--neutral-900);
+  border-bottom: var(--border-width-default) solid var(--border-color-default);
+}
+
+.intervalSelector {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.intervalBtn {
+  height: 24px;
+  padding: 0 var(--space-2);
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-sm);
+  color: var(--text-tertiary);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.intervalBtn:hover {
+  color: var(--text-primary);
+  background: var(--neutral-800);
+}
+
+.intervalBtnActive {
+  background: var(--neutral-800);
+  color: var(--emerald-400);
+  font-weight: 700;
+}
+
+.chartOverlayToggles {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  font-size: 11px;
+  color: var(--text-tertiary);
+}
+
+.chartCheckboxLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+}
+
+.chartCanvasArea {
+  height: 280px;
+  width: 100%;
+  position: relative;
+  background: var(--neutral-950);
+  border-bottom: var(--border-width-default) solid var(--border-color-default);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 3 Analytics Cards Grid */
+.analyticsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-3);
+  padding: var(--space-4) var(--space-6);
+  border-bottom: var(--border-width-default) solid var(--border-color-default);
+  background: var(--neutral-900);
+}
+
+.analyticsCard {
+  background: var(--neutral-850);
+  border: var(--border-width-default) solid var(--border-color-default);
+  border-radius: var(--radius-md);
+  padding: var(--space-3) var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.analyticsCardTitleRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+}
+
+.pricePerfGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 4px;
+}
+
+.perfPill {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: var(--neutral-800);
+  border: var(--border-width-default) solid var(--border-color-default);
+  border-radius: var(--radius-sm);
+  padding: 3px 2px;
+}
+
+.perfPillLabel {
+  font-size: 8.5px;
+  color: var(--text-tertiary);
+}
+
+.perfPillVal {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--emerald-500);
+}
+
+.buySellBarsRow {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.buySellNumbers {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 10.5px;
+  font-family: var(--font-mono);
+}
+
+.buySellTrack {
+  width: 100%;
+  height: 6px;
+  border-radius: var(--radius-full);
+  background: var(--red-600);
+  overflow: hidden;
+  display: flex;
+}
+
+.buySellFill {
+  height: 100%;
+  background: var(--emerald-500);
+}
+
+.kolConsensusRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.kolAvatarsMini {
+  display: flex;
+  align-items: center;
+}
+
+.kolMiniAvatar {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--neutral-700);
+  border: 1px solid var(--neutral-900);
+  font-size: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: -3px;
+}
+
+.kolMiniAvatar:first-child { margin-left: 0; }
+
+.consensusBagVal {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--emerald-400);
+}
+
+/* Swaps Stream Table */
+.swapsStreamSection {
+  padding: var(--space-4) var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.swapsHeaderRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.swapsSubtabs {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.swapsSubtab {
+  height: 26px;
+  padding: 0 var(--space-3);
+  border-radius: var(--radius-sm);
+  background: var(--neutral-900);
+  border: var(--border-width-default) solid var(--border-color-default);
+  color: var(--text-tertiary);
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.swapsSubtabActive {
+  background: var(--neutral-800);
+  color: var(--text-primary);
+  border-color: var(--border-color-emphasis);
+}
+
+.swapsTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 11.5px;
+}
+
+.swapsTh {
+  padding: 8px 12px;
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+  background: var(--neutral-900);
+  border-bottom: var(--border-width-default) solid var(--border-color-default);
+  text-align: left;
+}
+
+.swapsTr {
+  border-bottom: var(--border-width-default) solid var(--border-color-default);
+  transition: background-color var(--duration-fast) var(--easing-standard);
+}
+
+.swapsTr:hover {
+  background: var(--neutral-900);
+}
+
+.swapsTd {
+  padding: 8px 12px;
+  vertical-align: middle;
+}
+
+.actionBuyBadge {
+  padding: 2px 6px;
+  border-radius: var(--radius-sm);
+  background: var(--color-chart-bullish-fill);
+  border: var(--border-width-default) solid rgba(47, 203, 115, 0.3);
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--emerald-400);
+}
+
+.actionSellBadge {
+  padding: 2px 6px;
+  border-radius: var(--radius-sm);
+  background: var(--color-chart-bearish-fill);
+  border: var(--border-width-default) solid rgba(225, 59, 59, 0.3);
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--red-500);
+}
+
+/* ══════════════════════════════════════════════════════════
+   RIGHT PANE: INSTANT SWAP TERMINAL
+   ══════════════════════════════════════════════════════════ */
+.rightPane {
+  background-color: var(--neutral-900);
+  border-left: var(--border-width-default) solid var(--border-color-default);
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-5);
+  gap: var(--space-4);
+  overflow-y: auto;
+}
+
+.swapHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.swapTitle {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.swapSegmentTabs {
+  display: flex;
+  background: var(--neutral-950);
+  border: var(--border-width-default) solid var(--border-color-default);
+  border-radius: var(--radius-md);
+  padding: 2px;
+  gap: 2px;
+}
+
+.swapSegmentBtn {
+  flex: 1;
+  height: 32px;
+  border: none;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--text-tertiary);
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--duration-fast) var(--easing-standard);
+}
+
+.swapSegmentBtnActiveBuy {
+  background: var(--button-buy-bg);
+  color: var(--button-buy-text);
+  font-weight: 700;
+}
+
+.swapSegmentBtnActiveSell {
+  background: var(--button-sell-bg);
+  color: var(--button-sell-text);
+  font-weight: 700;
+}
+
+.swapInputBox {
+  background: var(--neutral-850);
+  border: var(--border-width-default) solid var(--border-color-default);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.swapInputTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 11px;
+  color: var(--text-tertiary);
+}
+
+.swapInputMain {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.swapAmountInput {
+  background: transparent;
+  border: none;
+  font-family: var(--font-mono);
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--text-primary);
+  outline: none;
+  width: 100%;
+}
+
+.swapCurrencyBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  border-radius: var(--radius-md);
+  background: var(--neutral-800);
+  border: var(--border-width-default) solid var(--border-color-strong);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.swapQuickPills {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.swapQuickPill {
+  flex: 1;
+  height: 26px;
+  border-radius: var(--radius-sm);
+  background: var(--neutral-800);
+  border: var(--border-width-default) solid var(--border-color-default);
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--duration-fast) var(--easing-standard);
+}
+
+.swapQuickPill:hover {
+  background: var(--neutral-700);
+  color: var(--text-primary);
+  border-color: var(--border-color-strong);
+}
+
+.swapOutputBox {
+  background: var(--neutral-950);
+  border: var(--border-width-default) solid var(--border-color-default);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.swapOutputLabel {
+  font-size: 10px;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.swapOutputVal {
+  font-family: var(--font-mono);
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--text-primary);
+}
+
+.swapOutputUsd {
+  font-size: 11px;
+  color: var(--text-tertiary);
+}
+
+.swapRouteDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: var(--space-3) 0;
+  border-top: var(--border-width-default) solid var(--border-color-default);
+  font-size: 11px;
+}
+
+.routeRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--text-tertiary);
+}
+
+.routeRowVal {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.thesisInput {
+  height: 34px;
+  padding: 0 var(--space-3);
+  background: var(--neutral-950);
+  border: var(--border-width-default) solid var(--border-color-default);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  font-size: 11.5px;
+  outline: none;
+}
+
+.thesisInput:focus {
+  border-color: var(--border-color-emphasis);
+}
+
+.instantBuyActionBtn {
+  width: 100%;
+  height: 44px;
+  border: none;
+  border-radius: var(--radius-md);
+  background: var(--button-buy-bg);
+  color: var(--button-buy-text);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 800;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  box-shadow: var(--shadow-sm);
+  transition: all var(--duration-fast) var(--easing-standard);
+}
+
+.instantBuyActionBtn:hover {
+  background: var(--button-buy-bg-hover);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-md);
+}
+
+.mevProtectionNotice {
+  font-size: 10.5px;
+  color: var(--text-tertiary);
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}

@@ -6,7 +6,7 @@
   position: fixed;
   top: calc(var(--layout-header-height) + 12px);
   left: 84px; /* 72px collapsed main rail + 12px floating gap */
-  width: 240px;
+  width: 270px;
   height: calc(100vh - var(--layout-header-height) - 24px);
   background-color: var(--bg-surface);
   border: 1px solid var(--border-color-default);

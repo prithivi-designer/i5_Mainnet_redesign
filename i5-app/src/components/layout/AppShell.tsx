@@ -69,12 +69,11 @@ export default function AppShell({ children }: AppShellProps) {
   // Dashboard active forces the main sidebar to be collapsed
   const isMainSidebarCollapsed = isDashboard ? true : collapsed;
 
-  // Total sidebar width for content offset
-  // Dashboard: 72px rail + 12px gap + 240px floating panel + 12px right gap = 336px
+  // Dashboard: 72px rail + 12px gap + 270px floating panel + 12px right gap = 366px
   // Non-dashboard collapsed: 72px
   // Non-dashboard expanded: 260px
   const totalSidebarWidth = isDashboard
-    ? "336px"
+    ? "366px"
     : isMainSidebarCollapsed
     ? "var(--layout-sidebar-collapsed-width)" // 72px
     : "var(--layout-sidebar-width)"; // 260px
