@@ -52,6 +52,7 @@ import {
 } from "lucide-react";
 import styles from "./MemeLaunchpadView.module.css";
 import MemeTradingTerminal, { TerminalToken } from "./MemeTradingTerminal";
+import KolProfileDrawer from "./KolProfileDrawer";
 
 /* ── KOL Radar Exact Reference Types & Mocks ───────────────── */
 export interface KolTrendingToken {
@@ -1310,6 +1311,7 @@ export default function MemeLaunchpadView() {
   const [hoveredToken, setHoveredToken] = useState<LaunchpadToken | null>(null);
   const [selectedBubbleToken, setSelectedBubbleToken] = useState<LaunchpadToken | null>(null);
   const [tradingTerminalToken, setTradingTerminalToken] = useState<LaunchpadToken | null>(null);
+  const [activeKolProfile, setActiveKolProfile] = useState<any | null>(null);
 
   /* Leaderboard States */
   const [leaderboardTimeframe, setLeaderboardTimeframe] = useState<"24H" | "7D" | "30D" | "All-Time">("7D");
@@ -1411,6 +1413,43 @@ export default function MemeLaunchpadView() {
     };
 
     setTradingTerminalToken(syntheticToken);
+  };
+
+  const openKolProfile = (kolOrTrade: any) => {
+    if (!kolOrTrade) return;
+    if (kolOrTrade.winRate !== undefined && kolOrTrade.kolName) {
+      setActiveKolProfile(kolOrTrade);
+      return;
+    }
+    const handle = (kolOrTrade.kolHandle || "").toLowerCase();
+    const name = (kolOrTrade.kolName || "").toLowerCase();
+    const found = MOCK_KOL_LEADERBOARD_ENTRIES.find(
+      (k) =>
+        (handle && k.kolHandle.toLowerCase() === handle) ||
+        (name && k.kolName.toLowerCase().includes(name))
+    );
+    if (found) {
+      setActiveKolProfile(found);
+      return;
+    }
+
+    setActiveKolProfile({
+      id: kolOrTrade.id || handle || name || "kol-profile",
+      kolName: kolOrTrade.kolName || "Degen Spartan",
+      kolHandle: kolOrTrade.kolHandle || "@DegenSpartan",
+      kolAddress: kolOrTrade.kolAddress || "0x0000...00dEaD",
+      kolAvatar: kolOrTrade.kolAvatar || "🛡️",
+      tierBadge: kolOrTrade.tierBadge || "OG Trader",
+      followers: kolOrTrade.followers || "395.0K followers",
+      winRate: kolOrTrade.winRate ?? 82.0,
+      wins: kolOrTrade.wins ?? 95,
+      losses: kolOrTrade.losses ?? 21,
+      pnl: kolOrTrade.pnl || "+$2.65M",
+      avgRoi: kolOrTrade.avgRoi || "+375%",
+      totalVolume: kolOrTrade.totalVolume || "$19.80M",
+      portfolioValue: "$890.0K",
+      portfolioNative: "110.0 BNB",
+    });
   };
 
   const filteredTrendingTokens = useMemo(() => {
@@ -1612,7 +1651,12 @@ export default function MemeLaunchpadView() {
             <div key={kol.id} className={`${styles.refPodiumCard} ${styles[`trophyCard_${trophyType}`]}`}>
               {/* Header: Left Avatar + Name + Tier, Right Trophy */}
               <div className={styles.refCardHeader}>
-                <div className={styles.refCardIdentity}>
+                <div
+                  className={styles.refCardIdentity}
+                  onClick={() => openKolProfile(kol)}
+                  style={{ cursor: "pointer" }}
+                  title={`View ${kol.kolName} Profile`}
+                >
                   <div className={styles.refAvatar}>{kol.kolAvatar}</div>
                   <div className={styles.refNameCol}>
                     <div className={styles.refNameRow}>
@@ -1716,7 +1760,12 @@ export default function MemeLaunchpadView() {
                 <tr key={kol.id} className={styles.lbTableRow}>
                   {/* Rank & Caller */}
                   <td className={styles.lbTdCaller}>
-                    <div className={styles.tableCallerCell}>
+                    <div
+                      className={styles.tableCallerCell}
+                      onClick={() => openKolProfile(kol)}
+                      style={{ cursor: "pointer" }}
+                      title={`View ${kol.kolName} Profile`}
+                    >
                       <span className={`${styles.tableRankCircle} ${rankPillClass}`}>{kol.rank}</span>
                       <div className={styles.tableAvatar}>{kol.kolAvatar}</div>
                       <div className={styles.tableCallerMeta}>
@@ -1795,7 +1844,7 @@ export default function MemeLaunchpadView() {
                       <button
                         type="button"
                         className={styles.tableProfileBtn}
-                        onClick={() => showToast(`Opening profile for ${kol.kolName}`)}
+                        onClick={() => openKolProfile(kol)}
                       >
                         <span>Profile</span>
                         <ChevronDown size={12} style={{ transform: "rotate(-90deg)" }} />
@@ -3303,31 +3352,32 @@ export default function MemeLaunchpadView() {
                       </div>
                     </div>
 
-                    {/* 2. Hero Price & Market Cap Inset Box */}
-                    <div className={styles.modernPriceBox}>
-                      <div className={styles.modernPriceLeft}>
-                        <span className={styles.modernBoxLabel}>PRICE</span>
-                        <div className={styles.modernPriceValRow}>
-                          <span className={styles.modernPriceVal}>{token.price}</span>
-                          <span className={styles.modernGainBadge}>+{token.change24h}% ↗</span>
+                    {/* 2. Unified Merged Inner Card */}
+                    <div className={styles.modernInnerCard}>
+                      {/* Row 1: Price, Market Cap, 24H Vol */}
+                      <div className={styles.modernInnerPriceRow}>
+                        <div className={styles.modernPriceLeft}>
+                          <span className={styles.modernBoxLabel}>PRICE</span>
+                          <div className={styles.modernPriceValRow}>
+                            <span className={styles.modernPriceVal}>{token.price}</span>
+                            <span className={styles.modernGainBadge}>+{token.change24h}% ↗</span>
+                          </div>
+                        </div>
+
+                        <div className={styles.modernPriceRight}>
+                          <div className={styles.modernMetricItem}>
+                            <span className={styles.modernBoxLabel}>MARKET CAP</span>
+                            <span className={styles.modernCapVal}>{token.marketCap}</span>
+                          </div>
+                          <div className={styles.modernMetricItem}>
+                            <span className={styles.modernBoxLabel}>24H VOL</span>
+                            <span className={styles.modernVolVal}>{token.volume24h}</span>
+                          </div>
                         </div>
                       </div>
 
-                      <div className={styles.modernPriceRight}>
-                        <div className={styles.modernMetricItem}>
-                          <span className={styles.modernBoxLabel}>MARKET CAP</span>
-                          <span className={styles.modernCapVal}>{token.marketCap}</span>
-                        </div>
-                        <div className={styles.modernMetricItem}>
-                          <span className={styles.modernBoxLabel}>24H VOL</span>
-                          <span className={styles.modernVolVal}>{token.volume24h}</span>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* 3. Smart Money Activity & Bonding Progress */}
-                    <div className={styles.modernSmartSection}>
-                      <div className={styles.modernSmartHeader}>
+                      {/* Row 2: Smart Wallets Flow */}
+                      <div className={styles.modernInnerSmartRow}>
                         <div className={styles.modernSmartTitle}>
                           <Users size={12} className={styles.modernSmartIcon} />
                           <span>Smart Wallets</span>
@@ -3339,35 +3389,22 @@ export default function MemeLaunchpadView() {
                         </div>
                       </div>
 
-                      <div className={styles.modernBondingBlock}>
-                        <div className={styles.modernBondingLabels}>
-                          <span className={styles.modernBondingTitle}>Bonding Progress</span>
-                          <span className={styles.modernBondingPct}>{token.bondingPercent}%</span>
+                      {/* Row 3: Holders, Liquidity, Security */}
+                      <div className={styles.modernInnerStatsRow}>
+                        <div className={styles.modernStatCell}>
+                          <span className={styles.modernStatCellLabel}>HOLDERS</span>
+                          <span className={styles.modernStatCellValue}>{token.holders.toLocaleString()}</span>
                         </div>
-                        <div className={styles.modernBondingTrack}>
-                          <div
-                            className={styles.modernBondingFill}
-                            style={{ width: `${token.bondingPercent}%` }}
-                          />
+                        <div className={styles.modernStatCell}>
+                          <span className={styles.modernStatCellLabel}>LIQUIDITY</span>
+                          <span className={styles.modernStatCellValue}>{token.liquidity}</span>
                         </div>
-                      </div>
-                    </div>
-
-                    {/* 4. Non-duplicate Health Stats: Holders, Liquidity, Security */}
-                    <div className={styles.modernStatsStrip}>
-                      <div className={styles.modernStatCell}>
-                        <span className={styles.modernStatCellLabel}>HOLDERS</span>
-                        <span className={styles.modernStatCellValue}>{token.holders.toLocaleString()}</span>
-                      </div>
-                      <div className={styles.modernStatCell}>
-                        <span className={styles.modernStatCellLabel}>LIQUIDITY</span>
-                        <span className={styles.modernStatCellValue}>{token.liquidity}</span>
-                      </div>
-                      <div className={styles.modernStatCell}>
-                        <span className={styles.modernStatCellLabel}>SECURITY</span>
-                        <div className={styles.modernScoreVal}>
-                          <ShieldCheck size={11} />
-                          <span>94/100</span>
+                        <div className={styles.modernStatCell}>
+                          <span className={styles.modernStatCellLabel}>SECURITY</span>
+                          <div className={styles.modernScoreVal}>
+                            <ShieldCheck size={11} />
+                            <span>94/100</span>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -3459,7 +3496,15 @@ export default function MemeLaunchpadView() {
                     title={`Open ${trade.tokenTicker} in Terminal`}
                   >
                     {/* Left: Caller Info & Action Badge */}
-                    <div className={styles.tradeCallerGroup}>
+                    <div
+                      className={styles.tradeCallerGroup}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        openKolProfile(trade);
+                      }}
+                      style={{ cursor: "pointer" }}
+                      title={`View ${trade.kolName} Profile`}
+                    >
                       <div className={styles.tradeCallerAvatar}>{trade.kolAvatar}</div>
                       <div className={styles.tradeCallerMeta}>
                         <div className={styles.tradeCallerNameRow}>
@@ -3518,9 +3563,9 @@ export default function MemeLaunchpadView() {
                         className={`${styles.tradeProfileIconBtn} ${followedKols[trade.kolHandle] ? styles.tradeProfileActive : ""}`}
                         onClick={(e) => {
                           e.stopPropagation();
-                          toggleFollowKol(trade.kolHandle);
+                          openKolProfile(trade);
                         }}
-                        title={followedKols[trade.kolHandle] ? "Tracking alerts for caller" : "Track caller alerts"}
+                        title="View Caller Profile"
                       >
                         <UserCheck size={13} />
                       </button>
@@ -3564,6 +3609,15 @@ export default function MemeLaunchpadView() {
           initialToken={tradingTerminalToken}
           allTokens={tokens}
           onClose={() => setTradingTerminalToken(null)}
+        />
+      )}
+
+      {/* ── KOL PROFILE SIDE DRAWER (matches User Reference) ── */}
+      {activeKolProfile && (
+        <KolProfileDrawer
+          kol={activeKolProfile}
+          onClose={() => setActiveKolProfile(null)}
+          onOpenTerminal={openTerminalForToken}
         />
       )}
 

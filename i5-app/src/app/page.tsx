@@ -7,7 +7,7 @@ import BubbleMapCard from "@/components/dashboard/BubbleMapCard";
 import IntelligenceFeed from "@/components/dashboard/IntelligenceFeed";
 
 export default function HomePage() {
-  const [activeTab, setActiveTab] = useState<string>("timeline");
+  const [activeTab, setActiveTab] = useState<string>("meme");
 
   useEffect(() => {
     const handler = (e: Event) => {

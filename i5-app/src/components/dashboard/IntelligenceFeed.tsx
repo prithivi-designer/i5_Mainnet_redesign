@@ -301,7 +301,7 @@ export default function IntelligenceFeed() {
 
   // Sidepanel linked filter state
   const [sidepanelFilter, setSidepanelFilter] = useState<{ tab: string; subId: string }>({
-    tab: "stocks-crypto",
+    tab: "meme",
     subId: "all-intelligence",
   });
 

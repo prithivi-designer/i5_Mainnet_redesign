@@ -208,7 +208,7 @@ const subSections: SubSection[] = [
 ];
 
 export default function DashboardSubSidebar() {
-  const [activeTab, setActiveTab] = useState<"stocks-crypto" | "meme">("stocks-crypto");
+  const [activeTab, setActiveTab] = useState<"meme" | "stocks-crypto">("meme");
   const [activeSubId, setActiveSubId] = useState<string>("all-intelligence");
   const [earningsModalOpen, setEarningsModalOpen] = useState<boolean>(false);
 
@@ -231,15 +231,6 @@ export default function DashboardSubSidebar() {
           <div className={styles.tabsContainer}>
             <div className={styles.segmentedControl}>
               <button
-                className={`${styles.tabBtn} ${activeTab === "stocks-crypto" ? styles.tabBtnActive : ""}`}
-                onClick={() => {
-                  setActiveTab("stocks-crypto");
-                  dispatchFilterEvent("stocks-crypto", activeSubId, true);
-                }}
-              >
-                Stocks & Crypto
-              </button>
-              <button
                 className={`${styles.tabBtn} ${activeTab === "meme" ? styles.tabBtnActive : ""}`}
                 onClick={() => {
                   setActiveTab("meme");
@@ -247,6 +238,15 @@ export default function DashboardSubSidebar() {
                 }}
               >
                 Meme
+              </button>
+              <button
+                className={`${styles.tabBtn} ${activeTab === "stocks-crypto" ? styles.tabBtnActive : ""}`}
+                onClick={() => {
+                  setActiveTab("stocks-crypto");
+                  dispatchFilterEvent("stocks-crypto", activeSubId, true);
+                }}
+              >
+                Stocks & Crypto
               </button>
             </div>
           </div>
