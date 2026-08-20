@@ -301,7 +301,7 @@ export default function IntelligenceFeed() {
 
   // Sidepanel linked filter state
   const [sidepanelFilter, setSidepanelFilter] = useState<{ tab: string; subId: string }>({
-    tab: "all",
+    tab: "stocks-crypto",
     subId: "all-intelligence",
   });
 
@@ -318,14 +318,23 @@ export default function IntelligenceFeed() {
   const popoverRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLElement>(null);
 
-  // Listen to sidepanel filter clicks & scroll feed to top sticky position
+  // Listen to sidepanel filter clicks
   useEffect(() => {
     const handleSidepanelFilter = (e: Event) => {
-      const customEvent = e as CustomEvent<{ tab: string; subId: string }>;
+      const customEvent = e as CustomEvent<{ tab: string; subId: string; isTabChange?: boolean }>;
       if (customEvent.detail) {
         setSidepanelFilter(customEvent.detail);
 
-        // Scroll feed container smoothly to top of main viewport
+        // Do not auto-scroll on tab changes, when clicking stocks & crypto, or selecting all-intelligence
+        if (
+          customEvent.detail.isTabChange ||
+          customEvent.detail.tab === "stocks-crypto" ||
+          customEvent.detail.subId === "all-intelligence"
+        ) {
+          return;
+        }
+
+        // Scroll feed container smoothly to top of main viewport for specific sub-categories
         requestAnimationFrame(() => {
           if (containerRef.current) {
             const mainEl = containerRef.current.closest("main") || (document.querySelector("main") as HTMLElement | null);
@@ -363,7 +372,7 @@ export default function IntelligenceFeed() {
     setSignalFilter("Any");
     setMinConfidence(0);
     setDateRange("All");
-    setSidepanelFilter({ tab: "all", subId: "all-intelligence" });
+    setSidepanelFilter({ tab: "stocks-crypto", subId: "all-intelligence" });
   };
 
   // Close filter dropdown on click outside
@@ -391,12 +400,19 @@ export default function IntelligenceFeed() {
     (signalFilter !== "Any" ? 1 : 0) +
     (minConfidence > 0 ? 1 : 0) +
     (dateRange !== "All" ? 1 : 0) +
-    (sidepanelFilter.tab !== "all" ? 1 : 0) +
+    (sidepanelFilter.tab !== "stocks-crypto" ? 1 : 0) +
     (sidepanelFilter.subId !== "all-intelligence" ? 1 : 0);
 
   // Filter feed items based on sidepanel selection, top tabs, and popover drawer options
   const filteredFeedData = mockFeedData.filter((item) => {
-    // 1. Sidepanel Tab Filter (stocks / crypto / all)
+    // 1. Sidepanel Tab Filter (stocks-crypto / stocks / crypto / meme / all)
+    if (
+      (sidepanelFilter.tab === "stocks-crypto" || sidepanelFilter.tab === "stocks_crypto") &&
+      item.assetType !== "STOCKS" &&
+      item.assetType !== "CRYPTO"
+    ) {
+      return false;
+    }
     if (sidepanelFilter.tab === "stocks" && item.assetType !== "STOCKS") return false;
     if (sidepanelFilter.tab === "crypto" && item.assetType !== "CRYPTO") return false;
     if (sidepanelFilter.tab === "meme" && item.assetType !== "MEME") return false;

@@ -60,10 +60,11 @@
   color: var(--text-tertiary);
   background: transparent;
   border: none;
-  padding: 6px 0;
+  padding: 6px 8px;
   border-radius: var(--radius-sm);
   cursor: pointer;
   text-align: center;
+  white-space: nowrap;
   transition: all var(--duration-fast) var(--easing-standard);
 }
 

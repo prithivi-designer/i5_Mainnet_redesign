@@ -945,8 +945,8 @@
   height: 44px;
   border: none;
   border-radius: var(--radius-md);
-  background: var(--button-buy-bg);
-  color: var(--button-buy-text);
+  background: var(--button-primary-bg);
+  color: var(--button-primary-text);
   font-family: var(--font-sans);
   font-size: 14px;
   font-weight: 800;
@@ -960,7 +960,7 @@
 }
 
 .instantBuyActionBtn:hover {
-  background: var(--button-buy-bg-hover);
+  background: var(--button-primary-bg-hover);
   transform: translateY(-1px);
   box-shadow: var(--shadow-md);
 }

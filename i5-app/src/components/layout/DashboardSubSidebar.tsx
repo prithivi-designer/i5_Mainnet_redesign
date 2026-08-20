@@ -208,15 +208,15 @@ const subSections: SubSection[] = [
 ];
 
 export default function DashboardSubSidebar() {
-  const [activeTab, setActiveTab] = useState<"all" | "stocks" | "crypto" | "meme">("all");
+  const [activeTab, setActiveTab] = useState<"stocks-crypto" | "meme">("stocks-crypto");
   const [activeSubId, setActiveSubId] = useState<string>("all-intelligence");
   const [earningsModalOpen, setEarningsModalOpen] = useState<boolean>(false);
 
-  const dispatchFilterEvent = (tab: string, subId: string) => {
+  const dispatchFilterEvent = (tab: string, subId: string, isTabChange?: boolean) => {
     if (typeof window !== "undefined") {
       window.dispatchEvent(
         new CustomEvent("i5-sidepanel-filter", {
-          detail: { tab, subId },
+          detail: { tab, subId, isTabChange },
         })
       );
     }
@@ -231,40 +231,22 @@ export default function DashboardSubSidebar() {
           <div className={styles.tabsContainer}>
             <div className={styles.segmentedControl}>
               <button
-                className={`${styles.tabBtn} ${activeTab === "all" ? styles.tabBtnActive : ""}`}
+                className={`${styles.tabBtn} ${activeTab === "stocks-crypto" ? styles.tabBtnActive : ""}`}
                 onClick={() => {
-                  setActiveTab("all");
-                  dispatchFilterEvent("all", activeSubId);
+                  setActiveTab("stocks-crypto");
+                  dispatchFilterEvent("stocks-crypto", activeSubId, true);
                 }}
               >
-                All
+                Stocks & Crypto
               </button>
               <button
                 className={`${styles.tabBtn} ${activeTab === "meme" ? styles.tabBtnActive : ""}`}
                 onClick={() => {
                   setActiveTab("meme");
-                  dispatchFilterEvent("meme", activeSubId);
+                  dispatchFilterEvent("meme", activeSubId, true);
                 }}
               >
                 Meme
-              </button>
-              <button
-                className={`${styles.tabBtn} ${activeTab === "stocks" ? styles.tabBtnActive : ""}`}
-                onClick={() => {
-                  setActiveTab("stocks");
-                  dispatchFilterEvent("stocks", activeSubId);
-                }}
-              >
-                Stocks
-              </button>
-              <button
-                className={`${styles.tabBtn} ${activeTab === "crypto" ? styles.tabBtnActive : ""}`}
-                onClick={() => {
-                  setActiveTab("crypto");
-                  dispatchFilterEvent("crypto", activeSubId);
-                }}
-              >
-                Crypto
               </button>
             </div>
           </div>
