@@ -1266,7 +1266,7 @@ const STATUS_FILTERS = [
   { id: "all", label: "All Tokens" },
   { id: "trending", label: "🔥 Trending", icon: <Flame size={12} /> },
   { id: "new", label: "⚡ New Launches", icon: <Zap size={12} /> },
-  { id: "graduating", label: "🌾 Graduating Soon", icon: <Sprout size={12} /> },
+  { id: "graduating", label: "💼 KOL Bag", icon: <Sprout size={12} /> },
   { id: "migrated", label: "💎 Migrated (DEX)", icon: <Gem size={12} /> },
 ] as const;
 
@@ -1947,12 +1947,12 @@ export default function MemeLaunchpadView() {
               </div>
             </div>
 
-            {/* Card 2: Active Launches */}
+            {/* Card 2: Active Tokens */}
             <div className={styles.metricCard}>
               <div className={styles.metricCardHeader}>
                 <div className={styles.metricTitleGroup}>
                   <Flame size={15} className={styles.metricIconPurple} />
-                  <span className={styles.metricTitle}>Active Launches</span>
+                  <span className={styles.metricTitle}>Active Tokens</span>
                 </div>
                 <button className={styles.metricMoreBtn} aria-label="More options">
                   <MoreHorizontal size={16} />
@@ -1976,7 +1976,7 @@ export default function MemeLaunchpadView() {
               </div>
 
               <div className={styles.metricCardFooter}>
-                <span className={styles.metricFooterLabel}>Launches Increased by</span>
+                <span className={styles.metricFooterLabel}>Tokens Increased by</span>
                 <div className={styles.metricDeltaGreen}>
                   <span className={styles.deltaArrow}>▲</span>
                   <span>+8 today</span>
@@ -1984,12 +1984,12 @@ export default function MemeLaunchpadView() {
               </div>
             </div>
 
-            {/* Card 3: Graduating Soon */}
+            {/* Card 3: KOL Bag */}
             <div className={styles.metricCard}>
               <div className={styles.metricCardHeader}>
                 <div className={styles.metricTitleGroup}>
                   <Zap size={15} className={styles.metricIconOrange} />
-                  <span className={styles.metricTitle}>Graduating Soon</span>
+                  <span className={styles.metricTitle}>KOL Bag</span>
                 </div>
                 <button className={styles.metricMoreBtn} aria-label="More options">
                   <MoreHorizontal size={16} />
@@ -1998,8 +1998,8 @@ export default function MemeLaunchpadView() {
 
               <div className={styles.metricInnerWell}>
                 <div className={styles.metricValueGroup}>
-                  <span className={styles.metricBigVal}>3</span>
-                  <span className={styles.metricValUnit}>Tokens</span>
+                  <span className={styles.metricBigVal}>$2.48M</span>
+                  <span className={styles.metricValUnit}>Tracked</span>
                 </div>
                 <div className={styles.miniBarChart} aria-hidden="true">
                   <span className={`${styles.chartBar} ${styles.barOrange}`} style={{ height: "65%" }} />
@@ -2013,10 +2013,10 @@ export default function MemeLaunchpadView() {
               </div>
 
               <div className={styles.metricCardFooter}>
-                <span className={styles.metricFooterLabel}>Bonding Progress</span>
+                <span className={styles.metricFooterLabel}>KOL Bag Increased by</span>
                 <div className={styles.metricDeltaGreen}>
                   <span className={styles.deltaArrow}>▲</span>
-                  <span>&gt;85% avg</span>
+                  <span>+18.4% this week</span>
                 </div>
               </div>
             </div>
