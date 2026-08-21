@@ -1,24 +1,13 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
-  ArrowLeft,
-  Search,
-  Globe,
-  Share2,
-  Star,
-  Check,
-  ShieldCheck,
   Zap,
-  Flame,
-  Bot,
-  TrendingUp,
-  Settings,
-  Lock,
-  ExternalLink,
-  ChevronRight,
-  Sparkles,
   SlidersHorizontal,
+  X,
+  Lock,
+  History,
+  ExternalLink,
 } from "lucide-react";
 import styles from "./MemeTradingTerminal.module.css";
 
@@ -29,530 +18,194 @@ export interface TerminalToken {
   avatarImg?: string;
   avatarEmoji?: string;
   chain: "BNB" | "SOL" | "ETH";
-  ageMinutes: number;
-  devHandle: string;
-  isVerified: boolean;
+  ageMinutes?: number;
+  devHandle?: string;
+  isVerified?: boolean;
   price: string;
-  priceNum: number;
-  change24h: number;
+  priceNum?: number;
+  change24h?: number;
   marketCap: string;
-  volume24h: string;
-  liquidity: string;
-  holders: number;
-  bondingPercent: number;
-  kolsHolding: number;
-  kolDetails?: {
-    name: string;
-    handle: string;
-    avatar?: string;
-    tier: string;
-    multiple: string;
-  }[];
-  totalKolBag: string;
-  topTenPct: string;
-  i5Score: number;
-  status: string;
+  volume24h?: string;
+  liquidity?: string;
+  holders?: number;
+  bondingPercent?: number;
+  kolsHolding?: number;
+  totalKolBag?: string;
+  topTenPct?: string;
+  i5Score?: number;
+  status?: string;
 }
 
 interface MemeTradingTerminalProps {
   initialToken: TerminalToken;
-  allTokens: TerminalToken[];
+  initialPayAmount?: string;
+  allTokens?: TerminalToken[];
   onClose: () => void;
 }
 
-const INTERVALS = ["1m", "5m", "15m", "1h", "4h", "1D", "1W", "1M"];
+interface SwapHistoryItem {
+  id: string;
+  action: "BUY" | "SELL";
+  amount: string;
+  valueUsd: string;
+  time: string;
+  hash: string;
+}
 
-const MOCK_SWAPS = [
-  { id: "1", trader: "MemeGod_xyz", action: "SELL", amount: "114,602", valueUsd: "$275.99", mc: "$2.41M", price: "$0.002408", time: "2m ago", hash: "g1fd...siqf" },
-  { id: "2", trader: "Murad Mahmudov (KOL)", action: "BUY", amount: "450,000", valueUsd: "$1,083.60", mc: "$2.40M", price: "$0.002402", time: "4m ago", hash: "8x9a...32kl" },
-  { id: "3", trader: "Ansem (KOL)", action: "BUY", amount: "820,000", valueUsd: "$1,974.56", mc: "$2.38M", price: "$0.002390", time: "7m ago", hash: "4p9z...88df" },
-  { id: "4", trader: "DegenWhale.sol", action: "BUY", amount: "2,400,000", valueUsd: "$5,779.20", mc: "$2.35M", price: "$0.002385", time: "11m ago", hash: "77aq...91aa" },
-  { id: "5", trader: "PaperHands_99", action: "SELL", amount: "95,000", valueUsd: "$228.76", mc: "$2.34M", price: "$0.002380", time: "14m ago", hash: "12mm...49xx" },
-];
-
-export default function MemeTradingTerminal({ initialToken, allTokens, onClose }: MemeTradingTerminalProps) {
+export default function MemeTradingTerminal({
+  initialToken,
+  initialPayAmount,
+  onClose,
+}: MemeTradingTerminalProps) {
   const [selectedToken, setSelectedToken] = useState<TerminalToken>(initialToken);
-  const [activeLeftTab, setActiveLeftTab] = useState<"categories" | "alerts" | "degens">("categories");
-  const [selectedCategory, setSelectedCategory] = useState<string>("all");
-  const [search, setSearch] = useState("");
-  const [interval, setInterval] = useState("5m");
   const [swapMode, setSwapMode] = useState<"buy" | "sell">("buy");
-  const [payAmount, setPayAmount] = useState("0.5");
-  const [thesisNote, setThesisNote] = useState("");
-  const [activeSwapFilter, setActiveSwapFilter] = useState("all");
+  const [payAmount, setPayAmount] = useState<string>(
+    initialPayAmount || (initialToken.chain === "SOL" ? "0.5" : "0.1")
+  );
+  const [thesisNote, setThesisNote] = useState<string>("");
+  const [historyFilter, setHistoryFilter] = useState<"my" | "live">("my");
   const [showToast, setShowToast] = useState<string | null>(null);
+
+  const [myTrades, setMyTrades] = useState<SwapHistoryItem[]>([
+    {
+      id: "my-1",
+      action: "BUY",
+      amount: "38,409",
+      valueUsd: "$295.00",
+      time: "2m ago",
+      hash: "0x8fa3...419a",
+    },
+    {
+      id: "my-2",
+      action: "BUY",
+      amount: "76,818",
+      valueUsd: "$590.00",
+      time: "1h ago",
+      hash: "0x3bc1...99e1",
+    },
+  ]);
+
+  const [allTrades] = useState<SwapHistoryItem[]>([
+    {
+      id: "live-1",
+      action: "BUY",
+      amount: "142,500",
+      valueUsd: "$1,094.00",
+      time: "Just now",
+      hash: "0x4aa2...88f1",
+    },
+    {
+      id: "live-2",
+      action: "BUY",
+      amount: "38,409",
+      valueUsd: "$295.00",
+      time: "2m ago",
+      hash: "0x8fa3...419a",
+    },
+    {
+      id: "live-3",
+      action: "SELL",
+      amount: "21,000",
+      valueUsd: "$161.20",
+      time: "5m ago",
+      hash: "0x77d2...c82a",
+    },
+    {
+      id: "live-4",
+      action: "BUY",
+      amount: "250,000",
+      valueUsd: "$1,920.00",
+      time: "12m ago",
+      hash: "0x91e8...55c2",
+    },
+    {
+      id: "live-5",
+      action: "BUY",
+      amount: "85,400",
+      valueUsd: "$655.80",
+      time: "18m ago",
+      hash: "0x2e91...44bc",
+    },
+  ]);
 
   const triggerToast = (msg: string) => {
     setShowToast(msg);
     setTimeout(() => setShowToast(null), 2500);
   };
 
-  const receiveEstimate = (parseFloat(payAmount || "0") * 76818).toLocaleString(undefined, { maximumFractionDigits: 0 });
+  // Close on Escape & prevent background scroll
+  useEffect(() => {
+    document.body.style.overflow = "hidden";
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.body.style.overflow = "unset";
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [onClose]);
 
-  const filteredTokens = allTokens.filter((t) => {
-    if (search.trim()) {
-      const q = search.toLowerCase();
-      return t.name.toLowerCase().includes(q) || t.ticker.toLowerCase().includes(q);
-    }
-    return true;
-  });
+  if (!selectedToken) return null;
+
+  const chainSymbol = selectedToken.chain === "SOL" ? "SOL" : "BNB";
+  const numPay = parseFloat(payAmount || "0") || 0;
+  const tokenTicker = selectedToken.ticker.startsWith("$") ? selectedToken.ticker : `$${selectedToken.ticker}`;
+
+  // Estimate calculations
+  const receiveEstimate = Math.round(numPay * 76818).toLocaleString();
+  const usdApprox = (numPay * (selectedToken.chain === "SOL" ? 185 : 590)).toFixed(2);
+  const routePool = selectedToken.chain === "SOL" ? "Raydium V4 Pool" : "PancakeSwap V3 Pool";
+
+  const handleExecuteSwap = () => {
+    const newTrade: SwapHistoryItem = {
+      id: `my-${Date.now()}`,
+      action: swapMode === "buy" ? "BUY" : "SELL",
+      amount: receiveEstimate,
+      valueUsd: `$${usdApprox}`,
+      time: "Just now",
+      hash: `0x${Math.random().toString(16).slice(2, 6)}...${Math.random().toString(16).slice(2, 6)}`,
+    };
+    setMyTrades((prev) => [newTrade, ...prev]);
+    triggerToast(`Executed ${payAmount} ${chainSymbol} swap for ${tokenTicker} on ${routePool}`);
+  };
 
   return (
-    <div className={styles.terminalOverlay}>
-      {/* ── TOPBAR ───────────────────────────────────────────── */}
-      <div className={styles.terminalTopbar}>
-        <div className={styles.topbarLeft}>
-          <button className={styles.backBtn} onClick={onClose}>
-            <ArrowLeft size={14} />
-            Back to Radar
-          </button>
-
-          <div className={styles.tokenIdentityHeader}>
-            <div className={styles.tokenAvatar}>
-              {selectedToken.avatarImg ? (
-                <img src={selectedToken.avatarImg} alt={selectedToken.name} className={styles.tokenAvatarImg} />
-              ) : (
-                selectedToken.avatarEmoji || "💎"
-              )}
-            </div>
-            <div className={styles.tokenTitleBlock}>
-              <span className={styles.tokenName}>{selectedToken.name}</span>
-              <span className={styles.tokenTickerBadge}>{selectedToken.ticker}</span>
-              <span className={styles.tokenAuditBadge}>
-                <ShieldCheck size={11} />
-                Audited Safe
-              </span>
-              <span className={styles.tokenGraduatedBadge}>Graduated</span>
-              <span className={styles.tokenMetaSub}>
-                {selectedToken.devHandle.slice(0, 8)}...curve · 1d ago · {selectedToken.chain === "SOL" ? "Solana" : "BNB Chain"}
-              </span>
-            </div>
-          </div>
-        </div>
-
-        <div className={styles.topbarRight}>
-          <button className={styles.socialIconBtn} title="Website">
-            <Globe size={13} />
-          </button>
-          <button className={styles.socialIconBtn} title="Share">
-            <Share2 size={13} />
-          </button>
-          <button className={styles.socialIconBtn} title="Watchlist">
-            <Star size={13} />
-          </button>
-        </div>
-      </div>
-
-      {/* ── 3-PANE MAIN BODY ─────────────────────────────────── */}
-      <div className={styles.terminalBody}>
+    <div className={styles.terminalOverlay} onClick={onClose}>
+      <div className={styles.swapCardModal} onClick={(e) => e.stopPropagation()}>
         
-        {/* ═══ LEFT PANE: TOKEN LIST & CATEGORIES ════════════ */}
-        <div className={styles.leftPane}>
-          <div className={styles.leftTabsRow}>
-            <button
-              className={`${styles.leftTabBtn} ${activeLeftTab === "categories" ? styles.leftTabBtnActive : ""}`}
-              onClick={() => setActiveLeftTab("categories")}
-            >
-              <Sparkles size={12} />
-              Meme Categories
-            </button>
-            <button
-              className={`${styles.leftTabBtn} ${activeLeftTab === "alerts" ? styles.leftTabBtnActive : ""}`}
-              onClick={() => setActiveLeftTab("alerts")}
-            >
-              Alerts
-            </button>
-            <button
-              className={`${styles.leftTabBtn} ${activeLeftTab === "degens" ? styles.leftTabBtnActive : ""}`}
-              onClick={() => setActiveLeftTab("degens")}
-            >
-              Degens
-            </button>
-          </div>
-
-          <div className={styles.leftSearchWrap}>
-            <Search size={12} className={styles.leftSearchIcon} />
-            <input
-              type="text"
-              className={styles.leftSearchInput}
-              placeholder="Search meme, ticker, lore..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-            />
-          </div>
-
-          <div className={styles.leftCategoriesBar}>
-            <button
-              className={`${styles.categoryPill} ${selectedCategory === "all" ? styles.categoryPillActive : ""}`}
-              onClick={() => setSelectedCategory("all")}
-            >
-              🔥 All Memes (33)
-            </button>
-            <button
-              className={`${styles.categoryPill} ${selectedCategory === "ai" ? styles.categoryPillActive : ""}`}
-              onClick={() => setSelectedCategory("ai")}
-            >
-              🤖 AI Agents & Bots (22)
-            </button>
-          </div>
-
-          <div className={styles.tokenItemsList}>
-            {filteredTokens.map((tok) => {
-              const isSelected = tok.id === selectedToken.id;
-              const isGain = tok.change24h >= 0;
-              return (
-                <div
-                  key={tok.id}
-                  className={`${styles.tokenItemRow} ${isSelected ? styles.tokenItemRowActive : ""}`}
-                  onClick={() => setSelectedToken(tok)}
-                >
-                  <div className={styles.tokenItemLeft}>
-                    <div className={styles.tokenItemAvatar}>
-                      {tok.avatarImg ? (
-                        <img src={tok.avatarImg} alt={tok.name} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-                      ) : (
-                        tok.avatarEmoji || "💎"
-                      )}
-                    </div>
-                    <div className={styles.tokenItemText}>
-                      <span className={styles.tokenItemName}>{tok.name}</span>
-                      <span className={styles.tokenItemMeta}>
-                        MC {tok.marketCap} · {tok.price}
-                      </span>
-                    </div>
-                  </div>
-
-                  <div className={styles.tokenItemRight}>
-                    <span className={isGain ? styles.tokenItemGain : styles.tokenItemLoss}>
-                      {isGain ? "+" : ""}{tok.change24h.toFixed(2)}%
-                    </span>
-                    <span className={styles.tokenItemKolPill}>
-                      {tok.kolsHolding > 0 ? `👥 ${tok.kolsHolding} KOLs` : "0 KOLs"}
-                    </span>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* ═══ CENTER PANE: LIVE CHART & TELEMETRY ═══════════ */}
-        <div className={styles.centerPane}>
-          {/* Market Telemetry Bar */}
-          <div className={styles.marketTelemetryBar}>
-            <div className={styles.priceDisplayBlock}>
-              <span className={styles.bigPriceText}>{selectedToken.price}</span>
-              <span className={styles.bigChangeText}>
-                {selectedToken.change24h >= 0 ? "+" : ""}{selectedToken.change24h.toFixed(2)}% 24h
-              </span>
-            </div>
-
-            <div className={styles.quickStatsRow}>
-              <div className={styles.quickStatItem}>
-                <span className={styles.quickStatLabel}>Market Cap</span>
-                <span className={styles.quickStatVal}>{selectedToken.marketCap}</span>
-              </div>
-              <div className={styles.quickStatItem}>
-                <span className={styles.quickStatLabel}>Liquidity</span>
-                <span className={styles.quickStatVal}>{selectedToken.liquidity}</span>
-              </div>
-              <div className={styles.quickStatItem}>
-                <span className={styles.quickStatLabel}>24H Volume</span>
-                <span className={styles.quickStatVal}>{selectedToken.volume24h}</span>
-              </div>
-              <div className={styles.quickStatItem}>
-                <span className={styles.quickStatLabel}>Holders</span>
-                <span className={styles.quickStatVal}>{selectedToken.holders.toLocaleString()}</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Chart Controls Bar */}
-          <div className={styles.chartControlsBar}>
-            <div className={styles.intervalSelector}>
-              {INTERVALS.map((inv) => (
-                <button
-                  key={inv}
-                  className={`${styles.intervalBtn} ${interval === inv ? styles.intervalBtnActive : ""}`}
-                  onClick={() => setInterval(inv)}
-                >
-                  {inv}
-                </button>
-              ))}
-            </div>
-
-            <div className={styles.chartOverlayToggles}>
-              <label className={styles.chartCheckboxLabel}>
-                <input type="checkbox" defaultChecked />
-                <span>My Swaps</span>
-              </label>
-              <label className={styles.chartCheckboxLabel}>
-                <input type="checkbox" defaultChecked />
-                <span>Whales</span>
-              </label>
-              <label className={styles.chartCheckboxLabel}>
-                <input type="checkbox" defaultChecked />
-                <span>Theses</span>
-              </label>
-            </div>
-          </div>
-
-          {/* SVG Candlestick / Momentum Chart */}
-          <div className={styles.chartCanvasArea}>
-            <svg width="100%" height="100%" viewBox="0 0 700 280" preserveAspectRatio="none" style={{ display: "block" }}>
-              <defs>
-                <linearGradient id="chartGlow" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="rgba(47, 203, 115, 0.25)" />
-                  <stop offset="100%" stopColor="rgba(47, 203, 115, 0.0)" />
-                </linearGradient>
-                <linearGradient id="targetGlow" x1="0" y1="0" x2="1" y2="0">
-                  <stop offset="0%" stopColor="rgba(47, 203, 115, 0.4)" />
-                  <stop offset="100%" stopColor="rgba(47, 203, 115, 0.1)" />
-                </linearGradient>
-              </defs>
-
-              {/* Grid Lines */}
-              <line x1="0" y1="60" x2="700" y2="60" stroke="rgba(228,228,228,0.05)" strokeDasharray="3 3" />
-              <line x1="0" y1="120" x2="700" y2="120" stroke="rgba(228,228,228,0.05)" strokeDasharray="3 3" />
-              <line x1="0" y1="180" x2="700" y2="180" stroke="rgba(228,228,228,0.05)" strokeDasharray="3 3" />
-              <line x1="0" y1="240" x2="700" y2="240" stroke="rgba(228,228,228,0.05)" strokeDasharray="3 3" />
-
-              {/* Target Graduation Line */}
-              <line x1="0" y1="140" x2="700" y2="140" stroke="#2fcb73" strokeDasharray="4 4" strokeWidth="1.5" opacity="0.6" />
-              <rect x="500" y="130" width="185" height="20" rx="4" fill="#1c1c1c" stroke="rgba(228,228,228,0.18)" />
-              <text x="510" y="144" fill="#2fcb73" fontSize="9.5" fontWeight="700" fontFamily="sans-serif">
-                ★ RAYDIUM GRADUATION TARGET
-              </text>
-
-              {/* Candlesticks */}
-              {/* Bar 1 */}
-              <line x1="60" y1="190" x2="60" y2="220" stroke="#e13b3b" strokeWidth="1.2" />
-              <rect x="55" y="195" width="10" height="20" fill="#e13b3b" rx="1" />
-
-              {/* Bar 2 */}
-              <line x1="120" y1="185" x2="120" y2="225" stroke="#2fcb73" strokeWidth="1.2" />
-              <rect x="115" y="190" width="10" height="25" fill="#2fcb73" rx="1" />
-
-              {/* Bar 3 */}
-              <line x1="180" y1="170" x2="180" y2="210" stroke="#2fcb73" strokeWidth="1.2" />
-              <rect x="175" y="175" width="10" height="25" fill="#2fcb73" rx="1" />
-
-              {/* Bar 4 */}
-              <line x1="240" y1="175" x2="240" y2="205" stroke="#e13b3b" strokeWidth="1.2" />
-              <rect x="235" y="180" width="10" height="15" fill="#e13b3b" rx="1" />
-
-              {/* Bar 5 */}
-              <line x1="300" y1="160" x2="300" y2="195" stroke="#2fcb73" strokeWidth="1.2" />
-              <rect x="295" y="165" width="10" height="20" fill="#2fcb73" rx="1" />
-
-              {/* Bar 6 */}
-              <line x1="360" y1="150" x2="360" y2="185" stroke="#2fcb73" strokeWidth="1.2" />
-              <rect x="355" y="155" width="10" height="25" fill="#2fcb73" rx="1" />
-
-              {/* Bar 7 */}
-              <line x1="420" y1="140" x2="420" y2="175" stroke="#2fcb73" strokeWidth="1.2" />
-              <rect x="415" y="145" width="10" height="22" fill="#2fcb73" rx="1" />
-
-              {/* Bar 8 */}
-              <line x1="480" y1="110" x2="480" y2="160" stroke="#2fcb73" strokeWidth="1.2" />
-              <rect x="475" y="115" width="10" height="35" fill="#2fcb73" rx="1" />
-
-              {/* Bar 9 (Big Bullish Spike) */}
-              <line x1="540" y1="70" x2="540" y2="140" stroke="#2fcb73" strokeWidth="1.2" />
-              <rect x="535" y="75" width="10" height="55" fill="#2fcb73" rx="1" />
-
-              {/* Bar 10 (Current Active Candle) */}
-              <line x1="600" y1="50" x2="600" y2="120" stroke="#2fcb73" strokeWidth="1.2" />
-              <rect x="595" y="55" width="10" height="60" fill="#2fcb73" rx="1" />
-
-              {/* Smooth trend line under glow */}
-              <path
-                d="M 50 210 Q 180 195 300 175 T 480 120 T 600 65 L 600 270 L 50 270 Z"
-                fill="url(#chartGlow)"
-              />
-              <path
-                d="M 50 210 Q 180 195 300 175 T 480 120 T 600 65"
-                fill="none"
-                stroke="#2fcb73"
-                strokeWidth="2.5"
-              />
-            </svg>
-          </div>
-
-          {/* 3 Telemetry Cards */}
-          <div className={styles.analyticsGrid}>
-            {/* 1: Price Performance */}
-            <div className={styles.analyticsCard}>
-              <div className={styles.analyticsCardTitleRow}>
-                <span>Price Performance</span>
-                <span style={{ color: "var(--emerald-400)" }}>ATH: $2.70M</span>
-              </div>
-              <div className={styles.pricePerfGrid}>
-                <div className={styles.perfPill}>
-                  <span className={styles.perfPillLabel}>5M</span>
-                  <span className={styles.perfPillVal}>+4.80%</span>
-                </div>
-                <div className={styles.perfPill}>
-                  <span className={styles.perfPillLabel}>1H</span>
-                  <span className={styles.perfPillVal}>+18.90%</span>
-                </div>
-                <div className={styles.perfPill}>
-                  <span className={styles.perfPillLabel}>4H</span>
-                  <span className={styles.perfPillVal}>+52.40%</span>
-                </div>
-                <div className={styles.perfPill}>
-                  <span className={styles.perfPillLabel}>24H</span>
-                  <span className={styles.perfPillVal}>+{selectedToken.change24h.toFixed(0)}%</span>
-                </div>
-              </div>
-            </div>
-
-            {/* 2: Buy vs Sell Pressure */}
-            <div className={styles.analyticsCard}>
-              <div className={styles.analyticsCardTitleRow}>
-                <span>Buy vs Sell Pressure</span>
-                <span>24H Order Flow</span>
-              </div>
-              <div className={styles.buySellBarsRow}>
-                <div className={styles.buySellNumbers}>
-                  <span style={{ color: "var(--emerald-500)" }}>Buy: $2.81M (68%)</span>
-                  <span style={{ color: "var(--red-500)" }}>Sell: $1.31M (32%)</span>
-                </div>
-                <div className={styles.buySellTrack}>
-                  <div className={styles.buySellFill} style={{ width: "68%" }} />
-                </div>
-                <div className={styles.buySellNumbers} style={{ fontSize: 9.5, color: "var(--text-tertiary)" }}>
-                  <span>6,513 Buys</span>
-                  <span>2,211 Sells</span>
-                </div>
-              </div>
-            </div>
-
-            {/* 3: KOL Holders & Consensus */}
-            <div className={styles.analyticsCard}>
-              <div className={styles.analyticsCardTitleRow}>
-                <span>KOL Holders & Consensus</span>
-                <span style={{ color: "var(--emerald-400)", cursor: "pointer" }}>Audit & Safety &gt;</span>
-              </div>
-              <div className={styles.kolConsensusRow}>
-                <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
-                  <span style={{ fontSize: 10.5, color: "var(--text-secondary)" }}>
-                    Holding KOLs: <strong>{selectedToken.kolsHolding || 3} Callers</strong>
-                  </span>
-                  <div className={styles.kolAvatarsMini}>
-                    <div className={styles.kolMiniAvatar}>🦁</div>
-                    <div className={styles.kolMiniAvatar}>🐯</div>
-                    <div className={styles.kolMiniAvatar}>🦊</div>
-                  </div>
-                </div>
-                <div style={{ textAlign: "right" }}>
-                  <span className={styles.consensusBagVal}>$36,000 Bag</span>
-                  <div style={{ fontSize: 9.5, color: "var(--text-tertiary)" }}>LP Locked · Top 10: 12.2%</div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Real-time Swaps Stream */}
-          <div className={styles.swapsStreamSection}>
-            <div className={styles.swapsHeaderRow}>
-              <div className={styles.swapsSubtabs}>
-                <button
-                  className={`${styles.swapsSubtab} ${activeSwapFilter === "all" ? styles.swapsSubtabActive : ""}`}
-                  onClick={() => setActiveSwapFilter("all")}
-                >
-                  All Swaps (1)
-                </button>
-                <button
-                  className={`${styles.swapsSubtab} ${activeSwapFilter === "kols" ? styles.swapsSubtabActive : ""}`}
-                  onClick={() => setActiveSwapFilter("kols")}
-                >
-                  🔥 KOLs & Smart Money (3)
-                </button>
-                <button
-                  className={`${styles.swapsSubtab} ${activeSwapFilter === "buys" ? styles.swapsSubtabActive : ""}`}
-                  onClick={() => setActiveSwapFilter("buys")}
-                >
-                  Buys
-                </button>
-                <button
-                  className={`${styles.swapsSubtab} ${activeSwapFilter === "sells" ? styles.swapsSubtabActive : ""}`}
-                  onClick={() => setActiveSwapFilter("sells")}
-                >
-                  Sells
-                </button>
-              </div>
-            </div>
-
-            <table className={styles.swapsTable}>
-              <thead>
-                <tr>
-                  <th className={styles.swapsTh}>Trader / Wallet</th>
-                  <th className={styles.swapsTh}>Action</th>
-                  <th className={styles.swapsTh}>Token Amount</th>
-                  <th className={styles.swapsTh}>Value (USD)</th>
-                  <th className={styles.swapsTh}>Market Cap</th>
-                  <th className={styles.swapsTh}>Price</th>
-                  <th className={styles.swapsTh}>Time</th>
-                  <th className={styles.swapsTh}>TX Hash</th>
-                </tr>
-              </thead>
-              <tbody>
-                {MOCK_SWAPS.map((sw) => (
-                  <tr key={sw.id} className={styles.swapsTr}>
-                    <td className={styles.swapsTd}>
-                      <span style={{ fontWeight: 600, color: "var(--text-primary)" }}>{sw.trader}</span>
-                    </td>
-                    <td className={styles.swapsTd}>
-                      <span className={sw.action === "BUY" ? styles.actionBuyBadge : styles.actionSellBadge}>
-                        {sw.action}
-                      </span>
-                    </td>
-                    <td className={styles.swapsTd} style={{ fontFamily: "var(--font-mono)" }}>
-                      {sw.amount} {selectedToken.ticker}
-                    </td>
-                    <td className={styles.swapsTd} style={{ fontFamily: "var(--font-mono)", fontWeight: 700 }}>
-                      {sw.valueUsd}
-                    </td>
-                    <td className={styles.swapsTd} style={{ fontFamily: "var(--font-mono)", color: "var(--text-tertiary)" }}>
-                      {sw.mc}
-                    </td>
-                    <td className={styles.swapsTd} style={{ fontFamily: "var(--font-mono)" }}>
-                      {sw.price}
-                    </td>
-                    <td className={styles.swapsTd} style={{ color: "var(--text-tertiary)" }}>
-                      {sw.time}
-                    </td>
-                    <td className={styles.swapsTd} style={{ fontFamily: "var(--font-mono)", color: "var(--text-disabled)" }}>
-                      {sw.hash}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        {/* ═══ RIGHT PANE: INSTANT SWAP TERMINAL ═════════════ */}
-        <div className={styles.rightPane}>
+        {/* ════════════════════════════════════════════════════
+           LEFT COLUMN: INSTANT SWAP (MATCHES SCREENSHOT)
+           ════════════════════════════════════════════════════ */}
+        <div className={styles.swapLeftCol}>
+          {/* Header */}
           <div className={styles.swapHeader}>
-            <div className={styles.swapTitle}>
-              <Zap size={15} style={{ color: "var(--emerald-400)" }} />
-              <span>Instant Swap</span>
+            <div className={styles.swapTitleRow}>
+              <Zap size={18} className={styles.swapZapIcon} />
+              <span className={styles.swapTitleText}>Instant Swap</span>
             </div>
-            <button className={styles.socialIconBtn} title="Swap Settings">
-              <SlidersHorizontal size={13} />
+
+            <button
+              type="button"
+              className={styles.iconBtn}
+              onClick={() => triggerToast("Opened Advanced Slippage & Gas Settings")}
+              title="Swap Settings"
+            >
+              <SlidersHorizontal size={14} />
             </button>
           </div>
 
+          {/* Buy / Sell Segmented Control */}
           <div className={styles.swapSegmentTabs}>
             <button
+              type="button"
               className={`${styles.swapSegmentBtn} ${swapMode === "buy" ? styles.swapSegmentBtnActiveBuy : ""}`}
               onClick={() => setSwapMode("buy")}
             >
-              Buy {selectedToken.ticker}
+              Buy {tokenTicker}
             </button>
             <button
+              type="button"
               className={`${styles.swapSegmentBtn} ${swapMode === "sell" ? styles.swapSegmentBtnActiveSell : ""}`}
               onClick={() => setSwapMode("sell")}
             >
@@ -560,12 +213,13 @@ export default function MemeTradingTerminal({ initialToken, allTokens, onClose }
             </button>
           </div>
 
-          {/* Pay Amount Box */}
+          {/* Pay With Box */}
           <div className={styles.swapInputBox}>
             <div className={styles.swapInputTop}>
               <span>Pay with</span>
-              <span>Balance: 14.85 {selectedToken.chain === "SOL" ? "SOL" : "BNB"}</span>
+              <span className={styles.swapBalanceText}>Balance: 14.85 {chainSymbol}</span>
             </div>
+
             <div className={styles.swapInputMain}>
               <input
                 type="number"
@@ -573,16 +227,17 @@ export default function MemeTradingTerminal({ initialToken, allTokens, onClose }
                 value={payAmount}
                 onChange={(e) => setPayAmount(e.target.value)}
                 placeholder="0.0"
+                step="any"
               />
-              <span className={styles.swapCurrencyBadge}>
-                {selectedToken.chain === "SOL" ? "SOL" : "BNB"}
-              </span>
+              <span className={styles.swapCurrencyBadge}>{chainSymbol}</span>
             </div>
+
             <div className={styles.swapQuickPills}>
               {["0.1", "0.5", "1", "2", "MAX"].map((p) => (
                 <button
                   key={p}
-                  className={styles.swapQuickPill}
+                  type="button"
+                  className={`${styles.swapQuickPill} ${payAmount === p ? styles.swapQuickPillActive : ""}`}
                   onClick={() => setPayAmount(p === "MAX" ? "14.85" : p)}
                 >
                   {p}
@@ -591,18 +246,19 @@ export default function MemeTradingTerminal({ initialToken, allTokens, onClose }
             </div>
           </div>
 
-          {/* Estimated Output */}
+          {/* You Receive Estimated Box */}
           <div className={styles.swapOutputBox}>
-            <span className={styles.swapOutputLabel}>You Receive (Estimated)</span>
-            <span className={styles.swapOutputVal}>
-              {receiveEstimate} {selectedToken.ticker}
-            </span>
-            <span className={styles.swapOutputUsd}>
-              ≈ ${(parseFloat(payAmount || "0") * (selectedToken.chain === "SOL" ? 185 : 590)).toFixed(2)}
-            </span>
+            <span className={styles.swapOutputLabel}>YOU RECEIVE (ESTIMATED)</span>
+            <div className={styles.swapOutputValRow}>
+              <span className={styles.swapOutputVal}>{receiveEstimate}</span>
+              <span className={styles.swapOutputVal} style={{ fontSize: "16px", color: "var(--text-secondary)" }}>
+                {tokenTicker}
+              </span>
+            </div>
+            <span className={styles.swapOutputUsd}>≈ ${usdApprox}</span>
           </div>
 
-          {/* Route Details */}
+          {/* Route & Execution Details */}
           <div className={styles.swapRouteDetails}>
             <div className={styles.routeRow}>
               <span>Token Price:</span>
@@ -614,7 +270,7 @@ export default function MemeTradingTerminal({ initialToken, allTokens, onClose }
             </div>
             <div className={styles.routeRow}>
               <span>Price Impact:</span>
-              <span className={styles.routeRowVal} style={{ color: "var(--emerald-500)" }}>0.02%</span>
+              <span className={`${styles.routeRowVal} ${styles.routeGainVal}`}>0.02%</span>
             </div>
             <div className={styles.routeRow}>
               <span>Platform Fee:</span>
@@ -622,11 +278,11 @@ export default function MemeTradingTerminal({ initialToken, allTokens, onClose }
             </div>
             <div className={styles.routeRow}>
               <span>Route:</span>
-              <span className={styles.routeRowVal}>Raydium V4 Pool</span>
+              <span className={styles.routeRowVal}>{routePool}</span>
             </div>
           </div>
 
-          {/* Thesis Note */}
+          {/* Optional Thesis Note */}
           <input
             type="text"
             className={styles.thesisInput}
@@ -635,42 +291,135 @@ export default function MemeTradingTerminal({ initialToken, allTokens, onClose }
             onChange={(e) => setThesisNote(e.target.value)}
           />
 
-          {/* Primary Action Button */}
+          {/* Primary Quick Buy Button */}
           <button
+            type="button"
             className={styles.instantBuyActionBtn}
-            onClick={() => triggerToast(`Executed ${payAmount} ${selectedToken.chain === "SOL" ? "SOL" : "BNB"} swap for ${selectedToken.ticker}`)}
+            onClick={handleExecuteSwap}
           >
-            <Zap size={15} />
-            Quick Buy {selectedToken.ticker} ({payAmount} {selectedToken.chain === "SOL" ? "SOL" : "BNB"})
+            <Zap size={16} />
+            <span>
+              {swapMode === "buy" ? "Quick Buy" : "Quick Sell"} {tokenTicker} ({payAmount} {chainSymbol})
+            </span>
           </button>
 
+          {/* MEV Protection Notice */}
           <div className={styles.mevProtectionNotice}>
             <Lock size={11} />
             <span>Encrypted · 0% MEV Frontrun Protection</span>
           </div>
         </div>
 
-      </div>
+        {/* ════════════════════════════════════════════════════
+           RIGHT COLUMN: RECENT TRADE HISTORY (ON RIGHT SIDE)
+           ════════════════════════════════════════════════════ */}
+        <div className={styles.swapRightCol}>
+          {/* Top Bar with Filter Tabs and Modal Close Button */}
+          <div className={styles.historyTopBar}>
+            <div className={styles.historyTitleWrap}>
+              <History size={16} style={{ color: "var(--emerald-500)" }} />
+              <span className={styles.historyTitleText}>Trade History</span>
+            </div>
 
-      {showToast && (
-        <div style={{
-          position: "fixed",
-          bottom: 30,
-          left: "50%",
-          transform: "translateX(-50%)",
-          background: "var(--neutral-800)",
-          border: "1px solid var(--emerald-500)",
-          color: "var(--emerald-400)",
-          padding: "8px 16px",
-          borderRadius: 8,
-          fontSize: 12,
-          fontWeight: 700,
-          boxShadow: "0 8px 24px rgba(0,0,0,0.6)",
-          zIndex: 9999,
-        }}>
-          ✓ {showToast}
+            <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+              <div className={styles.historyFilterTabs}>
+                <button
+                  type="button"
+                  className={`${styles.historyTabBtn} ${historyFilter === "my" ? styles.historyTabBtnActive : ""}`}
+                  onClick={() => setHistoryFilter("my")}
+                >
+                  My Swaps ({myTrades.length})
+                </button>
+                <button
+                  type="button"
+                  className={`${styles.historyTabBtn} ${historyFilter === "live" ? styles.historyTabBtnActive : ""}`}
+                  onClick={() => setHistoryFilter("live")}
+                >
+                  Live Pool ({allTrades.length})
+                </button>
+              </div>
+
+              <button
+                type="button"
+                className={styles.iconBtn}
+                onClick={onClose}
+                title="Close Modal (Esc)"
+              >
+                <X size={15} />
+              </button>
+            </div>
+          </div>
+
+          {/* Live Status Indicator Row */}
+          <div className={styles.liveIndicatorRow}>
+            <div className={styles.liveStreamBadge}>
+              <span className={styles.liveDot} />
+              <span>Real-time On-Chain Stream</span>
+            </div>
+            <span>{historyFilter === "my" ? "Wallet Activity" : `${selectedToken.chain} Dex Pool`}</span>
+          </div>
+
+          {/* List of Recent Trades */}
+          <div className={styles.historyList}>
+            {(historyFilter === "my" ? myTrades : allTrades).map((tx) => (
+              <div key={tx.id} className={styles.historyRow}>
+                <div className={styles.historyLeft}>
+                  <span className={tx.action === "BUY" ? styles.actionBuyBadge : styles.actionSellBadge}>
+                    {tx.action}
+                  </span>
+                  <div className={styles.historyTokenMeta}>
+                    <span className={styles.historyAmountText}>
+                      {tx.amount} {tokenTicker}
+                    </span>
+                    <span className={styles.historyTimeText}>{tx.time}</span>
+                  </div>
+                </div>
+
+                <div className={styles.historyRight}>
+                  <span className={styles.historyValueText}>{tx.valueUsd}</span>
+                  <a
+                    href="#"
+                    className={styles.historyHashLink}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      triggerToast(`Viewing on-chain TX: ${tx.hash}`);
+                    }}
+                    title="View Transaction on Explorer"
+                  >
+                    <span>{tx.hash}</span>
+                    <ExternalLink size={10} />
+                  </a>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
-      )}
+
+        {/* ── TOAST NOTIFICATION ─────────────────────────── */}
+        {showToast && (
+          <div
+            style={{
+              position: "fixed",
+              bottom: "24px",
+              left: "50%",
+              transform: "translateX(-50%)",
+              background: "var(--neutral-900)",
+              border: "1px solid var(--emerald-500)",
+              color: "var(--emerald-400)",
+              padding: "9px 18px",
+              borderRadius: "8px",
+              fontSize: "12px",
+              fontWeight: 700,
+              boxShadow: "0 8px 24px rgba(0,0,0,0.85)",
+              whiteSpace: "nowrap",
+              zIndex: 9999,
+            }}
+          >
+            ✓ {showToast}
+          </div>
+        )}
+
+      </div>
     </div>
   );
 }

@@ -1311,6 +1311,7 @@ export default function MemeLaunchpadView() {
   const [hoveredToken, setHoveredToken] = useState<LaunchpadToken | null>(null);
   const [selectedBubbleToken, setSelectedBubbleToken] = useState<LaunchpadToken | null>(null);
   const [tradingTerminalToken, setTradingTerminalToken] = useState<LaunchpadToken | null>(null);
+  const [tradingTerminalAmount, setTradingTerminalAmount] = useState<string | undefined>(undefined);
   const [activeKolProfile, setActiveKolProfile] = useState<any | null>(null);
 
   /* Leaderboard States */
@@ -1356,12 +1357,14 @@ export default function MemeLaunchpadView() {
 
   const handleBuy = (token: LaunchpadToken) => {
     const amt = activeSnipe[token.id] || (token.chain === "SOL" ? "0.5" : "0.1");
-    const unit = token.chain === "SOL" ? "SOL" : "BNB";
-    showToast(`Initiated ${amt} ${unit} buy order for ${token.ticker}`);
+    openTerminalForToken(token, amt);
   };
 
-  const openTerminalForToken = (tokenObj: any) => {
+  const openTerminalForToken = (tokenObj: any, customAmount?: string) => {
     if (!tokenObj) return;
+    if (customAmount) {
+      setTradingTerminalAmount(customAmount);
+    }
     const cleanTicker = (tokenObj.ticker || "").replace("$", "").toLowerCase();
     const existing = tokens.find(
       (t) => t.id === tokenObj.id || t.ticker.replace("$", "").toLowerCase() === cleanTicker
@@ -2946,7 +2949,7 @@ export default function MemeLaunchpadView() {
                   <span className={styles.top10Row}>Top 10: {token.topTenPct}</span>
                   <button
                     className={styles.quickBuyBtn}
-                    onClick={(e) => { e.stopPropagation(); showToast(`Quick Buy ${token.ticker}`); }}
+                    onClick={(e) => { e.stopPropagation(); handleBuy(token); }}
                   >
                     Quick Buy
                   </button>
@@ -3607,8 +3610,12 @@ export default function MemeLaunchpadView() {
       {tradingTerminalToken && (
         <MemeTradingTerminal
           initialToken={tradingTerminalToken}
+          initialPayAmount={tradingTerminalAmount}
           allTokens={tokens}
-          onClose={() => setTradingTerminalToken(null)}
+          onClose={() => {
+            setTradingTerminalToken(null);
+            setTradingTerminalAmount(undefined);
+          }}
         />
       )}
 

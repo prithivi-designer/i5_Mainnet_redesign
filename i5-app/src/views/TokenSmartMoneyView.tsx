@@ -154,23 +154,23 @@ export default function TokenSmartMoneyView({ onClose, onSelectWallet, tokenName
             <div className={styles.infoPillLabel}>Top 10 H.</div>
           </div>
           <div className={styles.infoPill}>
-            <div className={styles.infoPillValue} style={{ color: "var(--emerald-500)" }}><Brain size={12} /> 0%</div>
+            <div className={styles.infoPillValue} style={{ color: "var(--text-secondary)" }}><Brain size={12} /> 0%</div>
             <div className={styles.infoPillLabel}>Dev H.</div>
           </div>
           <div className={styles.infoPill}>
-            <div className={styles.infoPillValue} style={{ color: "var(--emerald-500)" }}><Shield size={12} /> 0%</div>
+            <div className={styles.infoPillValue} style={{ color: "var(--text-secondary)" }}><Shield size={12} /> 0%</div>
             <div className={styles.infoPillLabel}>Sniper H.</div>
           </div>
           <div className={styles.infoPill}>
-            <div className={styles.infoPillValue} style={{ color: "var(--emerald-500)" }}><Brain size={12} /> 0%</div>
+            <div className={styles.infoPillValue} style={{ color: "var(--text-secondary)" }}><Brain size={12} /> 0%</div>
             <div className={styles.infoPillLabel}>Insider H.</div>
           </div>
           <div className={styles.infoPill}>
-            <div className={styles.infoPillValue} style={{ color: "var(--emerald-500)" }}><Brain size={12} /> 3.23%</div>
+            <div className={styles.infoPillValue} style={{ color: "var(--text-secondary)" }}><Brain size={12} /> 3.23%</div>
             <div className={styles.infoPillLabel}>Bundlers H.</div>
           </div>
           <div className={styles.infoPill}>
-            <div className={styles.infoPillValue} style={{ color: "var(--yellow-500)" }}><Brain size={12} /> 12</div>
+            <div className={styles.infoPillValue} style={{ color: "var(--text-primary)" }}><Brain size={12} /> 12</div>
             <div className={styles.infoPillLabel}>Smart</div>
           </div>
           <div className={styles.infoPill}>

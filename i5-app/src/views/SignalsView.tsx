@@ -80,7 +80,7 @@ export default function SignalsView() {
           <div className={styles.headerActions}>
             {activeTab === "TECHNICAL SIGNALS" && (
               <div style={{ display: "flex", alignItems: "center", gap: 6, marginRight: 16, fontSize: 11, color: "var(--text-tertiary)" }}>
-                <span style={{ width: 6, height: 6, borderRadius: "50%", background: "var(--emerald-500)", boxShadow: "0 0 6px var(--emerald-500)" }} />
+                <span style={{ width: 6, height: 6, borderRadius: "50%", background: "var(--emerald-500)" }} />
                 Last updated: 2 mins ago
               </div>
             )}
