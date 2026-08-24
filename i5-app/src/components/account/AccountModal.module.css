@@ -1,0 +1,907 @@
+/* ============================================================
+   Account Modal Styles — i5 Design System
+   Matches Dashboard Theme: Deep Desaturated Surfaces,
+   Geist & Geist Mono Typography, Exact Matrix Dot-Grid Button
+   ============================================================ */
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-modal, 500);
+  background-color: rgba(0, 0, 0, 0.82);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-4, 16px);
+  animation: fadeIn var(--duration-fast, 150ms) var(--easing-standard) forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.modal {
+  position: relative;
+  width: 100%;
+  max-width: 860px;
+  min-height: 560px;
+  background-color: var(--bg-surface, #0e0e0e);
+  border: var(--border-width-default) solid var(--border-color-strong, rgba(228, 228, 228, 0.18));
+  border-radius: var(--radius-xl, 16px);
+  box-shadow: var(--shadow-xl), 0 0 0 1px rgba(255, 255, 255, 0.04);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  font-family: var(--font-sans);
+  user-select: none;
+  animation: scaleIn var(--duration-base, 200ms) var(--easing-decelerate) forwards;
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* Close Button in top right */
+.closeBtn {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--bg-surface-raised, #161616);
+  border: var(--border-width-default) solid var(--border-color-default, rgba(228, 228, 228, 0.1));
+  border-radius: var(--radius-md, 8px);
+  color: var(--text-tertiary, #787878);
+  cursor: pointer;
+  transition:
+    background-color var(--duration-fast) var(--easing-standard),
+    color var(--duration-fast) var(--easing-standard),
+    border-color var(--duration-fast) var(--easing-standard),
+    transform var(--duration-fast) var(--easing-standard);
+  z-index: var(--z-sticky, 10);
+}
+
+.closeBtn:hover {
+  background-color: var(--neutral-800, #1c1c1c);
+  color: var(--text-primary, #e4e4e4);
+  border-color: var(--border-color-strong, rgba(228, 228, 228, 0.2));
+  transform: scale(1.04);
+}
+
+/* ── Top Header ───────────────────────────────────────────── */
+.header {
+  padding: 24px 28px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.title {
+  font-family: var(--font-sans);
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 28px;
+  letter-spacing: -0.02em;
+  color: var(--text-primary, #e4e4e4);
+  margin: 0;
+}
+
+.subtitle {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  line-height: 18px;
+  color: var(--text-tertiary, #787878);
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+/* Node Divider Line (o───────o) */
+.nodeDivider {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin: 6px 28px 0;
+  height: 12px;
+}
+
+.nodeLine {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    rgba(228, 228, 228, 0.3) 0%,
+    rgba(228, 228, 228, 0.08) 50%,
+    rgba(228, 228, 228, 0.3) 100%
+  );
+}
+
+.nodeDot {
+  width: 4px;
+  height: 4px;
+  border-radius: var(--radius-full);
+  background-color: var(--text-primary, #e4e4e4);
+  box-shadow: 0 0 6px rgba(255, 255, 255, 0.6);
+}
+
+/* ── Modal Body (2 Columns) ──────────────────────────────── */
+.body {
+  display: flex;
+  flex: 1;
+  padding: 16px 28px 24px;
+  gap: 20px;
+  min-height: 440px;
+}
+
+/* ── Left Sidebar Navigation ─────────────────────────────── */
+.sidebar {
+  width: 220px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-right: 12px;
+}
+
+.navItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: var(--radius-md, 8px);
+  background-color: transparent;
+  border: var(--border-width-default) solid transparent;
+  color: var(--text-secondary, #c2c2c2);
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    background-color var(--duration-fast) var(--easing-standard),
+    color var(--duration-fast) var(--easing-standard),
+    border-color var(--duration-fast) var(--easing-standard);
+  width: 100%;
+  text-align: left;
+}
+
+.navItem:hover {
+  background-color: var(--neutral-850, #161616);
+  color: var(--text-primary, #e4e4e4);
+}
+
+.navItemActive {
+  background-color: var(--neutral-850, #161616);
+  border-color: var(--border-color-strong, rgba(228, 228, 228, 0.2));
+  color: var(--text-primary, #e4e4e4);
+  box-shadow: var(--shadow-xs);
+}
+
+.navItemIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  color: inherit;
+  flex-shrink: 0;
+}
+
+.accordionHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: var(--radius-md, 8px);
+  background-color: transparent;
+  border: var(--border-width-default) solid transparent;
+  color: var(--text-secondary, #c2c2c2);
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    background-color var(--duration-fast) var(--easing-standard),
+    color var(--duration-fast) var(--easing-standard),
+    border-color var(--duration-fast) var(--easing-standard);
+}
+
+.accordionHeader:hover {
+  background-color: var(--neutral-850, #161616);
+  color: var(--text-primary, #e4e4e4);
+}
+
+.accordionHeaderActive {
+  background-color: var(--neutral-850, #161616);
+  border-color: var(--border-color-strong, rgba(228, 228, 228, 0.2));
+  color: var(--text-primary, #e4e4e4);
+}
+
+.accordionHeaderLeft {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.chevronIcon {
+  color: var(--text-tertiary, #787878);
+  transition: transform var(--duration-fast) var(--easing-standard);
+}
+
+.chevronOpen {
+  transform: rotate(180deg);
+}
+
+/* Nested Exchange List */
+.exchangeList {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding-left: 8px;
+  margin-top: 4px;
+  max-height: 280px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--neutral-700) transparent;
+}
+
+.exchangeList::-webkit-scrollbar {
+  width: 4px;
+}
+
+.exchangeList::-webkit-scrollbar-thumb {
+  background-color: var(--neutral-700);
+  border-radius: var(--radius-sm);
+}
+
+.exchangeSubItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 7px 10px;
+  border-radius: var(--radius-sm);
+  background-color: transparent;
+  border: var(--border-width-default) solid transparent;
+  color: var(--text-secondary, #c2c2c2);
+  font-family: var(--font-sans);
+  font-size: 12px;
+  cursor: pointer;
+  transition:
+    background-color var(--duration-fast) var(--easing-standard),
+    color var(--duration-fast) var(--easing-standard);
+  width: 100%;
+}
+
+.exchangeSubItem:hover {
+  background-color: var(--neutral-850, #161616);
+  color: var(--text-primary, #e4e4e4);
+}
+
+.exchangeSubItemActive {
+  background-color: var(--neutral-800, #1c1c1c);
+  color: var(--text-primary, #e4e4e4);
+  font-weight: 600;
+}
+
+.exchangeItemLeft {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.exchangeIconWrap {
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.countBadge {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-tertiary, #787878);
+}
+
+/* ── Right Content Area ──────────────────────────────────── */
+.contentArea {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.panelCard {
+  background-color: var(--bg-surface-raised, #121214);
+  border: var(--border-width-default) solid var(--border-color-default, rgba(228, 228, 228, 0.08));
+  border-radius: var(--radius-lg, 12px);
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 24px;
+  position: relative;
+  justify-content: space-between;
+}
+
+/* ── User Info View ──────────────────────────────────────── */
+.userInfoList {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.infoRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 2px 0;
+  gap: 16px;
+}
+
+.infoLabel {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--text-secondary, #c2c2c2);
+  white-space: nowrap;
+}
+
+.infoValueGroup {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.infoMonoValue {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-primary, #e4e4e4);
+  letter-spacing: 0.02em;
+}
+
+.actionBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  background-color: var(--button-secondary-bg, #18181a);
+  border: var(--border-width-default) solid var(--button-secondary-border, rgba(228, 228, 228, 0.16));
+  border-radius: var(--radius-md, 6px);
+  color: var(--button-secondary-text, #e4e4e4);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition:
+    background-color var(--duration-fast) var(--easing-standard),
+    border-color var(--duration-fast) var(--easing-standard),
+    transform var(--duration-fast) var(--easing-standard);
+}
+
+.actionBtn:hover {
+  background-color: var(--button-secondary-bg-hover, #242428);
+  border-color: var(--border-color-strong);
+  transform: translateY(-1px);
+}
+
+.actionBtnConnected {
+  background-color: var(--color-chart-bullish-fill, rgba(47, 203, 115, 0.1));
+  border-color: rgba(47, 203, 115, 0.35);
+  color: var(--emerald-400, #56d68f);
+}
+
+.actionBtnConnected:hover {
+  background-color: rgba(47, 203, 115, 0.18);
+  border-color: rgba(47, 203, 115, 0.5);
+}
+
+.iconOnlyBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  background-color: transparent;
+  border: var(--border-width-default) solid transparent;
+  border-radius: var(--radius-sm);
+  color: var(--text-tertiary, #787878);
+  cursor: pointer;
+  transition:
+    background-color var(--duration-fast) var(--easing-standard),
+    color var(--duration-fast) var(--easing-standard),
+    border-color var(--duration-fast) var(--easing-standard);
+}
+
+.iconOnlyBtn:hover {
+  background-color: var(--neutral-800, #1c1c1c);
+  color: var(--text-primary, #e4e4e4);
+  border-color: var(--border-color-default);
+}
+
+.guidedSetupSection {
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: var(--border-width-default) solid var(--border-color-default, rgba(228, 228, 228, 0.08));
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.guidedSetupLeft {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.guidedSetupTitle {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary, #e4e4e4);
+}
+
+.guidedSetupDesc {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-tertiary, #787878);
+  line-height: 1.4;
+}
+
+/* ── Exchange Accounts View ──────────────────────────────── */
+.exchangeHeader {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-secondary, #c2c2c2);
+  margin-bottom: 20px;
+}
+
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  padding: 36px 20px;
+  text-align: center;
+}
+
+.emptyIconBox {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-md, 8px);
+  background-color: var(--neutral-850, #161616);
+  border: var(--border-width-default) solid var(--border-color-default, rgba(228, 228, 228, 0.1));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-tertiary, #787878);
+  margin-bottom: 14px;
+}
+
+.emptyTitle {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary, #e4e4e4);
+  margin: 0 0 6px;
+}
+
+.emptySub {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-tertiary, #787878);
+  margin: 0;
+}
+
+/* ── Connected Accounts List ─────────────────────────────── */
+.connectedAccountsList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex: 1;
+  overflow-y: auto;
+  padding-bottom: 12px;
+  max-height: 240px;
+}
+
+.accountCard {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  background-color: var(--neutral-850, #161616);
+  border: var(--border-width-default) solid var(--border-color-default, rgba(228, 228, 228, 0.1));
+  border-radius: var(--radius-md, 8px);
+  transition: border-color var(--duration-fast) var(--easing-standard);
+}
+
+.accountCard:hover {
+  border-color: var(--border-color-strong);
+}
+
+.accountCardLeft {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.accountLogoBox {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-sm, 6px);
+  background-color: var(--neutral-900, #0e0e0e);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: var(--border-width-default) solid var(--border-color-default);
+}
+
+.accountInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.accountName {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary, #e4e4e4);
+}
+
+.accountMeta {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-tertiary, #787878);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.statusDot {
+  width: 6px;
+  height: 6px;
+  border-radius: var(--radius-full);
+  background-color: var(--color-success, #2fcb73);
+  box-shadow: 0 0 6px rgba(47, 203, 115, 0.4);
+}
+
+.accountCardRight {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.permBadge {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  padding: 3px 8px;
+  border-radius: var(--radius-sm, 4px);
+  background-color: var(--neutral-800, #1c1c1c);
+  color: var(--text-secondary, #c2c2c2);
+  border: var(--border-width-default) solid var(--border-color-default);
+  text-transform: uppercase;
+}
+
+.disconnectBtn {
+  background-color: transparent;
+  border: var(--border-width-default) solid transparent;
+  color: var(--text-tertiary, #787878);
+  padding: 4px 8px;
+  font-size: 11px;
+  font-family: var(--font-mono);
+  cursor: pointer;
+  border-radius: var(--radius-sm, 4px);
+  transition:
+    color var(--duration-fast) var(--easing-standard),
+    background-color var(--duration-fast) var(--easing-standard),
+    border-color var(--duration-fast) var(--easing-standard);
+}
+
+.disconnectBtn:hover {
+  color: var(--red-400, #ea5e5e);
+  background-color: var(--color-caution-bg);
+  border-color: var(--color-caution-border);
+}
+
+/* ── High-Tech Cyber Button ("Connect a new account +") ─── */
+/* Matches Exact Reference Screenshot: Dotted Matrix Grid & Corner Brackets */
+.connectAccountBtn {
+  position: relative;
+  width: 100%;
+  height: 48px;
+  background-color: #111111;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 6px;
+  color: var(--text-primary, #e4e4e4);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition:
+    background-color var(--duration-fast) var(--easing-standard),
+    border-color var(--duration-fast) var(--easing-standard),
+    box-shadow var(--duration-fast) var(--easing-standard),
+    color var(--duration-fast) var(--easing-standard);
+  margin-top: 16px;
+  overflow: hidden;
+}
+
+/* Textured Dotted Matrix Grid matching the screenshot */
+.connectAccountBtn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.22) 1.2px, transparent 1.2px);
+  background-size: 8px 8px;
+  background-position: center;
+  opacity: 0.6;
+  pointer-events: none;
+  transition: opacity var(--duration-fast) var(--easing-standard);
+}
+
+.connectAccountBtn:hover {
+  background-color: #161616;
+  border-color: rgba(255, 255, 255, 0.35);
+  color: #ffffff;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.05);
+}
+
+.connectAccountBtn:hover::before {
+  opacity: 0.9;
+}
+
+.btnText {
+  position: relative;
+  z-index: 2;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  color: inherit;
+}
+
+/* Corner Bracket Accents [  ] matching screenshot */
+.cornerTL,
+.cornerTR,
+.cornerBL,
+.cornerBR {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-color: #ffffff;
+  border-style: solid;
+  pointer-events: none;
+  z-index: 3;
+  transition: border-color var(--duration-fast) var(--easing-standard);
+}
+
+.cornerTL {
+  top: 4px;
+  left: 4px;
+  border-width: 1.5px 0 0 1.5px;
+}
+
+.cornerTR {
+  top: 4px;
+  right: 4px;
+  border-width: 1.5px 1.5px 0 0;
+}
+
+.cornerBL {
+  bottom: 4px;
+  left: 4px;
+  border-width: 0 0 1.5px 1.5px;
+}
+
+.cornerBR {
+  bottom: 4px;
+  right: 4px;
+  border-width: 0 1.5px 1.5px 0;
+}
+
+/* ── Inline Input / Edit Mode ────────────────────────────── */
+.inlineInput {
+  background-color: var(--neutral-900, #0e0e0e);
+  border: var(--border-width-default) solid var(--border-color-strong);
+  border-radius: var(--radius-sm, 4px);
+  padding: 4px 8px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-primary);
+  outline: none;
+  width: 150px;
+}
+
+.inlineInput:focus {
+  border-color: var(--border-color-emphasis);
+}
+
+.saveBtn {
+  background-color: var(--button-primary-bg);
+  color: var(--button-primary-text);
+  border: none;
+  border-radius: var(--radius-sm, 4px);
+  padding: 4px 10px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color var(--duration-fast) var(--easing-standard);
+}
+
+.saveBtn:hover {
+  background-color: var(--button-primary-bg-hover);
+}
+
+/* ── Toast / Copy Feedback ───────────────────────────────── */
+.toast {
+  position: absolute;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--neutral-800, #1c1c1c);
+  border: var(--border-width-default) solid var(--border-color-strong);
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
+  box-shadow: var(--shadow-lg);
+  animation: popIn var(--duration-fast) var(--easing-standard) forwards;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+@keyframes popIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 8px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+/* ── Connect Exchange Modal Dialog ───────────────────────── */
+.subModalOverlay {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.72);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  z-index: 30;
+  animation: fadeIn var(--duration-instant) var(--easing-standard) forwards;
+}
+
+.subModal {
+  width: 100%;
+  max-width: 420px;
+  background-color: var(--bg-surface-raised, #161616);
+  border: var(--border-width-default) solid var(--border-color-strong);
+  border-radius: var(--radius-lg, 12px);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  box-shadow: var(--shadow-xl);
+}
+
+.subModalHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.subModalTitle {
+  font-family: var(--font-sans);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.subModalField {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.subModalLabel {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.subModalSelect,
+.subModalInput {
+  background-color: var(--neutral-900, #0e0e0e);
+  border: var(--border-width-default) solid var(--border-color-default);
+  border-radius: var(--radius-md, 6px);
+  padding: 8px 12px;
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  outline: none;
+  transition: border-color var(--duration-fast) var(--easing-standard);
+}
+
+.subModalSelect:focus,
+.subModalInput:focus {
+  border-color: var(--border-color-emphasis);
+}
+
+.subModalActions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 6px;
+}
+
+.subModalCancelBtn {
+  background-color: transparent;
+  border: var(--border-width-default) solid var(--button-secondary-border);
+  color: var(--text-secondary);
+  padding: 7px 12px;
+  border-radius: var(--radius-md, 6px);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  cursor: pointer;
+  transition:
+    background-color var(--duration-fast) var(--easing-standard),
+    color var(--duration-fast) var(--easing-standard);
+}
+
+.subModalCancelBtn:hover {
+  background-color: var(--button-ghost-bg-hover);
+  color: var(--text-primary);
+}
+
+.subModalSubmitBtn {
+  background-color: var(--button-primary-bg);
+  color: var(--button-primary-text);
+  border: none;
+  padding: 7px 16px;
+  border-radius: var(--radius-md, 6px);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background-color var(--duration-fast) var(--easing-standard),
+    transform var(--duration-fast) var(--easing-standard);
+}
+
+.subModalSubmitBtn:hover {
+  background-color: var(--button-primary-bg-hover);
+  transform: translateY(-1px);
+}

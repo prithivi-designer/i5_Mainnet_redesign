@@ -58,11 +58,18 @@ function IconWallet() {
   );
 }
 
-export default function Topbar() {
+import AccountModal from "@/components/account/AccountModal";
+
+interface TopbarProps {
+  onOpenAccount?: () => void;
+}
+
+export default function Topbar({ onOpenAccount }: TopbarProps) {
   const [isConnected, setIsConnected] = useState<boolean>(false);
   const [walletAddress] = useState<string>("0x8f2A1346...c41B");
   const [searchValue, setSearchValue] = useState<string>("");
   const [theme, setTheme] = useState<"dark" | "light">("dark");
+  const [isAccountOpen, setIsAccountOpen] = useState<boolean>(false);
 
   // Load theme from localStorage on mount
   useEffect(() => {
@@ -87,95 +94,113 @@ export default function Topbar() {
     }
   };
 
+  const handleOpenAccount = () => {
+    if (onOpenAccount) {
+      onOpenAccount();
+    } else {
+      setIsAccountOpen(true);
+    }
+  };
+
   return (
-    <header className={styles.topbar} role="banner">
-      {/* Left: Brand Logo + Divider + Page Title */}
-      <div className={styles.left}>
-        <div className={styles.brandMark} aria-label="i5">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden>
-            <rect x="2" y="2" width="20" height="20" rx="6" fill="var(--text-primary)" />
-            <text
-              x="12"
-              y="16"
-              textAnchor="middle"
-              fill="var(--bg-app)"
-              fontSize="11"
-              fontWeight="700"
-              fontFamily="system-ui"
+    <>
+      <header className={styles.topbar} role="banner">
+        {/* Left: Brand Logo + Divider + Page Title */}
+        <div className={styles.left}>
+          <div className={styles.brandMark} aria-label="i5">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden>
+              <rect x="2" y="2" width="20" height="20" rx="6" fill="var(--text-primary)" />
+              <text
+                x="12"
+                y="16"
+                textAnchor="middle"
+                fill="var(--bg-app)"
+                fontSize="11"
+                fontWeight="700"
+                fontFamily="system-ui"
+              >
+                i5
+              </text>
+            </svg>
+          </div>
+          <div className={styles.headerDivider} aria-hidden />
+          <h1 className={`${styles.pageTitle} text-h4`}>Dashboard</h1>
+        </div>
+
+        {/* Right: Search, Status Badges, Bell, Sun, Wallet Connect, Avatar */}
+        <div className={styles.right}>
+          {/* Search Bar */}
+          <div className={styles.searchBar}>
+            <IconSearch />
+            <input
+              type="text"
+              className={styles.searchInput}
+              placeholder="Search stocks, sectors or themes"
+              value={searchValue}
+              onChange={(e) => setSearchValue(e.target.value)}
+            />
+          </div>
+
+          {/* Status Pill 1: Demo data */}
+          <div className={styles.badgeDemo}>
+            <span className={styles.dotGrey} />
+            Demo data
+          </div>
+
+          {/* Status Pill 2: US Market Open */}
+          <div className={styles.badgeMarket}>
+            <span className={styles.dotGreen} />
+            US Market Open
+          </div>
+
+          {/* Notification Bell */}
+          <div className={styles.bellWrap}>
+            <button className={styles.iconBtn} aria-label="Notifications">
+              <IconBell />
+            </button>
+            <span className={styles.notifDotPurple} aria-hidden />
+          </div>
+
+          {/* Theme Toggle Sun/Moon Icon */}
+          <button className={styles.iconBtn} aria-label="Toggle Theme" onClick={toggleTheme}>
+            {theme === "light" ? <IconMoon /> : <IconSun />}
+          </button>
+
+          {/* Wallet Connect / Connected State Button */}
+          {!isConnected ? (
+            <button
+              className={styles.connectWalletBtn}
+              onClick={() => setIsConnected(true)}
+              title="Connect your crypto wallet"
             >
-              i5
-            </text>
-          </svg>
-        </div>
-        <div className={styles.headerDivider} aria-hidden />
-        <h1 className={`${styles.pageTitle} text-h4`}>Dashboard</h1>
-      </div>
+              <IconWallet />
+              <span>Connect Wallet</span>
+            </button>
+          ) : (
+            <button
+              className={styles.connectedPill}
+              onClick={() => setIsConnected(false)}
+              title="Click to disconnect wallet"
+            >
+              <span className={styles.dotGreenPulse} />
+              <span className={styles.addressText}>{walletAddress}</span>
+            </button>
+          )}
 
-      {/* Right: Search, Status Badges, Bell, Sun, Wallet Connect, Avatar */}
-      <div className={styles.right}>
-        {/* Search Bar */}
-        <div className={styles.searchBar}>
-          <IconSearch />
-          <input
-            type="text"
-            className={styles.searchInput}
-            placeholder="Search stocks, sectors or themes"
-            value={searchValue}
-            onChange={(e) => setSearchValue(e.target.value)}
-          />
-        </div>
-
-        {/* Status Pill 1: Demo data */}
-        <div className={styles.badgeDemo}>
-          <span className={styles.dotGrey} />
-          Demo data
-        </div>
-
-        {/* Status Pill 2: US Market Open */}
-        <div className={styles.badgeMarket}>
-          <span className={styles.dotGreen} />
-          US Market Open
-        </div>
-
-        {/* Notification Bell */}
-        <div className={styles.bellWrap}>
-          <button className={styles.iconBtn} aria-label="Notifications">
-            <IconBell />
-          </button>
-          <span className={styles.notifDotPurple} aria-hidden />
-        </div>
-
-        {/* Theme Toggle Sun/Moon Icon */}
-        <button className={styles.iconBtn} aria-label="Toggle Theme" onClick={toggleTheme}>
-          {theme === "light" ? <IconMoon /> : <IconSun />}
-        </button>
-
-        {/* Wallet Connect / Connected State Button */}
-        {!isConnected ? (
+          {/* User Avatar Circle */}
           <button
-            className={styles.connectWalletBtn}
-            onClick={() => setIsConnected(true)}
-            title="Connect your crypto wallet"
+            className={styles.avatar}
+            aria-label="Account Menu"
+            onClick={handleOpenAccount}
+            title="Open Account & Settings"
           >
-            <IconWallet />
-            <span>Connect Wallet</span>
+            <span>I5</span>
           </button>
-        ) : (
-          <button
-            className={styles.connectedPill}
-            onClick={() => setIsConnected(false)}
-            title="Click to disconnect wallet"
-          >
-            <span className={styles.dotGreenPulse} />
-            <span className={styles.addressText}>{walletAddress}</span>
-          </button>
-        )}
+        </div>
+      </header>
 
-        {/* User Avatar Circle */}
-        <button className={styles.avatar} aria-label="Account Menu">
-          <span>I5</span>
-        </button>
-      </div>
-    </header>
+      {/* Account Profile Popup Modal */}
+      <AccountModal isOpen={isAccountOpen} onClose={() => setIsAccountOpen(false)} />
+    </>
   );
 }
