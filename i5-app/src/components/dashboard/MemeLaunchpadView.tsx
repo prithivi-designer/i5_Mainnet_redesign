@@ -1646,86 +1646,141 @@ export default function MemeLaunchpadView() {
         </div>
       </div>
 
-      {/* 3. Top 3 Featured Podium Cards (Token-Colored Minimal Theme) */}
-      <div className={styles.refPodiumGrid}>
-        {filteredLeaderboardEntries.slice(0, 3).map((kol, idx) => {
-          const trophyType = idx === 0 ? "gold" : idx === 1 ? "silver" : "bronze";
+      {/* 3. Top 5 Featured Leaderboard Cards (Launchpad View Model Style & Colors) */}
+      <div className={styles.lbTop5Grid}>
+        {filteredLeaderboardEntries.slice(0, 5).map((kol, idx) => {
+          const cardThemes = [
+            {
+              theme: "blue",
+              iconClass: styles.metricIconBlue,
+              barClass: styles.barBlue,
+              rankBadgeClass: styles.rankBadgeBlue,
+              borderGlowClass: styles.cardGlowBlue,
+              bars: ["45%", "70%", "95%", "40%", "85%", "60%", "90%"],
+              label: "Tier 1 Ecosystem Alpha",
+            },
+            {
+              theme: "purple",
+              iconClass: styles.metricIconPurple,
+              barClass: styles.barPurple,
+              rankBadgeClass: styles.rankBadgePurple,
+              borderGlowClass: styles.cardGlowPurple,
+              bars: ["35%", "75%", "50%", "90%", "65%", "85%", "95%"],
+              label: "Verified Smart Money",
+            },
+            {
+              theme: "orange",
+              iconClass: styles.metricIconOrange,
+              barClass: styles.barOrange,
+              rankBadgeClass: styles.rankBadgeOrange,
+              borderGlowClass: styles.cardGlowOrange,
+              bars: ["60%", "45%", "75%", "85%", "100%", "70%", "90%"],
+              label: "High Momentum Caller",
+            },
+            {
+              theme: "red",
+              iconClass: styles.metricIconRed,
+              barClass: styles.barRed,
+              rankBadgeClass: styles.rankBadgeRed,
+              borderGlowClass: styles.cardGlowRed,
+              bars: ["55%", "35%", "65%", "80%", "95%", "100%", "85%"],
+              label: "OG High Conviction",
+            },
+            {
+              theme: "emerald",
+              iconClass: styles.metricIconEmerald,
+              barClass: styles.barEmerald,
+              rankBadgeClass: styles.rankBadgeEmerald,
+              borderGlowClass: styles.cardGlowEmerald,
+              bars: ["50%", "65%", "45%", "85%", "70%", "90%", "100%"],
+              label: "Whale On-Chain Accumulator",
+            },
+          ];
+
+          const cfg = cardThemes[idx] || cardThemes[0];
+
           return (
-            <div key={kol.id} className={`${styles.refPodiumCard} ${styles[`trophyCard_${trophyType}`]}`}>
-              {/* Header: Left Avatar + Name + Tier, Right Trophy */}
-              <div className={styles.refCardHeader}>
-                <div
-                  className={styles.refCardIdentity}
-                  onClick={() => openKolProfile(kol)}
-                  style={{ cursor: "pointer" }}
-                  title={`View ${kol.kolName} Profile`}
-                >
-                  <div className={styles.refAvatar}>{kol.kolAvatar}</div>
-                  <div className={styles.refNameCol}>
-                    <div className={styles.refNameRow}>
-                      <span className={styles.refNameText}>{kol.kolName}</span>
-                      <Check size={12} className={styles.refCheckIcon} strokeWidth={3} />
+            <div
+              key={kol.id}
+              className={`${styles.metricCard} ${cfg.borderGlowClass}`}
+              onClick={() => openKolProfile(kol)}
+              style={{ cursor: "pointer" }}
+              title={`View ${kol.kolName} Profile`}
+            >
+              {/* Header: Rank, Avatar, Name & Follow */}
+              <div className={styles.metricCardHeader}>
+                <div className={styles.metricTitleGroup}>
+                  <span className={`${styles.top5RankPill} ${cfg.rankBadgeClass}`}>#{kol.rank}</span>
+                  <div className={styles.top5Avatar}>{kol.kolAvatar}</div>
+                  <div className={styles.top5NameMeta}>
+                    <div className={styles.top5NameRow}>
+                      <span className={styles.top5NameText}>{kol.kolName}</span>
+                      <Check size={11} className={styles.refCheckIcon} strokeWidth={3} />
                     </div>
-                    <div className={styles.refTierRow}>
-                      <span className={styles.tableTierPill}>{kol.tierBadge}</span>
-                    </div>
+                    <span className={styles.tableTierPill}>{kol.tierBadge}</span>
                   </div>
-                </div>
-
-                {/* Trophy on Right */}
-                <div className={styles.refTrophyWrap}>
-                  <Trophy size={28} className={styles[`trophyIcon_${trophyType}`]} />
-                </div>
-              </div>
-
-              {/* 3-Column Stats Row with Token Colors */}
-              <div className={styles.refStatsRow}>
-                {/* Stat 1: Trade Record */}
-                <div className={styles.refStatCol}>
-                  <span className={styles.refStatLabel}>Trades (W/L)</span>
-                  <span className={styles.refStatValue}>{kol.wins}W - {kol.losses}L</span>
-                  <div className={styles.dashBarNeutral}>
-                    <span /><span /><span /><span />
-                  </div>
-                </div>
-
-                {/* Stat 2: Winrate */}
-                <div className={styles.refStatCol}>
-                  <span className={styles.refStatLabel}>Win Rate</span>
-                  <span className={styles.refStatWinrate}>{kol.winRate}%</span>
-                  <div className={styles.dashBarEmerald}>
-                    <span /><span /><span /><span />
-                  </div>
-                </div>
-
-                {/* Stat 3: Realized PnL */}
-                <div className={styles.refStatCol}>
-                  <span className={styles.refStatLabel}>Realized PnL</span>
-                  <span className={styles.refStatPnl}>{kol.pnl}</span>
-                  <div className={styles.dashBarEmerald}>
-                    <span /><span /><span /><span />
-                  </div>
-                </div>
-              </div>
-
-              {/* Card Footer: Quick Copy Buy in Platinum White */}
-              <div className={styles.refCardFooter}>
-                <div
-                  className={styles.refAlphaPill}
-                  onClick={() => openTerminalForToken(kol.topHolding)}
-                  style={{ cursor: "pointer" }}
-                  title="Open in Terminal"
-                >
-                  <span>{kol.topHolding.avatar}</span>
-                  <span className={styles.refAlphaTicker}>{kol.topHolding.ticker}</span>
-                  <span className={styles.refAlphaBag}>({kol.topHolding.kolBag})</span>
                 </div>
                 <button
                   type="button"
-                  className={styles.refCopyBuyBtn}
-                  onClick={() => openTerminalForToken(kol.topHolding)}
+                  className={styles.metricMoreBtn}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    toggleFollowKol(kol.kolHandle);
+                  }}
+                  title={followedKols[kol.kolHandle] ? "Unfollow KOL" : "Follow KOL"}
                 >
-                  <Zap size={11} />
+                  <Star
+                    size={14}
+                    fill={followedKols[kol.kolHandle] ? "#fbbf24" : "none"}
+                    color={followedKols[kol.kolHandle] ? "#fbbf24" : "currentColor"}
+                  />
+                </button>
+              </div>
+
+              {/* Inset Well: Realized PnL & Win Rate */}
+              <div className={styles.metricInnerWell}>
+                <div className={styles.metricValueGroup}>
+                  <span className={styles.metricBigVal}>{kol.pnl}</span>
+                  <span className={styles.metricValUnit}>{kol.winRate}% WR</span>
+                </div>
+              </div>
+
+              {/* Middle Mini Stat Row: W/L & Top Alpha Holding */}
+              <div className={styles.top5StatsRow}>
+                <div className={styles.top5StatItem}>
+                  <span className={styles.top5StatLabel}>Record</span>
+                  <span className={styles.top5StatVal}>{kol.wins}W / {kol.losses}L</span>
+                </div>
+                <div
+                  className={styles.top5HoldingPill}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    openTerminalForToken(kol.topHolding);
+                  }}
+                  title={`Snipe ${kol.topHolding.ticker}`}
+                >
+                  <span>{kol.topHolding.avatar}</span>
+                  <span className={styles.top5HoldingTicker}>{kol.topHolding.ticker}</span>
+                  <span className={styles.top5HoldingBag}>{kol.topHolding.kolBag}</span>
+                </div>
+              </div>
+
+              {/* Footer: Avg ROI Delta + Copy Buy CTA Button */}
+              <div className={styles.metricCardFooter}>
+                <div className={styles.metricDeltaGreen}>
+                  <span className={styles.deltaArrow}>▲</span>
+                  <span>{kol.avgRoi} ROI</span>
+                </div>
+                <button
+                  type="button"
+                  className={styles.top5CopyBuyBtn}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    openTerminalForToken(kol.topHolding);
+                  }}
+                  title="Quick Copy Buy"
+                >
+                  <Zap size={10} />
                   <span>Copy Buy</span>
                 </button>
               </div>
@@ -1892,11 +1947,11 @@ export default function MemeLaunchpadView() {
             className={`${styles.masterTabBtn} ${masterTab === "kol-radar" ? styles.masterTabBtnActive : ""}`}
             onClick={() => setMasterTab("kol-radar")}
           >
-            <Radio size={15} className={masterTab === "kol-radar" ? styles.pulseRadarIcon : ""} />
-            <span>KOL Radar</span>
+            <Award size={15} className={masterTab === "kol-radar" ? styles.pulseRadarIcon : ""} />
+            <span>Leaderboard</span>
             <span className={styles.masterTabBadgeLive}>
               <span className={styles.liveRadarDot} />
-              Live Radar
+              Live Leaderboard
             </span>
           </button>
         </div>
@@ -2974,228 +3029,124 @@ export default function MemeLaunchpadView() {
             {/* Left: Title, Icon & Node Status */}
             <div className={styles.kolHeaderLeft}>
               <div className={styles.kolRadarIconBox}>
-                <Radio size={18} className={styles.pulseRadarIcon} />
+                <Award size={18} className={styles.pulseRadarIcon} />
               </div>
               <div className={styles.kolTitleMeta}>
                 <div className={styles.kolTitleRow}>
-                  <h2 className={styles.kolMainTitle}>KOL Radar</h2>
+                  <h2 className={styles.kolMainTitle}>Leaderboard</h2>
                   <span className={styles.kolNodeBadge}>
                     <span className={styles.liveRadarDot} />
                     {kolChainSelected} Node Live
                   </span>
                 </div>
                 <p className={styles.kolSubtitle}>
-                  Track top meme traders and discover their latest moves in real time.
+                  Track top verified meme traders, profitable alpha callers, and their live moves in real time.
                 </p>
               </div>
             </div>
-
-            {/* Right: Chain Selector, Live Price Ticker & Search */}
-            <div className={styles.kolHeaderRight}>
-              {/* Chain Pills */}
-              <div className={styles.kolChainButtonGroup}>
-                {(["BNB", "SOL", "ETH", "BASE"] as const).map((chain) => {
-                  const isActive = kolChainSelected === chain;
-                  const isAvailable = chain === "BNB" || chain === "SOL";
-                  return (
-                    <button
-                      key={chain}
-                      type="button"
-                      className={`${styles.kolChainSelectBtn} ${isActive ? styles.kolChainSelectBtnActive : ""}`}
-                      onClick={() => {
-                        setKolChainSelected(chain);
-                        showToast(`Switched KOL Radar feed to ${chain} Chain`);
-                      }}
-                    >
-                      {chain === "BNB" ? "BNB Chain" : chain}
-                      {!isAvailable && <span className={styles.soonPill}>Soon</span>}
-                    </button>
-                  );
-                })}
-              </div>
-
-              {/* Price Ticker Pill */}
-              <div className={styles.kolPriceTickerPill}>
-                <span className={styles.tickerSymbol}>
-                  {kolChainSelected === "BNB" ? "BNB:" : kolChainSelected === "SOL" ? "SOL:" : "ETH:"}
-                </span>
-                <span className={styles.tickerPrice}>
-                  {kolChainSelected === "BNB" ? "$624.00" : kolChainSelected === "SOL" ? "$184.50" : "$2,740.00"}
-                </span>
-                <span className={styles.tickerDeltaUp}>+3.4%</span>
-                <span className={styles.tickerDivider}>|</span>
-                <span className={styles.tickerTime}>just now</span>
-              </div>
-
-              {/* Search Box */}
-              <div className={styles.kolTopSearchBox}>
-                <Search size={13} className={styles.kolSearchIcon} />
-                <input
-                  type="text"
-                  placeholder="Search wallet, KOL, token..."
-                  value={kolSearch}
-                  onChange={(e) => setKolSearch(e.target.value)}
-                  className={styles.kolTopSearchInput}
-                />
-              </div>
-
-              {/* Settings Action Button */}
-              <button
-                type="button"
-                className={styles.kolSettingsBtn}
-                onClick={() => showToast("KOL Radar Configuration & Alert Thresholds")}
-                title="KOL Radar Settings"
-              >
-                <Settings size={15} />
-              </button>
-            </div>
           </div>
 
-          {/* ── TOP STATS OVERVIEW CARDS (EXACT LAUNCHPAD 3-TIER STYLE) ──── */}
+          {/* ── TOP 4 LEADERBOARD CARDS (COMPACT EXACT VIEW MODEL DESIGN & COLORS) ──── */}
           <div className={styles.metricsGrid}>
-            {/* Card 1: Active KOLs Tracked (Blue) */}
-            <div className={styles.metricCard}>
-              <div className={styles.metricCardHeader}>
-                <div className={styles.metricTitleGroup}>
-                  <Users size={15} className={styles.metricIconBlue} />
-                  <span className={styles.metricTitle}>Active KOLs Tracked</span>
-                </div>
-                <button className={styles.metricMoreBtn} aria-label="More options">
-                  <MoreHorizontal size={16} />
-                </button>
-              </div>
-              <div className={styles.metricInnerWell}>
-                <div className={styles.metricValueGroup}>
-                  <span className={styles.metricBigVal}>5</span>
-                  <span className={styles.metricValUnit}>KOLs</span>
-                </div>
-                <div className={styles.miniBarChart} aria-hidden="true">
-                  <span className={`${styles.chartBar} ${styles.barBlue}`} style={{ height: "45%" }} />
-                  <span className={`${styles.chartBar} ${styles.barBlue}`} style={{ height: "30%" }} />
-                  <span className={`${styles.chartBar} ${styles.barBlue}`} style={{ height: "95%" }} />
-                  <span className={`${styles.chartBar} ${styles.barBlue}`} style={{ height: "25%" }} />
-                  <span className={`${styles.chartBar} ${styles.barBlue}`} style={{ height: "75%" }} />
-                  <span className={`${styles.chartBar} ${styles.barBlue}`} style={{ height: "60%" }} />
-                  <span className={`${styles.chartBar} ${styles.barBlue}`} style={{ height: "85%" }} />
-                </div>
-              </div>
-              <div className={styles.metricCardFooter}>
-                <span className={styles.metricFooterLabel}>Tier 1 & Alpha Callers</span>
-                <div className={styles.metricDeltaGreen}>
-                  <span className={styles.deltaArrow}>▲</span>
-                  <span>+12.4%</span>
-                </div>
-              </div>
-            </div>
+            {filteredLeaderboardEntries.slice(0, 4).map((kol, idx) => {
+              const cardThemes = [
+                {
+                  theme: "blue",
+                  iconClass: styles.metricIconBlue,
+                  barClass: styles.barBlue,
+                  rankBadgeClass: styles.rankBadgeBlue,
+                  borderGlowClass: styles.cardGlowBlue,
+                  bars: ["45%", "30%", "95%", "25%", "75%", "60%", "85%"],
+                },
+                {
+                  theme: "purple",
+                  iconClass: styles.metricIconPurple,
+                  barClass: styles.barPurple,
+                  rankBadgeClass: styles.rankBadgePurple,
+                  borderGlowClass: styles.cardGlowPurple,
+                  bars: ["35%", "70%", "45%", "90%", "65%", "85%", "60%"],
+                },
+                {
+                  theme: "orange",
+                  iconClass: styles.metricIconOrange,
+                  barClass: styles.barOrange,
+                  rankBadgeClass: styles.rankBadgeOrange,
+                  borderGlowClass: styles.cardGlowOrange,
+                  bars: ["65%", "40%", "70%", "85%", "100%", "75%", "90%"],
+                },
+                {
+                  theme: "red",
+                  iconClass: styles.metricIconRed,
+                  barClass: styles.barRed,
+                  rankBadgeClass: styles.rankBadgeRed,
+                  borderGlowClass: styles.cardGlowRed,
+                  bars: ["55%", "35%", "60%", "75%", "90%", "100%", "80%"],
+                },
+              ];
 
-            {/* Card 2: Trades (Last 24h) (Purple) */}
-            <div className={styles.metricCard}>
-              <div className={styles.metricCardHeader}>
-                <div className={styles.metricTitleGroup}>
-                  <Activity size={15} className={styles.metricIconPurple} />
-                  <span className={styles.metricTitle}>Trades (Last 24h)</span>
-                </div>
-                <button className={styles.metricMoreBtn} aria-label="More options">
-                  <MoreHorizontal size={16} />
-                </button>
-              </div>
-              <div className={styles.metricInnerWell}>
-                <div className={styles.metricValueGroup}>
-                  <span className={styles.metricBigVal}>1,842</span>
-                  <span className={styles.metricValUnit}>swaps</span>
-                </div>
-                <div className={styles.miniBarChart} aria-hidden="true">
-                  <span className={`${styles.chartBar} ${styles.barPurple}`} style={{ height: "35%" }} />
-                  <span className={`${styles.chartBar} ${styles.barPurple}`} style={{ height: "70%" }} />
-                  <span className={`${styles.chartBar} ${styles.barPurple}`} style={{ height: "45%" }} />
-                  <span className={`${styles.chartBar} ${styles.barPurple}`} style={{ height: "90%" }} />
-                  <span className={`${styles.chartBar} ${styles.barPurple}`} style={{ height: "65%" }} />
-                  <span className={`${styles.chartBar} ${styles.barPurple}`} style={{ height: "85%" }} />
-                  <span className={`${styles.chartBar} ${styles.barPurple}`} style={{ height: "60%" }} />
-                </div>
-              </div>
-              <div className={styles.metricCardFooter}>
-                <span className={styles.metricFooterLabel}>68% Buy Dominance</span>
-                <div className={styles.metricDeltaGreen}>
-                  <span className={styles.deltaArrow}>▲</span>
-                  <span>+28.5%</span>
-                </div>
-              </div>
-            </div>
+              const cfg = cardThemes[idx] || cardThemes[0];
 
-            {/* Card 3: Tokens Accumulating (Orange) */}
-            <div className={styles.metricCard}>
-              <div className={styles.metricCardHeader}>
-                <div className={styles.metricTitleGroup}>
-                  <Flame size={15} className={styles.metricIconOrange} />
-                  <span className={styles.metricTitle}>Tokens Accumulating</span>
-                </div>
-                <button className={styles.metricMoreBtn} aria-label="More options">
-                  <MoreHorizontal size={16} />
-                </button>
-              </div>
-              <div className={styles.metricInnerWell}>
-                <div className={styles.metricValueGroup}>
-                  <span className={styles.metricBigVal}>31</span>
-                  <span className={styles.metricValUnit}>tokens</span>
-                </div>
-                <div className={styles.miniBarChart} aria-hidden="true">
-                  <span className={`${styles.chartBar} ${styles.barOrange}`} style={{ height: "65%" }} />
-                  <span className={`${styles.chartBar} ${styles.barOrange}`} style={{ height: "40%" }} />
-                  <span className={`${styles.chartBar} ${styles.barOrange}`} style={{ height: "70%" }} />
-                  <span className={`${styles.chartBar} ${styles.barOrange}`} style={{ height: "85%" }} />
-                  <span className={`${styles.chartBar} ${styles.barOrange}`} style={{ height: "100%" }} />
-                  <span className={`${styles.chartBar} ${styles.barOrange}`} style={{ height: "75%" }} />
-                  <span className={`${styles.chartBar} ${styles.barOrange}`} style={{ height: "90%" }} />
-                </div>
-              </div>
-              <div className={styles.metricCardFooter}>
-                <span className={styles.metricFooterLabel}>Consensus Inflow Surge</span>
-                <div className={styles.metricDeltaGreen}>
-                  <span className={styles.deltaArrow}>▲</span>
-                  <span>+15.8%</span>
-                </div>
-              </div>
-            </div>
+              return (
+                <div
+                  key={kol.id}
+                  className={`${styles.metricCard} ${cfg.borderGlowClass}`}
+                  onClick={() => openKolProfile(kol)}
+                  style={{ cursor: "pointer" }}
+                  title={`View ${kol.kolName} Profile`}
+                >
+                  {/* Header: Rank Badge, Avatar, Name & Follow Star */}
+                  <div className={styles.metricCardHeader}>
+                    <div className={styles.metricTitleGroup}>
+                      <span className={`${styles.top5RankPill} ${cfg.rankBadgeClass}`}>#{kol.rank}</span>
+                      <div className={styles.top5Avatar} style={{ width: 24, height: 24, fontSize: 13 }}>{kol.kolAvatar}</div>
+                      <span className={styles.metricTitle} style={{ fontWeight: 700, display: "flex", alignItems: "center", gap: 4 }}>
+                        {kol.kolName}
+                        <Check size={11} className={styles.refCheckIcon} strokeWidth={3} />
+                      </span>
+                    </div>
+                    <button
+                      type="button"
+                      className={styles.metricMoreBtn}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        toggleFollowKol(kol.kolHandle);
+                      }}
+                      title={followedKols[kol.kolHandle] ? "Unfollow KOL" : "Follow KOL"}
+                    >
+                      <Star
+                        size={14}
+                        fill={followedKols[kol.kolHandle] ? "#fbbf24" : "none"}
+                        color={followedKols[kol.kolHandle] ? "#fbbf24" : "currentColor"}
+                      />
+                    </button>
+                  </div>
 
-            {/* Card 4: Tracked Volume (24h) (Red) */}
-            <div className={styles.metricCard}>
-              <div className={styles.metricCardHeader}>
-                <div className={styles.metricTitleGroup}>
-                  <Coins size={15} className={styles.metricIconRed} />
-                  <span className={styles.metricTitle}>Tracked Volume (24h)</span>
+                  {/* Inset Well: Realized PnL & Win Rate */}
+                  <div className={styles.metricInnerWell}>
+                    <div className={styles.metricValueGroup}>
+                      <span className={styles.metricBigVal}>{kol.pnl}</span>
+                      <span className={styles.metricValUnit}>{kol.winRate}% WR</span>
+                    </div>
+                  </div>
+
+                  {/* Footer: Clean single row with holding/record and ROI delta */}
+                  <div className={styles.metricCardFooter}>
+                    <span className={styles.metricFooterLabel}>
+                      {kol.wins}W / {kol.losses}L · {kol.topHolding.ticker}
+                    </span>
+                    <div className={styles.metricDeltaGreen}>
+                      <span className={styles.deltaArrow}>▲</span>
+                      <span>{kol.avgRoi} ROI</span>
+                    </div>
+                  </div>
                 </div>
-                <button className={styles.metricMoreBtn} aria-label="More options">
-                  <MoreHorizontal size={16} />
-                </button>
-              </div>
-              <div className={styles.metricInnerWell}>
-                <div className={styles.metricValueGroup}>
-                  <span className={styles.metricBigVal}>$18.64</span>
-                  <span className={styles.metricValUnit}>M</span>
-                </div>
-                <div className={styles.miniBarChart} aria-hidden="true">
-                  <span className={`${styles.chartBar} ${styles.barRed}`} style={{ height: "55%" }} />
-                  <span className={`${styles.chartBar} ${styles.barRed}`} style={{ height: "35%" }} />
-                  <span className={`${styles.chartBar} ${styles.barRed}`} style={{ height: "60%" }} />
-                  <span className={`${styles.chartBar} ${styles.barRed}`} style={{ height: "75%" }} />
-                  <span className={`${styles.chartBar} ${styles.barRed}`} style={{ height: "90%" }} />
-                  <span className={`${styles.chartBar} ${styles.barRed}`} style={{ height: "100%" }} />
-                  <span className={`${styles.chartBar} ${styles.barRed}`} style={{ height: "80%" }} />
-                </div>
-              </div>
-              <div className={styles.metricCardFooter}>
-                <span className={styles.metricFooterLabel}>On-chain DEX & Curve</span>
-                <div className={styles.metricDeltaGreen}>
-                  <span className={styles.deltaArrow}>▲</span>
-                  <span>+44.2%</span>
-                </div>
-              </div>
-            </div>
+              );
+            })}
           </div>
 
-          {/* ── SUBTABS NAVIGATION BAR ─────────────────────────── */}
+          {/* ── SUBTABS NAVIGATION & CONTROLS BAR ─────────────────────────── */}
           <div className={styles.kolNavControlsBar}>
+            {/* Left: Subtabs Group */}
             <div className={styles.kolSubTabGroup}>
               <button
                 type="button"
@@ -3247,39 +3198,98 @@ export default function MemeLaunchpadView() {
               </button>
             </div>
 
-            {/* Right: Pause Feed Toggle & Sound Toggle */}
-            <div className={styles.kolFeedControlGroup}>
-              <button
-                type="button"
-                className={`${styles.kolFeedControlBtn} ${isFeedPaused ? styles.kolFeedPausedBtn : ""}`}
-                onClick={() => {
-                  setIsFeedPaused(!isFeedPaused);
-                  showToast(isFeedPaused ? "Resumed live on-chain stream" : "Paused live on-chain stream");
-                }}
-              >
-                {isFeedPaused ? <Play size={13} /> : <Pause size={13} />}
-                <span>{isFeedPaused ? "Resume Feed" : "Pause Feed"}</span>
-              </button>
+            {/* Right: Chain Selector, Live Price Ticker, Search, Feed Controls & Settings */}
+            <div className={styles.kolHeaderRight}>
+              {/* Chain Selector Pills */}
+              <div className={styles.kolChainButtonGroup}>
+                {(["BNB", "SOL", "ETH", "BASE"] as const).map((chain) => {
+                  const isActive = kolChainSelected === chain;
+                  const isAvailable = chain === "BNB" || chain === "SOL";
+                  return (
+                    <button
+                      key={chain}
+                      type="button"
+                      className={`${styles.kolChainSelectBtn} ${isActive ? styles.kolChainSelectBtnActive : ""}`}
+                      onClick={() => {
+                        setKolChainSelected(chain);
+                        showToast(`Switched feed to ${chain} Chain`);
+                      }}
+                    >
+                      {chain}
+                      {!isAvailable && <span className={styles.soonPill}>Soon</span>}
+                    </button>
+                  );
+                })}
+              </div>
 
+              {/* Price Ticker Pill */}
+              <div className={styles.kolPriceTickerPill}>
+                <span className={styles.tickerSymbol}>
+                  {kolChainSelected === "BNB" ? "BNB:" : kolChainSelected === "SOL" ? "SOL:" : "ETH:"}
+                </span>
+                <span className={styles.tickerPrice}>
+                  {kolChainSelected === "BNB" ? "$624.00" : kolChainSelected === "SOL" ? "$184.50" : "$2,740.00"}
+                </span>
+                <span className={styles.tickerDeltaUp}>+3.4%</span>
+              </div>
+
+              {/* Search Box */}
+              <div className={styles.kolTopSearchBox}>
+                <Search size={13} className={styles.kolSearchIcon} />
+                <input
+                  type="text"
+                  placeholder="Search wallet, KOL, token..."
+                  value={kolSearch}
+                  onChange={(e) => setKolSearch(e.target.value)}
+                  className={styles.kolTopSearchInput}
+                />
+              </div>
+
+              {/* Feed Controls (Pause & Sound) */}
+              <div className={styles.kolFeedControlGroup}>
+                <button
+                  type="button"
+                  className={`${styles.kolFeedControlBtn} ${isFeedPaused ? styles.kolFeedPausedBtn : ""}`}
+                  onClick={() => {
+                    setIsFeedPaused(!isFeedPaused);
+                    showToast(isFeedPaused ? "Resumed live on-chain stream" : "Paused live on-chain stream");
+                  }}
+                  title={isFeedPaused ? "Resume Live Stream" : "Pause Live Stream"}
+                >
+                  {isFeedPaused ? <Play size={13} /> : <Pause size={13} />}
+                  <span>{isFeedPaused ? "Resume" : "Pause"}</span>
+                </button>
+
+                <button
+                  type="button"
+                  className={`${styles.kolFeedControlBtn} ${isSoundAlerts ? styles.kolSoundActiveBtn : ""}`}
+                  onClick={() => {
+                    setIsSoundAlerts(!isSoundAlerts);
+                    showToast(isSoundAlerts ? "Muted trade sound alerts" : "Enabled audio alerts for Smart KOL calls");
+                  }}
+                  title={isSoundAlerts ? "Audio Alerts Enabled" : "Audio Alerts Muted"}
+                >
+                  {isSoundAlerts ? <Volume2 size={14} /> : <VolumeX size={14} />}
+                </button>
+              </div>
+
+              {/* Settings Action Button */}
               <button
                 type="button"
-                className={`${styles.kolFeedControlBtn} ${isSoundAlerts ? styles.kolSoundActiveBtn : ""}`}
-                onClick={() => {
-                  setIsSoundAlerts(!isSoundAlerts);
-                  showToast(isSoundAlerts ? "Muted trade sound alerts" : "Enabled audio alerts for Smart KOL calls");
-                }}
-                title={isSoundAlerts ? "Audio Alerts Enabled" : "Audio Alerts Muted"}
+                className={styles.kolSettingsBtn}
+                onClick={() => showToast("Leaderboard Configuration & Alert Thresholds")}
+                title="Leaderboard Settings"
               >
-                {isSoundAlerts ? <Volume2 size={14} /> : <VolumeX size={14} />}
+                <Settings size={15} />
               </button>
             </div>
           </div>
 
           {/* ════════════════════════════════════════════════════════
-             MAIN CONTENT: OVERVIEW (3 FULL SECTIONS MATCHING SCREENSHOT)
+             MAIN CONTENT: OVERVIEW (LATEST KOL ACTIVITY ONLY) & DEDICATED TABS
              ════════════════════════════════════════════════════════ */}
-          {(kolSubTab === "overview" || kolSubTab === "tokens") && (
-            /* ── SECTION 1: TRENDING AMONG KOLS ─────────────────── */
+          {kolSubTab === "tokens" && (
+            /* ── SECTION 1: TRENDING AMONG KOLS (TOKEN RADAR ONLY) ─── */
             <div className={styles.kolSectionWrapper}>
               <div className={styles.kolSectionHeaderRow}>
                 <div>
@@ -3459,8 +3469,8 @@ export default function MemeLaunchpadView() {
             </div>
           )}
 
-          {/* ── SECTION 2: LATEST KOL ACTIVITY (REAL-TIME STREAM) ──── */}
-          {(kolSubTab === "overview" || kolSubTab === "signals") && (
+          {/* ── SECTION 2: LATEST KOL ACTIVITY (REAL-TIME STREAM IN OVERVIEW & SIGNALS) ──── */}
+          {(kolSubTab === "overview" || kolSubTab === "signals" || kolSubTab === "watchlist") && (
             <div className={styles.kolSectionWrapper}>
               <div className={styles.kolSectionHeaderRow}>
                 <div>
@@ -3600,8 +3610,8 @@ export default function MemeLaunchpadView() {
             </div>
           )}
 
-          {/* ── SECTION 3: KOL LEADERBOARD FULL SECTION ──────────── */}
-          {(kolSubTab === "overview" || kolSubTab === "leaderboard") && renderLeaderboardSection()}
+          {/* ── SECTION 3: KOL LEADERBOARD FULL SECTION (DEDICATED TAB ONLY) ──── */}
+          {kolSubTab === "leaderboard" && renderLeaderboardSection()}
 
         </div>
       )}

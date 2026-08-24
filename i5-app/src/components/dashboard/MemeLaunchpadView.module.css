@@ -213,6 +213,11 @@
   flex-shrink: 0;
 }
 
+.metricIconEmerald {
+  color: #34d399;
+  flex-shrink: 0;
+}
+
 .metricTitle {
   font-family: var(--font-sans);
   font-size: 13px;
@@ -307,6 +312,11 @@
 .barRed {
   background: linear-gradient(180deg, #f87171 0%, #dc2626 100%);
   box-shadow: 0 0 8px rgba(239, 68, 68, 0.4);
+}
+
+.barEmerald {
+  background: linear-gradient(180deg, #34d399 0%, #059669 100%);
+  box-shadow: 0 0 8px rgba(16, 185, 129, 0.4);
 }
 
 /* Bottom Card Footer */
@@ -2666,8 +2676,9 @@
 .kolHeaderRight {
   display: flex;
   align-items: center;
-  gap: var(--space-3);
-  flex-wrap: wrap;
+  gap: 6px;
+  flex-wrap: nowrap;
+  flex-shrink: 0;
 }
 
 /* Chain Selector Pills */
@@ -2676,27 +2687,29 @@
   align-items: center;
   gap: 2px;
   background: var(--neutral-900);
-  padding: 3px;
+  padding: 2px;
   border-radius: var(--radius-md);
   border: 1px solid var(--border-color-default);
+  flex-shrink: 0;
 }
 
 .kolChainSelectBtn {
-  height: 28px;
-  padding: 0 10px;
+  height: 26px;
+  padding: 0 8px;
   border: 1px solid transparent;
   border-radius: var(--radius-sm);
   background: transparent;
   color: var(--text-tertiary);
   font-family: var(--font-sans);
-  font-size: 11.5px;
+  font-size: 11px;
   font-weight: 600;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
-  gap: 5px;
+  gap: 4px;
   transition: all var(--duration-fast) var(--easing-standard);
   white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .kolChainSelectBtn:hover {
@@ -2713,10 +2726,10 @@
 }
 
 .soonPill {
-  font-size: 9px;
+  font-size: 8.5px;
   font-weight: 700;
-  padding: 0 4px;
-  border-radius: 4px;
+  padding: 0 3px;
+  border-radius: 3px;
   background: var(--neutral-800);
   color: var(--text-disabled);
 }
@@ -2725,13 +2738,16 @@
 .kolPriceTickerPill {
   display: inline-flex;
   align-items: center;
-  gap: 5px;
-  padding: 5px 10px;
-  background: var(--bg-surface-raised);
+  gap: 4px;
+  padding: 0 8px;
+  height: 28px;
+  background: var(--neutral-900);
   border: 1px solid var(--border-color-default);
   border-radius: var(--radius-md);
   font-family: var(--font-mono);
-  font-size: 11.5px;
+  font-size: 11px;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .tickerSymbol {
@@ -2754,7 +2770,7 @@
 
 .tickerTime {
   color: var(--text-tertiary);
-  font-size: 10.5px;
+  font-size: 10px;
   font-family: var(--font-sans);
 }
 
@@ -2762,13 +2778,14 @@
 .kolTopSearchBox {
   display: flex;
   align-items: center;
-  gap: 6px;
-  padding: 0 10px;
-  height: 32px;
-  background: var(--bg-surface-raised);
+  gap: 5px;
+  padding: 0 8px;
+  height: 28px;
+  background: var(--neutral-900);
   border: 1px solid var(--border-color-default);
   border-radius: var(--radius-md);
-  width: 200px;
+  width: 150px;
+  flex-shrink: 0;
   transition: border-color var(--duration-fast);
 }
 
@@ -2786,7 +2803,7 @@
   border: none;
   outline: none;
   font-family: var(--font-sans);
-  font-size: 12px;
+  font-size: 11.5px;
   color: var(--text-primary);
   width: 100%;
 }
@@ -2796,16 +2813,17 @@
 }
 
 .kolSettingsBtn {
-  width: 32px;
-  height: 32px;
+  width: 28px;
+  height: 28px;
   border-radius: var(--radius-md);
-  background: var(--bg-surface-raised);
+  background: var(--neutral-900);
   border: 1px solid var(--border-color-default);
   color: var(--text-secondary);
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  flex-shrink: 0;
   transition: all var(--duration-fast) var(--easing-standard);
 }
 
@@ -2905,14 +2923,21 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: var(--space-4);
-  margin: 0 var(--space-8) var(--space-8);
-  padding: 10px 14px;
+  gap: var(--space-3);
+  margin: 0 var(--space-8) var(--space-6);
+  padding: 6px 10px;
   background-color: var(--bg-surface-raised);
   border: var(--border-width-default) solid var(--border-color-default);
   border-radius: var(--radius-xl);
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
   flex-shrink: 0;
+}
+
+.kolNavControlsBar::-webkit-scrollbar {
+  display: none;
 }
 
 .kolSubTabGroup {
@@ -2920,27 +2945,29 @@
   align-items: center;
   gap: 2px;
   background: var(--neutral-900);
-  padding: 3px;
+  padding: 2px;
   border-radius: var(--radius-md);
   border: 1px solid var(--border-color-default);
+  flex-shrink: 0;
 }
 
 .kolSubTabBtn {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  height: 28px;
-  padding: 0 12px;
+  gap: 5px;
+  height: 26px;
+  padding: 0 10px;
   border: 1px solid transparent;
   border-radius: var(--radius-sm);
   background: transparent;
   color: var(--text-tertiary);
   font-family: var(--font-sans);
-  font-size: 12px;
+  font-size: 11.5px;
   font-weight: 500;
   cursor: pointer;
   transition: all var(--duration-fast) var(--easing-standard);
   white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .kolSubTabBtn:hover {
@@ -2957,9 +2984,9 @@
 }
 
 .kolSubTabCountBadge {
-  font-size: 10px;
+  font-size: 9.5px;
   font-weight: 700;
-  padding: 1px 5px;
+  padding: 0 4px;
   border-radius: var(--radius-full);
   background: var(--neutral-850);
   color: var(--text-secondary);
@@ -2969,22 +2996,25 @@
 .kolFeedControlGroup {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 5px;
+  flex-shrink: 0;
 }
 
 .kolFeedControlBtn {
   display: inline-flex;
   align-items: center;
-  gap: 5px;
+  gap: 4px;
   height: 28px;
-  padding: 0 10px;
+  padding: 0 8px;
   background: var(--neutral-900);
   border: 1px solid var(--border-color-default);
   border-radius: var(--radius-md);
   color: var(--text-secondary);
-  font-size: 11.5px;
+  font-size: 11px;
   font-weight: 600;
   cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
   transition: all var(--duration-fast) var(--easing-standard);
 }
 
@@ -4096,6 +4126,242 @@
 
 .lbSearchInput::placeholder {
   color: var(--text-disabled);
+}
+
+/* ── 3. Top 5 Featured Leaderboard Cards (Launchpad View Model Style & Colors) ────────────────── */
+.lbTop5Grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: var(--space-4);
+  margin: 0 var(--space-8) var(--space-6);
+  flex-shrink: 0;
+}
+
+@media (max-width: 1400px) {
+  .lbTop5Grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-3);
+  }
+}
+
+@media (max-width: 900px) {
+  .lbTop5Grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .lbTop5Grid {
+    grid-template-columns: 1fr;
+    margin: 0 var(--space-4) var(--space-4);
+  }
+}
+
+/* Card Accent Border Glows */
+.cardGlowBlue {
+  border-color: rgba(56, 189, 248, 0.28);
+  box-shadow: 0 0 16px rgba(56, 189, 248, 0.06);
+}
+.cardGlowBlue:hover {
+  border-color: rgba(56, 189, 248, 0.55);
+  box-shadow: 0 0 24px rgba(56, 189, 248, 0.15);
+}
+
+.cardGlowPurple {
+  border-color: rgba(192, 132, 252, 0.28);
+  box-shadow: 0 0 16px rgba(192, 132, 252, 0.06);
+}
+.cardGlowPurple:hover {
+  border-color: rgba(192, 132, 252, 0.55);
+  box-shadow: 0 0 24px rgba(192, 132, 252, 0.15);
+}
+
+.cardGlowOrange {
+  border-color: rgba(251, 146, 60, 0.28);
+  box-shadow: 0 0 16px rgba(251, 146, 60, 0.06);
+}
+.cardGlowOrange:hover {
+  border-color: rgba(251, 146, 60, 0.55);
+  box-shadow: 0 0 24px rgba(251, 146, 60, 0.15);
+}
+
+.cardGlowRed {
+  border-color: rgba(248, 113, 113, 0.28);
+  box-shadow: 0 0 16px rgba(248, 113, 113, 0.06);
+}
+.cardGlowRed:hover {
+  border-color: rgba(248, 113, 113, 0.55);
+  box-shadow: 0 0 24px rgba(248, 113, 113, 0.15);
+}
+
+.cardGlowEmerald {
+  border-color: rgba(52, 211, 153, 0.28);
+  box-shadow: 0 0 16px rgba(52, 211, 153, 0.06);
+}
+.cardGlowEmerald:hover {
+  border-color: rgba(52, 211, 153, 0.55);
+  box-shadow: 0 0 24px rgba(52, 211, 153, 0.15);
+}
+
+/* Rank Badge Pills */
+.top5RankPill {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 800;
+  padding: 2px 7px;
+  border-radius: var(--radius-sm);
+  line-height: 1.2;
+  flex-shrink: 0;
+}
+
+.rankBadgeBlue {
+  background: rgba(56, 189, 248, 0.15);
+  color: #38bdf8;
+  border: 1px solid rgba(56, 189, 248, 0.35);
+}
+
+.rankBadgePurple {
+  background: rgba(192, 132, 252, 0.15);
+  color: #c084fc;
+  border: 1px solid rgba(192, 132, 252, 0.35);
+}
+
+.rankBadgeOrange {
+  background: rgba(251, 146, 60, 0.15);
+  color: #fb923c;
+  border: 1px solid rgba(251, 146, 60, 0.35);
+}
+
+.rankBadgeRed {
+  background: rgba(248, 113, 113, 0.15);
+  color: #f87171;
+  border: 1px solid rgba(248, 113, 113, 0.35);
+}
+
+.rankBadgeEmerald {
+  background: rgba(52, 211, 153, 0.15);
+  color: #34d399;
+  border: 1px solid rgba(52, 211, 153, 0.35);
+}
+
+/* Card Header Elements */
+.top5Avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-full);
+  background: var(--neutral-800);
+  border: 1px solid var(--border-color-strong);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+.top5NameMeta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.top5NameRow {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.top5NameText {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Middle Mini Stat Row */
+.top5StatsRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  padding: 4px 0;
+}
+
+.top5StatItem {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.top5StatLabel {
+  font-size: 9.5px;
+  color: var(--text-tertiary);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.top5StatVal {
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--text-secondary);
+}
+
+.top5HoldingPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border-color-default);
+  border-radius: var(--radius-sm);
+  padding: 3px 6px;
+  cursor: pointer;
+  transition: all var(--duration-fast);
+}
+
+.top5HoldingPill:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: var(--border-color-strong);
+}
+
+.top5HoldingTicker {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  color: var(--text-primary);
+  font-size: 11px;
+}
+
+.top5HoldingBag {
+  color: var(--text-tertiary);
+  font-size: 10px;
+}
+
+.top5CopyBuyBtn {
+  height: 24px;
+  padding: 0 9px;
+  border-radius: var(--radius-sm);
+  background: var(--button-primary-bg);
+  border: none;
+  color: var(--button-primary-text);
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  transition: all var(--duration-fast);
+  white-space: nowrap;
+}
+
+.top5CopyBuyBtn:hover {
+  opacity: 0.9;
+  transform: scale(1.02);
 }
 
 /* ── 3. Top 3 Featured Podium Cards (Token Theme) ────────────────── */
