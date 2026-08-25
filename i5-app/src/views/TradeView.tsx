@@ -290,6 +290,94 @@ export default function TradeView() {
   const [activeBottomTab, setActiveBottomTab] = useState<string>("Top Traders");
   const [topTradersFilter, setTopTradersFilter] = useState<"All" | "Long" | "Short">("All");
 
+  // Dynamic Ticker Stats
+  const [currentStats, setCurrentStats] = useState(STATS);
+
+  useEffect(() => {
+    const handleNavigate = (e: Event) => {
+      const customEvent = e as CustomEvent<{ targetId?: string; symbol?: string; name?: string }>;
+      if (customEvent.detail?.symbol) {
+        const sym = customEvent.detail.symbol.toUpperCase();
+        if (sym === "ETH") {
+          setCurrentStats({
+            symbol: "ETH/USD",
+            leverage: "30x",
+            markPrice: 2455.59,
+            change24h: "+82.10",
+            changePct: "+3.42%",
+            vol24h: "$14.2B",
+            openInterest: "$5.8B",
+            fundingRate: "+0.0012%",
+            countdown: "00:56:49",
+          });
+        } else if (sym === "SOL") {
+          setCurrentStats({
+            symbol: "SOL/USD",
+            leverage: "20x",
+            markPrice: 102.60,
+            change24h: "-1.16",
+            changePct: "-1.12%",
+            vol24h: "$4.1B",
+            openInterest: "$1.4B",
+            fundingRate: "+0.0008%",
+            countdown: "00:56:49",
+          });
+        } else if (sym === "TIA") {
+          setCurrentStats({
+            symbol: "TIA/USD",
+            leverage: "15x",
+            markPrice: 18.26,
+            change24h: "+1.38",
+            changePct: "+8.15%",
+            vol24h: "$820M",
+            openInterest: "$340M",
+            fundingRate: "+0.0025%",
+            countdown: "00:56:49",
+          });
+        } else if (sym === "SUI") {
+          setCurrentStats({
+            symbol: "SUI/USD",
+            leverage: "20x",
+            markPrice: 3.45,
+            change24h: "+0.38",
+            changePct: "+12.40%",
+            vol24h: "$950M",
+            openInterest: "$410M",
+            fundingRate: "+0.0031%",
+            countdown: "00:56:49",
+          });
+        } else if (sym === "ARB") {
+          setCurrentStats({
+            symbol: "ARB/USD",
+            leverage: "25x",
+            markPrice: 2.11,
+            change24h: "+0.04",
+            changePct: "+2.10%",
+            vol24h: "$1.2B",
+            openInterest: "$580M",
+            fundingRate: "+0.0010%",
+            countdown: "00:56:49",
+          });
+        } else if (sym !== "BTC") {
+          setCurrentStats({
+            symbol: `${sym}/USD`,
+            leverage: "20x",
+            markPrice: 14.50,
+            change24h: "+0.65",
+            changePct: "+4.68%",
+            vol24h: "$420M",
+            openInterest: "$180M",
+            fundingRate: "+0.0010%",
+            countdown: "00:56:49",
+          });
+        }
+      }
+    };
+
+    window.addEventListener("i5-navigate", handleNavigate as EventListener);
+    return () => window.removeEventListener("i5-navigate", handleNavigate as EventListener);
+  }, []);
+
   // Right Terminal Drawer Open/Collapsed state
   const [isTerminalOpen, setIsTerminalOpen] = useState<boolean>(true);
 
@@ -324,7 +412,7 @@ export default function TradeView() {
         {
           id: Date.now() + 1,
           sender: "ai",
-          text: "Analyzing market structure: BTC/USD shows strong orderbook imbalance on 15M. Recommending entry at $64,650 with a tight stop at $63,800.",
+          text: `Analyzing market structure: ${currentStats.symbol} shows strong orderbook imbalance on 15M. Recommending entry at $${currentStats.markPrice} with a tight stop.`,
         },
       ]);
     }, 750);
@@ -339,29 +427,29 @@ export default function TradeView() {
       <div style={{ height: 46, background: "var(--bg-surface)", borderBottom: "1px solid var(--border-color-default)", display: "flex", alignItems: "center", justifyContent: "space-between", padding: "0 14px", flexShrink: 0 }}>
         <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
           <button style={{ display: "flex", alignItems: "center", gap: 6, background: "var(--bg-surface-raised)", border: "1px solid var(--border-color-strong)", borderRadius: "var(--radius-md)", padding: "4px 10px", color: "var(--text-primary)", fontSize: 13, fontWeight: 700, cursor: "pointer" }}>
-            <span style={{ color: "#F59E0B" }}>₿</span> {STATS.symbol} <span style={{ fontSize: 11, color: "#60A5FA" }}>{STATS.leverage}</span> <span>+</span>
+            <span style={{ color: "#F59E0B" }}>◈</span> {currentStats.symbol} <span style={{ fontSize: 11, color: "#60A5FA" }}>{currentStats.leverage}</span> <span>+</span>
           </button>
 
           <div style={{ display: "flex", alignItems: "center", gap: 16, fontSize: 11, fontFamily: "var(--font-mono)" }}>
             <div>
               <span style={{ color: "var(--text-tertiary)", display: "block", fontSize: 9 }}>MARK</span>
-              <span style={{ fontWeight: 800 }}>${STATS.markPrice.toLocaleString()}</span>
+              <span style={{ fontWeight: 800 }}>${currentStats.markPrice.toLocaleString()}</span>
             </div>
             <div>
               <span style={{ color: "var(--text-tertiary)", display: "block", fontSize: 9 }}>24H CHANGE</span>
-              <span style={{ color: "var(--emerald-500)", fontWeight: 800 }}>{STATS.change24h} / {STATS.changePct}</span>
+              <span style={{ color: currentStats.changePct.startsWith("+") ? "var(--emerald-500)" : "var(--red-500)", fontWeight: 800 }}>{currentStats.change24h} / {currentStats.changePct}</span>
             </div>
             <div>
               <span style={{ color: "var(--text-tertiary)", display: "block", fontSize: 9 }}>24H VOLUME</span>
-              <span style={{ fontWeight: 700 }}>{STATS.vol24h}</span>
+              <span style={{ fontWeight: 700 }}>{currentStats.vol24h}</span>
             </div>
             <div>
               <span style={{ color: "var(--text-tertiary)", display: "block", fontSize: 9 }}>OPEN INTEREST</span>
-              <span style={{ fontWeight: 700 }}>{STATS.openInterest}</span>
+              <span style={{ fontWeight: 700 }}>{currentStats.openInterest}</span>
             </div>
             <div>
               <span style={{ color: "var(--text-tertiary)", display: "block", fontSize: 9 }}>FUNDING/COUNTDOWN</span>
-              <span style={{ color: "var(--red-500)", fontWeight: 700 }}>{STATS.fundingRate} <span style={{ color: "var(--text-primary)" }}>{STATS.countdown}</span></span>
+              <span style={{ color: "var(--red-500)", fontWeight: 700 }}>{currentStats.fundingRate} <span style={{ color: "var(--text-primary)" }}>{currentStats.countdown}</span></span>
             </div>
           </div>
         </div>

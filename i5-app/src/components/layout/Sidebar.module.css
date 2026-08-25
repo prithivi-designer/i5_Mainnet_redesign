@@ -23,6 +23,31 @@
   width: var(--layout-sidebar-collapsed-width) !important;
 }
 
+/* Mobile / Tablet Drawer Mode — off-canvas sidebar */
+.drawerMode {
+  width: var(--layout-sidebar-width) !important;
+  transform: translateX(-100%);
+  transition:
+    transform var(--duration-slow) var(--easing-standard),
+    box-shadow var(--duration-slow) var(--easing-standard);
+  box-shadow: none;
+  z-index: calc(var(--z-sidebar) + 3);
+}
+
+.drawerOpen {
+  transform: translateX(0) !important;
+  box-shadow: var(--shadow-xl);
+}
+
+/* Tablet: always show as icon rail (not drawer) */
+@media (min-width: 640px) and (max-width: 1023px) {
+  .drawerMode {
+    transform: translateX(0) !important;
+    width: var(--layout-sidebar-collapsed-width) !important;
+    box-shadow: none;
+  }
+}
+
 /* ----------------------------------------------------------
    Navigation Container
    ---------------------------------------------------------- */

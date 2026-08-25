@@ -239,6 +239,12 @@
   gap: 10px;
 }
 
+@media (max-width: 639px) {
+  .alertCardGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* ══════════════════════════════════════
    RIGHT SECTION — Wallet Manager Panel
    ══════════════════════════════════════ */

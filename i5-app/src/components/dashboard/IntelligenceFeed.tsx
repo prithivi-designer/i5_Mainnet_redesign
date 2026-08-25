@@ -289,6 +289,63 @@ const mockFeedData: FeedItem[] = [
     isPositiveChange: true,
     aiConfidence: 82,
   },
+  {
+    id: "crypto-tech-1",
+    ticker: "ETH",
+    companyName: "Ethereum",
+    avatarBg: "#163A24",
+    category: "TECHNICAL SIGNALS",
+    assetType: "CRYPTO",
+    stance: "BULLISH",
+    position: "LONG",
+    title: "Ethereum confirms double bottom breakout with bullish RSI divergence on 4H",
+    summary:
+      "ETH crossed $2,450 resistance with 3.4x volume surge. 50 EMA golden cross over 200 EMA validates target trajectory toward $2,680.",
+    timeAgo: "25m ago",
+    source: "TradingView AI",
+    publishPrice: "$2,455.60 at publish",
+    priceChange: "+3.42%",
+    isPositiveChange: true,
+    aiConfidence: 88,
+  },
+  {
+    id: "crypto-tech-2",
+    ticker: "SOL",
+    companyName: "Solana",
+    avatarBg: "#1F2B37",
+    category: "TECHNICAL SIGNALS",
+    assetType: "CRYPTO",
+    stance: "BULLISH",
+    position: "LONG",
+    title: "Solana tests key ascending triangle apex at $102 with contracting Bollinger bands",
+    summary:
+      "Volatility squeeze pattern suggests imminent breakout with institutional delta turning positive on perpetual orderbooks.",
+    timeAgo: "1h ago",
+    source: "CoinGlass",
+    publishPrice: "$102.60 at publish",
+    priceChange: "-1.12%",
+    isPositiveChange: false,
+    aiConfidence: 82,
+  },
+  {
+    id: "crypto-macro-1",
+    ticker: "BTC",
+    companyName: "Bitcoin",
+    avatarBg: "#451A03",
+    category: "MACRO SIGNALS",
+    assetType: "CRYPTO",
+    stance: "BULLISH",
+    position: "LONG",
+    title: "Global M2 liquidity expansion signals strong tailwind for Bitcoin in Q3",
+    summary:
+      "Central bank balance sheet expansion across G10 economies correlates with historical Bitcoin re-accumulation cycles preceding major bull legs.",
+    timeAgo: "2h ago",
+    source: "MacroMicro",
+    publishPrice: "$64,238.40 at publish",
+    priceChange: "+2.45%",
+    isPositiveChange: true,
+    aiConfidence: 91,
+  },
 ];
 
 const feedFilterTabs = [
@@ -297,6 +354,7 @@ const feedFilterTabs = [
   { id: "latest-news", label: "Latest News" },
   { id: "trade-ideas", label: "Trade Ideas" },
   { id: "sec-filings", label: "SEC Filings" },
+  { id: "watchlist", label: "Watchlist" },
 ];
 
 const sidepanelSubIdToCategory: Record<string, string[]> = {
@@ -308,6 +366,8 @@ const sidepanelSubIdToCategory: Record<string, string[]> = {
   "insider-transactions": ["INSIDER TRANSACTIONS"],
   "institutional-flow": ["INSTITUTIONAL FLOW"],
   "options-activity": ["OPTIONS ACTIVITY"],
+  "technical-signals": ["TECHNICAL SIGNALS"],
+  "macro-signals": ["MACRO SIGNALS"],
   "on-chain-signals": ["ON-CHAIN SIGNALS"],
   "ai-trade-ideas": ["AI TRADE IDEAS", "AI COMPUTE"],
   "unusual-volume": ["UNUSUAL VOLUME"],
@@ -318,6 +378,13 @@ export default function IntelligenceFeed() {
   const [activeTab, setActiveTab] = useState<string>("timeline");
   const [filterOpen, setFilterOpen] = useState<boolean>(false);
   const [selectedAnalysisItem, setSelectedAnalysisItem] = useState<FeedItem | null>(null);
+  const [savedItemIds, setSavedItemIds] = useState<string[]>(["1", "4", "crypto-tech-1", "crypto-macro-1"]);
+
+  const toggleSave = (id: string) => {
+    setSavedItemIds((prev) =>
+      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
+    );
+  };
 
   // Sidepanel linked filter state
   const [sidepanelFilter, setSidepanelFilter] = useState<{ tab: string; subId: string }>({
@@ -445,13 +512,15 @@ export default function IntelligenceFeed() {
       return false;
     }
 
-    // 3. Top Tab Filter (timeline / results / latest-news / trade-ideas / sec-filings)
+    // 3. Top Tab Filter (timeline / results / latest-news / trade-ideas / sec-filings / watchlist)
+    if (activeTab === "watchlist" && !savedItemIds.includes(item.id)) return false;
     if (activeTab === "results" && item.category !== "EARNINGS RESULTS") return false;
     if (activeTab === "latest-news" && item.category !== "BREAKING NEWS") return false;
     if (activeTab === "trade-ideas" && item.category !== "AI COMPUTE" && item.category !== "AI TRADE IDEAS") return false;
     if (activeTab === "sec-filings" && item.category !== "SEC FILINGS") return false;
 
     // 4. Popover Drawer Filters
+    if ((watchlistOnly || activeTab === "watchlist") && !savedItemIds.includes(item.id)) return false;
     if (signalFilter === "Bullish" && item.stance !== "BULLISH") return false;
     if (signalFilter === "Bearish" && item.stance !== "BEARISH") return false;
     if (minConfidence > 0 && item.aiConfidence < minConfidence) return false;
@@ -814,11 +883,26 @@ export default function IntelligenceFeed() {
                   </svg>
                 </button>
 
-                <button className={styles.actionBtn}>
-                  <svg width={13} height={13} viewBox="0 0 16 16" fill="none" aria-hidden>
-                    <path d="M4 2.5H12V14.5L8 11.5L4 14.5V2.5Z" stroke="currentColor" strokeWidth="1.3" strokeLinejoin="round" />
+                <button
+                  className={`${styles.actionBtn} ${savedItemIds.includes(item.id) ? styles.actionBtnActive : ""}`}
+                  onClick={() => toggleSave(item.id)}
+                  title={savedItemIds.includes(item.id) ? "Remove from Watchlist" : "Save to Watchlist"}
+                >
+                  <svg
+                    width={13}
+                    height={13}
+                    viewBox="0 0 16 16"
+                    fill={savedItemIds.includes(item.id) ? "var(--emerald-500)" : "none"}
+                    aria-hidden
+                  >
+                    <path
+                      d="M4 2.5H12V14.5L8 11.5L4 14.5V2.5Z"
+                      stroke={savedItemIds.includes(item.id) ? "var(--emerald-500)" : "currentColor"}
+                      strokeWidth="1.3"
+                      strokeLinejoin="round"
+                    />
                   </svg>
-                  Save
+                  {savedItemIds.includes(item.id) ? "Saved" : "Save"}
                 </button>
 
                 <button className={styles.actionBtn}>

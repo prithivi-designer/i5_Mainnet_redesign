@@ -159,13 +159,15 @@ interface SidebarProps {
   onToggle: () => void;
   activeId: string;
   onSelect: (id: string) => void;
+  isDrawerOpen?: boolean;
+  isMobile?: boolean;
 }
 
-export default function Sidebar({ collapsed, onToggle, activeId, onSelect }: SidebarProps) {
+export default function Sidebar({ collapsed, onToggle, activeId, onSelect, isDrawerOpen, isMobile }: SidebarProps) {
   return (
     <aside
-      className={`${styles.sidebar} ${collapsed ? styles.collapsed : ""}`}
-      style={collapsed ? { width: "var(--layout-sidebar-collapsed-width)" } : undefined}
+      className={`${styles.sidebar} ${collapsed ? styles.collapsed : ""} ${isMobile ? styles.drawerMode : ""} ${isMobile && isDrawerOpen ? styles.drawerOpen : ""}`}
+      style={collapsed && !isMobile ? { width: "var(--layout-sidebar-collapsed-width)" } : undefined}
       aria-label="Side navigation"
     >
       {/* Navigation List */}

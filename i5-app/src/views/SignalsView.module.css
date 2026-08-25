@@ -347,3 +347,43 @@
   box-shadow: 0 4px 12px rgba(0,0,0,0.5);
   cursor: pointer;
 }
+
+/* ----------------------------------------------------------
+   Responsive Signals View
+   ---------------------------------------------------------- */
+@media (max-width: 1023px) {
+  .container {
+    padding: 16px;
+  }
+
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    padding-bottom: 0;
+  }
+
+  .tabsContainer {
+    gap: 16px;
+    overflow-x: auto;
+    width: 100%;
+    scrollbar-width: none;
+  }
+
+  .tabsContainer::-webkit-scrollbar { display: none; }
+}
+
+@media (max-width: 639px) {
+  .container {
+    padding: 12px;
+  }
+
+  .headerActions {
+    display: none;
+  }
+
+  .tab {
+    font-size: 12px;
+    padding: 8px 0;
+  }
+}

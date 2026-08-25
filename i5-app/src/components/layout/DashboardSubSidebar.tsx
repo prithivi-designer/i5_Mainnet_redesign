@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./DashboardSubSidebar.module.css";
 import EarningsModal from "@/components/dashboard/EarningsModal";
 import DashboardMemeSidepanel from "@/components/dashboard/DashboardMemeSidepanel";
@@ -59,6 +59,19 @@ const subIcons = {
       <path d="M8 5v3l2 2" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" />
     </svg>
   ),
+  technicalSignals: (
+    <svg width={16} height={16} viewBox="0 0 16 16" fill="none" aria-hidden>
+      <path d="M2 13.5L5.5 8.5L9 11L14 3.5" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M10.5 3.5H14V7" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M4 14v-2M8 14v-1M12 14v-4" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" opacity="0.6" />
+    </svg>
+  ),
+  macroSignals: (
+    <svg width={16} height={16} viewBox="0 0 16 16" fill="none" aria-hidden>
+      <circle cx="8" cy="8" r="6" stroke="currentColor" strokeWidth="1.3" />
+      <path d="M2 8h12M8 2a9 9 0 0 1 0 12M8 2a9 9 0 0 0 0 12" stroke="currentColor" strokeWidth="1.2" />
+    </svg>
+  ),
   onChainSignals: (
     <svg width={16} height={16} viewBox="0 0 16 16" fill="none" aria-hidden>
       <circle cx="8" cy="8" r="2" fill="currentColor" />
@@ -85,6 +98,24 @@ const subIcons = {
   ),
 };
 
+/* Filter Icon for Trigger Button */
+function IconFilter() {
+  return (
+    <svg width={14} height={14} viewBox="0 0 16 16" fill="none" aria-hidden>
+      <path d="M2 3.5h12M4 8h8M6.5 12.5h3" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+/* Close Icon */
+function IconClose() {
+  return (
+    <svg width={14} height={14} viewBox="0 0 16 16" fill="none" aria-hidden>
+      <path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+    </svg>
+  );
+}
+
 /* ----------------------------------------------------------
    Sub-navigation items configuration with distinct colors
    ---------------------------------------------------------- */
@@ -107,21 +138,28 @@ const cryptoSubSections: SubSection[] = [
       {
         id: "all-intelligence",
         label: "All Intelligence",
-        count: 4,
+        count: 5,
         icon: subIcons.allIntelligence,
         iconColor: "#56D68F", // Mint Green
       },
       {
-        id: "options-activity",
-        label: "Options Activity",
+        id: "technical-signals",
+        label: "Technical Signals",
+        count: 2,
+        icon: subIcons.technicalSignals,
+        iconColor: "#38BDF8", // Sky Blue
+      },
+      {
+        id: "macro-signals",
+        label: "Macro Signals",
         count: 1,
-        icon: subIcons.optionsActivity,
-        iconColor: "#14B8A6", // Teal
+        icon: subIcons.macroSignals,
+        iconColor: "#F59E0B", // Amber Gold
       },
     ],
   },
   {
-    title: "Ideas & Research",
+    title: "IDEAS & RESEARCH",
     items: [
       {
         id: "ai-trade-ideas",
@@ -161,54 +199,54 @@ const stocksSubSections: SubSection[] = [
     ],
   },
   {
-    title: "News & Filings",
+    title: "NEWS & FILINGS",
     items: [
       {
         id: "breaking-news",
         label: "Breaking News",
-        count: 1,
+        count: 2,
         icon: subIcons.breakingNews,
-        iconColor: "#EA5E5E", // Coral Red
+        iconColor: "#60A5FA", // Soft Blue
       },
       {
         id: "earnings-results",
         label: "Earnings Results",
         count: 1,
         icon: subIcons.earningsResults,
-        iconColor: "#38BDF8", // Sky Blue
+        iconColor: "#34D399", // Emerald
       },
       {
         id: "sec-filings",
         label: "SEC Filings",
         count: 1,
         icon: subIcons.secFilings,
-        iconColor: "#F59E0B", // Amber Gold
+        iconColor: "#FBBF24", // Warm Amber
       },
     ],
   },
   {
-    title: "Signals & Flows",
+    title: "SIGNALS & FLOWS",
     items: [
       {
         id: "analyst-ratings",
         label: "Analyst Ratings",
         count: 1,
         icon: subIcons.analystRatings,
-        iconColor: "#FBBF24", // Yellow
+        iconColor: "#A78BFA", // Lavender
       },
       {
         id: "insider-transactions",
         label: "Insider Transactions",
         count: 1,
         icon: subIcons.insiderTransactions,
-        iconColor: "#A855F7", // Purple
+        iconColor: "#F87171", // Coral Rose
       },
       {
         id: "institutional-flow",
         label: "Institutional Flow",
         count: 1,
         icon: subIcons.institutionalFlow,
-        iconColor: "#3B82F6", // Royal Blue
+        iconColor: "#38BDF8", // Sky Blue
       },
       {
         id: "options-activity",
@@ -220,7 +258,7 @@ const stocksSubSections: SubSection[] = [
     ],
   },
   {
-    title: "Ideas & Research",
+    title: "IDEAS & RESEARCH",
     items: [
       {
         id: "ai-trade-ideas",
@@ -247,10 +285,30 @@ const stocksSubSections: SubSection[] = [
   },
 ];
 
-export default function DashboardSubSidebar() {
+interface DashboardSubSidebarProps {
+  mobileBottomSheet?: boolean;
+}
+
+export default function DashboardSubSidebar({ mobileBottomSheet }: DashboardSubSidebarProps) {
   const [activeTab, setActiveTab] = useState<"meme" | "crypto" | "stocks">("meme");
   const [activeSubId, setActiveSubId] = useState<string>("all-intelligence");
   const [earningsModalOpen, setEarningsModalOpen] = useState<boolean>(false);
+  const [isBottomSheetOpen, setIsBottomSheetOpen] = useState<boolean>(false);
+
+  // Sync tab state when external events fire
+  useEffect(() => {
+    const handler = (e: Event) => {
+      const evt = e as CustomEvent<{ tab: string; subId: string }>;
+      if (evt.detail?.tab && (evt.detail.tab === "meme" || evt.detail.tab === "crypto" || evt.detail.tab === "stocks")) {
+        setActiveTab(evt.detail.tab as "meme" | "crypto" | "stocks");
+      }
+      if (evt.detail?.subId) {
+        setActiveSubId(evt.detail.subId);
+      }
+    };
+    window.addEventListener("i5-sidepanel-filter", handler);
+    return () => window.removeEventListener("i5-sidepanel-filter", handler);
+  }, []);
 
   const dispatchFilterEvent = (tab: string, subId: string, isTabChange?: boolean) => {
     if (typeof window !== "undefined") {
@@ -262,8 +320,206 @@ export default function DashboardSubSidebar() {
     }
   };
 
+  const handleTabSelect = (tab: "meme" | "crypto" | "stocks") => {
+    setActiveTab(tab);
+    dispatchFilterEvent(tab, "all-intelligence", true);
+    setActiveSubId("all-intelligence");
+  };
+
+  const handleSubItemSelect = (subId: string) => {
+    setActiveSubId(subId);
+    dispatchFilterEvent(activeTab, subId);
+    // On mobile, close bottom sheet upon selection
+    setIsBottomSheetOpen(false);
+  };
+
   const currentSections = activeTab === "crypto" ? cryptoSubSections : stocksSubSections;
 
+  // Active filter label text for display in the mobile trigger
+  const getActiveFilterLabel = () => {
+    if (activeTab === "meme") return "Live Meme Radar";
+    const found = currentSections.flatMap((s) => s.items).find((i) => i.id === activeSubId);
+    return found ? found.label : "All Intelligence";
+  };
+
+  /* ── Mobile Bottom Sheet Mode ───────────────────────────── */
+  if (mobileBottomSheet) {
+    return (
+      <>
+        {/* Mobile Filter Bar Trigger (pinned at top of dashboard main content) */}
+        <div className={styles.mobileFilterBar}>
+          {/* Quick tab switcher pills */}
+          <div className={styles.mobileTabsGroup}>
+            <button
+              className={`${styles.mobileTabPill} ${activeTab === "meme" ? styles.mobileTabPillActive : ""}`}
+              onClick={() => handleTabSelect("meme")}
+            >
+              🔥 Meme
+            </button>
+            <button
+              className={`${styles.mobileTabPill} ${activeTab === "crypto" ? styles.mobileTabPillActive : ""}`}
+              onClick={() => handleTabSelect("crypto")}
+            >
+              ₿ Crypto
+            </button>
+            <button
+              className={`${styles.mobileTabPill} ${activeTab === "stocks" ? styles.mobileTabPillActive : ""}`}
+              onClick={() => handleTabSelect("stocks")}
+            >
+              📈 Stocks
+            </button>
+          </div>
+
+          {/* Trigger Button that slides up the Bottom Sheet */}
+          <button
+            className={styles.mobileFilterBtn}
+            onClick={() => setIsBottomSheetOpen(true)}
+            aria-label="Open filter bottom sheet"
+          >
+            <IconFilter />
+            <span>Filters</span>
+            <span className={styles.mobileFilterBadge}>
+              {activeTab === "meme" ? "42" : activeTab === "crypto" ? "4" : "8"}
+            </span>
+          </button>
+        </div>
+
+        {/* Bottom Sheet Backdrop */}
+        {isBottomSheetOpen && (
+          <div
+            className={styles.bottomSheetBackdrop}
+            onClick={() => setIsBottomSheetOpen(false)}
+            aria-hidden
+          />
+        )}
+
+        {/* Slide-up Bottom Sheet Modal */}
+        <div
+          className={`${styles.bottomSheet} ${isBottomSheetOpen ? styles.bottomSheetOpen : ""}`}
+          role="dialog"
+          aria-modal="true"
+          aria-label="Dashboard Intelligence Filters"
+        >
+          {/* Pull Handle Bar */}
+          <div className={styles.sheetHandle} onClick={() => setIsBottomSheetOpen(false)} />
+
+          {/* Sheet Header */}
+          <div className={styles.sheetHeader}>
+            <div className={styles.sheetHeaderLeft}>
+              <h3 className={styles.sheetTitle}>Market Intelligence</h3>
+              <span className={styles.sheetActiveTag}>{getActiveFilterLabel()}</span>
+            </div>
+            <button
+              className={styles.sheetCloseBtn}
+              onClick={() => setIsBottomSheetOpen(false)}
+              aria-label="Close bottom sheet"
+            >
+              <IconClose />
+            </button>
+          </div>
+
+          {/* Segmented Control Tabs */}
+          <div className={styles.sheetTabsWrapper}>
+            <div className={styles.segmentedControl}>
+              <button
+                className={`${styles.tabBtn} ${activeTab === "meme" ? styles.tabBtnActive : ""}`}
+                onClick={() => handleTabSelect("meme")}
+              >
+                Meme
+              </button>
+              <button
+                className={`${styles.tabBtn} ${activeTab === "crypto" ? styles.tabBtnActive : ""}`}
+                onClick={() => handleTabSelect("crypto")}
+              >
+                Crypto
+              </button>
+              <button
+                className={`${styles.tabBtn} ${activeTab === "stocks" ? styles.tabBtnActive : ""}`}
+                onClick={() => handleTabSelect("stocks")}
+              >
+                Stocks
+              </button>
+            </div>
+          </div>
+
+          {/* Scrollable Content inside Bottom Sheet */}
+          <div className={styles.sheetContent}>
+            {activeTab === "meme" ? (
+              <DashboardMemeSidepanel />
+            ) : (
+              currentSections.map((section, idx) => (
+                <div key={section.title || idx} className={styles.section}>
+                  {section.title && (
+                    <h4 className={`${styles.sectionTitle} text-overline`}>{section.title}</h4>
+                  )}
+                  <ul className={styles.list}>
+                    {section.items.map((item) => {
+                      const isActive = activeSubId === item.id;
+                      return (
+                        <li key={item.id}>
+                          <button
+                            className={`${styles.itemButton} ${
+                              isActive ? styles.itemButtonActive : ""
+                            }`}
+                            onClick={() => handleSubItemSelect(item.id)}
+                          >
+                            <span className={styles.itemIcon} style={{ color: item.iconColor }}>
+                              {item.icon}
+                            </span>
+                            <span className={`${styles.itemLabel} text-body-sm`}>{item.label}</span>
+                            {item.count !== undefined && (
+                              <span className={styles.itemBadge}>{item.count}</span>
+                            )}
+                          </button>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </div>
+              ))
+            )}
+          </div>
+
+          {/* Fixed Bottom Section for Action Callout Banner Card */}
+          <div className={styles.sheetBottomSection}>
+            <div
+              className={styles.actionCard}
+              onClick={() => {
+                setIsBottomSheetOpen(false);
+                setEarningsModalOpen(true);
+              }}
+              role="button"
+              tabIndex={0}
+              aria-label={
+                activeTab === "meme"
+                  ? "Open Live Meme Radar"
+                  : activeTab === "crypto"
+                  ? "Open Upcoming Token Unlocks"
+                  : "Open Upcoming Earnings Overlay Modal"
+              }
+            >
+              <h4 className={styles.actionTitle}>
+                {activeTab === "meme"
+                  ? "Live Meme Radar"
+                  : activeTab === "crypto"
+                  ? "Upcoming Unlocks"
+                  : "Upcoming Earnings"}
+              </h4>
+              <span className={styles.animatedArrow}>→</span>
+            </div>
+          </div>
+        </div>
+
+        {/* Upcoming Earnings / Catalyst Overlay PopUp Modal */}
+        <EarningsModal
+          isOpen={earningsModalOpen}
+          onClose={() => setEarningsModalOpen(false)}
+        />
+      </>
+    );
+  }
+
+  /* ── Desktop Fixed Sub-Sidebar ──────────────────────────── */
   return (
     <>
       <aside className={styles.subSidebar} aria-label="Dashboard sub navigation">
@@ -274,28 +530,19 @@ export default function DashboardSubSidebar() {
             <div className={styles.segmentedControl}>
               <button
                 className={`${styles.tabBtn} ${activeTab === "meme" ? styles.tabBtnActive : ""}`}
-                onClick={() => {
-                  setActiveTab("meme");
-                  dispatchFilterEvent("meme", activeSubId, true);
-                }}
+                onClick={() => handleTabSelect("meme")}
               >
                 Meme
               </button>
               <button
                 className={`${styles.tabBtn} ${activeTab === "crypto" ? styles.tabBtnActive : ""}`}
-                onClick={() => {
-                  setActiveTab("crypto");
-                  dispatchFilterEvent("crypto", activeSubId, true);
-                }}
+                onClick={() => handleTabSelect("crypto")}
               >
                 Crypto
               </button>
               <button
                 className={`${styles.tabBtn} ${activeTab === "stocks" ? styles.tabBtnActive : ""}`}
-                onClick={() => {
-                  setActiveTab("stocks");
-                  dispatchFilterEvent("stocks", activeSubId, true);
-                }}
+                onClick={() => handleTabSelect("stocks")}
               >
                 Stocks
               </button>

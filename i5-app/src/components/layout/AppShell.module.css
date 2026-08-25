@@ -35,3 +35,43 @@
   box-sizing: border-box;
   position: relative;
 }
+
+/* Mobile: add bottom padding for bottom nav bar */
+.mainMobile {
+  padding-bottom: calc(var(--layout-bottomnav-height) + var(--safe-area-inset-bottom, 0px) + 16px);
+}
+
+/* Mobile / Tablet breakpoint overrides */
+@media (max-width: 1023px) {
+  .body {
+    margin-left: var(--layout-sidebar-collapsed-width) !important;
+    width: calc(100vw - var(--layout-sidebar-collapsed-width)) !important;
+  }
+}
+
+@media (max-width: 639px) {
+  .body {
+    margin-left: 0 !important;
+    width: 100vw !important;
+  }
+
+  .main {
+    padding: 12px 16px 16px 16px;
+  }
+}
+
+/* Drawer backdrop overlay (mobile/tablet) */
+.drawerBackdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: calc(var(--z-sidebar) - 1);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  animation: fadeIn var(--duration-fast) var(--easing-standard);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}

@@ -1,9 +1,10 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Sidebar from "./Sidebar";
 import DashboardSubSidebar from "./DashboardSubSidebar";
 import Topbar from "./Topbar";
+import MobileBottomNav from "./MobileBottomNav";
 import styles from "./AppShell.module.css";
 import AlphaTradeView from "@/components/dashboard/AlphaTradeView";
 import dynamic from "next/dynamic";
@@ -63,36 +64,95 @@ function PageRouter({
 export default function AppShell({ children }: AppShellProps) {
   const [activeId, setActiveId] = useState<string>("dashboard");
   const [collapsed, setCollapsed] = useState<boolean>(false);
+  const [isMobileDrawerOpen, setIsMobileDrawerOpen] = useState<boolean>(false);
+
+  // Responsive state
+  const [isMobile, setIsMobile] = useState<boolean>(false);
+  const [isTablet, setIsTablet] = useState<boolean>(false);
+
+  useEffect(() => {
+    const checkBreakpoints = () => {
+      const w = window.innerWidth;
+      setIsMobile(w < 640);
+      setIsTablet(w >= 640 && w < 1024);
+    };
+    checkBreakpoints();
+    window.addEventListener("resize", checkBreakpoints);
+    return () => window.removeEventListener("resize", checkBreakpoints);
+  }, []);
+
+  // Listen for global view navigation events (e.g. from token clicks)
+  useEffect(() => {
+    const handleNavigate = (e: Event) => {
+      const customEvent = e as CustomEvent<{ targetId?: string; symbol?: string }>;
+      if (customEvent.detail?.targetId) {
+        setActiveId(customEvent.detail.targetId);
+        setIsMobileDrawerOpen(false);
+      }
+    };
+    window.addEventListener("i5-navigate", handleNavigate as EventListener);
+    return () => window.removeEventListener("i5-navigate", handleNavigate as EventListener);
+  }, []);
+
+  // Close mobile drawer when navigating
+  const handleSelect = (id: string) => {
+    setActiveId(id);
+    setIsMobileDrawerOpen(false);
+  };
 
   const isDashboard = activeId === "dashboard";
 
-  // Dashboard active forces the main sidebar to be collapsed
-  const isMainSidebarCollapsed = isDashboard ? true : collapsed;
+  // Dashboard active forces the main sidebar to be collapsed (on desktop)
+  const isMainSidebarCollapsed = isMobile
+    ? true  // always "collapsed" on mobile (becomes drawer)
+    : isDashboard
+    ? true
+    : collapsed;
 
-  // Dashboard: 72px rail + 12px gap + 270px floating panel + 12px right gap = 366px
-  // Non-dashboard collapsed: 72px
-  // Non-dashboard expanded: 260px
-  const totalSidebarWidth = isDashboard
+  // Sidebar width for content body offset
+  // Mobile: 0 (sidebar is off-canvas drawer, not in flow)
+  // Tablet: 72px collapsed icon rail
+  // Desktop dashboard: 72px rail + 12px gap + 270px sub-panel + 12px = 366px
+  // Desktop non-dashboard expanded: 260px
+  const totalSidebarWidth = isMobile
+    ? "0px"
+    : isTablet
+    ? "var(--layout-sidebar-collapsed-width)" // 72px always on tablet
+    : isDashboard
     ? "366px"
     : isMainSidebarCollapsed
-    ? "var(--layout-sidebar-collapsed-width)" // 72px
-    : "var(--layout-sidebar-width)"; // 260px
+    ? "var(--layout-sidebar-collapsed-width)"
+    : "var(--layout-sidebar-width)";
 
   return (
     <div className={styles.shell}>
       {/* Full-width header spanning top (100% width) */}
-      <Topbar />
+      <Topbar
+        onMenuToggle={isMobile || isTablet ? () => setIsMobileDrawerOpen((v) => !v) : undefined}
+        showMenuBtn={isMobile || isTablet}
+      />
+
+      {/* Mobile/Tablet: Drawer backdrop */}
+      {(isMobile || isTablet) && isMobileDrawerOpen && (
+        <div
+          className={styles.drawerBackdrop}
+          onClick={() => setIsMobileDrawerOpen(false)}
+          aria-hidden
+        />
+      )}
 
       {/* Primary Sidebar */}
       <Sidebar
         collapsed={isMainSidebarCollapsed}
         onToggle={() => setCollapsed((v) => !v)}
         activeId={activeId}
-        onSelect={(id) => setActiveId(id)}
+        onSelect={handleSelect}
+        isDrawerOpen={isMobileDrawerOpen}
+        isMobile={isMobile || isTablet}
       />
 
-      {/* Secondary Floating Sub-Sidebar (only visible when Dashboard is active) */}
-      {isDashboard && <DashboardSubSidebar />}
+      {/* Secondary Floating Sub-Sidebar (only visible when Dashboard is active, desktop only) */}
+      {isDashboard && !isMobile && !isTablet && <DashboardSubSidebar />}
 
       {/* Right column: main content */}
       <div
@@ -105,10 +165,17 @@ export default function AppShell({ children }: AppShellProps) {
           } as React.CSSProperties
         }
       >
-        <main className={styles.main}>
+        <main className={`${styles.main} ${isMobile ? styles.mainMobile : ""}`}>
+          {/* Mobile: Dashboard sub-sidebar as bottom sheet triggered by filter button */}
+          {isDashboard && (isMobile || isTablet) && (
+            <DashboardSubSidebar mobileBottomSheet />
+          )}
           <PageRouter activeId={activeId} dashboardChildren={children} />
         </main>
       </div>
+
+      {/* Mobile Bottom Navigation */}
+      <MobileBottomNav activeId={activeId} onSelect={handleSelect} />
     </div>
   );
 }

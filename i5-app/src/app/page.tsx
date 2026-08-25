@@ -1,7 +1,7 @@
 "use client";
+
 import { useState, useEffect } from "react";
 import MarketOverviewGrid from "@/components/dashboard/MarketOverviewGrid";
-import MarketBreadthCard from "@/components/dashboard/MarketBreadthCard";
 import MarketAssetTableCard from "@/components/dashboard/MarketAssetTableCard";
 import BubbleMapCard from "@/components/dashboard/BubbleMapCard";
 import IntelligenceFeed from "@/components/dashboard/IntelligenceFeed";
@@ -53,16 +53,6 @@ export default function HomePage() {
           >
             AI briefing · updated 1m ago
           </p>
-        </div>
-      )}
-
-      {/* Intelligence Briefing Metric Cards (Hidden) */}
-      {/* <IntelligenceBriefingGrid /> */}
-
-      {/* Horizontal Market Breadth Strength Card Banner — hidden on meme */}
-      {!isMeme && (
-        <div style={{ width: "100%", marginBottom: "var(--space-6)" }}>
-          <MarketBreadthCard />
         </div>
       )}
 

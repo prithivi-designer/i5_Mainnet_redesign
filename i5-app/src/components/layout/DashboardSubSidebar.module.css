@@ -220,3 +220,231 @@
 .actionCard:hover .animatedArrow {
   transform: translateX(4px);
 }
+
+/* ──────────────────────────────────────────────────────────
+   Mobile Filter Trigger Bar (Pinned at top of content on Mobile)
+   ────────────────────────────────────────────────────────── */
+.mobileFilterBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  padding: 8px 12px;
+  margin-bottom: var(--space-4);
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-color-default);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-xs);
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.mobileTabsGroup {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.mobileTabsGroup::-webkit-scrollbar {
+  display: none;
+}
+
+.mobileTabPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 12px;
+  border-radius: var(--radius-full);
+  background-color: transparent;
+  border: 1px solid transparent;
+  color: var(--text-tertiary);
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: all var(--duration-fast) var(--easing-standard);
+}
+
+.mobileTabPill:hover {
+  color: var(--text-primary);
+  background-color: rgba(255, 255, 255, 0.04);
+}
+
+.mobileTabPillActive {
+  background-color: var(--bg-surface-raised);
+  color: var(--text-primary);
+  border-color: var(--border-color-strong);
+  box-shadow: var(--shadow-xs);
+}
+
+.mobileFilterBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: var(--radius-full);
+  background-color: var(--bg-surface-raised);
+  border: 1px solid var(--border-color-strong);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: all var(--duration-fast) var(--easing-standard);
+}
+
+.mobileFilterBtn:hover {
+  background-color: var(--bg-surface-overlay);
+  border-color: var(--border-color-emphasis);
+  transform: translateY(-1px);
+}
+
+.mobileFilterBadge {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--emerald-500);
+  background-color: rgba(47, 203, 115, 0.12);
+  border: 1px solid rgba(47, 203, 115, 0.3);
+  padding: 0 5px;
+  border-radius: var(--radius-full);
+}
+
+/* ──────────────────────────────────────────────────────────
+   Bottom Sheet Modal (Mobile Slide-up on filter button tap)
+   ────────────────────────────────────────────────────────── */
+.bottomSheetBackdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.72);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  z-index: calc(var(--z-modal) + 10);
+  animation: fadeIn var(--duration-fast) var(--easing-standard);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.bottomSheet {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  max-height: 85vh;
+  height: 80vh;
+  background-color: var(--bg-surface);
+  border-top: 1px solid var(--border-color-strong);
+  border-radius: 24px 24px 0 0;
+  z-index: calc(var(--z-modal) + 11);
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 -12px 48px rgba(0, 0, 0, 0.85);
+  overflow: hidden;
+  transform: translateY(100%);
+  transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+  user-select: none;
+}
+
+.bottomSheetOpen {
+  transform: translateY(0) !important;
+}
+
+.sheetHandle {
+  width: 42px;
+  height: 4px;
+  border-radius: var(--radius-full);
+  background-color: var(--neutral-600);
+  margin: 10px auto 4px auto;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+.sheetHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 20px 14px 20px;
+  border-bottom: 1px solid var(--border-color-default);
+  flex-shrink: 0;
+}
+
+.sheetHeaderLeft {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.sheetTitle {
+  font-family: var(--font-sans);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.sheetActiveTag {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--emerald-500);
+  background-color: rgba(47, 203, 115, 0.12);
+  border: 1px solid rgba(47, 203, 115, 0.25);
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+}
+
+.sheetCloseBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-full);
+  background-color: var(--bg-surface-raised);
+  border: 1px solid var(--border-color-default);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all var(--duration-fast) var(--easing-standard);
+}
+
+.sheetCloseBtn:hover {
+  background-color: var(--bg-surface-overlay);
+  color: var(--text-primary);
+  border-color: var(--border-color-strong);
+}
+
+.sheetTabsWrapper {
+  padding: 12px 20px 0 20px;
+  flex-shrink: 0;
+}
+
+.sheetContent {
+  flex: 1 1 0%;
+  overflow-y: auto;
+  padding: 14px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.sheetContent::-webkit-scrollbar {
+  width: 4px;
+}
+.sheetContent::-webkit-scrollbar-thumb {
+  background-color: var(--neutral-700);
+  border-radius: 4px;
+}
+
+.sheetBottomSection {
+  padding: 12px 20px calc(16px + var(--safe-area-inset-bottom, 0px)) 20px;
+  border-top: 1px solid var(--border-color-default);
+  background-color: var(--bg-surface);
+  flex-shrink: 0;
+}

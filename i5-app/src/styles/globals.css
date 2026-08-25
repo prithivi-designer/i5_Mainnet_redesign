@@ -154,3 +154,36 @@ hr {
   border: none;
   border-top: var(--border-width-hairline) solid var(--border-color-default);
 }
+
+/* ----------------------------------------------------------
+   Responsive Visibility Utilities
+   ---------------------------------------------------------- */
+@media (max-width: 639px) {
+  .hide-mobile { display: none !important; }
+}
+
+@media (min-width: 640px) and (max-width: 1023px) {
+  .hide-tablet { display: none !important; }
+}
+
+@media (min-width: 1024px) {
+  .hide-desktop { display: none !important; }
+  .show-mobile-only { display: none !important; }
+  .show-tablet-only { display: none !important; }
+}
+
+@media (max-width: 1023px) {
+  .show-desktop-only { display: none !important; }
+}
+
+@media (max-width: 639px) {
+  .show-tablet-up { display: none !important; }
+}
+
+/* ----------------------------------------------------------
+   Safe Area Support (iOS notch / home indicator)
+   ---------------------------------------------------------- */
+:root {
+  --safe-area-inset-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-area-inset-top: env(safe-area-inset-top, 0px);
+}

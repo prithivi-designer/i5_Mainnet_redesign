@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import styles from "./BubbleMapCard.module.css";
+import QuickTradeModal, { TradeTokenInfo } from "./QuickTradeModal";
 
 interface BubbleData {
   id: string;
@@ -462,6 +463,9 @@ const baseBubbles: BubbleData[] = [
 export default function BubbleMapCard() {
   const [timeframe, setTimeframe] = useState<string>("24H");
   const [hoveredBubble, setHoveredBubble] = useState<BubbleData | null>(null);
+  const [tradeModalOpen, setTradeModalOpen] = useState<boolean>(false);
+  const [selectedTradeToken, setSelectedTradeToken] = useState<TradeTokenInfo | null>(null);
+  const [tradeSide, setTradeSide] = useState<"LONG" | "SHORT">("LONG");
 
   // Dynamic multiplier based on selected timeframe
   const timeframeMultiplier: Record<string, number> = {
@@ -473,6 +477,34 @@ export default function BubbleMapCard() {
   };
 
   const mult = timeframeMultiplier[timeframe] || 1.0;
+
+  const handleBubbleClick = (bubble: BubbleData, isPositive: boolean, dynamicChange: number) => {
+    const tokenInfo: TradeTokenInfo = {
+      symbol: bubble.symbol,
+      name: bubble.name,
+      price:
+        bubble.symbol === "GT"
+          ? "$12.45"
+          : bubble.symbol === "BDX"
+          ? "$0.048"
+          : bubble.symbol === "ATOM"
+          ? "$9.20"
+          : bubble.symbol === "ARB"
+          ? "$2.11"
+          : bubble.symbol === "TON"
+          ? "$5.60"
+          : "$4.85",
+      change24h: `${isPositive ? "+" : ""}${dynamicChange}%`,
+      isPositive: isPositive,
+      avatarBg: bubble.logoBg,
+      exchanges: ["Hyperliquid", "Aster"],
+    };
+
+    setSelectedTradeToken(tokenInfo);
+    // If green/positive -> LONG, if red/negative -> SHORT
+    setTradeSide(isPositive ? "LONG" : "SHORT");
+    setTradeModalOpen(true);
+  };
 
   return (
     <div className={styles.card} role="region" aria-label="Crypto Bubble Map Visualization">
@@ -542,9 +574,12 @@ export default function BubbleMapCard() {
                 height: `${bubble.size}px`,
                 left: `calc(${bubble.x}% - ${bubble.size / 2}px)`,
                 top: `calc(${bubble.y}% - ${bubble.size / 2}px)`,
+                cursor: "pointer",
               }}
+              onClick={() => handleBubbleClick(bubble, isPositive, dynamicChange)}
               onMouseEnter={() => setHoveredBubble(bubble)}
               onMouseLeave={() => setHoveredBubble(null)}
+              title={`Click to Quick Trade ${isPositive ? "Long" : "Short"} on ${bubble.symbol}`}
             >
               {/* Optional Token Icon / Logo Badge */}
               <div
@@ -583,12 +618,24 @@ export default function BubbleMapCard() {
                   <div className={styles.tooltipMeta}>
                     Vol: {bubble.vol24h || "$50M+"} · MC: {bubble.marketCap || "$500M+"}
                   </div>
+                  <div style={{ marginTop: "4px", fontSize: "10px", color: isPositive ? "var(--emerald-500)" : "var(--rose-500)", fontWeight: 700 }}>
+                    ⚡ Click to Trade {isPositive ? "LONG" : "SHORT"}
+                  </div>
                 </div>
               )}
             </div>
           );
         })}
       </div>
+
+      {/* Quick Trade Modal */}
+      <QuickTradeModal
+        isOpen={tradeModalOpen}
+        onClose={() => setTradeModalOpen(false)}
+        token={selectedTradeToken}
+        initialSide={tradeSide}
+        exchange="Hyperliquid"
+      />
     </div>
   );
 }

@@ -148,17 +148,16 @@
   width: 100%;
 }
 
-@media (max-width: 1200px) {
+@media (max-width: 1023px) {
   .metricsGrid {
     grid-template-columns: repeat(2, 1fr);
-    gap: var(--space-4);
   }
 }
 
-@media (max-width: 640px) {
+@media (max-width: 639px) {
   .metricsGrid {
     grid-template-columns: 1fr;
-    margin: 0 var(--space-4) var(--space-4);
+    gap: var(--space-3);
   }
 }
 
@@ -366,6 +365,16 @@
   flex-wrap: wrap;
   width: 100%;
   box-sizing: border-box;
+}
+
+@media (max-width: 639px) {
+  .navControlsBar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-3);
+    border-radius: var(--radius-lg);
+    padding: 10px 12px;
+  }
 }
 
 .viewSelectorGroup {
@@ -2132,6 +2141,13 @@
   box-sizing: border-box;
 }
 
+@media (max-width: 639px) {
+  .cardGrid {
+    grid-template-columns: 1fr;
+    gap: var(--space-3);
+  }
+}
+
 .gridCard {
   display: flex;
   flex-direction: column;
@@ -2854,15 +2870,16 @@
   box-sizing: border-box;
 }
 
-@media (max-width: 1100px) {
+@media (max-width: 1023px) {
   .kolStatsRow {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
-@media (max-width: 640px) {
+@media (max-width: 639px) {
   .kolStatsRow {
     grid-template-columns: 1fr;
+    gap: var(--space-3);
   }
 }
 
@@ -3107,6 +3124,13 @@
   gap: var(--space-4);
   width: 100%;
   box-sizing: border-box;
+}
+
+@media (max-width: 639px) {
+  .trendingCardsGrid {
+    grid-template-columns: 1fr;
+    gap: var(--space-3);
+  }
 }
 
 .modernCard {

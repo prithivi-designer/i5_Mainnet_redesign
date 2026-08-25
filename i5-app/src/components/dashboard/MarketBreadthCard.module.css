@@ -20,6 +20,15 @@
   border-color: var(--border-color-strong);
 }
 
+@media (max-width: 767px) {
+  .card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-4);
+    padding: var(--space-4);
+  }
+}
+
 /* Left Section with Arc Gauge */
 .gaugeSection {
   flex-shrink: 0;

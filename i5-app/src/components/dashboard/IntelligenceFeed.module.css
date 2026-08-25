@@ -28,6 +28,23 @@
   box-sizing: border-box;
 }
 
+@media (max-width: 639px) {
+  .container {
+    margin-top: var(--space-2);
+  }
+
+  .tabsHeader {
+    width: calc(100% + 32px); /* 2 * 16px mobile padding */
+    margin-left: -16px;
+    margin-right: -16px;
+    padding: var(--space-2) 16px;
+    gap: var(--space-2);
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    top: calc(var(--space-2) * -1);
+  }
+}
+
 .tabsList {
   display: flex;
   align-items: center;

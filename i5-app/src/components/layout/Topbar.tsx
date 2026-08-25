@@ -60,11 +60,21 @@ function IconWallet() {
 
 import AccountModal from "@/components/account/AccountModal";
 
-interface TopbarProps {
-  onOpenAccount?: () => void;
+function IconMenu() {
+  return (
+    <svg width={18} height={18} viewBox="0 0 18 18" fill="none" aria-hidden>
+      <path d="M2.5 5h13M2.5 9h13M2.5 13h13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+    </svg>
+  );
 }
 
-export default function Topbar({ onOpenAccount }: TopbarProps) {
+interface TopbarProps {
+  onOpenAccount?: () => void;
+  onMenuToggle?: () => void;
+  showMenuBtn?: boolean;
+}
+
+export default function Topbar({ onOpenAccount, onMenuToggle, showMenuBtn }: TopbarProps) {
   const [isConnected, setIsConnected] = useState<boolean>(false);
   const [walletAddress] = useState<string>("0x8f2A1346...c41B");
   const [searchValue, setSearchValue] = useState<string>("");
@@ -107,6 +117,16 @@ export default function Topbar({ onOpenAccount }: TopbarProps) {
       <header className={styles.topbar} role="banner">
         {/* Left: Brand Logo + Divider + Page Title */}
         <div className={styles.left}>
+          {/* Hamburger — visible on mobile/tablet */}
+          {showMenuBtn && (
+            <button
+              className={styles.hamburgerBtn}
+              onClick={onMenuToggle}
+              aria-label="Open navigation menu"
+            >
+              <IconMenu />
+            </button>
+          )}
           <div className={styles.brandMark} aria-label="i5">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden>
               <rect x="2" y="2" width="20" height="20" rx="6" fill="var(--text-primary)" />
@@ -127,10 +147,10 @@ export default function Topbar({ onOpenAccount }: TopbarProps) {
           <h1 className={`${styles.pageTitle} text-h4`}>Dashboard</h1>
         </div>
 
-        {/* Right: Search, Status Badges, Bell, Sun, Wallet Connect, Avatar */}
+        {/* Right: Search, Bell, Sun, Wallet Connect, Avatar */}
         <div className={styles.right}>
-          {/* Search Bar */}
-          <div className={styles.searchBar}>
+          {/* Search Bar — hidden on mobile */}
+          <div className={`${styles.searchBar} ${styles.searchBarResponsive}`}>
             <IconSearch />
             <input
               type="text"
@@ -141,18 +161,6 @@ export default function Topbar({ onOpenAccount }: TopbarProps) {
             />
           </div>
 
-          {/* Status Pill 1: Demo data */}
-          <div className={styles.badgeDemo}>
-            <span className={styles.dotGrey} />
-            Demo data
-          </div>
-
-          {/* Status Pill 2: US Market Open */}
-          <div className={styles.badgeMarket}>
-            <span className={styles.dotGreen} />
-            US Market Open
-          </div>
-
           {/* Notification Bell */}
           <div className={styles.bellWrap}>
             <button className={styles.iconBtn} aria-label="Notifications">
@@ -161,12 +169,12 @@ export default function Topbar({ onOpenAccount }: TopbarProps) {
             <span className={styles.notifDotPurple} aria-hidden />
           </div>
 
-          {/* Theme Toggle Sun/Moon Icon */}
-          <button className={styles.iconBtn} aria-label="Toggle Theme" onClick={toggleTheme}>
+          {/* Theme Toggle Sun/Moon Icon — hidden on mobile */}
+          <button className={`${styles.iconBtn} ${styles.hideOnMobile}`} aria-label="Toggle Theme" onClick={toggleTheme}>
             {theme === "light" ? <IconMoon /> : <IconSun />}
           </button>
 
-          {/* Wallet Connect / Connected State Button */}
+          {/* Wallet Connect / Connected State Button — label hidden on mobile */}
           {!isConnected ? (
             <button
               className={styles.connectWalletBtn}
@@ -174,7 +182,7 @@ export default function Topbar({ onOpenAccount }: TopbarProps) {
               title="Connect your crypto wallet"
             >
               <IconWallet />
-              <span>Connect Wallet</span>
+              <span className={styles.walletLabel}>Connect Wallet</span>
             </button>
           ) : (
             <button
@@ -183,7 +191,7 @@ export default function Topbar({ onOpenAccount }: TopbarProps) {
               title="Click to disconnect wallet"
             >
               <span className={styles.dotGreenPulse} />
-              <span className={styles.addressText}>{walletAddress}</span>
+              <span className={`${styles.addressText} ${styles.hideOnMobile}`}>{walletAddress}</span>
             </button>
           )}
 

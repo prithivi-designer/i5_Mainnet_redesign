@@ -159,6 +159,12 @@
   --layout-sidebar-collapsed-width: 72px;
   --layout-content-max-width:       1440px;
   --layout-header-height:           64px;
+  --layout-bottomnav-height:        60px;
+
+  /* Breakpoint references (for JS / custom property use) */
+  --bp-mobile:  639px;
+  --bp-tablet:  1023px;
+  --bp-desktop: 1279px;
 
   /* ----------------------------------------------------------
      13. Z-INDEX

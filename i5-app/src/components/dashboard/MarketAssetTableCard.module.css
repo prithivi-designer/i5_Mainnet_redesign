@@ -20,7 +20,15 @@
   border-color: var(--border-color-strong);
 }
 
-/* Primary Tabs Header using Platform Pill Tab Tokens */
+@media (max-width: 767px) {
+  .card {
+    min-width: 0;
+    flex: 1 1 100%;
+    min-height: auto;
+  }
+}
+
+/* Primary Header */
 .tabsHeader {
   display: flex;
   align-items: center;
@@ -31,40 +39,131 @@
   border-bottom: 1px solid var(--border-color-default);
 }
 
-.tabsList {
-  display: flex;
-  align-items: center;
-  gap: var(--space-2);
-}
-
-.tabBtn {
+.sectionHeading {
   font-family: var(--font-sans);
   font-size: 13px;
-  font-weight: 500;
-  color: var(--text-tertiary);
-  background-color: transparent;
-  border: 1px solid transparent;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-primary);
+  margin: 0;
+  padding: 0;
+  background: none;
+  border: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.rightHeaderControls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Exchange Selector Dropdown */
+.exchangeDropdownWrapper {
+  position: relative;
+}
+
+.exchangeSelectBtn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background-color: var(--bg-surface-raised);
+  border: 1px solid var(--border-color-default);
   border-radius: var(--radius-full);
-  padding: var(--space-2) var(--space-4);
-  cursor: pointer;
-  white-space: nowrap;
-  transition:
-    background-color var(--duration-fast) var(--easing-standard),
-    color var(--duration-fast) var(--easing-standard),
-    border-color var(--duration-fast) var(--easing-standard);
-}
-
-.tabBtn:hover {
-  color: var(--text-primary);
-  background-color: var(--bg-surface-overlay);
-}
-
-.tabBtnActive {
-  color: var(--text-primary);
-  background-color: var(--bg-surface-overlay);
+  padding: 5px 10px;
+  font-family: var(--font-sans);
+  font-size: 11px;
   font-weight: 600;
-  border-color: var(--border-color-default);
-  box-shadow: var(--shadow-xs);
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all var(--duration-fast) var(--easing-standard);
+}
+
+.exchangeSelectBtn:hover {
+  background-color: var(--bg-surface-overlay);
+  border-color: var(--border-color-strong);
+}
+
+.exchangeDropdownMenu {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  background-color: #0e1114;
+  border: 1px solid var(--border-color-strong);
+  border-radius: var(--radius-lg);
+  padding: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  z-index: 50;
+  min-width: 140px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+}
+
+.exchangeMenuItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  border-radius: var(--radius-md);
+  background: transparent;
+  border: none;
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  cursor: pointer;
+  text-align: left;
+  transition: all var(--duration-fast) var(--easing-standard);
+  width: 100%;
+}
+
+.exchangeMenuItem:hover {
+  background-color: var(--bg-surface-overlay);
+  color: var(--text-primary);
+}
+
+.exchangeMenuItemActive {
+  background-color: var(--bg-surface-overlay);
+  color: var(--text-primary);
+  font-weight: 700;
+}
+
+.nameRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.exchangeIconsInline {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.exchangeIconMark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.8;
+  transition: opacity var(--duration-fast) var(--easing-standard), transform var(--duration-fast) var(--easing-standard);
+}
+
+.exchangeIconMark:hover {
+  opacity: 1;
+  transform: scale(1.15);
+}
+
+.tokenClickable {
+  cursor: pointer;
+  transition: color var(--duration-fast) var(--easing-standard);
+}
+
+.tokenClickable:hover .assetSymbol {
+  color: var(--emerald-500);
 }
 
 .viewMoreLink {
