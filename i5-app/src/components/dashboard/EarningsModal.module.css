@@ -1,5 +1,5 @@
 /* ============================================================
-   Upcoming Earnings & Token Unlocks Modal Styles
+   Upcoming Earnings Overlay PopUp Modal — Spacious & Hierarchical
    ============================================================ */
 
 .backdrop {
@@ -16,20 +16,19 @@
 }
 
 .modalContent {
-  background-color: var(--bg-surface, #111111);
-  border: var(--border-width-default, 1px) solid var(--border-color-strong, rgba(228, 228, 228, 0.18));
-  border-radius: var(--radius-2xl, 16px);
-  width: 1180px;
+  background-color: var(--bg-surface);
+  border: var(--border-width-default) solid var(--border-color-strong);
+  border-radius: var(--radius-2xl);
+  width: 1140px;
   max-width: 96vw;
   max-height: 92vh;
   overflow-y: auto;
-  padding: 28px 32px;
+  padding: var(--space-8);
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: var(--space-6);
   box-shadow: 0 28px 72px rgba(0, 0, 0, 0.96);
   user-select: none;
-  box-sizing: border-box;
 }
 
 /* Custom Scrollbar */
@@ -37,14 +36,14 @@
   width: 6px;
 }
 .modalContent::-webkit-scrollbar-thumb {
-  background-color: var(--neutral-700, #333333);
+  background-color: var(--neutral-700);
   border-radius: 4px;
 }
 
-/* ── Top Header Row ───────────────────────────────────────── */
+/* Header — LEVEL 1 HIERARCHY */
 .header {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   width: 100%;
   gap: var(--space-4);
@@ -54,190 +53,140 @@
 .headerLeft {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: var(--space-4);
 }
 
 .headerRight {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: var(--space-4);
 }
 
 .calendarIconBox {
-  width: 44px;
-  height: 44px;
-  border-radius: var(--radius-xl, 12px);
-  background-color: var(--bg-surface-raised, #181818);
-  border: 1px solid var(--border-color-strong, rgba(228, 228, 228, 0.18));
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-xl);
+  background-color: var(--bg-surface-raised);
+  border: 1px solid var(--border-color-strong);
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  color: var(--emerald-500, #2fcb73);
+  color: var(--emerald-500);
 }
 
 .titleMeta {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 4px;
 }
 
 .titleRow {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: var(--space-3);
 }
 
 .title {
   font-family: var(--font-sans);
-  font-size: 20px;
+  font-size: 22px;
   font-weight: 700;
-  color: var(--text-primary, #ffffff);
+  color: var(--text-primary);
   letter-spacing: -0.01em;
   line-height: 1.2;
-  margin: 0;
 }
 
 .liveBadge {
   font-family: var(--font-mono);
   font-size: 10px;
   font-weight: 700;
-  color: var(--emerald-500, #2fcb73);
+  color: var(--emerald-500);
   background-color: rgba(47, 203, 115, 0.12);
   border: 1px solid rgba(47, 203, 115, 0.3);
-  padding: 2px 8px;
-  border-radius: var(--radius-full, 9999px);
+  padding: 3px 9px;
+  border-radius: var(--radius-full);
   letter-spacing: 0.06em;
 }
 
 .subtitle {
   font-family: var(--font-sans);
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 500;
-  color: var(--text-secondary, #9ca3af);
-  margin: 0;
+  color: var(--text-secondary);
 }
 
-/* ── Mode Switcher (Token Unlocks vs Earnings) ─────────────── */
-.modeSelectorGroup {
+/* View Switcher (Agenda vs Calendar Grid) */
+.viewToggleGroup {
   display: flex;
   align-items: center;
-  background-color: var(--bg-app, #080808);
-  border: 1px solid var(--border-color-default, rgba(228, 228, 228, 0.08));
-  border-radius: var(--radius-md, 8px);
-  padding: 3px;
-  gap: 3px;
+  background-color: var(--bg-app);
+  border: 1px solid var(--border-color-default);
+  border-radius: var(--radius-md);
+  padding: 4px;
+  gap: 4px;
 }
 
-.modeTabBtn {
-  display: inline-flex;
+.viewToggleBtn {
+  display: flex;
   align-items: center;
   gap: 6px;
   font-family: var(--font-sans);
   font-size: 12px;
-  font-weight: 700;
-  color: var(--text-tertiary, #787878);
-  background: transparent;
-  border: none;
-  padding: 6px 14px;
-  border-radius: var(--radius-sm, 6px);
-  cursor: pointer;
-  white-space: nowrap;
-  line-height: 1;
-  transition: all var(--duration-fast);
-}
-
-.modeTabBtnActive {
-  background-color: var(--bg-surface-overlay, #252525);
-  color: var(--text-primary, #ffffff);
-  border: 1px solid var(--border-color-strong, rgba(228, 228, 228, 0.2));
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
-}
-
-/* ── View Switcher (Table / Cards / Calendar) ─────────────── */
-.viewToggleGroup {
-  display: flex;
-  align-items: center;
-  background-color: var(--bg-app, #080808);
-  border: 1px solid var(--border-color-default, rgba(228, 228, 228, 0.08));
-  border-radius: var(--radius-md, 8px);
-  padding: 3px;
-  gap: 3px;
-}
-
-.viewToggleBtn {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  font-family: var(--font-sans);
-  font-size: 12px;
   font-weight: 600;
-  color: var(--text-tertiary, #787878);
+  color: var(--text-tertiary);
   background: transparent;
   border: none;
-  padding: 6px 12px;
-  border-radius: var(--radius-sm, 6px);
+  padding: 7px 14px;
+  border-radius: var(--radius-sm);
   cursor: pointer;
-  white-space: nowrap;
-  line-height: 1;
-  transition: all var(--duration-fast);
+  transition: all var(--duration-fast) var(--easing-standard);
 }
 
 .activeViewBtn {
-  background-color: var(--bg-surface-overlay, #252525);
-  color: var(--text-primary, #ffffff);
-  border: 1px solid var(--border-color-strong, rgba(228, 228, 228, 0.2));
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  background-color: var(--bg-surface-overlay);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color-strong);
+  box-shadow: var(--shadow-xs);
 }
 
 .closeBtn {
   font-family: var(--font-sans);
-  font-size: 18px;
-  color: var(--text-secondary, #9ca3af);
+  font-size: 20px;
+  color: var(--text-secondary);
   background: transparent;
   border: none;
   cursor: pointer;
-  transition: color var(--duration-fast);
+  transition: color var(--duration-fast) var(--easing-standard);
   line-height: 1;
-  padding: 6px 8px;
-  border-radius: 6px;
+  padding: 6px;
 }
 
 .closeBtn:hover {
-  color: var(--text-primary, #ffffff);
-  background-color: rgba(255, 255, 255, 0.05);
+  color: var(--text-primary);
 }
 
-/* ── 4 Summary Stat Cards ─────────────────────────────────── */
+/* 4 Summary Stat Cards — LEVEL 2 HIERARCHY (IMAGE 2 DESIGN) */
 .summaryGrid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 14px;
+  gap: var(--space-4);
   width: 100%;
-  box-sizing: border-box;
-}
-
-@media (max-width: 900px) {
-  .summaryGrid {
-    grid-template-columns: repeat(2, 1fr);
-  }
 }
 
 .summaryCard {
-  background-color: var(--bg-app, #080808);
-  border: 1px solid var(--border-color-default, rgba(228, 228, 228, 0.08));
-  border-radius: var(--radius-xl, 12px);
+  background-color: var(--bg-app);
+  border: 1px solid var(--border-color-default);
+  border-radius: var(--radius-xl);
   padding: 14px 16px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  gap: 10px;
-  box-sizing: border-box;
-  transition: border-color var(--duration-fast);
+  gap: 12px;
+  transition: border-color var(--duration-fast) var(--easing-standard);
 }
 
 .summaryCard:hover {
-  border-color: var(--border-color-strong, rgba(228, 228, 228, 0.2));
+  border-color: var(--border-color-strong);
 }
 
 .cardStatHeader {
@@ -263,37 +212,47 @@
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.05em;
-  color: var(--text-tertiary, #787878);
+  color: var(--text-tertiary);
   text-transform: uppercase;
 }
 
 .moreDots {
   font-family: var(--font-sans);
   font-size: 12px;
-  color: var(--text-tertiary, #787878);
+  color: var(--text-tertiary);
   opacity: 0.5;
   cursor: pointer;
   line-height: 1;
 }
 
+/* Inset Middle Container Box (Image 2 Signature Element) */
 .insetMainBox {
-  background-color: var(--bg-surface, #111111);
-  border: 1px solid var(--border-color-default, rgba(228, 228, 228, 0.08));
-  border-radius: var(--radius-lg, 8px);
-  padding: 10px 14px;
-  min-height: 46px;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-color-default);
+  border-radius: var(--radius-lg);
+  padding: 12px 16px;
+  min-height: 52px;
   display: flex;
   align-items: center;
 }
 
 .summaryValue {
   font-family: var(--font-mono);
-  font-size: 16px;
+  font-size: 17px;
   font-weight: 700;
-  color: var(--text-primary, #ffffff);
+  color: var(--text-primary);
   letter-spacing: -0.01em;
 }
 
+.goldHighlight {
+  color: #F4C23A;
+}
+
+.greenHighlight {
+  color: var(--emerald-500);
+}
+
+/* Footer Row in Card */
 .cardFooterRow {
   display: flex;
   align-items: center;
@@ -304,7 +263,7 @@
 .summarySubtext {
   font-family: var(--font-sans);
   font-size: 11px;
-  color: var(--text-tertiary, #787878);
+  color: var(--text-tertiary);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -314,9 +273,9 @@
   font-family: var(--font-mono);
   font-size: 10px;
   font-weight: 700;
-  padding: 2px 7px;
-  border-radius: var(--radius-md, 6px);
-  display: inline-flex;
+  padding: 3px 8px;
+  border-radius: var(--radius-md);
+  display: flex;
   align-items: center;
   gap: 4px;
   white-space: nowrap;
@@ -325,52 +284,165 @@
 
 .greenBadge {
   background-color: rgba(47, 203, 115, 0.12);
-  color: var(--emerald-500, #2fcb73);
+  color: var(--emerald-500);
   border: 1px solid rgba(47, 203, 115, 0.25);
 }
 
-.orangeBadge {
-  background-color: rgba(249, 115, 22, 0.12);
-  color: #fb923c;
-  border: 1px solid rgba(249, 115, 22, 0.25);
+.goldBadge {
+  background-color: rgba(244, 194, 58, 0.12);
+  color: #F4C23A;
+  border: 1px solid rgba(244, 194, 58, 0.25);
 }
 
-.purpleBadge {
-  background-color: rgba(168, 85, 247, 0.12);
-  color: #c084fc;
-  border: 1px solid rgba(168, 85, 247, 0.25);
+.blueBadge {
+  background-color: rgba(96, 165, 250, 0.12);
+  color: #60A5FA;
+  border: 1px solid rgba(96, 165, 250, 0.25);
 }
 
-/* ── Search & Filter Horizontal Toolbar ───────────────────── */
-.searchBarRow {
+.darkBadge {
+  background-color: var(--bg-surface-overlay);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-color-default);
+}
+
+/* DEDICATED DATE, MONTH & YEAR FILTER SECTION — LEVEL 3 HIERARCHY */
+.dateFilterSection {
+  background-color: var(--bg-app);
+  border: 1px solid var(--border-color-strong);
+  border-radius: var(--radius-xl);
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.dateFilterTitleRow {
   display: flex;
   align-items: center;
-  gap: 12px;
-  width: 100%;
-  background-color: var(--bg-app, #080808);
-  border: 1px solid var(--border-color-default, rgba(228, 228, 228, 0.08));
-  border-radius: var(--radius-xl, 12px);
-  padding: 10px 14px;
-  box-sizing: border-box;
+  justify-content: space-between;
+}
+
+.dateFilterLabel {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--emerald-500);
+  text-transform: uppercase;
+}
+
+.resetDateLink {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 600;
+  color: #F4C23A;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.dateControlsRow {
+  display: flex;
+  align-items: center;
+  gap: 16px;
   flex-wrap: wrap;
 }
 
-.searchInputWrap {
+.fieldGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.fieldLabel {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.dateSelect {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-color-default);
+  border-radius: var(--radius-md);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 600;
+  padding: 0 12px;
+  height: 38px;
+  cursor: pointer;
+  outline: none;
+}
+
+.nativeDatePicker {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-color-default);
+  border-radius: var(--radius-md);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 600;
+  padding: 0 12px;
+  height: 38px;
+  cursor: pointer;
+  outline: none;
+  color-scheme: dark;
+}
+
+.presetChipsGroup {
   display: flex;
   align-items: center;
   gap: 8px;
-  background-color: var(--bg-surface, #141414);
-  border: 1px solid var(--border-color-default, rgba(228, 228, 228, 0.08));
-  border-radius: var(--radius-md, 6px);
-  padding: 0 12px;
-  height: 36px;
-  flex: 1;
-  min-width: 220px;
 }
 
-.searchIcon {
-  color: var(--text-tertiary, #787878);
-  flex-shrink: 0;
+.presetChip {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-color-default);
+  border-radius: var(--radius-md);
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: all var(--duration-fast) var(--easing-standard);
+  white-space: nowrap;
+}
+
+.activePreset {
+  background-color: var(--bg-surface-overlay);
+  color: var(--emerald-500);
+  border-color: rgba(47, 203, 115, 0.4);
+}
+
+/* Secondary Filter Toolbar */
+.filterToolbar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  width: 100%;
+  background-color: var(--bg-app);
+  border: 1px solid var(--border-color-default);
+  border-radius: var(--radius-xl);
+  padding: 12px 18px;
+  flex-wrap: wrap;
+}
+
+.searchWrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-color-default);
+  border-radius: var(--radius-md);
+  padding: 0 14px;
+  height: 40px;
+  flex: 1;
+  min-width: 240px;
 }
 
 .searchInput {
@@ -379,779 +451,530 @@
   outline: none;
   font-family: var(--font-sans);
   font-size: 13px;
-  color: var(--text-primary, #ffffff);
+  color: var(--text-primary);
   width: 100%;
 }
 
 .searchInput::placeholder {
-  color: var(--text-tertiary, #787878);
+  color: var(--text-tertiary);
 }
 
 .clearSearchBtn {
   background: transparent;
   border: none;
-  color: var(--text-tertiary, #787878);
+  color: var(--text-tertiary);
   cursor: pointer;
   font-size: 12px;
   padding: 2px;
 }
 
-.customSelectWrap {
+.selectFilter {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-color-default);
+  border-radius: var(--radius-md);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 500;
+  padding: 0 14px;
+  height: 40px;
+  cursor: pointer;
+  outline: none;
+}
+
+.switchGroup {
   display: flex;
   align-items: center;
-  gap: 6px;
-  background-color: var(--bg-surface, #141414);
-  border: 1px solid var(--border-color-default, rgba(228, 228, 228, 0.08));
-  border-radius: var(--radius-md, 6px);
-  padding: 0 10px;
-  height: 36px;
+  gap: 8px;
 }
 
-.filterLabel {
-  font-family: var(--font-sans);
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--text-tertiary, #787878);
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-}
-
-.customSelect {
-  background: transparent;
-  border: none;
-  outline: none;
+.filterPillBtn {
   font-family: var(--font-sans);
   font-size: 12px;
   font-weight: 600;
-  color: var(--text-primary, #ffffff);
-  cursor: pointer;
-}
-
-.filterChip {
-  font-family: var(--font-sans);
-  font-size: 12px;
-  font-weight: 600;
-  padding: 6px 14px;
-  border-radius: var(--radius-md, 6px);
-  background-color: var(--button-secondary-bg, #1c1c1c);
-  border: 1px solid var(--button-secondary-border, rgba(228, 228, 228, 0.12));
-  color: var(--button-secondary-text, #a3a3a3);
+  color: var(--text-secondary);
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-color-default);
+  border-radius: var(--radius-md);
+  padding: 9px 14px;
   cursor: pointer;
   transition: all var(--duration-fast) var(--easing-standard);
   white-space: nowrap;
 }
 
-.filterChip:hover {
-  background-color: var(--button-secondary-bg-hover, #292929);
-  color: var(--text-primary, #ffffff);
+.activeFilterPill {
+  background-color: var(--bg-surface-overlay);
+  color: var(--emerald-500);
+  border-color: rgba(47, 203, 115, 0.4);
 }
 
-.activeFilterChip {
-  background-color: var(--button-primary-bg, #ffffff);
-  color: var(--button-primary-text, #000000);
-  border-color: var(--button-primary-bg, #ffffff);
-  font-weight: 700;
+/* Month Calendar Grid View */
+.calendarGridContainer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  background-color: var(--bg-app);
+  border: 1px solid var(--border-color-default);
+  border-radius: var(--radius-xl);
+  padding: var(--space-6);
+  margin-top: 8px;
 }
 
-.filterToggleBtn {
-  font-family: var(--font-sans);
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--button-secondary-text, #e4e4e4);
-  background-color: var(--button-secondary-bg, #1c1c1c);
-  border: 1px solid var(--button-secondary-border, rgba(228, 228, 228, 0.12));
-  border-radius: var(--radius-md, 6px);
-  padding: 0 14px;
-  height: 36px;
+.calendarMonthHeader {
   display: flex;
   align-items: center;
-  cursor: pointer;
-  transition: all var(--duration-fast);
-  white-space: nowrap;
+  justify-content: space-between;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border-color-default);
 }
 
-.filterToggleBtn:hover {
-  background-color: var(--button-secondary-bg-hover, #292929);
-  color: var(--text-primary, #ffffff);
-}
-
-.filterToggleActive {
-  background-color: rgba(244, 194, 58, 0.15);
-  color: #f4c23a;
-  border-color: rgba(244, 194, 58, 0.4);
-}
-
-/* ── Token Unlocks Table View ─────────────────────────────── */
-.unlocksTableWrapper {
-  width: 100%;
-  overflow-x: auto;
-  border: 1px solid var(--border-color-default, rgba(228, 228, 228, 0.08));
-  border-radius: var(--radius-xl, 12px);
-  background-color: var(--bg-app, #080808);
-}
-
-.unlocksTable {
-  width: 100%;
-  border-collapse: collapse;
-  text-align: left;
-  min-width: 860px;
-}
-
-.unlocksThead tr {
-  border-bottom: 1px solid var(--border-color-default, rgba(228, 228, 228, 0.08));
-  background-color: var(--bg-surface-raised, #141414);
-}
-
-.unlocksTh {
-  padding: 12px 14px;
+.monthTitle {
   font-family: var(--font-sans);
-  font-size: 11px;
-  font-weight: 700;
-  color: var(--text-tertiary, #787878);
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  cursor: pointer;
-  user-select: none;
-  white-space: nowrap;
-}
-
-.thContent {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-}
-
-.sortArrows {
-  font-size: 8px;
-  opacity: 0.5;
-}
-
-.infoIcon {
-  font-size: 10px;
-  opacity: 0.6;
-}
-
-.unlocksTr {
-  border-bottom: 1px solid var(--border-color-default, rgba(228, 228, 228, 0.05));
-  transition: background-color var(--duration-fast);
-}
-
-.unlocksTr:hover {
-  background-color: rgba(255, 255, 255, 0.03);
-}
-
-.unlocksTd {
-  padding: 14px;
-  font-family: var(--font-mono);
-  font-size: 13px;
-  color: var(--text-primary, #ffffff);
-  vertical-align: middle;
-  white-space: nowrap;
-}
-
-.starBtn {
-  background: transparent;
-  border: none;
-  color: var(--text-tertiary, #787878);
   font-size: 15px;
-  cursor: pointer;
-  padding: 4px;
-  line-height: 1;
+  font-weight: 700;
+  color: var(--text-primary);
 }
 
-.starBtnActive {
-  color: #f4c23a;
-}
-
-.projectCell {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.cryptoLogoBox {
-  width: 28px;
-  height: 28px;
-  border-radius: var(--radius-md, 6px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-
-.projectTicker {
+.monthHint {
   font-family: var(--font-sans);
-  font-size: 14px;
-  font-weight: 700;
-  color: var(--text-primary, #ffffff);
+  font-size: 12px;
+  color: var(--text-tertiary);
 }
 
-.priceVal {
-  font-family: var(--font-mono);
-  font-size: 13px;
-  font-weight: 600;
+.weekdaysBar {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+  text-align: center;
 }
 
-.changeValGreen {
-  color: var(--emerald-500, #2fcb73);
-  font-weight: 700;
-}
-
-.changeValRed {
-  color: #f87171;
-  font-weight: 700;
-}
-
-.mcapVal {
-  color: var(--text-secondary, #9ca3af);
-  font-weight: 600;
-}
-
-.releasedCell {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  min-width: 140px;
-}
-
-.releasedText {
-  font-family: var(--font-mono);
+.weekdayName {
+  font-family: var(--font-sans);
   font-size: 12px;
   font-weight: 700;
-  color: var(--emerald-400, #56d68f);
-  width: 48px;
+  color: var(--text-tertiary);
+  padding: 6px 0;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
-.progressTrack {
-  position: relative;
-  flex: 1;
-  height: 4px;
-  border-radius: 2px;
-  background-color: var(--neutral-800, #222222);
-  overflow: visible;
-  min-width: 60px;
+.daysMatrix {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8px;
 }
 
-.progressFill {
-  height: 100%;
-  border-radius: 2px;
-  background-color: var(--emerald-500, #2fcb73);
-  box-shadow: 0 0 6px rgba(47, 203, 115, 0.4);
+.dayCell {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-color-default);
+  border-radius: var(--radius-lg);
+  min-height: 82px;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  transition: all var(--duration-fast) var(--easing-standard);
+  cursor: default;
 }
 
-.progressTriangle {
-  position: absolute;
-  top: 6px;
-  transform: translateX(-50%);
-  width: 0;
-  height: 0;
-  border-left: 3px solid transparent;
-  border-right: 3px solid transparent;
-  border-bottom: 4px solid var(--text-tertiary, #787878);
+.blankCell {
+  background: transparent;
+  border-color: transparent;
 }
 
-.upcomingValCell {
+.hasEventsCell {
+  cursor: pointer;
+  background-color: var(--bg-surface-raised);
+  border-color: var(--border-color-strong);
+}
+
+.hasEventsCell:hover {
+  border-color: var(--emerald-500);
+  background-color: var(--bg-surface-overlay);
+}
+
+.selectedCell {
+  border-color: #F4C23A !important;
+  box-shadow: 0 0 0 2px rgba(244, 194, 58, 0.3);
+}
+
+.dayCellNumberRow {
   display: flex;
   align-items: center;
-  gap: 10px;
+  justify-content: space-between;
 }
 
-.cliffBadge {
-  width: 24px;
-  height: 24px;
-  border-radius: var(--radius-sm, 6px);
-  background-color: rgba(236, 72, 153, 0.18);
-  border: 1px solid rgba(236, 72, 153, 0.35);
-  color: #f472b6;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
+.dayNumber {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-secondary);
 }
 
-.upcomingAmountGroup {
+.eventCountBadge {
+  font-family: var(--font-sans);
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--emerald-500);
+  background-color: rgba(47, 203, 115, 0.15);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.tickerChipsList {
   display: flex;
-  align-items: baseline;
+  flex-direction: column;
   gap: 4px;
 }
 
-.upcomingAmount {
-  font-family: var(--font-mono);
-  font-size: 13px;
-  font-weight: 700;
-  color: var(--text-primary, #ffffff);
-}
-
-.upcomingPercent {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  color: var(--text-tertiary, #787878);
-}
-
-.countdownPill {
-  display: inline-flex;
+.tickerChip {
+  display: flex;
   align-items: center;
-  padding: 3px 8px;
-  border-radius: var(--radius-full, 9999px);
-  background-color: var(--bg-app, #080808);
-  border: 1px solid var(--border-color-default, rgba(228, 228, 228, 0.12));
-  font-family: var(--font-mono);
+  justify-content: space-between;
+  font-family: var(--font-sans);
   font-size: 11px;
   font-weight: 700;
-  color: var(--text-primary, #ffffff);
-  letter-spacing: 0.04em;
-  white-space: nowrap;
+  padding: 3px 6px;
+  border-radius: 4px;
+  line-height: 1.2;
 }
 
-.next7dPill {
-  display: inline-flex;
-  align-items: baseline;
-  gap: 5px;
-  padding: 5px 10px;
-  border-radius: var(--radius-md, 6px);
-  background-color: var(--bg-app, #080808);
-  border: 1px solid var(--border-color-default, rgba(228, 228, 228, 0.08));
+.chipAH {
+  background-color: rgba(129, 140, 248, 0.15);
+  color: #A5B4FC;
+  border: 1px solid rgba(129, 140, 248, 0.3);
 }
 
-.emissionAmount {
+.chipPRE {
+  background-color: rgba(244, 194, 58, 0.15);
+  color: #FCD34D;
+  border: 1px solid rgba(244, 194, 58, 0.3);
+}
+
+.chipText {
   font-family: var(--font-mono);
-  font-size: 12px;
-  font-weight: 700;
-  color: var(--text-primary, #ffffff);
+  font-weight: 800;
 }
 
-.emissionPercent {
+.chipMove {
   font-family: var(--font-mono);
-  font-size: 11px;
-  color: var(--text-tertiary, #787878);
+  font-size: 9px;
+  opacity: 0.85;
 }
 
-/* ── Agenda / Cards View (Strict 3 Columns Per Row) ────────── */
-.agendaContainer {
+/* Date Groups Container (Agenda List) — LEVEL 4 HIERARCHY & SPACIOUS DATES */
+.dateGroupsContainer {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 32px; /* Generous 32px gap between dates */
   width: 100%;
+  margin-top: 8px;
 }
 
 .dateGroupSection {
   display: flex;
   flex-direction: column;
+  gap: 16px; /* 16px gap between date header and report cards */
+}
+
+.dateHeaderRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border-color-strong);
+}
+
+.dateHeaderLeft {
+  display: flex;
+  align-items: center;
   gap: 14px;
+}
+
+.calendarDaySquare {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-lg);
+  background-color: var(--bg-surface-raised);
+  border: 1px solid var(--border-color-strong);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.squareDayName {
+  font-family: var(--font-sans);
+  font-size: 10px;
+  font-weight: 800;
+  color: var(--emerald-500);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.squareDayNum {
+  font-family: var(--font-mono);
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin-top: 2px;
+}
+
+.dateTitle {
+  font-family: var(--font-sans);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
+}
+
+.reportsCountText {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-tertiary);
+}
+
+/* Reports Grid (3 Columns) — LEVEL 5 HIERARCHY */
+.reportsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
   width: 100%;
 }
 
-.dateGroupHeader {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding-bottom: 8px;
-  border-bottom: 1px solid var(--border-color-default, rgba(228, 228, 228, 0.08));
-}
-
-.dateBadge {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  color: var(--text-primary, #ffffff);
-}
-
-.dateGroupLabel {
-  font-family: var(--font-sans);
-  font-size: 14px;
-  font-weight: 700;
-  color: var(--text-primary, #ffffff);
-}
-
-.dateGroupCount {
-  font-family: var(--font-mono);
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--text-tertiary, #787878);
-}
-
-.reportsGrid,
-.cardsGrid {
-  display: grid !important;
-  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-  gap: 16px !important;
-  width: 100% !important;
-  box-sizing: border-box !important;
-}
-
-@media (max-width: 1024px) {
-  .reportsGrid,
-  .cardsGrid {
-    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-  }
-}
-
-@media (max-width: 640px) {
-  .reportsGrid,
-  .cardsGrid {
-    grid-template-columns: 1fr !important;
-  }
-}
-
-.unlockCard {
-  background-color: var(--bg-surface-raised, #141414);
-  border: 1px solid var(--border-color-default, rgba(228, 228, 228, 0.08));
-  border-radius: var(--radius-xl, 12px);
-  padding: 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  box-sizing: border-box;
-  min-width: 0;
-  transition: all var(--duration-fast);
-}
-
-.unlockCard:hover {
-  border-color: var(--border-color-strong, rgba(228, 228, 228, 0.2));
-  transform: translateY(-1px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
-}
-
-.unlockCardTopRow {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-}
-
-.unlockTokenInfo {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  min-width: 0;
-}
-
-.ticker {
-  font-family: var(--font-sans);
-  font-size: 15px;
-  font-weight: 700;
-  color: var(--text-primary, #ffffff);
-  margin: 0;
-}
-
-.companyName {
-  font-family: var(--font-sans);
-  font-size: 12px;
-  color: var(--text-tertiary, #787878);
-  margin: 0;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.unlockTypeBadge {
-  font-family: var(--font-mono);
-  font-size: 10px;
-  font-weight: 700;
-  padding: 3px 8px;
-  border-radius: var(--radius-full, 9999px);
-  background-color: rgba(236, 72, 153, 0.15);
-  border: 1px solid rgba(236, 72, 153, 0.3);
-  color: #f472b6;
-  letter-spacing: 0.04em;
-  white-space: nowrap;
-}
-
-.linearTypeBadge {
-  background-color: rgba(168, 85, 247, 0.15);
-  border: 1px solid rgba(168, 85, 247, 0.3);
-  color: #c084fc;
-}
-
-.unlockCardMetrics {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 8px 12px;
-  background-color: var(--bg-app, #080808);
-  border: 1px solid var(--border-color-default, rgba(228, 228, 228, 0.06));
-  border-radius: var(--radius-lg, 8px);
-  padding: 10px 12px;
-}
-
-.unlockMetricBox {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.unlockMetricLabel {
-  font-family: var(--font-sans);
-  font-size: 10px;
-  font-weight: 600;
-  color: var(--text-tertiary, #787878);
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-}
-
-.unlockMetricVal {
-  font-family: var(--font-mono);
-  font-size: 13px;
-  font-weight: 700;
-  color: var(--text-primary, #ffffff);
-}
-
-.unlockCardFooter {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-}
-
-.watchBtn {
-  font-family: var(--font-sans);
-  font-size: 12px;
-  font-weight: 600;
-  padding: 6px 12px;
-  border-radius: var(--radius-full, 9999px);
-  background-color: var(--button-secondary-bg, #1c1c1c);
-  border: 1px solid var(--button-secondary-border, rgba(228, 228, 228, 0.12));
-  color: var(--button-secondary-text, #e4e4e4);
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  transition: all var(--duration-fast) var(--easing-standard);
-}
-
-.watchBtn:hover {
-  background-color: var(--button-secondary-bg-hover, #292929);
-  color: var(--text-primary, #ffffff);
-}
-
-.watchingActive {
-  background-color: rgba(244, 194, 58, 0.15);
-  color: #f4c23a;
-  border-color: rgba(244, 194, 58, 0.4);
-}
-
-.tradeBtn {
-  font-family: var(--font-sans);
-  font-size: 12px;
-  font-weight: 700;
-  padding: 6px 14px;
-  border-radius: var(--radius-full, 9999px);
-  background-color: var(--button-buy-bg, var(--emerald-500));
-  color: var(--button-buy-text, #000000);
-  border: none;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  transition: all var(--duration-fast) var(--easing-standard);
-}
-
-.tradeBtn:hover {
-  background-color: var(--button-buy-bg-hover, var(--emerald-600));
-  box-shadow: 0 2px 10px rgba(47, 203, 115, 0.35);
-  transform: translateY(-1px);
-}
-
-/* ── Stock Report Cards (Stocks Mode) ─────────────────────── */
 .reportCard {
-  background-color: var(--bg-surface-raised, #141414);
-  border: 1px solid var(--border-color-default, rgba(228, 228, 228, 0.08));
-  border-radius: var(--radius-xl, 12px);
+  background-color: var(--bg-surface-raised);
+  border: 1px solid var(--border-color-default);
+  border-radius: var(--radius-xl);
   padding: 16px;
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  box-sizing: border-box;
-  min-width: 0;
-  transition: border-color var(--duration-fast);
+  gap: 14px;
+  transition: border-color var(--duration-fast) var(--easing-standard), transform var(--duration-fast) var(--easing-standard);
 }
 
 .reportCard:hover {
-  border-color: var(--border-color-strong, rgba(228, 228, 228, 0.2));
+  border-color: var(--border-color-strong);
 }
 
 .cardHeader {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  gap: 10px;
 }
 
-.companyInfo {
+.cardHeaderLeft {
   display: flex;
   align-items: center;
-  gap: 10px;
-  min-width: 0;
+  gap: 12px;
 }
 
 .tickerAvatar {
-  width: 36px;
-  height: 36px;
-  border-radius: var(--radius-md, 6px);
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-color-default);
   display: flex;
   align-items: center;
   justify-content: center;
   font-family: var(--font-mono);
   font-size: 12px;
   font-weight: 800;
-  color: var(--text-primary, #ffffff);
+  color: var(--text-primary);
   flex-shrink: 0;
+}
+
+.tickerMeta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.tickerTitleRow {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.tickerText {
+  font-family: var(--font-sans);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.yellowStar {
+  color: #F4C23A;
+  font-size: 13px;
+}
+
+.companyNameText {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  color: var(--text-tertiary);
+  max-width: 140px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cardHeaderRight {
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
 .sessionBadge {
   font-family: var(--font-mono);
   font-size: 10px;
   font-weight: 700;
-  padding: 3px 7px;
-  border-radius: var(--radius-md, 6px);
+  padding: 4px 8px;
+  border-radius: var(--radius-md);
+}
+
+.ahBadge {
   background-color: rgba(129, 140, 248, 0.15);
-  color: #a5b4fc;
+  color: #A5B4FC;
   border: 1px solid rgba(129, 140, 248, 0.3);
-  white-space: nowrap;
 }
 
-.financialMetrics {
+.preBadge {
+  background-color: rgba(244, 194, 58, 0.15);
+  color: #FCD34D;
+  border: 1px solid rgba(244, 194, 58, 0.3);
+}
+
+/* Stats Grid inside report card */
+.statsGrid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 8px;
-  background-color: var(--bg-app, #080808);
-  border: 1px solid var(--border-color-default, rgba(228, 228, 228, 0.06));
-  border-radius: var(--radius-lg, 8px);
-  padding: 10px 12px;
 }
 
-.metricItem {
+.statBox {
+  background-color: var(--bg-app);
+  border: 1px solid var(--border-color-default);
+  border-radius: var(--radius-md);
+  padding: 8px 10px;
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 3px;
 }
 
-.metricLabel {
+.statLabel {
   font-family: var(--font-sans);
   font-size: 10px;
   font-weight: 600;
-  color: var(--text-tertiary, #787878);
+  color: var(--text-tertiary);
   text-transform: uppercase;
 }
 
-.metricVal {
+.statValue {
   font-family: var(--font-mono);
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 700;
-  color: var(--text-primary, #ffffff);
+  color: var(--text-primary);
 }
 
-/* ── Calendar Grid View ───────────────────────────────────── */
-.calendarGridWrapper {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  background-color: var(--bg-app, #080808);
-  border: 1px solid var(--border-color-default, rgba(228, 228, 228, 0.08));
-  border-radius: var(--radius-xl, 12px);
-  padding: 16px;
-  width: 100%;
-  box-sizing: border-box;
+.moveHighlight {
+  color: #F4C23A;
 }
 
-.calendarGridHeader {
+/* Actions Row */
+.actionsRow {
   display: grid;
-  grid-template-columns: repeat(7, 1fr);
+  grid-template-columns: 1fr 1fr;
   gap: 8px;
-  text-align: center;
-  padding-bottom: 8px;
-  border-bottom: 1px solid var(--border-color-default, rgba(228, 228, 228, 0.08));
+  margin-top: 2px;
 }
 
-.calendarDayHeaderCell {
+.watchBtn {
   font-family: var(--font-sans);
-  font-size: 11px;
-  font-weight: 700;
-  color: var(--text-tertiary, #787878);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-
-.calendarDaysGrid {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  gap: 8px;
-}
-
-.calendarDayCell {
-  background-color: var(--bg-surface, #141414);
-  border: 1px solid var(--border-color-default, rgba(228, 228, 228, 0.08));
-  border-radius: var(--radius-lg, 8px);
-  min-height: 80px;
-  padding: 8px;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  box-sizing: border-box;
-  transition: all var(--duration-fast);
-}
-
-.blankDayCell {
-  background: transparent;
-  border: 1px solid transparent;
-  min-height: 80px;
-}
-
-.hasReportsDayCell {
-  background-color: var(--bg-surface-raised, #181818);
-  border-color: var(--border-color-strong, rgba(228, 228, 228, 0.18));
-}
-
-.hasReportsDayCell:hover {
-  border-color: var(--emerald-500, #2fcb73);
-}
-
-.cellDayNumberRow {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 8px 12px;
+  border-radius: var(--radius-md);
+  background-color: var(--bg-surface-overlay);
+  border: 1px solid var(--border-color-strong);
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all var(--duration-fast) var(--easing-standard);
   display: flex;
   align-items: center;
-  justify-content: space-between;
-}
-
-.cellDayNumber {
-  font-family: var(--font-mono);
-  font-size: 12px;
-  font-weight: 700;
-  color: var(--text-secondary, #9ca3af);
-}
-
-.cellReportCount {
-  font-family: var(--font-sans);
-  font-size: 10px;
-  font-weight: 700;
-  color: #f472b6;
-  background-color: rgba(236, 72, 153, 0.15);
-  padding: 1px 5px;
-  border-radius: 4px;
-}
-
-.miniTickersList {
-  display: flex;
-  flex-direction: column;
+  justify-content: center;
   gap: 4px;
 }
 
-.miniTickerBadge {
+.watchingActive {
+  background-color: rgba(244, 194, 58, 0.15);
+  color: #F4C23A;
+  border-color: rgba(244, 194, 58, 0.4);
+}
+
+.alertBtn {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 600;
+  padding: 8px 12px;
+  border-radius: var(--radius-md);
+  background-color: var(--bg-surface-overlay);
+  border: 1px solid var(--border-color-strong);
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all var(--duration-fast) var(--easing-standard);
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 3px 6px;
-  border-radius: 4px;
-  border: 1px solid;
-  font-size: 10px;
-  line-height: 1.2;
+  justify-content: center;
+  gap: 4px;
 }
 
-.miniTickerSymbol {
-  font-family: var(--font-mono);
-  font-weight: 800;
+.alertBtn:hover, .watchBtn:hover {
+  background-color: var(--neutral-700);
 }
 
-.miniTickerMove {
-  font-family: var(--font-mono);
-  font-size: 9px;
-  opacity: 0.85;
+/* Empty State */
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-12) var(--space-6);
+  text-align: center;
+  background-color: var(--bg-app);
+  border: 1px dashed var(--border-color-strong);
+  border-radius: var(--radius-xl);
+  gap: 12px;
+}
+
+.emptyIcon {
+  font-size: 36px;
+}
+
+.emptyState h4 {
+  font-family: var(--font-sans);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.emptyState p {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  color: var(--text-tertiary);
+}
+
+.resetFiltersBtn {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--bg-app);
+  background-color: var(--emerald-500);
+  border: none;
+  padding: 10px 20px;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  margin-top: 8px;
 }
