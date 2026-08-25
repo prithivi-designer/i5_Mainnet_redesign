@@ -533,6 +533,7 @@ export default function DashboardSubSidebar({ mobileBottomSheet }: DashboardSubS
         <EarningsModal
           isOpen={earningsModalOpen}
           onClose={() => setEarningsModalOpen(false)}
+          initialTab={activeTab === "stocks" ? "earnings" : "unlocks"}
         />
       </>
     );
@@ -639,6 +640,7 @@ export default function DashboardSubSidebar({ mobileBottomSheet }: DashboardSubS
       <EarningsModal
         isOpen={earningsModalOpen}
         onClose={() => setEarningsModalOpen(false)}
+        initialTab={activeTab === "stocks" ? "earnings" : "unlocks"}
       />
     </>
   );

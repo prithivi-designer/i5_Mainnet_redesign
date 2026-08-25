@@ -15,6 +15,12 @@ type TabType = "Overview" | "AI thesis" | "Ownership" | "News";
 export default function AnalysisDetailModal({ item, onClose }: AnalysisDetailModalProps) {
   const [activeTab, setActiveTab] = useState<TabType>("Overview");
 
+  const isCrypto =
+    item.assetType === "CRYPTO" ||
+    item.assetType === "MEME" ||
+    ["BTC", "ETH", "SOL", "BNB", "XRP", "ADA", "DOGE", "AVAX", "DOT", "LINK", "PEPE", "WIF", "BONK", "FLOKI", "SHIB", "GFAL", "NAVX", "STIK", "TIA", "OP", "ARB", "SUI", "APT", "WLD", "STRK"].includes(item.ticker.toUpperCase()) ||
+    !["NVDA", "AAPL", "MSFT", "AMZN", "GOOGL", "META", "TSLA", "AMD", "COIN", "PLTR", "XOM"].includes(item.ticker.toUpperCase());
+
   // Prevent scrolling on body when modal is open
   useEffect(() => {
     document.body.style.overflow = "hidden";
@@ -59,10 +65,12 @@ export default function AnalysisDetailModal({ item, onClose }: AnalysisDetailMod
                 <div className={styles.assetMetaRow}>
                   <span className={styles.ticker}>{item.ticker}</span>
                   <span className={styles.dot} />
-                  <span>{item.ticker === "NVDA" ? "Semiconductors" : "Crypto"}</span>
+                  <span>{isCrypto ? "Crypto / DeFi" : item.ticker === "NVDA" ? "Semiconductors" : "Equities"}</span>
                   <span className={styles.dot} />
-                  <span>$3.48T</span>
-                  <span className={styles.equityPill}>Tokenized equity available</span>
+                  <span>{isCrypto ? "$2.48B" : "$3.48T"}</span>
+                  <span className={styles.equityPill}>
+                    {isCrypto ? "Spot & Perpetuals Available" : "Tokenized equity available"}
+                  </span>
                 </div>
               </div>
             </div>
@@ -116,45 +124,47 @@ export default function AnalysisDetailModal({ item, onClose }: AnalysisDetailMod
             </div>
           </div>
 
-          {/* Current Signal Box */}
-          <div className={styles.signalBox}>
-            <div className={styles.signalHeader}>
-              <div className={styles.signalTitle}>
-                <Shield size={14} className={styles.shieldIcon} />
-                CURRENT I5 SIGNAL
+          {/* Current Signal Box (Stocks Only) */}
+          {!isCrypto && (
+            <div className={styles.signalBox}>
+              <div className={styles.signalHeader}>
+                <div className={styles.signalTitle}>
+                  <Shield size={14} className={styles.shieldIcon} />
+                  CURRENT I5 SIGNAL
+                </div>
+                <div className={item.position === "SHORT" ? styles.shortPill : styles.longPill}>
+                  {item.position || "LONG"}
+                </div>
               </div>
-              <div className={item.position === "SHORT" ? styles.shortPill : styles.longPill}>
-                {item.position || "LONG"}
+              
+              <div className={styles.signalMetrics}>
+                <div>
+                  <span className={styles.metricBoxLabel}>Entry</span>
+                  <span className={styles.metricBoxValue} style={{ color: "var(--text-primary)" }}>
+                    $183.5-188
+                  </span>
+                </div>
+                <div>
+                  <span className={styles.metricBoxLabel}>T1</span>
+                  <span className={styles.metricBoxValue} style={{ color: "var(--emerald-500)" }}>
+                    $202
+                  </span>
+                </div>
+                <div>
+                  <span className={styles.metricBoxLabel}>Stop</span>
+                  <span className={styles.metricBoxValue} style={{ color: "var(--red-500)" }}>
+                    $176.4
+                  </span>
+                </div>
+                <div>
+                  <span className={styles.metricBoxLabel}>R:R</span>
+                  <span className={styles.metricBoxValue} style={{ color: "var(--emerald-500)" }}>
+                    2.8R
+                  </span>
+                </div>
               </div>
             </div>
-            
-            <div className={styles.signalMetrics}>
-              <div>
-                <span className={styles.metricBoxLabel}>Entry</span>
-                <span className={styles.metricBoxValue} style={{ color: "var(--text-primary)" }}>
-                  $183.5-188
-                </span>
-              </div>
-              <div>
-                <span className={styles.metricBoxLabel}>T1</span>
-                <span className={styles.metricBoxValue} style={{ color: "var(--emerald-500)" }}>
-                  $202
-                </span>
-              </div>
-              <div>
-                <span className={styles.metricBoxLabel}>Stop</span>
-                <span className={styles.metricBoxValue} style={{ color: "var(--red-500)" }}>
-                  $176.4
-                </span>
-              </div>
-              <div>
-                <span className={styles.metricBoxLabel}>R:R</span>
-                <span className={styles.metricBoxValue} style={{ color: "var(--emerald-500)" }}>
-                  2.8R
-                </span>
-              </div>
-            </div>
-          </div>
+          )}
 
           {/* Tabs Nav */}
           <div className={styles.tabs}>
@@ -177,82 +187,125 @@ export default function AnalysisDetailModal({ item, onClose }: AnalysisDetailMod
                 <div className={styles.sectionHeader}>
                   <div className={styles.sectionTitle}>KEY METRICS</div>
                 </div>
-                <div className={styles.metricsGrid}>
-                  <div className={styles.keyMetricBox}>
-                    <span className={styles.keyMetricLabel}>MARKET CAP</span>
-                    <span className={styles.keyMetricValue}>$3.48T</span>
+                {isCrypto ? (
+                  <div className={styles.metricsGrid}>
+                    <div className={styles.keyMetricBox}>
+                      <span className={styles.keyMetricLabel}>MARKET CAP</span>
+                      <span className={styles.keyMetricValue}>$2.48B</span>
+                    </div>
+                    <div className={styles.keyMetricBox}>
+                      <span className={styles.keyMetricLabel}>24H VOLUME</span>
+                      <span className={styles.keyMetricValue}>$342.1M</span>
+                    </div>
+                    <div className={styles.keyMetricBox}>
+                      <span className={styles.keyMetricLabel}>24H RANGE</span>
+                      <span className={styles.keyMetricValue}>$174.2 – $189.5</span>
+                    </div>
+                    <div className={styles.keyMetricBox}>
+                      <span className={styles.keyMetricLabel}>ALL-TIME HIGH</span>
+                      <span className={styles.keyMetricValue}>$260.06</span>
+                    </div>
+                    <div className={styles.keyMetricBox}>
+                      <span className={styles.keyMetricLabel}>CIRCULATING</span>
+                      <span className={styles.keyMetricValue}>468.2M</span>
+                    </div>
+                    <div className={styles.keyMetricBox}>
+                      <span className={styles.keyMetricLabel}>TVL</span>
+                      <span className={styles.keyMetricValue}>$5.82B</span>
+                    </div>
+                    <div className={styles.keyMetricBox}>
+                      <span className={styles.keyMetricLabel}>FDV</span>
+                      <span className={styles.keyMetricValue}>$3.12B</span>
+                    </div>
+                    <div className={styles.keyMetricBox}>
+                      <span className={styles.keyMetricLabel}>DOMINANCE</span>
+                      <span className={styles.keyMetricValue}>3.42%</span>
+                    </div>
                   </div>
-                  <div className={styles.keyMetricBox}>
-                    <span className={styles.keyMetricLabel}>P/E (TTM)</span>
-                    <span className={styles.keyMetricValue}>54.2</span>
+                ) : (
+                  <div className={styles.metricsGrid}>
+                    <div className={styles.keyMetricBox}>
+                      <span className={styles.keyMetricLabel}>MARKET CAP</span>
+                      <span className={styles.keyMetricValue}>$3.48T</span>
+                    </div>
+                    <div className={styles.keyMetricBox}>
+                      <span className={styles.keyMetricLabel}>P/E (TTM)</span>
+                      <span className={styles.keyMetricValue}>54.2</span>
+                    </div>
+                    <div className={styles.keyMetricBox}>
+                      <span className={styles.keyMetricLabel}>52W RANGE</span>
+                      <span className={styles.keyMetricValue}>$116 – $210</span>
+                    </div>
+                    <div className={styles.keyMetricBox}>
+                      <span className={styles.keyMetricLabel}>AVG VOLUME</span>
+                      <span className={styles.keyMetricValue}>82.9M</span>
+                    </div>
+                    <div className={styles.keyMetricBox}>
+                      <span className={styles.keyMetricLabel}>BETA</span>
+                      <span className={styles.keyMetricValue}>0.99</span>
+                    </div>
+                    <div className={styles.keyMetricBox}>
+                      <span className={styles.keyMetricLabel}>SHORT INTEREST</span>
+                      <span className={styles.keyMetricValue}>3.0%</span>
+                    </div>
+                    <div className={styles.keyMetricBox}>
+                      <span className={styles.keyMetricLabel}>DIV YIELD</span>
+                      <span className={styles.keyMetricValue}>0.0%</span>
+                    </div>
+                    <div className={styles.keyMetricBox}>
+                      <span className={styles.keyMetricLabel}>FREE FLOAT</span>
+                      <span className={styles.keyMetricValue}>94.2%</span>
+                    </div>
                   </div>
-                  <div className={styles.keyMetricBox}>
-                    <span className={styles.keyMetricLabel}>52W RANGE</span>
-                    <span className={styles.keyMetricValue}>$116 – $210</span>
-                  </div>
-                  <div className={styles.keyMetricBox}>
-                    <span className={styles.keyMetricLabel}>AVG VOLUME</span>
-                    <span className={styles.keyMetricValue}>82.9M</span>
-                  </div>
-                  <div className={styles.keyMetricBox}>
-                    <span className={styles.keyMetricLabel}>BETA</span>
-                    <span className={styles.keyMetricValue}>0.99</span>
-                  </div>
-                  <div className={styles.keyMetricBox}>
-                    <span className={styles.keyMetricLabel}>SHORT INTEREST</span>
-                    <span className={styles.keyMetricValue}>3.0%</span>
-                  </div>
-                  <div className={styles.keyMetricBox}>
-                    <span className={styles.keyMetricLabel}>DIV YIELD</span>
-                    <span className={styles.keyMetricValue}>0.0%</span>
-                  </div>
-                  <div className={styles.keyMetricBox}>
-                    <span className={styles.keyMetricLabel}>FREE FLOAT</span>
-                    <span className={styles.keyMetricValue}>94.2%</span>
-                  </div>
-                </div>
+                )}
               </div>
 
-              {/* Earnings History (Rounded Border Design) */}
-              <div>
-                <div className={styles.sectionHeader}>
-                  <div className={styles.sectionTitle}>EARNINGS HISTORY</div>
+              {/* Earnings History (Stocks Only) */}
+              {!isCrypto && (
+                <div>
+                  <div className={styles.sectionHeader}>
+                    <div className={styles.sectionTitle}>EARNINGS HISTORY</div>
+                  </div>
+                  <div style={{ display: 'flex', flexDirection: 'column' }}>
+                    <div className={styles.analysisListRow}>
+                      <div className={styles.analysisListRowItem}>Q2 26</div>
+                      <div className={`${styles.analysisListRowItem} ${styles.center}`}>$1.24 vs $1.11</div>
+                      <div className={`${styles.analysisListRowItem} ${styles.right} ${styles.textGreen}`}>+11.7%</div>
+                    </div>
+                    <div className={styles.analysisListRow}>
+                      <div className={styles.analysisListRowItem}>Q1 26</div>
+                      <div className={`${styles.analysisListRowItem} ${styles.center}`}>$0.98 vs $0.94</div>
+                      <div className={`${styles.analysisListRowItem} ${styles.right} ${styles.textGreen}`}>+4.3%</div>
+                    </div>
+                    <div className={styles.analysisListRow}>
+                      <div className={styles.analysisListRowItem}>Q4 25</div>
+                      <div className={`${styles.analysisListRowItem} ${styles.center}`}>$0.89 vs $0.91</div>
+                      <div className={`${styles.analysisListRowItem} ${styles.right} ${styles.textRed}`}>-2.2%</div>
+                    </div>
+                    <div className={styles.analysisListRow}>
+                      <div className={styles.analysisListRowItem}>Q3 25</div>
+                      <div className={`${styles.analysisListRowItem} ${styles.center}`}>$0.81 vs $0.74</div>
+                      <div className={`${styles.analysisListRowItem} ${styles.right} ${styles.textGreen}`}>+9.5%</div>
+                    </div>
+                  </div>
                 </div>
-                <div style={{ display: 'flex', flexDirection: 'column' }}>
-                  <div className={styles.analysisListRow}>
-                    <div className={styles.analysisListRowItem}>Q2 26</div>
-                    <div className={`${styles.analysisListRowItem} ${styles.center}`}>$1.24 vs $1.11</div>
-                    <div className={`${styles.analysisListRowItem} ${styles.right} ${styles.textGreen}`}>+11.7%</div>
-                  </div>
-                  <div className={styles.analysisListRow}>
-                    <div className={styles.analysisListRowItem}>Q1 26</div>
-                    <div className={`${styles.analysisListRowItem} ${styles.center}`}>$0.98 vs $0.94</div>
-                    <div className={`${styles.analysisListRowItem} ${styles.right} ${styles.textGreen}`}>+4.3%</div>
-                  </div>
-                  <div className={styles.analysisListRow}>
-                    <div className={styles.analysisListRowItem}>Q4 25</div>
-                    <div className={`${styles.analysisListRowItem} ${styles.center}`}>$0.89 vs $0.91</div>
-                    <div className={`${styles.analysisListRowItem} ${styles.right} ${styles.textRed}`}>-2.2%</div>
-                  </div>
-                  <div className={styles.analysisListRow}>
-                    <div className={styles.analysisListRowItem}>Q3 25</div>
-                    <div className={`${styles.analysisListRowItem} ${styles.center}`}>$0.81 vs $0.74</div>
-                    <div className={`${styles.analysisListRowItem} ${styles.right} ${styles.textGreen}`}>+9.5%</div>
-                  </div>
-                </div>
-              </div>
+              )}
 
-              {/* Analyst Ratings */}
+              {/* Analyst Ratings / Market Sentiment */}
               <div>
                 <div className={styles.sectionHeader}>
-                  <div className={styles.sectionTitle}>ANALYST RATINGS</div>
+                  <div className={styles.sectionTitle}>
+                    {isCrypto ? "MARKET SENTIMENT & RATINGS" : "ANALYST RATINGS"}
+                  </div>
                 </div>
                 <div className={styles.ratingsBlock}>
                   <div className={styles.ratingsStats}>
-                    <span className={styles.buyText}>Buy 42</span>
-                    <span className={styles.holdText}>Hold 9</span>
-                    <span className={styles.sellText}>Sell 2</span>
-                    <span className={styles.targetText}>Target $217.41</span>
+                    <span className={styles.buyText}>{isCrypto ? "Bullish 78%" : "Buy 42"}</span>
+                    <span className={styles.holdText}>{isCrypto ? "Neutral 16%" : "Hold 9"}</span>
+                    <span className={styles.sellText}>{isCrypto ? "Bearish 6%" : "Sell 2"}</span>
+                    <span className={styles.targetText}>
+                      {isCrypto ? "Target $240.00" : "Target $217.41"}
+                    </span>
                   </div>
                   <div className={styles.progressBar}>
                     <div className={styles.progressBuy} />
@@ -262,25 +315,42 @@ export default function AnalysisDetailModal({ item, onClose }: AnalysisDetailMod
                 </div>
               </div>
 
-              {/* Upcoming Catalysts (Cyan Theme) */}
+              {/* Upcoming Catalysts */}
               <div style={{ paddingBottom: 24 }}>
                 <div className={styles.sectionHeader}>
                   <div className={styles.sectionTitle}>UPCOMING CATALYSTS</div>
                 </div>
-                <div style={{ display: 'flex', flexDirection: 'column' }}>
-                  <div className={styles.analysisCatalystRow}>
-                    <div>Q3 earnings release</div>
-                    <div className={styles.cyanText}>Aug 10</div>
+                {isCrypto ? (
+                  <div style={{ display: 'flex', flexDirection: 'column' }}>
+                    <div className={styles.analysisCatalystRow}>
+                      <div>Protocol v2 Mainnet Upgrade</div>
+                      <div className={styles.cyanText}>Aug 12</div>
+                    </div>
+                    <div className={styles.analysisCatalystRow}>
+                      <div>Scheduled Token Unlock & Staking Epoch</div>
+                      <div className={styles.cyanText}>Aug 28</div>
+                    </div>
+                    <div className={styles.analysisCatalystRow}>
+                      <div>Ecosystem Grants & Governance Vote</div>
+                      <div className={styles.cyanText}>Sep 15</div>
+                    </div>
                   </div>
-                  <div className={styles.analysisCatalystRow}>
-                    <div>Product / capital markets day</div>
-                    <div className={styles.cyanText}>Sep 04</div>
+                ) : (
+                  <div style={{ display: 'flex', flexDirection: 'column' }}>
+                    <div className={styles.analysisCatalystRow}>
+                      <div>Q3 earnings release</div>
+                      <div className={styles.cyanText}>Aug 10</div>
+                    </div>
+                    <div className={styles.analysisCatalystRow}>
+                      <div>Product / capital markets day</div>
+                      <div className={styles.cyanText}>Sep 04</div>
+                    </div>
+                    <div className={styles.analysisCatalystRow}>
+                      <div>Index rebalance</div>
+                      <div className={styles.cyanText}>Sep 19</div>
+                    </div>
                   </div>
-                  <div className={styles.analysisCatalystRow}>
-                    <div>Index rebalance</div>
-                    <div className={styles.cyanText}>Sep 19</div>
-                  </div>
-                </div>
+                )}
               </div>
             </>
           )}

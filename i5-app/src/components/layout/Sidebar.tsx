@@ -33,13 +33,6 @@ const navIcons = {
       <path d="M2 10.5h2.5l2-6 3 9.5 2.5-6.5h4" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   ),
-  agentMarketplace: (
-    <svg width={18} height={18} viewBox="0 0 18 18" fill="none" aria-hidden>
-      <path d="M2 3.5h2.5l1.6 7.2a1 1 0 0 0 1 .8h6.8a1 1 0 0 0 1-.8l1.1-5.2H5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
-      <circle cx="7.5" cy="14.5" r="1.25" fill="currentColor" />
-      <circle cx="13.5" cy="14.5" r="1.25" fill="currentColor" />
-    </svg>
-  ),
   marketRadar: (
     <svg width={18} height={18} viewBox="0 0 18 18" fill="none" aria-hidden>
       <circle cx="9" cy="9" r="6.5" stroke="currentColor" strokeWidth="1.4" />
@@ -116,7 +109,6 @@ const menuItems: MenuItem[] = [
   { id: "alpha-trade", label: "Alpha Trade", icon: navIcons.alphaTrade },
   { id: "trade", label: "Trade", icon: navIcons.trade },
   { id: "signals", label: "Signals", icon: navIcons.signals },
-  { id: "agent-marketplace", label: "Agent Marketplace", icon: navIcons.agentMarketplace },
   { id: "market-radar", label: "Market Radar", icon: navIcons.marketRadar },
   { id: "missions-referrals", label: "Missions & Referrals", icon: navIcons.missionsReferrals },
   { id: "create-alerts", label: "Create Alerts", icon: navIcons.createAlerts },

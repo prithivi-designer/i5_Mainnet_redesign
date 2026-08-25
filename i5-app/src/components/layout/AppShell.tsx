@@ -16,7 +16,6 @@ interface AppShellProps {
 /* ── Lazy-loaded page views ─────────────────────────────── */
 const TradeView = dynamic(() => import("@/views/TradeView"), { ssr: false });
 const SignalsView = dynamic(() => import("@/views/SignalsView"), { ssr: false });
-const AgentMarketplaceView = dynamic(() => import("@/views/AgentMarketplaceView"), { ssr: false });
 const MarketRadarView = dynamic(() => import("@/views/MarketRadarView"), { ssr: false });
 const MissionsView = dynamic(() => import("@/views/MissionsView"), { ssr: false });
 const CreateAlertsView = dynamic(() => import("@/views/CreateAlertsView"), { ssr: false });
@@ -41,8 +40,6 @@ function PageRouter({
       return <TradeView />;
     case "signals":
       return <SignalsView />;
-    case "agent-marketplace":
-      return <AgentMarketplaceView />;
     case "market-radar":
       return <MarketRadarView />;
     case "missions-referrals":
