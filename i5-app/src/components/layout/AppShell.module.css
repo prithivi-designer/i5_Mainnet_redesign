@@ -5,6 +5,7 @@
   min-height: 100dvh;
   width: 100vw;
   background-color: var(--bg-app);
+  overflow-x: hidden;
 }
 
 /* Right column body (under full-width topbar) */
@@ -18,6 +19,7 @@
   padding-top: var(--layout-header-height); /* Offset for fixed 100% full-width header */
   height: 100dvh;
   box-sizing: border-box;
+  overflow-x: hidden;
   transition:
     margin-left var(--duration-slow) var(--easing-standard),
     width var(--duration-slow) var(--easing-standard);
@@ -27,7 +29,8 @@
 .main {
   flex: 1 1 0%;
   overflow-y: auto;
-  padding: var(--space-6);
+  overflow-x: hidden;
+  padding: 20px 24px 32px 24px;
   width: 100%;
   box-sizing: border-box;
   position: relative;

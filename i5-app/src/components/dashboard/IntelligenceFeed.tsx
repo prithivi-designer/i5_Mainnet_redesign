@@ -103,24 +103,6 @@ const mockFeedData: FeedItem[] = [
     aiConfidence: 79,
   },
   {
-    id: "5",
-    ticker: "ETH",
-    companyName: "Ethereum Network",
-    avatarBg: "#262348",
-    category: "ON-CHAIN SIGNALS",
-    assetType: "CRYPTO",
-    stance: "BULLISH",
-    title: "Institutional staking inflows reach record $1.4B weekly net positive",
-    summary:
-      "Validator queue length reaches 14-day high while exchange balances drop to lowest level since 2016, indicating strong long-term supply lockup.",
-    timeAgo: "3h ago",
-    source: "On-Chain Analytics",
-    publishPrice: "$3,480.00 at publish",
-    priceChange: "+3.14%",
-    isPositiveChange: true,
-    aiConfidence: 82,
-  },
-  {
     id: "6",
     ticker: "AMD",
     companyName: "Advanced Micro Devices",
@@ -140,26 +122,7 @@ const mockFeedData: FeedItem[] = [
     aiConfidence: 88,
   },
   {
-    id: "7",
-    ticker: "BTC",
-    companyName: "Bitcoin Network",
-    avatarBg: "#3A2A14",
-    category: "INSTITUTIONAL FLOW",
-    assetType: "CRYPTO",
-    stance: "BULLISH",
-    position: "LONG",
-    title: "Spot Bitcoin ETFs log $890M net inflow, led by BlackRock IBIT",
-    summary:
-      "Institutional demand spikes as sovereign funds and wealth managers expand allocations following favorable SEC custody rule clarifications.",
-    timeAgo: "5h ago",
-    source: "Farside Investors",
-    publishPrice: "$67,420.00 at publish",
-    priceChange: "+3.85%",
-    isPositiveChange: true,
-    aiConfidence: 89,
-  },
-  {
-    id: "8",
+    id: "crypto-options-1",
     ticker: "SOL",
     companyName: "Solana Protocol",
     avatarBg: "#1F2B37",
@@ -175,6 +138,63 @@ const mockFeedData: FeedItem[] = [
     priceChange: "+6.42%",
     isPositiveChange: true,
     aiConfidence: 85,
+  },
+  {
+    id: "crypto-ai-1",
+    ticker: "BTC",
+    companyName: "Bitcoin Network",
+    avatarBg: "#3A2A14",
+    category: "AI TRADE IDEAS",
+    assetType: "CRYPTO",
+    stance: "BULLISH",
+    position: "LONG",
+    title: "AI Quantitative Model: Spot institutional accumulation indicates breakout setup",
+    summary:
+      "On-chain ETF flow velocity and exchange reserve depletion flag a high-probability bullish expansion toward $72K resistance.",
+    timeAgo: "2h ago",
+    source: "i5 Quantitative AI",
+    publishPrice: "$67,420.00 at publish",
+    priceChange: "+3.85%",
+    isPositiveChange: true,
+    aiConfidence: 89,
+  },
+  {
+    id: "crypto-vol-1",
+    ticker: "SUI",
+    companyName: "Sui Network",
+    avatarBg: "#163A24",
+    category: "UNUSUAL VOLUME",
+    assetType: "CRYPTO",
+    stance: "BULLISH",
+    position: "LONG",
+    title: "Sui on-chain 24h DEX trading volume spikes +310% to record $1.42B",
+    summary:
+      "Massive liquidity inflows into Sui ecosystem protocols driven by zero-slippage AMMs and major centralized exchange staking integrations.",
+    timeAgo: "3h ago",
+    source: "DeFiLlama",
+    publishPrice: "$3.45 at publish",
+    priceChange: "+12.40%",
+    isPositiveChange: true,
+    aiConfidence: 86,
+  },
+  {
+    id: "crypto-price-1",
+    ticker: "AVAX",
+    companyName: "Avalanche",
+    avatarBg: "#4A181C",
+    category: "PRICE MOVEMENT",
+    assetType: "CRYPTO",
+    stance: "BULLISH",
+    position: "LONG",
+    title: "Avalanche surges +9.8% on Wall Street real-world asset (RWA) tokenization pilot",
+    summary:
+      "Major global asset manager deploys $500M tokenized fund testnet on dedicated Avalanche Evergreen Subnet with institutional compliance tooling.",
+    timeAgo: "4h ago",
+    source: "Coindesk",
+    publishPrice: "$32.80 at publish",
+    priceChange: "+9.80%",
+    isPositiveChange: true,
+    aiConfidence: 81,
   },
   {
     id: "9",
@@ -325,9 +345,11 @@ export default function IntelligenceFeed() {
       if (customEvent.detail) {
         setSidepanelFilter(customEvent.detail);
 
-        // Do not auto-scroll on tab changes, when clicking stocks & crypto, or selecting all-intelligence
+        // Do not auto-scroll on tab changes, when switching main asset tabs, or selecting all-intelligence
         if (
           customEvent.detail.isTabChange ||
+          customEvent.detail.tab === "stocks" ||
+          customEvent.detail.tab === "crypto" ||
           customEvent.detail.tab === "stocks-crypto" ||
           customEvent.detail.subId === "all-intelligence"
         ) {
@@ -372,7 +394,7 @@ export default function IntelligenceFeed() {
     setSignalFilter("Any");
     setMinConfidence(0);
     setDateRange("All");
-    setSidepanelFilter({ tab: "stocks-crypto", subId: "all-intelligence" });
+    setSidepanelFilter({ tab: "crypto", subId: "all-intelligence" });
   };
 
   // Close filter dropdown on click outside
@@ -400,12 +422,12 @@ export default function IntelligenceFeed() {
     (signalFilter !== "Any" ? 1 : 0) +
     (minConfidence > 0 ? 1 : 0) +
     (dateRange !== "All" ? 1 : 0) +
-    (sidepanelFilter.tab !== "stocks-crypto" ? 1 : 0) +
+    (sidepanelFilter.tab !== "crypto" && sidepanelFilter.tab !== "stocks" && sidepanelFilter.tab !== "stocks-crypto" ? 1 : 0) +
     (sidepanelFilter.subId !== "all-intelligence" ? 1 : 0);
 
   // Filter feed items based on sidepanel selection, top tabs, and popover drawer options
   const filteredFeedData = mockFeedData.filter((item) => {
-    // 1. Sidepanel Tab Filter (stocks-crypto / stocks / crypto / meme / all)
+    // 1. Sidepanel Tab Filter (stocks / crypto / meme / stocks-crypto)
     if (
       (sidepanelFilter.tab === "stocks-crypto" || sidepanelFilter.tab === "stocks_crypto") &&
       item.assetType !== "STOCKS" &&

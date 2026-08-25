@@ -30,11 +30,13 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: var(--space-4) var(--space-8) 0;
+  padding: 0 0 var(--space-3) 0;
   margin-bottom: var(--space-6);
   border-bottom: var(--border-width-default) solid var(--border-color-default);
   background-color: var(--bg-app);
   flex-shrink: 0;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .masterTabsBar {
@@ -140,9 +142,10 @@
 .metricsGrid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: var(--space-5);
-  margin: 0 var(--space-8) var(--space-6);
+  gap: var(--space-4);
+  margin: 0 0 var(--space-6) 0;
   flex-shrink: 0;
+  width: 100%;
 }
 
 @media (max-width: 1200px) {
@@ -351,7 +354,7 @@
 
 /* ── Navigation & Controls Bar ────────────────────────────── */
 .navControlsBar {
-  margin: 0 var(--space-8) var(--space-6);
+  margin: 0 0 var(--space-6) 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -361,6 +364,8 @@
   border-radius: var(--radius-xl);
   padding: 10px 14px;
   flex-wrap: wrap;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .viewSelectorGroup {
@@ -555,10 +560,12 @@
 
 /* ── Content Area ────────────────────────────────────────── */
 .mainContent {
-  padding: 0 var(--space-8) var(--space-8);
+  padding: 0 0 var(--space-8) 0;
   display: flex;
   flex-direction: column;
   gap: var(--space-6);
+  width: 100%;
+  box-sizing: border-box;
 }
 
 /* ══════════════════════════════════════════════════════════
@@ -2118,9 +2125,11 @@
    ══════════════════════════════════════════════════════════ */
 .cardGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: var(--space-6);
-  padding: 0 var(--space-8) var(--space-12);
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--space-4);
+  padding: 0 0 var(--space-8) 0;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .gridCard {
@@ -2610,8 +2619,10 @@
   align-items: center;
   justify-content: space-between;
   gap: var(--space-4);
-  margin: 0 var(--space-8) var(--space-6);
+  margin: 0 0 var(--space-6) 0;
   flex-wrap: wrap;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .kolHeaderLeft {
@@ -2837,8 +2848,10 @@
 .kolStatsRow {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: var(--space-5);
-  margin: 0 var(--space-8) var(--space-6);
+  gap: var(--space-4);
+  margin: 0 0 var(--space-6) 0;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 @media (max-width: 1100px) {
@@ -2924,7 +2937,7 @@
   align-items: center;
   justify-content: space-between;
   gap: var(--space-3);
-  margin: 0 var(--space-8) var(--space-6);
+  margin: 0 0 var(--space-6) 0;
   padding: 6px 10px;
   background-color: var(--bg-surface-raised);
   border: var(--border-width-default) solid var(--border-color-default);
@@ -2934,6 +2947,8 @@
   scrollbar-width: none;
   -ms-overflow-style: none;
   flex-shrink: 0;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .kolNavControlsBar::-webkit-scrollbar {
@@ -3035,10 +3050,12 @@
 
 /* ── Common Section Styles ────────────────────────────────── */
 .kolSectionWrapper {
-  margin: 0 var(--space-8) var(--space-10);
+  margin: 0 0 var(--space-8) 0;
   display: flex;
   flex-direction: column;
   gap: var(--space-4);
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .kolSectionHeaderRow {
@@ -3086,8 +3103,10 @@
 /* ── Section 1: Trending Cards Grid ──────────────────────── */
 .trendingCardsGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-  gap: var(--space-6);
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--space-4);
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .modernCard {
@@ -4133,8 +4152,10 @@
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: var(--space-4);
-  margin: 0 var(--space-8) var(--space-6);
+  margin: 0 0 var(--space-6) 0;
   flex-shrink: 0;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 @media (max-width: 1400px) {

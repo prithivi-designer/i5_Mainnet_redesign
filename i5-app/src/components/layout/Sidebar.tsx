@@ -165,6 +165,7 @@ export default function Sidebar({ collapsed, onToggle, activeId, onSelect }: Sid
   return (
     <aside
       className={`${styles.sidebar} ${collapsed ? styles.collapsed : ""}`}
+      style={collapsed ? { width: "var(--layout-sidebar-collapsed-width)" } : undefined}
       aria-label="Side navigation"
     >
       {/* Navigation List */}

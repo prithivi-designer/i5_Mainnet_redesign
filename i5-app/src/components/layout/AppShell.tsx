@@ -100,6 +100,8 @@ export default function AppShell({ children }: AppShellProps) {
         style={
           {
             "--sidebar-w": totalSidebarWidth,
+            marginLeft: totalSidebarWidth,
+            width: `calc(100vw - ${totalSidebarWidth})`,
           } as React.CSSProperties
         }
       >

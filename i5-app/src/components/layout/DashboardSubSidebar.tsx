@@ -101,25 +101,72 @@ interface SubSection {
   items: SubItem[];
 }
 
-const subSections: SubSection[] = [
+const cryptoSubSections: SubSection[] = [
   {
     items: [
       {
         id: "all-intelligence",
         label: "All Intelligence",
-        count: 12,
+        count: 4,
+        icon: subIcons.allIntelligence,
+        iconColor: "#56D68F", // Mint Green
+      },
+      {
+        id: "options-activity",
+        label: "Options Activity",
+        count: 1,
+        icon: subIcons.optionsActivity,
+        iconColor: "#14B8A6", // Teal
+      },
+    ],
+  },
+  {
+    title: "Ideas & Research",
+    items: [
+      {
+        id: "ai-trade-ideas",
+        label: "AI Trade Ideas",
+        count: 1,
+        icon: subIcons.aiTradeIdeas,
+        iconColor: "#C084FC", // Sparkle Violet
+      },
+      {
+        id: "unusual-volume",
+        label: "Unusual Volume",
+        count: 1,
+        icon: subIcons.unusualVolume,
+        iconColor: "#F97316", // Orange Fire
+      },
+      {
+        id: "price-movement",
+        label: "Price Movement",
+        count: 1,
+        icon: subIcons.priceMovement,
+        iconColor: "#2FCB73", // Emerald Green
+      },
+    ],
+  },
+];
+
+const stocksSubSections: SubSection[] = [
+  {
+    items: [
+      {
+        id: "all-intelligence",
+        label: "All Intelligence",
+        count: 8,
         icon: subIcons.allIntelligence,
         iconColor: "#56D68F", // Mint Green
       },
     ],
   },
   {
-    title: "News & Events",
+    title: "News & Filings",
     items: [
       {
         id: "breaking-news",
         label: "Breaking News",
-        count: 2,
+        count: 1,
         icon: subIcons.breakingNews,
         iconColor: "#EA5E5E", // Coral Red
       },
@@ -170,13 +217,6 @@ const subSections: SubSection[] = [
         icon: subIcons.optionsActivity,
         iconColor: "#14B8A6", // Teal
       },
-      {
-        id: "on-chain-signals",
-        label: "On-chain Signals",
-        count: 1,
-        icon: subIcons.onChainSignals,
-        iconColor: "#2DD4BF", // Mint Cyan
-      },
     ],
   },
   {
@@ -208,7 +248,7 @@ const subSections: SubSection[] = [
 ];
 
 export default function DashboardSubSidebar() {
-  const [activeTab, setActiveTab] = useState<"meme" | "stocks-crypto">("meme");
+  const [activeTab, setActiveTab] = useState<"meme" | "crypto" | "stocks">("meme");
   const [activeSubId, setActiveSubId] = useState<string>("all-intelligence");
   const [earningsModalOpen, setEarningsModalOpen] = useState<boolean>(false);
 
@@ -221,6 +261,8 @@ export default function DashboardSubSidebar() {
       );
     }
   };
+
+  const currentSections = activeTab === "crypto" ? cryptoSubSections : stocksSubSections;
 
   return (
     <>
@@ -240,22 +282,31 @@ export default function DashboardSubSidebar() {
                 Meme
               </button>
               <button
-                className={`${styles.tabBtn} ${activeTab === "stocks-crypto" ? styles.tabBtnActive : ""}`}
+                className={`${styles.tabBtn} ${activeTab === "crypto" ? styles.tabBtnActive : ""}`}
                 onClick={() => {
-                  setActiveTab("stocks-crypto");
-                  dispatchFilterEvent("stocks-crypto", activeSubId, true);
+                  setActiveTab("crypto");
+                  dispatchFilterEvent("crypto", activeSubId, true);
                 }}
               >
-                Stocks & Crypto
+                Crypto
+              </button>
+              <button
+                className={`${styles.tabBtn} ${activeTab === "stocks" ? styles.tabBtnActive : ""}`}
+                onClick={() => {
+                  setActiveTab("stocks");
+                  dispatchFilterEvent("stocks", activeSubId, true);
+                }}
+              >
+                Stocks
               </button>
             </div>
           </div>
 
-          {/* Conditional Content: Meme Sidepanel View or Standard Intelligence Sections */}
+          {/* Conditional Content: Meme Sidepanel View or Tab Sections */}
           {activeTab === "meme" ? (
             <DashboardMemeSidepanel />
           ) : (
-            subSections.map((section, idx) => (
+            currentSections.map((section, idx) => (
               <div key={section.title || idx} className={styles.section}>
                 {section.title && (
                   <h3 className={`${styles.sectionTitle} text-overline`}>{section.title}</h3>
@@ -298,17 +349,27 @@ export default function DashboardSubSidebar() {
             onClick={() => setEarningsModalOpen(true)}
             role="button"
             tabIndex={0}
-            aria-label={activeTab === "meme" ? "Open Meme Trenches Terminal" : "Open Upcoming Earnings Overlay Modal"}
+            aria-label={
+              activeTab === "meme"
+                ? "Open Live Meme Radar"
+                : activeTab === "crypto"
+                ? "Open Upcoming Token Unlocks"
+                : "Open Upcoming Earnings Overlay Modal"
+            }
           >
             <h4 className={styles.actionTitle}>
-              {activeTab === "meme" ? "Live Meme Radar" : "Upcoming Earnings"}
+              {activeTab === "meme"
+                ? "Live Meme Radar"
+                : activeTab === "crypto"
+                ? "Upcoming Unlocks"
+                : "Upcoming Earnings"}
             </h4>
             <span className={styles.animatedArrow}>→</span>
           </div>
         </div>
       </aside>
 
-      {/* Upcoming Earnings Overlay PopUp Modal */}
+      {/* Upcoming Earnings / Catalyst Overlay PopUp Modal */}
       <EarningsModal
         isOpen={earningsModalOpen}
         onClose={() => setEarningsModalOpen(false)}
