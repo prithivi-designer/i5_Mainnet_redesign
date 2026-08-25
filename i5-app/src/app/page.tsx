@@ -20,7 +20,7 @@ export default function HomePage() {
     return () => window.removeEventListener("i5-sidepanel-filter", handler);
   }, []);
 
-  const isMeme = activeTab === "meme";
+  const isMeme = activeTab === "meme" || activeTab === "activities";
 
   return (
     <div style={{ display: "flex", flexDirection: "column", width: "100%", height: isMeme ? "100%" : undefined }}>

@@ -10,17 +10,17 @@
 /* Sticky Header Bar (Sticks flush at top under topbar during page scroll) */
 .tabsHeader {
   position: sticky;
-  top: calc(var(--space-6) * -1);
-  z-index: 35;
-  background-color: var(--bg-app);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  width: calc(100% + var(--space-6) * 2);
-  margin-left: calc(var(--space-6) * -1);
-  margin-right: calc(var(--space-6) * -1);
-  padding: var(--space-3) var(--space-6);
+  top: -20px;
+  z-index: 40;
+  background-color: var(--bg-app, #080808);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  width: calc(100% + 48px);
+  margin-left: -24px;
+  margin-right: -24px;
+  padding: 12px 24px;
   margin-bottom: var(--space-6);
-  border-bottom: 1px solid var(--border-color-default);
+  border-bottom: 1px solid var(--border-color-default, rgba(228, 228, 228, 0.08));
   display: flex;
   align-items: center;
   justify-content: space-between;

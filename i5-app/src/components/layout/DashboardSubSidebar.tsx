@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import styles from "./DashboardSubSidebar.module.css";
 import EarningsModal from "@/components/dashboard/EarningsModal";
-import DashboardMemeSidepanel from "@/components/dashboard/DashboardMemeSidepanel";
+import RecentActivitiesSidepanel from "@/components/dashboard/RecentActivitiesSidepanel";
 
 /* ----------------------------------------------------------
    Sub-Sidebar Icons (Clean 16x16 SVG strokes)
@@ -138,21 +138,21 @@ const cryptoSubSections: SubSection[] = [
       {
         id: "all-intelligence",
         label: "All Intelligence",
-        count: 5,
+        count: 9,
         icon: subIcons.allIntelligence,
         iconColor: "#56D68F", // Mint Green
       },
       {
         id: "technical-signals",
         label: "Technical Signals",
-        count: 2,
+        count: 4,
         icon: subIcons.technicalSignals,
         iconColor: "#38BDF8", // Sky Blue
       },
       {
         id: "macro-signals",
         label: "Macro Signals",
-        count: 1,
+        count: 2,
         icon: subIcons.macroSignals,
         iconColor: "#F59E0B", // Amber Gold
       },
@@ -192,9 +192,23 @@ const stocksSubSections: SubSection[] = [
       {
         id: "all-intelligence",
         label: "All Intelligence",
-        count: 8,
+        count: 10,
         icon: subIcons.allIntelligence,
         iconColor: "#56D68F", // Mint Green
+      },
+      {
+        id: "technical-signals",
+        label: "Technical Signals",
+        count: 2,
+        icon: subIcons.technicalSignals,
+        iconColor: "#38BDF8", // Sky Blue
+      },
+      {
+        id: "macro-signals",
+        label: "Macro Signals",
+        count: 2,
+        icon: subIcons.macroSignals,
+        iconColor: "#F59E0B", // Amber Gold
       },
     ],
   },
@@ -290,7 +304,7 @@ interface DashboardSubSidebarProps {
 }
 
 export default function DashboardSubSidebar({ mobileBottomSheet }: DashboardSubSidebarProps) {
-  const [activeTab, setActiveTab] = useState<"meme" | "crypto" | "stocks">("meme");
+  const [activeTab, setActiveTab] = useState<"activities" | "meme" | "crypto" | "stocks">("activities");
   const [activeSubId, setActiveSubId] = useState<string>("all-intelligence");
   const [earningsModalOpen, setEarningsModalOpen] = useState<boolean>(false);
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState<boolean>(false);
@@ -299,8 +313,12 @@ export default function DashboardSubSidebar({ mobileBottomSheet }: DashboardSubS
   useEffect(() => {
     const handler = (e: Event) => {
       const evt = e as CustomEvent<{ tab: string; subId: string }>;
-      if (evt.detail?.tab && (evt.detail.tab === "meme" || evt.detail.tab === "crypto" || evt.detail.tab === "stocks")) {
-        setActiveTab(evt.detail.tab as "meme" | "crypto" | "stocks");
+      if (evt.detail?.tab) {
+        if (evt.detail.tab === "activities" || evt.detail.tab === "meme") {
+          setActiveTab("activities");
+        } else if (evt.detail.tab === "crypto" || evt.detail.tab === "stocks") {
+          setActiveTab(evt.detail.tab);
+        }
       }
       if (evt.detail?.subId) {
         setActiveSubId(evt.detail.subId);
@@ -320,9 +338,10 @@ export default function DashboardSubSidebar({ mobileBottomSheet }: DashboardSubS
     }
   };
 
-  const handleTabSelect = (tab: "meme" | "crypto" | "stocks") => {
-    setActiveTab(tab);
-    dispatchFilterEvent(tab, "all-intelligence", true);
+  const handleTabSelect = (tab: "activities" | "meme" | "crypto" | "stocks") => {
+    const normalizedTab = tab === "meme" ? "activities" : tab;
+    setActiveTab(normalizedTab);
+    dispatchFilterEvent(normalizedTab, "all-intelligence", true);
     setActiveSubId("all-intelligence");
   };
 
@@ -337,7 +356,7 @@ export default function DashboardSubSidebar({ mobileBottomSheet }: DashboardSubS
 
   // Active filter label text for display in the mobile trigger
   const getActiveFilterLabel = () => {
-    if (activeTab === "meme") return "Live Meme Radar";
+    if (activeTab === "activities" || activeTab === "meme") return "Memes";
     const found = currentSections.flatMap((s) => s.items).find((i) => i.id === activeSubId);
     return found ? found.label : "All Intelligence";
   };
@@ -422,10 +441,10 @@ export default function DashboardSubSidebar({ mobileBottomSheet }: DashboardSubS
           <div className={styles.sheetTabsWrapper}>
             <div className={styles.segmentedControl}>
               <button
-                className={`${styles.tabBtn} ${activeTab === "meme" ? styles.tabBtnActive : ""}`}
-                onClick={() => handleTabSelect("meme")}
+                className={`${styles.tabBtn} ${activeTab === "activities" || activeTab === "meme" ? styles.tabBtnActive : ""}`}
+                onClick={() => handleTabSelect("activities")}
               >
-                Meme
+                Memes
               </button>
               <button
                 className={`${styles.tabBtn} ${activeTab === "crypto" ? styles.tabBtnActive : ""}`}
@@ -444,8 +463,8 @@ export default function DashboardSubSidebar({ mobileBottomSheet }: DashboardSubS
 
           {/* Scrollable Content inside Bottom Sheet */}
           <div className={styles.sheetContent}>
-            {activeTab === "meme" ? (
-              <DashboardMemeSidepanel />
+            {activeTab === "activities" || activeTab === "meme" ? (
+              <RecentActivitiesSidepanel />
             ) : (
               currentSections.map((section, idx) => (
                 <div key={section.title || idx} className={styles.section}>
@@ -491,16 +510,16 @@ export default function DashboardSubSidebar({ mobileBottomSheet }: DashboardSubS
               role="button"
               tabIndex={0}
               aria-label={
-                activeTab === "meme"
-                  ? "Open Live Meme Radar"
+                activeTab === "activities" || activeTab === "meme"
+                  ? "Open Live Memes Radar"
                   : activeTab === "crypto"
                   ? "Open Upcoming Token Unlocks"
                   : "Open Upcoming Earnings Overlay Modal"
               }
             >
               <h4 className={styles.actionTitle}>
-                {activeTab === "meme"
-                  ? "Live Meme Radar"
+                {activeTab === "activities" || activeTab === "meme"
+                  ? "Live Memes Radar"
                   : activeTab === "crypto"
                   ? "Upcoming Unlocks"
                   : "Upcoming Earnings"}
@@ -529,10 +548,10 @@ export default function DashboardSubSidebar({ mobileBottomSheet }: DashboardSubS
           <div className={styles.tabsContainer}>
             <div className={styles.segmentedControl}>
               <button
-                className={`${styles.tabBtn} ${activeTab === "meme" ? styles.tabBtnActive : ""}`}
-                onClick={() => handleTabSelect("meme")}
+                className={`${styles.tabBtn} ${activeTab === "activities" || activeTab === "meme" ? styles.tabBtnActive : ""}`}
+                onClick={() => handleTabSelect("activities")}
               >
-                Meme
+                Memes
               </button>
               <button
                 className={`${styles.tabBtn} ${activeTab === "crypto" ? styles.tabBtnActive : ""}`}
@@ -549,9 +568,9 @@ export default function DashboardSubSidebar({ mobileBottomSheet }: DashboardSubS
             </div>
           </div>
 
-          {/* Conditional Content: Meme Sidepanel View or Tab Sections */}
-          {activeTab === "meme" ? (
-            <DashboardMemeSidepanel />
+          {/* Conditional Content: Recent Activities Sidepanel View or Tab Sections */}
+          {activeTab === "activities" || activeTab === "meme" ? (
+            <RecentActivitiesSidepanel />
           ) : (
             currentSections.map((section, idx) => (
               <div key={section.title || idx} className={styles.section}>

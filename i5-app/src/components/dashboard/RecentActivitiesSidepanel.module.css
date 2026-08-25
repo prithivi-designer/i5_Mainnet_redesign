@@ -1,0 +1,399 @@
+/* ============================================================
+   Recent Activities Sidepanel — i5 Platform Design Tokens
+   ============================================================ */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  height: 100%;
+  padding-bottom: 8px;
+}
+
+/* ── Top Header with Live Indicator ──────────────────────── */
+.headerRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2px;
+}
+
+.headerTitleGroup {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.headerTitle {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-primary, #ffffff);
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+
+.liveBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 7px;
+  border-radius: var(--radius-full);
+  background-color: rgba(47, 203, 115, 0.12);
+  border: 1px solid rgba(47, 203, 115, 0.28);
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--emerald-400, #56d68f);
+  letter-spacing: 0.06em;
+}
+
+.liveDot {
+  width: 5px;
+  height: 5px;
+  border-radius: var(--radius-full);
+  background-color: var(--emerald-500, #2fcb73);
+  box-shadow: 0 0 6px var(--emerald-500, #2fcb73);
+  animation: livePulse 1.8s infinite ease-in-out;
+}
+
+@keyframes livePulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.4;
+    transform: scale(0.85);
+  }
+}
+
+.pauseBtn {
+  background: transparent;
+  border: none;
+  color: var(--text-tertiary, #787878);
+  cursor: pointer;
+  padding: 4px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color var(--duration-fast);
+}
+
+.pauseBtn:hover {
+  color: var(--text-primary, #ffffff);
+}
+
+/* ── Search Bar ──────────────────────────────────────────── */
+.searchWrapper {
+  position: relative;
+  width: 100%;
+}
+
+.searchIcon {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-tertiary, #787878);
+  pointer-events: none;
+}
+
+.searchInput {
+  width: 100%;
+  height: 32px;
+  padding: 0 30px 0 32px;
+  border-radius: var(--radius-md, 8px);
+  background-color: var(--bg-app, #080808);
+  border: 1px solid var(--border-color-default, rgba(228, 228, 228, 0.08));
+  color: var(--text-primary, #ffffff);
+  font-family: var(--font-sans);
+  font-size: 11px;
+  transition: border-color var(--duration-fast);
+}
+
+.searchInput:focus {
+  outline: none;
+  border-color: var(--border-color-strong, rgba(228, 228, 228, 0.25));
+}
+
+.clearSearchBtn {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  color: var(--text-tertiary, #787878);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  padding: 0;
+}
+
+/* ── Filter Pills Bar ────────────────────────────────────── */
+.filterPillsRow {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  overflow-x: auto;
+  padding-bottom: 2px;
+  scrollbar-width: none;
+}
+
+.filterPillsRow::-webkit-scrollbar {
+  display: none;
+}
+
+.filterPill {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: var(--radius-sm, 4px);
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--text-tertiary, #787878);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all var(--duration-fast) var(--easing-standard);
+}
+
+.filterPill:hover {
+  color: var(--text-primary, #ffffff);
+}
+
+.filterPillActive {
+  background-color: var(--neutral-800, #1c1c1c);
+  border-color: var(--border-color-strong, rgba(228, 228, 228, 0.2));
+  color: var(--text-primary, #ffffff);
+  font-weight: 700;
+}
+
+/* ── Activity Items Feed ─────────────────────────────────── */
+.activityList {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  overflow-y: auto;
+  flex: 1;
+  padding-right: 2px;
+}
+
+.activityList::-webkit-scrollbar {
+  width: 3px;
+}
+
+.activityList::-webkit-scrollbar-thumb {
+  background-color: var(--neutral-700, #292929);
+  border-radius: 3px;
+}
+
+.activityCard {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 9px 10px;
+  border-radius: var(--radius-lg, 10px);
+  background-color: var(--bg-surface-raised, #161616);
+  border: 1px solid var(--border-color-default, rgba(228, 228, 228, 0.08));
+  cursor: pointer;
+  transition: all var(--duration-fast) var(--easing-standard);
+  position: relative;
+}
+
+.activityCard:hover {
+  background-color: var(--neutral-850, #1c1c1c);
+  border-color: var(--border-color-strong, rgba(228, 228, 228, 0.2));
+  transform: translateX(1px);
+}
+
+.activityLeft {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  flex: 1;
+}
+
+.avatarWrap {
+  position: relative;
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+}
+
+.avatarImg {
+  width: 100%;
+  height: 100%;
+  border-radius: var(--radius-full);
+  object-fit: cover;
+  background-color: var(--neutral-800, #1c1c1c);
+}
+
+.avatarIconFallback {
+  width: 100%;
+  height: 100%;
+  border-radius: var(--radius-full);
+  background-color: var(--neutral-800, #1c1c1c);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+}
+
+.activityMeta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.activityTitleRow {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  min-width: 0;
+}
+
+.entityName {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-primary, #ffffff);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.activitySubRow {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-family: var(--font-sans);
+  font-size: 10px;
+  color: var(--text-tertiary, #787878);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.venueTag {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--text-secondary, #c2c2c2);
+  background-color: var(--bg-app, #080808);
+  padding: 1px 4px;
+  border-radius: 3px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* ── Activity Right ──────────────────────────────────────── */
+.activityRight {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+  flex-shrink: 0;
+  margin-left: 8px;
+}
+
+.amountVal {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-primary, #ffffff);
+}
+
+.timeAgo {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--text-tertiary, #787878);
+}
+
+/* ── Action Badges ───────────────────────────────────────── */
+.badgeBuy {
+  font-family: var(--font-sans);
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--emerald-400, #56d68f);
+  background-color: rgba(47, 203, 115, 0.12);
+  border: 1px solid rgba(47, 203, 115, 0.28);
+  padding: 1px 5px;
+  border-radius: 3px;
+  text-transform: uppercase;
+}
+
+.badgeSell {
+  font-family: var(--font-sans);
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--red-400, #ea5e5e);
+  background-color: rgba(225, 59, 59, 0.12);
+  border: 1px solid rgba(225, 59, 59, 0.28);
+  padding: 1px 5px;
+  border-radius: 3px;
+  text-transform: uppercase;
+}
+
+.badgeWhale {
+  font-family: var(--font-sans);
+  font-size: 9px;
+  font-weight: 700;
+  color: #38bdf8;
+  background-color: rgba(56, 189, 248, 0.12);
+  border: 1px solid rgba(56, 189, 248, 0.28);
+  padding: 1px 5px;
+  border-radius: 3px;
+  text-transform: uppercase;
+}
+
+.badgeSignal {
+  font-family: var(--font-sans);
+  font-size: 9px;
+  font-weight: 700;
+  color: #c084fc;
+  background-color: rgba(192, 132, 252, 0.12);
+  border: 1px solid rgba(192, 132, 252, 0.28);
+  padding: 1px 5px;
+  border-radius: 3px;
+  text-transform: uppercase;
+}
+
+.badgeUnlock {
+  font-family: var(--font-sans);
+  font-size: 9px;
+  font-weight: 700;
+  color: #fbbf24;
+  background-color: rgba(251, 191, 36, 0.12);
+  border: 1px solid rgba(251, 191, 36, 0.28);
+  padding: 1px 5px;
+  border-radius: 3px;
+  text-transform: uppercase;
+}
+
+.badgeMacro {
+  font-family: var(--font-sans);
+  font-size: 9px;
+  font-weight: 700;
+  color: #60a5fa;
+  background-color: rgba(96, 165, 250, 0.12);
+  border: 1px solid rgba(96, 165, 250, 0.28);
+  padding: 1px 5px;
+  border-radius: 3px;
+  text-transform: uppercase;
+}
+
+/* ── Empty State ─────────────────────────────────────────── */
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 12px;
+  text-align: center;
+  color: var(--text-tertiary, #787878);
+  font-family: var(--font-sans);
+  font-size: 12px;
+}

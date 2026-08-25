@@ -317,15 +317,91 @@ const mockFeedData: FeedItem[] = [
     assetType: "CRYPTO",
     stance: "BULLISH",
     position: "LONG",
-    title: "Solana tests key ascending triangle apex at $102 with contracting Bollinger bands",
+    title: "Solana tests key ascending triangle apex at $148 with contracting Bollinger bands",
     summary:
       "Volatility squeeze pattern suggests imminent breakout with institutional delta turning positive on perpetual orderbooks.",
     timeAgo: "1h ago",
     source: "CoinGlass",
-    publishPrice: "$102.60 at publish",
-    priceChange: "-1.12%",
-    isPositiveChange: false,
-    aiConfidence: 82,
+    publishPrice: "$148.60 at publish",
+    priceChange: "+5.12%",
+    isPositiveChange: true,
+    aiConfidence: 86,
+  },
+  {
+    id: "crypto-tech-3",
+    ticker: "BTC",
+    companyName: "Bitcoin Network",
+    avatarBg: "#3A2A14",
+    category: "TECHNICAL SIGNALS",
+    assetType: "CRYPTO",
+    stance: "BULLISH",
+    position: "LONG",
+    title: "Bitcoin 50/200 EMA Golden Cross confirmed on daily chart with $68.5K volume cluster",
+    summary:
+      "Bullish moving average convergence with elevated taker buy ratio indicates institutional momentum toward $72,000 range high.",
+    timeAgo: "1h ago",
+    source: "Glassnode",
+    publishPrice: "$67,890.00 at publish",
+    priceChange: "+4.12%",
+    isPositiveChange: true,
+    aiConfidence: 93,
+  },
+  {
+    id: "crypto-tech-4",
+    ticker: "LINK",
+    companyName: "Chainlink",
+    avatarBg: "#112F4E",
+    category: "TECHNICAL SIGNALS",
+    assetType: "CRYPTO",
+    stance: "BULLISH",
+    position: "LONG",
+    title: "Chainlink daily RSI emerges from oversold territory at key 0.618 Fibonacci level",
+    summary:
+      "Rebound off $14.20 support with heavy spot accumulation confirms bullish reversal structure targeting $18.20.",
+    timeAgo: "3h ago",
+    source: "Chart Analyzer",
+    publishPrice: "$15.10 at publish",
+    priceChange: "+6.20%",
+    isPositiveChange: true,
+    aiConfidence: 84,
+  },
+  {
+    id: "stocks-tech-1",
+    ticker: "NVDA",
+    companyName: "NVIDIA Corp.",
+    avatarBg: "#163A24",
+    category: "TECHNICAL SIGNALS",
+    assetType: "STOCKS",
+    stance: "BULLISH",
+    position: "LONG",
+    title: "NVIDIA forms cup-and-handle pattern breaking above $182 pivot on heavy institutional volume",
+    summary:
+      "Daily chart shows classic accumulation breakout with RSI at 64 and expanding ATR supporting $205 target.",
+    timeAgo: "40m ago",
+    source: "Chart Analyzer",
+    publishPrice: "$183.40 at publish",
+    priceChange: "+3.80%",
+    isPositiveChange: true,
+    aiConfidence: 89,
+  },
+  {
+    id: "stocks-tech-2",
+    ticker: "AAPL",
+    companyName: "Apple Inc.",
+    avatarBg: "#2B2B2F",
+    category: "TECHNICAL SIGNALS",
+    assetType: "STOCKS",
+    stance: "BULLISH",
+    position: "LONG",
+    title: "Apple breaks out of 3-month consolidation channel with MACD bullish crossover",
+    summary:
+      "Volume expansion above 20-day moving average validates breakout targeting $235 psychological resistance.",
+    timeAgo: "2h ago",
+    source: "TrendSpider",
+    publishPrice: "$226.50 at publish",
+    priceChange: "+2.40%",
+    isPositiveChange: true,
+    aiConfidence: 85,
   },
   {
     id: "crypto-macro-1",
@@ -346,10 +422,68 @@ const mockFeedData: FeedItem[] = [
     isPositiveChange: true,
     aiConfidence: 91,
   },
+  {
+    id: "stocks-macro-1",
+    ticker: "SPY",
+    companyName: "SPDR S&P 500 ETF",
+    avatarBg: "#112F4E",
+    category: "MACRO SIGNALS",
+    assetType: "STOCKS",
+    stance: "BULLISH",
+    position: "LONG",
+    title: "US Core CPI cools to 2.8%, increasing September 50bps rate cut odds to 82%",
+    summary:
+      "Disinflationary trend in shelter and services fuels broad risk-on liquidity rotation into tech growth and high-beta assets.",
+    timeAgo: "3h ago",
+    source: "Bureau of Labor Statistics",
+    publishPrice: "$562.10 at publish",
+    priceChange: "+1.45%",
+    isPositiveChange: true,
+    aiConfidence: 90,
+  },
+  {
+    id: "crypto-macro-2",
+    ticker: "ETH",
+    companyName: "Ethereum Protocol",
+    avatarBg: "#163A24",
+    category: "MACRO SIGNALS",
+    assetType: "CRYPTO",
+    stance: "BULLISH",
+    position: "LONG",
+    title: "Sovereign and institutional treasury tokenization surpasses $2.4B on Ethereum",
+    summary:
+      "BlackRock BUIDL fund expansion and institutional real-world asset inflows establish new baseline yield floor for on-chain collateral.",
+    timeAgo: "5h ago",
+    source: "RWA.xyz",
+    publishPrice: "$2,480.00 at publish",
+    priceChange: "+4.10%",
+    isPositiveChange: true,
+    aiConfidence: 92,
+  },
+  {
+    id: "stocks-macro-2",
+    ticker: "DXY",
+    companyName: "US Dollar Index",
+    avatarBg: "#4A181C",
+    category: "MACRO SIGNALS",
+    assetType: "STOCKS",
+    stance: "BEARISH",
+    position: "SHORT",
+    title: "US Dollar Index (DXY) breaks 103.2 support, easing financial conditions globally",
+    summary:
+      "Weakening greenback enhances multinational earnings guidance and unleashes liquidity across emerging markets and digital assets.",
+    timeAgo: "6h ago",
+    source: "Federal Reserve",
+    publishPrice: "$102.85 at publish",
+    priceChange: "-0.65%",
+    isPositiveChange: false,
+    aiConfidence: 88,
+  },
 ];
 
 const feedFilterTabs = [
   { id: "timeline", label: "Timeline" },
+  { id: "signals", label: "Signals" },
   { id: "results", label: "Results" },
   { id: "latest-news", label: "Latest News" },
   { id: "trade-ideas", label: "Trade Ideas" },
@@ -405,6 +539,26 @@ export default function IntelligenceFeed() {
   const popoverRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLElement>(null);
 
+  // Direct scrolling helper to align the intelligence feed flush at top of viewport
+  const scrollToFeed = () => {
+    const feedEl =
+      containerRef.current ||
+      (document.querySelector(`[aria-label="Live Intelligence Feed"]`) as HTMLElement | null);
+
+    if (!feedEl) return;
+
+    const mainEl =
+      feedEl.closest("main") || (document.querySelector("main") as HTMLElement | null);
+
+    if (mainEl) {
+      const targetScrollTop = feedEl.offsetTop - 20;
+      mainEl.scrollTo({
+        top: Math.max(0, targetScrollTop),
+        behavior: "smooth",
+      });
+    }
+  };
+
   // Listen to sidepanel filter clicks
   useEffect(() => {
     const handleSidepanelFilter = (e: Event) => {
@@ -412,36 +566,26 @@ export default function IntelligenceFeed() {
       if (customEvent.detail) {
         setSidepanelFilter(customEvent.detail);
 
-        // Do not auto-scroll on tab changes, when switching main asset tabs, or selecting all-intelligence
-        if (
-          customEvent.detail.isTabChange ||
-          customEvent.detail.tab === "stocks" ||
-          customEvent.detail.tab === "crypto" ||
-          customEvent.detail.tab === "stocks-crypto" ||
-          customEvent.detail.subId === "all-intelligence"
-        ) {
+        // If top tab changed (Crypto / Stocks), scroll to top of page
+        if (customEvent.detail.isTabChange) {
+          if (customEvent.detail.tab !== "activities" && customEvent.detail.tab !== "meme") {
+            const mainEl = document.querySelector("main");
+            if (mainEl) {
+              mainEl.scrollTo({ top: 0, behavior: "smooth" });
+            }
+          }
           return;
         }
 
-        // Scroll feed container smoothly to top of main viewport for specific sub-categories
-        requestAnimationFrame(() => {
-          if (containerRef.current) {
-            const mainEl = containerRef.current.closest("main") || (document.querySelector("main") as HTMLElement | null);
-            if (mainEl) {
-              const mainRect = mainEl.getBoundingClientRect();
-              const feedRect = containerRef.current.getBoundingClientRect();
-              const targetScrollTop = mainEl.scrollTop + (feedRect.top - mainRect.top);
+        // When on memes, skip scrolling
+        if (customEvent.detail.tab === "activities" || customEvent.detail.tab === "meme") {
+          return;
+        }
 
-              mainEl.scrollTo({
-                top: Math.max(0, targetScrollTop),
-                behavior: "smooth",
-              });
-            } else {
-              containerRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
-            }
-          }
-          window.scrollTo({ top: 0, behavior: "smooth" });
-        });
+        // Feed sub-item clicked: scroll feed flush to top
+        requestAnimationFrame(() => scrollToFeed());
+        setTimeout(() => scrollToFeed(), 40);
+        setTimeout(() => scrollToFeed(), 140);
       }
     };
 
@@ -512,8 +656,16 @@ export default function IntelligenceFeed() {
       return false;
     }
 
-    // 3. Top Tab Filter (timeline / results / latest-news / trade-ideas / sec-filings / watchlist)
+    // 3. Top Tab Filter (timeline / signals / results / latest-news / trade-ideas / sec-filings / watchlist)
     if (activeTab === "watchlist" && !savedItemIds.includes(item.id)) return false;
+    if (
+      activeTab === "signals" &&
+      item.category !== "TECHNICAL SIGNALS" &&
+      item.category !== "MACRO SIGNALS" &&
+      item.category !== "ON-CHAIN SIGNALS"
+    ) {
+      return false;
+    }
     if (activeTab === "results" && item.category !== "EARNINGS RESULTS") return false;
     if (activeTab === "latest-news" && item.category !== "BREAKING NEWS") return false;
     if (activeTab === "trade-ideas" && item.category !== "AI COMPUTE" && item.category !== "AI TRADE IDEAS") return false;
