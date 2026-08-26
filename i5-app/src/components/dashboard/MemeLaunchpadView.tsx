@@ -1263,11 +1263,11 @@ const VIEW_TYPES = [
 ] as const;
 
 const STATUS_FILTERS = [
-  { id: "all", label: "All Tokens" },
-  { id: "trending", label: "🔥 Trending", icon: <Flame size={12} /> },
-  { id: "new", label: "⚡ New Launches", icon: <Zap size={12} /> },
-  { id: "graduating", label: "💼 KOL Bag", icon: <Sprout size={12} /> },
-  { id: "migrated", label: "💎 Migrated (DEX)", icon: <Gem size={12} /> },
+  { id: "all", label: "All Tokens", icon: null },
+  { id: "trending", label: "Trending", icon: <Flame size={12} /> },
+  { id: "new", label: "New Launches", icon: <Zap size={12} /> },
+  { id: "graduating", label: "KOL Bag", icon: <Sprout size={12} /> },
+  { id: "migrated", label: "Migrated (DEX)", icon: <Gem size={12} /> },
 ] as const;
 
 const SORT_OPTIONS = ["Market Cap", "Trending Momentum", "24h Volume", "24h Change", "Bonding %", "KOL Count"];
@@ -1299,6 +1299,7 @@ export default function MemeLaunchpadView() {
 
   const [view, setView] = useState<ViewType>("grid");
   const [activeFilter, setActiveFilter] = useState<string>("all");
+  const [isMemeFilterSheetOpen, setIsMemeFilterSheetOpen] = useState<boolean>(false);
   const [search, setSearch] = useState("");
   const [sortBy, setSortBy] = useState(SORT_OPTIONS[0]);
   const [sortOpen, setSortOpen] = useState(false);
@@ -1306,6 +1307,23 @@ export default function MemeLaunchpadView() {
   const [tokens, setTokens] = useState<LaunchpadToken[]>(TOKENS);
   const [toast, setToast] = useState<string | null>(null);
   const [activeSnipe, setActiveSnipe] = useState<Record<string, string>>({});
+
+  const filterDropdownRef = React.useRef<HTMLDivElement>(null);
+
+  React.useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (
+        filterDropdownRef.current &&
+        !filterDropdownRef.current.contains(event.target as Node)
+      ) {
+        setIsMemeFilterSheetOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const activeFilterObj = STATUS_FILTERS.find((s) => s.id === activeFilter) || STATUS_FILTERS[0];
 
   /* Interactive Bubble Hover & Popups */
   const [hoveredToken, setHoveredToken] = useState<LaunchpadToken | null>(null);
@@ -1604,7 +1622,7 @@ export default function MemeLaunchpadView() {
 
           <div className={styles.lbSortPill} onClick={() => showToast("Sorting by Realized PnL")}>
             <span className={styles.lbSortLabel}>Sort:</span>
-            <span className={styles.lbSortValue}>💰 Realized PnL ▾</span>
+            <span className={styles.lbSortValue}>Realized PnL ▾</span>
           </div>
         </div>
       </div>
@@ -1613,11 +1631,11 @@ export default function MemeLaunchpadView() {
       <div className={styles.lbFilterControlsBar}>
         <div className={styles.lbCategoryGroup}>
           {[
-            { id: "All Callers", label: "All Callers", icon: null },
-            { id: "Tier 1 KOLs", label: "Tier 1 KOLs", icon: "🔥" },
-            { id: "Alpha Callers", label: "Alpha Callers", icon: "⚡" },
-            { id: "Whale KOLs", label: "Whale KOLs", icon: "🐋" },
-            { id: "OG Traders", label: "OG Traders", icon: "👑" },
+            { id: "All Callers", label: "All Callers" },
+            { id: "Tier 1 KOLs", label: "Tier 1 KOLs" },
+            { id: "Alpha Callers", label: "Alpha Callers" },
+            { id: "Whale KOLs", label: "Whale KOLs" },
+            { id: "OG Traders", label: "OG Traders" },
           ].map((cat) => (
             <button
               key={cat.id}
@@ -1628,7 +1646,6 @@ export default function MemeLaunchpadView() {
                 showToast(`Showing ${cat.label}`);
               }}
             >
-              {cat.icon && <span>{cat.icon}</span>}
               <span>{cat.label}</span>
             </button>
           ))}
@@ -1646,9 +1663,9 @@ export default function MemeLaunchpadView() {
         </div>
       </div>
 
-      {/* 3. Top 5 Featured Leaderboard Cards (Launchpad View Model Style & Colors) */}
+      {/* 3. Top 4 Featured Leaderboard Cards */}
       <div className={styles.lbTop5Grid}>
-        {filteredLeaderboardEntries.slice(0, 5).map((kol, idx) => {
+        {filteredLeaderboardEntries.slice(0, 4).map((kol, idx) => {
           const cardThemes = [
             {
               theme: "blue",
@@ -1948,10 +1965,10 @@ export default function MemeLaunchpadView() {
             onClick={() => setMasterTab("kol-radar")}
           >
             <Award size={15} className={masterTab === "kol-radar" ? styles.pulseRadarIcon : ""} />
-            <span>Leaderboard</span>
+            <span>KOL Radar</span>
             <span className={styles.masterTabBadgeLive}>
               <span className={styles.liveRadarDot} />
-              Live Leaderboard
+              Live Radar
             </span>
           </button>
         </div>
@@ -2133,20 +2150,7 @@ export default function MemeLaunchpadView() {
               ))}
             </div>
 
-            {/* Status Subfilters */}
-            <div className={styles.subFilterTabs}>
-              {STATUS_FILTERS.map((s) => (
-                <button
-                  key={s.id}
-                  className={`${styles.subFilterTab} ${activeFilter === s.id ? styles.subFilterTabActive : ""}`}
-                  onClick={() => setActiveFilter(s.id)}
-                >
-                  {s.label}
-                </button>
-              ))}
-            </div>
-
-            {/* Search & Sort */}
+            {/* Search & Unified Filter Control */}
             <div className={styles.searchSortGroup}>
               <div className={styles.searchWrap}>
                 <Search size={13} className={styles.searchIcon} />
@@ -2159,24 +2163,81 @@ export default function MemeLaunchpadView() {
                 />
               </div>
 
-              <div style={{ position: "relative" }}>
-                <button className={styles.sortDropdownBtn} onClick={() => setSortOpen((v) => !v)}>
-                  <TrendingUp size={12} />
-                  {sortBy}
-                  <ChevronDown size={11} />
+              {/* Single Unified Filter Control (Status + Sort + Network with Titled Tabs) */}
+              <div className={styles.filterDropdownWrapper} ref={filterDropdownRef}>
+                <button
+                  type="button"
+                  className={`${styles.unifiedFilterBtn} ${isMemeFilterSheetOpen ? styles.unifiedFilterBtnActive : ""}`}
+                  onClick={() => setIsMemeFilterSheetOpen((prev) => !prev)}
+                  aria-label="Open token filters and sorting"
+                >
+                  <Filter size={13} />
+                  <span className={styles.filterBtnLabel}>Filter</span>
+                  <span className={styles.filterBtnDetails}>
+                    <span className={styles.filterStatusTag}>{activeFilterObj.label}</span>
+                    <span className={styles.filterDivider}>•</span>
+                    <span className={styles.filterSortTag}>{sortBy}</span>
+                  </span>
+                  <ChevronDown
+                    size={11}
+                    className={`${styles.filterChevron} ${isMemeFilterSheetOpen ? styles.filterChevronOpen : ""}`}
+                  />
                 </button>
-                {sortOpen && (
-                  <div className={styles.sortDropdownMenu}>
-                    {SORT_OPTIONS.map((opt) => (
-                      <button
-                        key={opt}
-                        className={`${styles.sortDropdownItem} ${sortBy === opt ? styles.sortDropdownItemActive : ""}`}
-                        onClick={() => { setSortBy(opt); setSortOpen(false); }}
-                      >
-                        {opt}
-                        {sortBy === opt && <Check size={11} />}
-                      </button>
-                    ))}
+
+                {/* Unified Filter & Sort Dropdown Menu */}
+                {isMemeFilterSheetOpen && (
+                  <div className={styles.filterDropdownMenu}>
+                    {/* Section 1: STATUS & CATEGORY Tabs */}
+                    <div className={styles.dropdownSection}>
+                      <span className={styles.dropdownSectionTitle}>STATUS & CATEGORY</span>
+                      <div className={styles.dropdownTabsGrid}>
+                        {STATUS_FILTERS.map((s) => (
+                          <button
+                            key={s.id}
+                            type="button"
+                            className={`${styles.dropdownTabBtn} ${
+                              activeFilter === s.id ? styles.dropdownTabBtnActive : ""
+                            }`}
+                            onClick={() => {
+                              setActiveFilter(s.id);
+                              showToast(`Status: ${s.label}`);
+                            }}
+                          >
+                            {s.icon}
+                            <span>{s.label}</span>
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div className={styles.dropdownDivider} />
+
+                    {/* Section 2: SORT BY List */}
+                    <div className={styles.dropdownSection}>
+                      <span className={styles.dropdownSectionTitle}>SORT BY</span>
+                      <div className={styles.dropdownSortList}>
+                        {SORT_OPTIONS.map((opt) => (
+                          <button
+                            key={opt}
+                            type="button"
+                            className={`${styles.dropdownSortItem} ${
+                              sortBy === opt ? styles.dropdownSortItemActive : ""
+                            }`}
+                            onClick={() => {
+                              setSortBy(opt);
+                              setIsMemeFilterSheetOpen(false);
+                              showToast(`Sorted by ${opt}`);
+                            }}
+                          >
+                            <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+                              <TrendingUp size={11} />
+                              <span>{opt}</span>
+                            </div>
+                            {sortBy === opt && <Check size={12} className={styles.dropdownSortCheck} strokeWidth={2.5} />}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
                   </div>
                 )}
               </div>
@@ -2242,53 +2303,40 @@ export default function MemeLaunchpadView() {
                 </div>
 
                 {/* Bubbles */}
-                {filtered.map((token) => {
+                {filtered.map((token, index) => {
                   const isGain = token.change24h >= 0;
                   const isSelected = selectedBubbleToken?.id === token.id;
-                  const orbitSize = token.bubbleSize + 24;
+                  const size = token.bubbleSize;
+                  const floatClass = [styles.floatA, styles.floatB, styles.floatC][index % 3];
+                  const logoSize = Math.max(16, Math.min(28, size * 0.22));
+                  const symbolFontSize = Math.max(10, Math.min(16, size * 0.16));
+                  const changeFontSize = Math.max(9, Math.min(13, size * 0.13));
 
                   return (
                     <div
                       key={token.id}
-                      className={styles.bubbleWrap}
+                      className={`${styles.bubbleWrap} ${floatClass}`}
                       style={{
                         left: `${token.bubbleX}%`,
                         top: `${token.bubbleY}%`,
-                        width: orbitSize,
-                        height: orbitSize,
+                        width: size,
+                        height: size,
                       }}
                       onMouseEnter={() => setHoveredToken(token)}
                       onMouseLeave={() => setHoveredToken(null)}
                       onClick={() => setSelectedBubbleToken(token)}
                       onDoubleClick={() => setTradingTerminalToken(token)}
                     >
-                      {/* Orbit Ring with mini avatars if token has KOLs */}
-                      {token.kolsHolding > 0 && (
-                        <div
-                          className={styles.bubbleOrbitRing}
-                          style={{ width: orbitSize, height: orbitSize }}
-                        >
-                          <div className={styles.orbitKolAvatar} style={{ left: "50%", top: "0%" }}>
-                            🦁
-                          </div>
-                          <div className={styles.orbitKolAvatar} style={{ left: "100%", top: "50%" }}>
-                            🦊
-                          </div>
-                          <div className={styles.orbitKolAvatar} style={{ left: "50%", top: "100%" }}>
-                            ⚡
-                          </div>
-                        </div>
-                      )}
-
-                      {/* Main Bubble Disk */}
+                      {/* Main 3D Glossy Sphere (Identical to Crypto Bubble Map) */}
                       <div
-                        className={`${styles.bubble} ${!isGain ? styles.bubbleLoss : ""} ${isSelected ? styles.bubbleSelected : ""}`}
+                        className={`${styles.bubble} ${isGain ? styles.bubbleGreen : styles.bubbleRed} ${isSelected ? styles.bubbleSelected : ""}`}
                         style={{
-                          width: token.bubbleSize,
-                          height: token.bubbleSize,
+                          width: size,
+                          height: size,
                         }}
                       >
-                        <div className={styles.bubbleAvatarTop}>
+                        {/* Avatar / Logo */}
+                        <div className={styles.bubbleLogo} style={{ width: logoSize, height: logoSize }}>
                           {token.avatarImg ? (
                             <img
                               src={token.avatarImg}
@@ -2297,18 +2345,26 @@ export default function MemeLaunchpadView() {
                               onError={(e) => { (e.target as HTMLElement).style.display = "none"; }}
                             />
                           ) : (
-                            token.avatarEmoji || "💎"
+                            <span>{token.avatarEmoji || "💎"}</span>
                           )}
                         </div>
-                        <span className={styles.bubbleTicker} style={{ fontSize: Math.max(10, token.bubbleSize * 0.13) }}>
+
+                        {/* Symbol / Ticker */}
+                        <span className={styles.bubbleSymbol} style={{ fontSize: symbolFontSize }}>
                           {token.ticker}
                         </span>
-                        <span
-                          className={`${styles.bubbleKols} ${token.kolsHolding > 0 ? styles.bubbleKolsHighlight : ""}`}
-                          style={{ fontSize: Math.max(9, token.bubbleSize * 0.1) }}
-                        >
-                          {token.kolsHolding > 0 ? `${token.kolsHolding} KOLs` : "0 KOLs"}
+
+                        {/* 24h Change */}
+                        <span className={styles.bubbleChange} style={{ fontSize: changeFontSize }}>
+                          {isGain ? `+${token.change24h.toFixed(1)}%` : `${token.change24h.toFixed(1)}%`}
                         </span>
+
+                        {/* KOL Badge if size allows */}
+                        {size >= 85 && token.kolsHolding > 0 && (
+                          <span className={styles.bubbleKolBadge} style={{ fontSize: Math.max(8.5, size * 0.08) }}>
+                            {token.kolsHolding} KOLs
+                          </span>
+                        )}
                       </div>
                     </div>
                   );
@@ -2896,7 +2952,7 @@ export default function MemeLaunchpadView() {
           <div className={styles.cardGrid}>
             {filtered.map((token) => (
               <div key={token.id} className={styles.gridCard} onClick={() => setTradingTerminalToken(token)}>
-                {/* Top */}
+                {/* Top Header Row */}
                 <div className={styles.gridCardTop}>
                   <div className={styles.gridCardIdentity}>
                     <div className={styles.gridCardAvatar}>
@@ -2915,29 +2971,30 @@ export default function MemeLaunchpadView() {
                         <span className={styles.gridCardTicker}>{token.ticker}</span>
                       </div>
                       <div className={styles.gridCardDev}>
-                        by {token.devHandle}
+                        <span>by {token.devHandle}</span>
                         {token.isVerified && <Check size={10} style={{ color: "var(--emerald-500)" }} strokeWidth={3} />}
+                        <span className={styles.gridCardDot}>·</span>
                         <span className={styles.gridCardAge}>
-                          <Clock size={9} />
                           {formatAge(token.ageMinutes)}
                         </span>
                       </div>
                     </div>
                   </div>
-                  <div style={{ display: "flex", alignItems: "center", gap: "var(--space-2)", flexShrink: 0 }}>
+                  <div className={styles.gridCardTopRight}>
                     <span className={`${styles.gridCardBadge} ${token.badge === "HIGH KOL BAG" ? styles.highKolBadge : styles.communityBadge}`}>
                       {token.badge}
                     </span>
                     <button
-                      style={{ background: "transparent", border: "none", color: token.isFavorited ? "var(--text-primary)" : "var(--text-disabled)", cursor: "pointer", padding: "var(--space-1)" }}
+                      className={styles.gridCardFavBtn}
                       onClick={(e) => { e.stopPropagation(); toggleFavorite(token.id); }}
+                      aria-label="Favorite token"
                     >
-                      <Star size={13} fill={token.isFavorited ? "currentColor" : "none"} />
+                      <Star size={13} fill={token.isFavorited ? "#ffffff" : "none"} color={token.isFavorited ? "#ffffff" : "var(--text-disabled)"} />
                     </button>
                   </div>
                 </div>
 
-                {/* Description */}
+                {/* Description (Clamped with fixed 2-line height for aligned cards) */}
                 <p className={styles.gridCardDesc}>{token.description}</p>
 
                 {/* KOL Section */}
@@ -2951,35 +3008,29 @@ export default function MemeLaunchpadView() {
                       {token.kolsHolding} holding
                     </span>
                   </div>
-                  {token.kolsHolding > 0 ? (
-                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                  <div className={styles.kolBodyRow}>
+                    {token.kolsHolding > 0 ? (
                       <div className={styles.kolAvatarsRow}>
                         {token.kolAvatars.slice(0, 4).map((av, i) => (
                           <div key={i} className={styles.kolAvatar}>{av}</div>
                         ))}
                         {token.kolsHolding > 4 && (
-                          <span style={{ fontSize: 10, color: "var(--text-tertiary)", marginLeft: "var(--space-2)" }}>
+                          <span className={styles.kolMoreCount}>
                             +{token.kolsHolding - 4}
                           </span>
                         )}
                       </div>
-                      <div style={{ textAlign: "right" }}>
-                        <div style={{ fontSize: 9, color: "var(--text-tertiary)" }}>KOL BAG</div>
-                        <div className={`${styles.kolBagLabel} ${styles.kolBagValue}`}>{token.totalKolBag}</div>
-                      </div>
-                    </div>
-                  ) : (
-                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                    ) : (
                       <span className={styles.noKolsText}>No callers holding</span>
-                      <div style={{ textAlign: "right" }}>
-                        <div style={{ fontSize: 9, color: "var(--text-tertiary)" }}>KOL BAG</div>
-                        <div className={styles.kolBagLabel}>{token.totalKolBag}</div>
-                      </div>
+                    )}
+                    <div className={styles.kolBagBlock}>
+                      <span className={styles.kolBagMeta}>KOL BAG</span>
+                      <span className={`${styles.kolBagLabel} ${token.kolsHolding > 0 ? styles.kolBagValue : ""}`}>{token.totalKolBag}</span>
                     </div>
-                  )}
+                  </div>
                 </div>
 
-                {/* Stats */}
+                {/* Metrics Stats Row */}
                 <div className={styles.gridCardStats}>
                   <div className={styles.gridStatCell}>
                     <span className={styles.gridStatLabel}>Market Cap</span>
@@ -2995,11 +3046,11 @@ export default function MemeLaunchpadView() {
                   </div>
                 </div>
 
-                {/* Footer */}
+                {/* Footer Action Row */}
                 <div className={styles.gridCardFooter}>
-                  <div className={styles.i5ScoreRow}>
+                  <div className={styles.i5ScoreBadge}>
                     <ShieldCheck size={11} />
-                    <span className={styles.i5ScoreValue}>{token.i5Score}/100</span>
+                    <span>{token.i5Score}/100</span>
                   </div>
                   <span className={styles.top10Row}>Top 10: {token.topTenPct}</span>
                   <button
@@ -3033,7 +3084,7 @@ export default function MemeLaunchpadView() {
               </div>
               <div className={styles.kolTitleMeta}>
                 <div className={styles.kolTitleRow}>
-                  <h2 className={styles.kolMainTitle}>Leaderboard</h2>
+                  <h2 className={styles.kolMainTitle}>KOL Radar</h2>
                   <span className={styles.kolNodeBadge}>
                     <span className={styles.liveRadarDot} />
                     {kolChainSelected} Node Live
@@ -3046,7 +3097,7 @@ export default function MemeLaunchpadView() {
             </div>
           </div>
 
-          {/* ── TOP 4 LEADERBOARD CARDS (COMPACT EXACT VIEW MODEL DESIGN & COLORS) ──── */}
+          {/* ── TOP 4 LEADERBOARD CARDS ──── */}
           <div className={styles.metricsGrid}>
             {filteredLeaderboardEntries.slice(0, 4).map((kol, idx) => {
               const cardThemes = [

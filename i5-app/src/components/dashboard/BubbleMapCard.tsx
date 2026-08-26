@@ -460,12 +460,365 @@ const baseBubbles: BubbleData[] = [
   },
 ];
 
+// Stocks Bubbles Dataset with Official Brands & Logos
+const stockBubbles: BubbleData[] = [
+  {
+    id: "nvda",
+    symbol: "NVDA",
+    name: "NVIDIA Corporation",
+    change: 4.15,
+    size: 154,
+    x: 43,
+    y: 36,
+    logoBg: "#064E3B",
+    floatClass: styles.floatA,
+    marketCap: "$3.15T",
+    vol24h: "$34.2B",
+  },
+  {
+    id: "aapl",
+    symbol: "AAPL",
+    name: "Apple Inc.",
+    change: 1.20,
+    size: 140,
+    x: 86,
+    y: 42,
+    logoBg: "#1F2937",
+    floatClass: styles.floatB,
+    marketCap: "$3.45T",
+    vol24h: "$18.4B",
+  },
+  {
+    id: "tsla",
+    symbol: "TSLA",
+    name: "Tesla, Inc.",
+    change: -2.40,
+    size: 132,
+    x: 19,
+    y: 72,
+    logoBg: "#450A0A",
+    floatClass: styles.floatC,
+    marketCap: "$792.4B",
+    vol24h: "$22.6B",
+  },
+  {
+    id: "msft",
+    symbol: "MSFT",
+    name: "Microsoft Corporation",
+    change: 0.85,
+    size: 122,
+    x: 67,
+    y: 78,
+    logoBg: "#0C2340",
+    floatClass: styles.floatA,
+    marketCap: "$3.10T",
+    vol24h: "$14.1B",
+  },
+  {
+    id: "amzn",
+    symbol: "AMZN",
+    name: "Amazon.com, Inc.",
+    change: 2.30,
+    size: 96,
+    x: 72,
+    y: 38,
+    logoBg: "#3A2A14",
+    floatClass: styles.floatB,
+    marketCap: "$1.94T",
+    vol24h: "$12.8B",
+  },
+  {
+    id: "meta",
+    symbol: "META",
+    name: "Meta Platforms, Inc.",
+    change: 3.10,
+    size: 88,
+    x: 8,
+    y: 20,
+    logoBg: "#0A2540",
+    floatClass: styles.floatC,
+    marketCap: "$1.30T",
+    vol24h: "$11.2B",
+  },
+  {
+    id: "googl",
+    symbol: "GOOGL",
+    name: "Alphabet Inc.",
+    change: 1.60,
+    size: 82,
+    x: 18,
+    y: 34,
+    logoBg: "#1E293B",
+    floatClass: styles.floatA,
+    marketCap: "$2.05T",
+    vol24h: "$9.4B",
+  },
+  {
+    id: "pltr",
+    symbol: "PLTR",
+    name: "Palantir Technologies",
+    change: 6.80,
+    size: 78,
+    x: 36,
+    y: 90,
+    logoBg: "#18181B",
+    floatClass: styles.floatB,
+    marketCap: "$68.4B",
+    vol24h: "$6.2B",
+  },
+  {
+    id: "amd",
+    symbol: "AMD",
+    name: "Advanced Micro Devices",
+    change: 5.40,
+    size: 74,
+    x: 71,
+    y: 63,
+    logoBg: "#2E1010",
+    floatClass: styles.floatC,
+    marketCap: "$249.2B",
+    vol24h: "$8.6B",
+  },
+  {
+    id: "coin",
+    symbol: "COIN",
+    name: "Coinbase Global",
+    change: 7.25,
+    size: 76,
+    x: 93,
+    y: 84,
+    logoBg: "#0052FF",
+    floatClass: styles.floatA,
+    marketCap: "$52.8B",
+    vol24h: "$5.4B",
+  },
+  {
+    id: "nflx",
+    symbol: "NFLX",
+    name: "Netflix, Inc.",
+    change: -1.85,
+    size: 68,
+    x: 82,
+    y: 91,
+    logoBg: "#450A0A",
+    floatClass: styles.floatB,
+    marketCap: "$294B",
+    vol24h: "$4.1B",
+  },
+  {
+    id: "intc",
+    symbol: "INTC",
+    name: "Intel Corporation",
+    change: -3.12,
+    size: 66,
+    x: 60,
+    y: 20,
+    logoBg: "#0071C5",
+    floatClass: styles.floatC,
+    marketCap: "$98B",
+    vol24h: "$3.2B",
+  },
+];
+
+// Helper to render official brand logos for stocks
+function StockLogo({ symbol, size = 16 }: { symbol: string; size?: number }) {
+  const sym = symbol.toUpperCase();
+  switch (sym) {
+    case "NVDA":
+      return (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+          <path d="M8.7 7.2C11.5 7.2 13.8 9.5 13.8 12.3C13.8 15.1 11.5 17.4 8.7 17.4C7.3 17.4 6 16.8 5.1 15.9L3.5 17.5C4.8 18.9 6.7 19.7 8.7 19.7C12.8 19.7 16.1 16.4 16.1 12.3C16.1 8.2 12.8 4.9 8.7 4.9C6.1 4.9 3.8 6.2 2.4 8.2L4.2 9.5C5.2 8.1 6.8 7.2 8.7 7.2Z" fill="#76B900" />
+          <path d="M8.7 2.3C4.1 2.3 0.3 5.4 0 9.7L2.3 10.3C2.7 6.9 5.4 4.5 8.7 4.5C13 4.5 16.5 8 16.5 12.3C16.5 16.6 13 20.1 8.7 20.1C5.6 20.1 2.9 17.9 2.4 14.7L0.1 15.3C0.8 19.4 4.4 22.4 8.7 22.4C14.3 22.4 18.8 17.9 18.8 12.3C18.8 6.7 14.3 2.3 8.7 2.3Z" fill="#76B900" opacity="0.65" />
+        </svg>
+      );
+    case "AAPL":
+      return (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="#ffffff">
+          <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.87c.66-.82 1.11-1.96.99-3.1-.96.04-2.12.64-2.8 1.44-.6.69-1.12 1.83-.98 2.95 1.07.08 2.15-.55 2.79-1.29z"/>
+        </svg>
+      );
+    case "TSLA":
+      return (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="#ffffff">
+          <path d="M12 4.2c2.2 0 4.9.4 7.2 1.6l.8-2.6C17.3 2 14.5 1.5 12 1.5S6.7 2 4 3.2l.8 2.6c2.3-1.2 5-1.6 7.2-1.6zm0 4.1c1.3 0 3.2.2 4.7.9l.6-2.1C15.8 6.5 13.9 6.3 12 6.3s-3.8.2-5.3.8l.6 2.1c1.5-.7 3.4-.9 4.7-.9zm-1.1 3.5h2.2v8.7h-2.2z"/>
+        </svg>
+      );
+    case "MSFT":
+      return (
+        <svg width={size} height={size} viewBox="0 0 24 24">
+          <rect x="2" y="2" width="9" height="9" fill="#F25022"/>
+          <rect x="13" y="2" width="9" height="9" fill="#7FBA00"/>
+          <rect x="2" y="13" width="9" height="9" fill="#00A4EF"/>
+          <rect x="13" y="13" width="9" height="9" fill="#FFB900"/>
+        </svg>
+      );
+    case "AMZN":
+      return (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="#FF9900">
+          <path d="M14.5 13.5c-2.1 1.7-5.3 2.6-8 .9-.2-.1-.5.1-.3.3 1.8 1.9 4.9 2.5 7.6 1.1.3-.2.3-.6-.1-.7l.8-1.6zm4.8 3c-.3-.4-1.9-.2-2.9 0-.3.1-.3-.2-.1-.4 1.2-1.3 3.3-.9 3.5-.6.2.3-.2 2.3-1.3 3.3-.2.2-.4.1-.3-.1.5-.8 1.4-1.8 1.1-2.2zm-9.8-7.7c-.5.8-.8 1.8-.8 2.8 0 2.2 1.4 3.7 3.3 3.7 1.3 0 2.4-.7 2.9-1.8v1.5h2V7.7h-2v1.4c-.6-.9-1.6-1.4-2.8-1.4-1.6 0-2.6 1.1-2.6 2.1z"/>
+        </svg>
+      );
+    case "META":
+      return (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="#0081FB">
+          <path d="M16.9 5.3c-1.9 0-3.6 1.1-4.9 2.7-1.3-1.6-3-2.7-4.9-2.7C3.1 5.3 0 8.7 0 12.8c0 4.1 3.1 7.5 7.1 7.5 2.1 0 4-1 5.1-2.6 1.1 1.6 3 2.6 5.1 2.6 4 0 6.7-3.4 6.7-7.5 0-4.1-3.1-7.5-7.1-7.5zm-9.8 12.6c-2.8 0-4.9-2.4-4.9-5.1s2.1-5.1 4.9-5.1c1.6 0 3.2 1 4.2 2.7-1.3 2.4-2.6 4.9-4.2 7.5zm9.8 0c-1.6-2.6-2.9-5.1-4.2-7.5 1-1.7 2.6-2.7 4.2-2.7 2.8 0 4.9 2.4 4.9 5.1 0 2.8-2.1 5.1-4.9 5.1z"/>
+        </svg>
+      );
+    case "GOOGL":
+    case "GOOG":
+      return (
+        <svg width={size} height={size} viewBox="0 0 24 24">
+          <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+          <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+          <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" fill="#FBBC05"/>
+          <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" fill="#EA4335"/>
+        </svg>
+      );
+    case "AMD":
+      return (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="#ED1C24">
+          <path d="M22 2H10.5l4.5 4.5H22v11.5l4.5 4.5V2zm-9 6.5L8.5 4 4 8.5 8.5 13zm-8 4.5L2 16h6.5l4.5-4.5H5z"/>
+        </svg>
+      );
+    case "PLTR":
+      return (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="#ffffff">
+          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-14c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6-2.69-6-6-6zm0 10c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4z"/>
+        </svg>
+      );
+    case "COIN":
+      return (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="#0052FF">
+          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 16c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6zm-2-8h4v4h-4z"/>
+        </svg>
+      );
+    case "NFLX":
+      return (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="#E50914">
+          <path d="M5.398 0v24c1.867-.367 3.734-.783 5.602-1.15V0H5.398zm7.6 0v10.633l5.604 12.217V0h-5.604zm0 14.867L8.8 22.85V24h.133l4.065-9.133z"/>
+        </svg>
+      );
+    case "INTC":
+      return (
+        <svg width={size} height={size} viewBox="0 0 24 24" fill="#0071C5">
+          <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2zm1 14.5h-2v-5h2v5zm-1-6.2c-.6 0-1-.4-1-1s.4-1 1-1 1 .4 1 1-.4 1-1 1z"/>
+        </svg>
+      );
+    default:
+      return (
+        <span
+          style={{
+            fontSize: `${Math.max(6, size * 0.55)}px`,
+            fontWeight: 900,
+            color: "#ffffff",
+          }}
+        >
+          {symbol.slice(0, 1)}
+        </span>
+      );
+  }
+}
+
+// Helper to render official brand logos for stocks or cryptos
+function BubbleLogo({ symbol, size = 16, isStock = false }: { symbol: string; size?: number; isStock?: boolean }) {
+  if (isStock) {
+    return <StockLogo symbol={symbol} size={size} />;
+  }
+
+  const sym = symbol.toUpperCase();
+  if (sym === "BTC") {
+    return (
+      <svg width={size} height={size} viewBox="0 0 24 24" fill="#F7931A">
+        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm3.18 10.3c.78-.45 1.25-1.22 1.25-2.22 0-1.78-1.42-2.73-3.63-2.73h-3.3v9.3h3.75c2.18 0 3.65-1.02 3.65-2.75 0-.82-.47-1.47-1.72-1.6zm-3.68-3.15h1.35c1.05 0 1.7.42 1.7 1.25s-.65 1.25-1.7 1.25h-1.35V9.15zm1.55 5.7h-1.55v-2.7h1.55c1.2 0 1.95.48 1.95 1.35s-.75 1.35-1.95 1.35z"/>
+      </svg>
+    );
+  }
+  if (sym === "ETH") {
+    return (
+      <svg width={size} height={size} viewBox="0 0 24 24" fill="#627EEA">
+        <path d="M12 2L4.5 14.5L12 18.5L19.5 14.5L12 2ZM12 19.8L4.5 15.6L12 22L19.5 15.6L12 19.8Z"/>
+      </svg>
+    );
+  }
+  if (sym === "SOL") {
+    return (
+      <svg width={size} height={size} viewBox="0 0 24 24" fill="#14F195">
+        <path d="M4 18.5h12.5l3.5-3.5H7.5L4 18.5zm0-6.5h12.5l3.5-3.5H7.5L4 12zm3.5-10L4 5.5h12.5L20 2H7.5z"/>
+      </svg>
+    );
+  }
+
+  return (
+    <div style={{ display: "flex", alignItems: "center", justifyContent: "center", width: "100%", height: "100%" }}>
+      <img
+        src={`https://assets.coincap.io/assets/icons/${symbol.toLowerCase()}@2x.png`}
+        alt={symbol}
+        style={{ width: `${size}px`, height: `${size}px`, objectFit: "contain" }}
+        onError={(e) => {
+          e.currentTarget.style.display = "none";
+          const fallback = e.currentTarget.nextElementSibling as HTMLElement;
+          if (fallback) fallback.style.display = "flex";
+        }}
+      />
+      <span
+        style={{
+          display: "none",
+          fontSize: `${Math.max(6, size * 0.55)}px`,
+          fontWeight: 900,
+          color: "#ffffff",
+        }}
+      >
+        {symbol.slice(0, 1)}
+      </span>
+    </div>
+  );
+}
+
 export default function BubbleMapCard() {
+  const [mapMode, setMapMode] = useState<"crypto" | "stocks">("crypto");
+  const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
   const [timeframe, setTimeframe] = useState<string>("24H");
   const [hoveredBubble, setHoveredBubble] = useState<BubbleData | null>(null);
   const [tradeModalOpen, setTradeModalOpen] = useState<boolean>(false);
   const [selectedTradeToken, setSelectedTradeToken] = useState<TradeTokenInfo | null>(null);
   const [tradeSide, setTradeSide] = useState<"LONG" | "SHORT">("LONG");
+  const [isMobile, setIsMobile] = useState<boolean>(false);
+
+  const menuRef = React.useRef<HTMLDivElement>(null);
+
+  // Listen to sidebar navigation events (e.g. user selects Stocks)
+  React.useEffect(() => {
+    const handleSidepanelFilter = (e: Event) => {
+      const customEvent = e as CustomEvent<{ tab?: string }>;
+      if (customEvent.detail?.tab === "stocks") {
+        setMapMode("stocks");
+      } else if (customEvent.detail?.tab === "crypto") {
+        setMapMode("crypto");
+      }
+    };
+    window.addEventListener("i5-sidepanel-filter", handleSidepanelFilter);
+    return () => window.removeEventListener("i5-sidepanel-filter", handleSidepanelFilter);
+  }, []);
+
+  // Outside click for map dropdown
+  React.useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+        setIsMenuOpen(false);
+      }
+    }
+    if (isMenuOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [isMenuOpen]);
+
+  React.useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   // Dynamic multiplier based on selected timeframe
   const timeframeMultiplier: Record<string, number> = {
@@ -478,12 +831,26 @@ export default function BubbleMapCard() {
 
   const mult = timeframeMultiplier[timeframe] || 1.0;
 
+  const currentBubbles = mapMode === "stocks" ? stockBubbles : baseBubbles;
+
   const handleBubbleClick = (bubble: BubbleData, isPositive: boolean, dynamicChange: number) => {
     const tokenInfo: TradeTokenInfo = {
       symbol: bubble.symbol,
       name: bubble.name,
       price:
-        bubble.symbol === "GT"
+        bubble.symbol === "NVDA"
+          ? "$128.40"
+          : bubble.symbol === "AAPL"
+          ? "$226.50"
+          : bubble.symbol === "TSLA"
+          ? "$248.80"
+          : bubble.symbol === "MSFT"
+          ? "$418.20"
+          : bubble.symbol === "AMZN"
+          ? "$186.40"
+          : bubble.symbol === "META"
+          ? "$512.90"
+          : bubble.symbol === "GT"
           ? "$12.45"
           : bubble.symbol === "BDX"
           ? "$0.048"
@@ -507,23 +874,54 @@ export default function BubbleMapCard() {
   };
 
   return (
-    <div className={styles.card} role="region" aria-label="Crypto Bubble Map Visualization">
+    <div className={styles.card} role="region" aria-label="Bubble Map Visualization">
       {/* Top Header Bar */}
       <div className={styles.header}>
         {/* Left Dropdown Pill + Expand Action */}
         <div className={styles.leftControls}>
-          <button className={styles.dropdownPill} aria-label="Select Bubble Map view">
-            <span className={styles.scatterIcon}>
-              <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5">
-                <circle cx="5" cy="5" r="2.5" />
-                <circle cx="11" cy="7" r="3.5" />
-                <circle cx="6" cy="12" r="2" />
-              </svg>
-            </span>
-            <span>BUBBLE MAP</span>
-            <span className={styles.infoIcon}>ⓘ</span>
-            <span className={styles.chevronIcon}>▼</span>
-          </button>
+          <div className={styles.dropdownWrapper} ref={menuRef}>
+            <button
+              className={styles.dropdownPill}
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              aria-label="Select Bubble Map view"
+            >
+              <span className={styles.scatterIcon}>
+                <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5">
+                  <circle cx="5" cy="5" r="2.5" />
+                  <circle cx="11" cy="7" r="3.5" />
+                  <circle cx="6" cy="12" r="2" />
+                </svg>
+              </span>
+              <span>{mapMode === "stocks" ? "STOCKS BUBBLE MAP" : "BUBBLE MAP"}</span>
+              <span className={styles.infoIcon}>ⓘ</span>
+              <span className={styles.chevronIcon}>▼</span>
+            </button>
+
+            {isMenuOpen && (
+              <div className={styles.mapSelectMenu}>
+                <button
+                  className={`${styles.mapSelectItem} ${mapMode === "crypto" ? styles.mapSelectItemActive : ""}`}
+                  onClick={() => {
+                    setMapMode("crypto");
+                    setIsMenuOpen(false);
+                  }}
+                >
+                  <span>🪙</span>
+                  <span>Crypto Bubbles</span>
+                </button>
+                <button
+                  className={`${styles.mapSelectItem} ${mapMode === "stocks" ? styles.mapSelectItemActive : ""}`}
+                  onClick={() => {
+                    setMapMode("stocks");
+                    setIsMenuOpen(false);
+                  }}
+                >
+                  <span>📈</span>
+                  <span>Stock Bubbles</span>
+                </button>
+              </div>
+            )}
+          </div>
 
           <button className={styles.expandBtn} aria-label="Expand Bubble Map view">
             <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5">
@@ -548,10 +946,14 @@ export default function BubbleMapCard() {
 
       {/* Interactive 3D Bubble Canvas Container */}
       <div className={styles.canvasArea}>
-        {baseBubbles.map((bubble) => {
+        {currentBubbles.map((bubble) => {
           const dynamicChange = Number((bubble.change * mult).toFixed(2));
           const isPositive = dynamicChange >= 0;
           const formattedChange = `${isPositive ? "+" : ""}${dynamicChange}%`;
+
+          // Scale bubble dimensions on mobile for ideal fit
+          const scaleFactor = isMobile ? 0.6 : 1.0;
+          const scaledSize = Math.round(bubble.size * scaleFactor);
 
           // Scale font size according to bubble diameter
           const isTiny = bubble.size < 42;
@@ -559,9 +961,9 @@ export default function BubbleMapCard() {
           const isMedium = bubble.size >= 70 && bubble.size < 110;
           const isLarge = bubble.size >= 110;
 
-          const symbolSize = isLarge ? 20 : isMedium ? 14 : isSmall ? 10 : 8;
-          const changeSize = isLarge ? 14 : isMedium ? 11 : isSmall ? 9 : 7;
-          const logoDimension = isLarge ? 32 : isMedium ? 22 : isSmall ? 14 : 10;
+          const symbolSize = isLarge ? (isMobile ? 12 : 20) : isMedium ? (isMobile ? 9.5 : 14) : isSmall ? (isMobile ? 7.5 : 10) : 6.5;
+          const changeSize = isLarge ? (isMobile ? 9 : 14) : isMedium ? (isMobile ? 7.5 : 11) : isSmall ? (isMobile ? 6.5 : 9) : 6;
+          const logoDimension = isLarge ? (isMobile ? 18 : 32) : isMedium ? (isMobile ? 13 : 22) : isSmall ? (isMobile ? 9 : 14) : 8;
 
           return (
             <div
@@ -570,10 +972,10 @@ export default function BubbleMapCard() {
                 bubble.floatClass || ""
               }`}
               style={{
-                width: `${bubble.size}px`,
-                height: `${bubble.size}px`,
-                left: `calc(${bubble.x}% - ${bubble.size / 2}px)`,
-                top: `calc(${bubble.y}% - ${bubble.size / 2}px)`,
+                width: `${scaledSize}px`,
+                height: `${scaledSize}px`,
+                left: `calc(${bubble.x}% - ${scaledSize / 2}px)`,
+                top: `calc(${bubble.y}% - ${scaledSize / 2}px)`,
                 cursor: "pointer",
               }}
               onClick={() => handleBubbleClick(bubble, isPositive, dynamicChange)}
@@ -581,24 +983,20 @@ export default function BubbleMapCard() {
               onMouseLeave={() => setHoveredBubble(null)}
               title={`Click to Quick Trade ${isPositive ? "Long" : "Short"} on ${bubble.symbol}`}
             >
-              {/* Optional Token Icon / Logo Badge */}
+              {/* Token Icon / Official Brand Logo Badge */}
               <div
                 className={styles.bubbleLogo}
                 style={{
                   width: `${logoDimension}px`,
                   height: `${logoDimension}px`,
-                  backgroundColor: bubble.logoBg || "rgba(255,255,255,0.2)",
+                  backgroundColor: bubble.logoBg || "rgba(0,0,0,0.35)",
                 }}
               >
-                <span
-                  style={{
-                    fontSize: `${Math.max(7, logoDimension * 0.55)}px`,
-                    fontWeight: 900,
-                    color: "#ffffff",
-                  }}
-                >
-                  {bubble.symbol.slice(0, 1)}
-                </span>
+                <BubbleLogo
+                  symbol={bubble.symbol}
+                  size={Math.round(logoDimension * 0.75)}
+                  isStock={mapMode === "stocks"}
+                />
               </div>
 
               {/* Symbol Ticker */}

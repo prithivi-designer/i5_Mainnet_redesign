@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import {
   X,
   User,
@@ -154,6 +154,259 @@ export interface ConnectedAccount {
   connectedAt: string;
 }
 
+export interface TokenPositionItem {
+  id: string;
+  kind: "token";
+  name: string;
+  ticker: string;
+  amount: string;
+  avatar: string;
+  isCustomImg?: boolean;
+  value: string;
+  avgBuy: string;
+  pnlDollar: string;
+  change24h: string;
+  isPositive: boolean;
+  status: "Open" | "Closed";
+  closedPrice?: string;
+}
+
+export interface PerpPositionItem {
+  id: string;
+  kind: "perp";
+  pair: string;
+  side: "LONG" | "SHORT";
+  leverage: number;
+  avatar: string;
+  size: string;
+  entryPrice: string;
+  markPrice: string;
+  liqPrice: string;
+  pnl: string;
+  pnlPercent: string;
+  isPositive: boolean;
+  margin: string;
+  status: "Open" | "Closed";
+  closedPrice?: string;
+}
+
+export type PositionItem = TokenPositionItem | PerpPositionItem;
+
+const SAMPLE_TOKEN_POSITIONS: TokenPositionItem[] = [
+  {
+    id: "cashcat",
+    kind: "token",
+    name: "Cash Cat",
+    ticker: "CASHCAT",
+    amount: "11.80 CASHCAT",
+    avatar: "https://images.unsplash.com/photo-1543852786-1cf6624b9987?w=100&auto=format&fit=crop&q=60",
+    isCustomImg: true,
+    value: "$2.29",
+    avgBuy: "$0.164",
+    pnlDollar: "+$0.35",
+    change24h: "▲ 18.34%",
+    isPositive: true,
+    status: "Open",
+  },
+  {
+    id: "mdoge",
+    kind: "token",
+    name: "Murad Doge",
+    ticker: "MDOGE",
+    amount: "1,250,000 MDOGE",
+    avatar: "🐕",
+    value: "$142.50",
+    avgBuy: "$0.000089",
+    pnlDollar: "+$31.20",
+    change24h: "▲ 28.01%",
+    isPositive: true,
+    status: "Open",
+  },
+  {
+    id: "pepebot",
+    kind: "token",
+    name: "PepeBot AI",
+    ticker: "PEPEBOT",
+    amount: "84,200 PEPEBOT",
+    avatar: "🤖",
+    value: "$68.40",
+    avgBuy: "$0.00086",
+    pnlDollar: "-$4.12",
+    change24h: "▼ -5.68%",
+    isPositive: false,
+    status: "Open",
+  },
+  {
+    id: "sol",
+    kind: "token",
+    name: "Solana Ecosystem",
+    ticker: "SOL",
+    amount: "2.45 SOL",
+    avatar: "🟣",
+    value: "$367.50",
+    avgBuy: "$142.40",
+    pnlDollar: "+$18.60",
+    change24h: "▲ 5.33%",
+    isPositive: true,
+    status: "Open",
+  },
+  {
+    id: "kate",
+    kind: "token",
+    name: "Kate Coin",
+    ticker: "KATE",
+    amount: "105.5K KATE",
+    avatar: "👑",
+    value: "$110.78",
+    avgBuy: "$0.00074",
+    pnlDollar: "+$85.40",
+    change24h: "▲ 41.20%",
+    isPositive: true,
+    status: "Closed",
+    closedPrice: "$0.00105",
+  },
+  {
+    id: "four",
+    kind: "token",
+    name: "Four Meme",
+    ticker: "FOUR",
+    amount: "50,000 FOUR",
+    avatar: "4️⃣",
+    value: "$74.00",
+    avgBuy: "$0.0018",
+    pnlDollar: "-$16.00",
+    change24h: "▼ -12.40%",
+    isPositive: false,
+    status: "Closed",
+    closedPrice: "$0.00148",
+  },
+];
+
+const SAMPLE_PERP_POSITIONS: PerpPositionItem[] = [
+  {
+    id: "btc-perp",
+    kind: "perp",
+    pair: "BTC-PERP",
+    side: "LONG",
+    leverage: 10,
+    avatar: "₿",
+    size: "$2,450.00",
+    entryPrice: "$63,420",
+    markPrice: "$64,810",
+    liqPrice: "$57,800",
+    pnl: "+$139.20",
+    pnlPercent: "+56.81%",
+    isPositive: true,
+    margin: "$245.00",
+    status: "Open",
+  },
+  {
+    id: "sol-perp",
+    kind: "perp",
+    pair: "SOL-PERP",
+    side: "LONG",
+    leverage: 5,
+    avatar: "◎",
+    size: "$1,200.00",
+    entryPrice: "$144.20",
+    markPrice: "$150.00",
+    liqPrice: "$118.50",
+    pnl: "+$46.40",
+    pnlPercent: "+19.33%",
+    isPositive: true,
+    margin: "$240.00",
+    status: "Open",
+  },
+  {
+    id: "eth-perp",
+    kind: "perp",
+    pair: "ETH-PERP",
+    side: "SHORT",
+    leverage: 15,
+    avatar: "Ξ",
+    size: "$1,850.00",
+    entryPrice: "$3,480",
+    markPrice: "$3,410",
+    liqPrice: "$3,690",
+    pnl: "+$37.80",
+    pnlPercent: "+30.65%",
+    isPositive: true,
+    margin: "$123.33",
+    status: "Open",
+  },
+  {
+    id: "doge-perp",
+    kind: "perp",
+    pair: "DOGE-PERP",
+    side: "LONG",
+    leverage: 8,
+    avatar: "Ð",
+    size: "$800.00",
+    entryPrice: "$0.102",
+    markPrice: "$0.108",
+    liqPrice: "$0.091",
+    pnl: "+$47.05",
+    pnlPercent: "+47.05%",
+    isPositive: true,
+    margin: "$100.00",
+    status: "Open",
+  },
+  {
+    id: "pepe-perp",
+    kind: "perp",
+    pair: "PEPE-PERP",
+    side: "LONG",
+    leverage: 10,
+    avatar: "🐸",
+    size: "$2,450.00",
+    entryPrice: "$0.0000081",
+    markPrice: "$0.0000142",
+    liqPrice: "$0.0000073",
+    pnl: "+$184.20",
+    pnlPercent: "+75.18%",
+    isPositive: true,
+    margin: "$245.00",
+    status: "Closed",
+    closedPrice: "$0.0000142",
+  },
+  {
+    id: "avax-perp",
+    kind: "perp",
+    pair: "AVAX-PERP",
+    side: "SHORT",
+    leverage: 5,
+    avatar: "🔺",
+    size: "$1,250.00",
+    entryPrice: "$29.20",
+    markPrice: "$27.80",
+    liqPrice: "$34.50",
+    pnl: "+$62.50",
+    pnlPercent: "+25.00%",
+    isPositive: true,
+    margin: "$250.00",
+    status: "Closed",
+    closedPrice: "$27.80",
+  },
+  {
+    id: "bnb-perp",
+    kind: "perp",
+    pair: "BNB-PERP",
+    side: "LONG",
+    leverage: 20,
+    avatar: "🟡",
+    size: "$2,500.00",
+    entryPrice: "$578.00",
+    markPrice: "$568.00",
+    liqPrice: "$552.00",
+    pnl: "-$45.00",
+    pnlPercent: "-18.00%",
+    isPositive: false,
+    margin: "$125.00",
+    status: "Closed",
+    closedPrice: "$568.00",
+  },
+];
+
 interface AccountModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -176,6 +429,19 @@ export default function AccountModal({ isOpen, onClose }: AccountModalProps) {
   const [positionsStatus, setPositionsStatus] = useState<"Open" | "Closed">("Open");
   const [positionsFilter, setPositionsFilter] = useState<"All" | "Tokens" | "Perps">("All");
   const [swapsFilter, setSwapsFilter] = useState<"All swaps" | "Buys" | "Sells">("All swaps");
+
+  const filteredPositions = useMemo<PositionItem[]>(() => {
+    const tokens = SAMPLE_TOKEN_POSITIONS.filter((t) => t.status === positionsStatus);
+    const perps = SAMPLE_PERP_POSITIONS.filter((p) => p.status === positionsStatus);
+
+    if (positionsFilter === "Tokens") {
+      return tokens;
+    }
+    if (positionsFilter === "Perps") {
+      return perps;
+    }
+    return [...tokens, ...perps];
+  }, [positionsStatus, positionsFilter]);
 
   // Edit Profile Sub-Dialog
   const [isEditProfileOpen, setIsEditProfileOpen] = useState<boolean>(false);
@@ -692,7 +958,7 @@ export default function AccountModal({ isOpen, onClose }: AccountModalProps) {
                 <div className={styles.positionsCardFull}>
                   <div className={styles.posHeaderRow}>
                     <h4 className={styles.posTitleBig}>
-                      Positions <span className={styles.posCountMuted}>(1)</span>
+                      Positions <span className={styles.posCountMuted}>({filteredPositions.length})</span>
                     </h4>
                     <div className={styles.openClosedSegment}>
                       <button
@@ -725,54 +991,220 @@ export default function AccountModal({ isOpen, onClose }: AccountModalProps) {
                     ))}
                   </div>
 
-                  {/* Full-width Position Row */}
-                  <div
-                    className={styles.fullPosRow}
-                    onClick={() => showToast("Navigating to Cash Cat trading terminal")}
-                  >
-                    <div className={styles.fullPosLeft}>
-                      <div className={styles.posAvatarBox}>
-                        <img
-                          src="https://images.unsplash.com/photo-1543852786-1cf6624b9987?w=100&auto=format&fit=crop&q=60"
-                          alt="Cash Cat"
-                          className={styles.posAvatarImg}
-                        />
-                        <span className={styles.blueCheckBadge}>✓</span>
+                  {/* Positions List */}
+                  <div className={styles.positionsList}>
+                    {filteredPositions.length === 0 ? (
+                      <div className={styles.emptyPositions}>
+                        <span>No {positionsStatus.toLowerCase()} {positionsFilter.toLowerCase()} found</span>
                       </div>
-                      <div className={styles.posNames}>
-                        <span className={styles.posMainName}>Cash Cat</span>
-                        <span className={styles.posTickerMuted}>11.80 CASHCAT</span>
-                      </div>
-                    </div>
+                    ) : (
+                      filteredPositions.map((pos: PositionItem) => {
+                        if (pos.kind === "token") {
+                          return (
+                            <div
+                              key={pos.id}
+                              className={styles.fullPosRow}
+                              onClick={() => showToast(`Navigating to ${pos.name} (${pos.ticker}) trading terminal`)}
+                            >
+                              <div className={styles.fullPosLeft}>
+                                <div className={styles.posAvatarBox}>
+                                  {pos.isCustomImg ? (
+                                    <img
+                                      src={pos.avatar}
+                                      alt={pos.name}
+                                      className={styles.posAvatarImg}
+                                    />
+                                  ) : (
+                                    <div className={styles.posAvatarImg} style={{ display: "flex", alignItems: "center", justifyContent: "center", fontSize: "16px", background: "rgba(255,255,255,0.06)" }}>
+                                      {pos.avatar}
+                                    </div>
+                                  )}
+                                  <span className={styles.blueCheckBadge}>✓</span>
+                                </div>
+                                <div className={styles.posNames}>
+                                  <div className={styles.posBadgeRow}>
+                                    <span className={styles.posMainName}>{pos.name}</span>
+                                    <span className={styles.spotBadge}>SPOT</span>
+                                  </div>
+                                  <span className={styles.posTickerMuted}>
+                                    {pos.amount} • Avg {pos.avgBuy}
+                                  </span>
+                                </div>
+                              </div>
 
-                    <div className={styles.fullPosRight}>
-                      <div className={styles.posPriceBlock}>
-                        <span className={styles.posPriceVal}>$2.29</span>
-                        <span className={styles.posGainGreen}>▲ 18.34%</span>
-                      </div>
+                              <div className={styles.fullPosRight}>
+                                <div className={styles.posPriceBlock}>
+                                  <span className={styles.posPriceVal}>{pos.value}</span>
+                                  <div className={styles.pnlSubRow}>
+                                    <span className={styles.pnlSmallBadge}>P&L</span>
+                                    <span className={pos.isPositive ? styles.roeGreen : styles.roeRed}>
+                                      {pos.pnlDollar} ({pos.change24h})
+                                    </span>
+                                  </div>
+                                </div>
 
-                      {/* Mini green wave sparkline */}
-                      <svg className={styles.posSparklineWave} viewBox="0 0 80 28" fill="none">
-                        <defs>
-                          <linearGradient id="posGreenArea" x1="0%" y1="0%" x2="0%" y2="100%">
-                            <stop offset="0%" stopColor="#10b981" stopOpacity="0.25" />
-                            <stop offset="100%" stopColor="#10b981" stopOpacity="0" />
-                          </linearGradient>
-                        </defs>
-                        <path
-                          d="M0 24 Q 20 22 35 16 T 55 18 T 80 4 L 80 28 L 0 28 Z"
-                          fill="url(#posGreenArea)"
-                        />
-                        <path
-                          d="M0 24 Q 20 22 35 16 T 55 18 T 80 4"
-                          stroke="#10b981"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                        />
-                      </svg>
+                                {/* Mini sparkline */}
+                                <svg className={styles.posSparklineWave} viewBox="0 0 84 28" fill="none">
+                                  <defs>
+                                    <linearGradient id={`posGrad_${pos.id}`} x1="0%" y1="0%" x2="0%" y2="100%">
+                                      <stop offset="0%" stopColor={pos.isPositive ? "#10b981" : "#f43f5e"} stopOpacity="0.28" />
+                                      <stop offset="100%" stopColor={pos.isPositive ? "#10b981" : "#f43f5e"} stopOpacity="0" />
+                                    </linearGradient>
+                                  </defs>
+                                  <path
+                                    d={pos.isPositive ? "M0 24 Q 20 22 35 16 T 55 18 T 84 4 L 84 28 L 0 28 Z" : "M0 4 Q 20 8 35 14 T 55 12 T 84 24 L 84 28 L 0 28 Z"}
+                                    fill={`url(#posGrad_${pos.id})`}
+                                  />
+                                  <path
+                                    d={pos.isPositive ? "M0 24 Q 20 22 35 16 T 55 18 T 84 4" : "M0 4 Q 20 8 35 14 T 55 12 T 84 24"}
+                                    stroke={pos.isPositive ? "#10b981" : "#f43f5e"}
+                                    strokeWidth="2"
+                                    strokeLinecap="round"
+                                  />
+                                </svg>
 
-                      <ChevronRight size={16} className={styles.posChevron} />
-                    </div>
+                                <ChevronRight size={16} className={styles.posChevron} />
+                              </div>
+                            </div>
+                          );
+                        }
+
+                        // Perp position
+                        const coinBg = pos.pair.startsWith("BTC")
+                          ? "rgba(247, 147, 26, 0.15)"
+                          : pos.pair.startsWith("ETH")
+                          ? "rgba(98, 126, 234, 0.15)"
+                          : pos.pair.startsWith("SOL")
+                          ? "rgba(153, 69, 255, 0.15)"
+                          : pos.pair.startsWith("DOGE")
+                          ? "rgba(251, 191, 36, 0.15)"
+                          : pos.pair.startsWith("PEPE")
+                          ? "rgba(67, 176, 42, 0.15)"
+                          : pos.pair.startsWith("AVAX")
+                          ? "rgba(244, 63, 94, 0.15)"
+                          : "rgba(250, 204, 21, 0.15)";
+
+                        const coinColor = pos.pair.startsWith("BTC")
+                          ? "#f7931a"
+                          : pos.pair.startsWith("ETH")
+                          ? "#a5b4fc"
+                          : pos.pair.startsWith("SOL")
+                          ? "#c084fc"
+                          : pos.pair.startsWith("DOGE")
+                          ? "#fbbf24"
+                          : pos.pair.startsWith("PEPE")
+                          ? "#4ade80"
+                          : pos.pair.startsWith("AVAX")
+                          ? "#f43f5e"
+                          : "#facc15";
+
+                        return (
+                          <div
+                            key={pos.id}
+                            className={styles.fullPosRow}
+                            onClick={() => showToast(`Navigating to ${pos.pair} leverage terminal`)}
+                          >
+                            <div className={styles.fullPosLeft}>
+                              <div className={styles.posAvatarBox}>
+                                <div
+                                  className={styles.posAvatarImg}
+                                  style={{
+                                    background: coinBg,
+                                    color: coinColor,
+                                    border: "1px solid rgba(255, 255, 255, 0.1)",
+                                    fontWeight: 800,
+                                  }}
+                                >
+                                  {pos.avatar}
+                                </div>
+                              </div>
+                              <div className={styles.posNames}>
+                                <div className={styles.posBadgeRow}>
+                                  <span className={styles.posMainName}>{pos.pair}</span>
+                                  <span
+                                    className={
+                                      pos.side === "LONG"
+                                        ? styles.perpLeverageBadgeLong
+                                        : styles.perpLeverageBadgeShort
+                                    }
+                                  >
+                                    {pos.leverage}x {pos.side}
+                                  </span>
+                                </div>
+                                <span className={styles.posTickerMuted}>
+                                  Size {pos.size} • Entry {pos.entryPrice}{" "}
+                                  {pos.status === "Open"
+                                    ? `• Liq ${pos.liqPrice}`
+                                    : `• Exit ${pos.closedPrice}`}
+                                </span>
+                              </div>
+                            </div>
+
+                            <div className={styles.fullPosRight}>
+                              <div className={styles.posPriceBlock}>
+                                <div className={styles.pnlHeaderRow}>
+                                  <span className={styles.pnlBadge}>P&L</span>
+                                  <span
+                                    className={
+                                      pos.isPositive ? styles.posGainGreen : styles.posGainRed
+                                    }
+                                    style={{ fontSize: "14px" }}
+                                  >
+                                    {pos.pnl}
+                                  </span>
+                                </div>
+                                <div className={styles.pnlSubRow}>
+                                  <span style={{ color: pos.isPositive ? "#10b981" : "#f43f5e", fontWeight: 700 }}>
+                                    {pos.pnlPercent} ROE
+                                  </span>
+                                  <span className={styles.marginMuted}>
+                                    • {pos.status === "Open" ? `Margin ${pos.margin}` : "Realized"}
+                                  </span>
+                                </div>
+                              </div>
+
+                              {/* Mini sparkline */}
+                              <svg className={styles.posSparklineWave} viewBox="0 0 84 28" fill="none">
+                                <defs>
+                                  <linearGradient id={`perpGrad_${pos.id}`} x1="0%" y1="0%" x2="0%" y2="100%">
+                                    <stop
+                                      offset="0%"
+                                      stopColor={pos.isPositive ? "#10b981" : "#f43f5e"}
+                                      stopOpacity="0.28"
+                                    />
+                                    <stop
+                                      offset="100%"
+                                      stopColor={pos.isPositive ? "#10b981" : "#f43f5e"}
+                                      stopOpacity="0"
+                                    />
+                                  </linearGradient>
+                                </defs>
+                                <path
+                                  d={
+                                    pos.isPositive
+                                      ? "M0 24 Q 20 22 35 16 T 55 18 T 84 4 L 84 28 L 0 28 Z"
+                                      : "M0 4 Q 20 8 35 14 T 55 12 T 84 24 L 84 28 L 0 28 Z"
+                                  }
+                                  fill={`url(#perpGrad_${pos.id})`}
+                                />
+                                <path
+                                  d={
+                                    pos.isPositive
+                                      ? "M0 24 Q 20 22 35 16 T 55 18 T 84 4"
+                                      : "M0 4 Q 20 8 35 14 T 55 12 T 84 24"
+                                  }
+                                  stroke={pos.isPositive ? "#10b981" : "#f43f5e"}
+                                  strokeWidth="2"
+                                  strokeLinecap="round"
+                                />
+                              </svg>
+
+                              <ChevronRight size={16} className={styles.posChevron} />
+                            </div>
+                          </div>
+                        );
+                      })
+                    )}
                   </div>
                 </div>
               </div>

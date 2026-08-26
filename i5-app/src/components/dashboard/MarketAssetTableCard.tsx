@@ -21,7 +21,7 @@ interface AssetItem {
   exchanges: string[];
 }
 
-const mockAssetData: AssetItem[] = [
+const mockCryptoData: AssetItem[] = [
   {
     symbol: "ETH",
     name: "Ethereum",
@@ -104,6 +104,99 @@ const mockAssetData: AssetItem[] = [
   },
 ];
 
+const mockStockData: AssetItem[] = [
+  {
+    symbol: "NVDA",
+    name: "NVIDIA Corporation",
+    avatarBg: "#064E3B",
+    price: "$128.40",
+    change24h: "+4.15%",
+    isPositive: true,
+    vol24h: "$34.2B",
+    exchanges: ["Hyperliquid", "Aster"],
+  },
+  {
+    symbol: "AAPL",
+    name: "Apple Inc.",
+    avatarBg: "#1F2937",
+    price: "$226.50",
+    change24h: "+1.20%",
+    isPositive: true,
+    vol24h: "$18.4B",
+    exchanges: ["Aster"],
+  },
+  {
+    symbol: "TSLA",
+    name: "Tesla, Inc.",
+    avatarBg: "#450A0A",
+    price: "$248.80",
+    change24h: "-2.40%",
+    isPositive: false,
+    vol24h: "$22.6B",
+    exchanges: ["Hyperliquid"],
+  },
+  {
+    symbol: "MSFT",
+    name: "Microsoft Corporation",
+    avatarBg: "#0C2340",
+    price: "$418.20",
+    change24h: "+0.85%",
+    isPositive: true,
+    vol24h: "$14.1B",
+    exchanges: ["Aster"],
+  },
+  {
+    symbol: "AMZN",
+    name: "Amazon.com, Inc.",
+    avatarBg: "#3A2A14",
+    price: "$186.40",
+    change24h: "+2.30%",
+    isPositive: true,
+    vol24h: "$12.8B",
+    exchanges: ["Hyperliquid"],
+  },
+  {
+    symbol: "META",
+    name: "Meta Platforms, Inc.",
+    avatarBg: "#0A2540",
+    price: "$512.90",
+    change24h: "+3.10%",
+    isPositive: true,
+    vol24h: "$11.2B",
+    exchanges: ["Aster"],
+  },
+  {
+    symbol: "PLTR",
+    name: "Palantir Technologies",
+    avatarBg: "#18181B",
+    price: "$31.40",
+    change24h: "+6.80%",
+    isPositive: true,
+    vol24h: "$6.2B",
+    exchanges: ["Hyperliquid"],
+  },
+  {
+    symbol: "AMD",
+    name: "Advanced Micro Devices",
+    avatarBg: "#2E1010",
+    price: "$154.20",
+    change24h: "+5.40%",
+    isPositive: true,
+    vol24h: "$8.6B",
+    exchanges: ["Aster"],
+  },
+  {
+    symbol: "COIN",
+    name: "Coinbase Global",
+    avatarBg: "#0052FF",
+    price: "$214.60",
+    change24h: "+7.25%",
+    isPositive: true,
+    vol24h: "$5.4B",
+    exchanges: ["Hyperliquid", "Aster"],
+  },
+];
+
 const categoryPills = ["All", "Gainers", "Losers", "Trending", "Cryptos", "Stocks", "AI", "DeFi"];
 
 export default function MarketAssetTableCard() {
@@ -120,6 +213,20 @@ export default function MarketAssetTableCard() {
 
   const dropdownRef = useRef<HTMLDivElement>(null);
 
+  // Listen for navigation / subsidebar filter changes (e.g. user clicks Stocks in sidepanel)
+  useEffect(() => {
+    const handleSidepanelFilter = (e: Event) => {
+      const customEvent = e as CustomEvent<{ tab?: string }>;
+      if (customEvent.detail?.tab === "stocks") {
+        setActivePill("Stocks");
+      } else if (customEvent.detail?.tab === "crypto") {
+        setActivePill("Cryptos");
+      }
+    };
+    window.addEventListener("i5-sidepanel-filter", handleSidepanelFilter);
+    return () => window.removeEventListener("i5-sidepanel-filter", handleSidepanelFilter);
+  }, []);
+
   // Close dropdown on outside click
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
@@ -133,8 +240,11 @@ export default function MarketAssetTableCard() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [isExchangeMenuOpen]);
 
+  const isStockView = activePill === "Stocks";
+  const currentBaseData = isStockView ? mockStockData : mockCryptoData;
+
   // Filter asset data by Category Pill and Selected Exchange
-  const filteredAssets = mockAssetData.filter((asset) => {
+  const filteredAssets = currentBaseData.filter((asset) => {
     // Exchange filter
     if (selectedExchange !== "All" && !asset.exchanges.includes(selectedExchange)) {
       return false;
@@ -201,7 +311,9 @@ export default function MarketAssetTableCard() {
     <div className={styles.card} role="region" aria-label="Market Asset Radar">
       {/* Clean Header without stroke or fill */}
       <div className={styles.tabsHeader}>
-        <h3 className={styles.sectionHeading}>TRENDING TOKENS</h3>
+        <h3 className={styles.sectionHeading}>
+          {isStockView ? "TRENDING STOCKS" : "TRENDING TOKENS"}
+        </h3>
 
         {/* Right Header Controls: Exchange Dropdown + View More */}
         <div className={styles.rightHeaderControls}>
@@ -302,107 +414,188 @@ export default function MarketAssetTableCard() {
         </div>
       </div>
 
-      {/* Table (Strictly 7 tokens displayed) */}
-      <div className={styles.tableWrapper}>
-        <table className={styles.table}>
-          <thead>
-            <tr>
-              <th>ASSET</th>
-              <th>PRICE</th>
-              <th>24H %</th>
-              <th>VOL (24H)</th>
-              <th style={{ textAlign: "right" }}>TRADE</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filteredAssets.slice(0, 7).map((asset) => (
-              <tr key={asset.symbol}>
-                {/* Asset Column */}
-                <td>
-                  <div className={styles.assetCell}>
-                    <span
-                      className={styles.assetAvatar}
-                      style={{ backgroundColor: asset.avatarBg, position: "relative", overflow: "hidden" }}
-                    >
-                      <span style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center" }}>
-                        {asset.symbol.slice(0, 2)}
+      {/* Desktop Table View */}
+      <div className={styles.desktopTableView}>
+        <div className={styles.tableWrapper}>
+          <table className={styles.table}>
+            <thead>
+              <tr>
+                <th>ASSET</th>
+                <th>PRICE</th>
+                <th>24H %</th>
+                <th>VOL (24H)</th>
+                <th style={{ textAlign: "right" }}>TRADE</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filteredAssets.slice(0, 7).map((asset) => (
+                <tr key={asset.symbol}>
+                  {/* Asset Column */}
+                  <td>
+                    <div className={styles.assetCell}>
+                      <span
+                        className={styles.assetAvatar}
+                        style={{ backgroundColor: asset.avatarBg }}
+                      >
+                        {!isStockView ? (
+                          <img
+                            src={`https://assets.coincap.io/assets/icons/${asset.symbol.toLowerCase()}@2x.png`}
+                            alt={asset.symbol}
+                            className={styles.avatarImg}
+                            onError={(e) => {
+                              e.currentTarget.style.display = "none";
+                              const fallback = e.currentTarget.nextElementSibling as HTMLElement;
+                              if (fallback) fallback.style.display = "flex";
+                            }}
+                          />
+                        ) : null}
+                        <span
+                          className={styles.avatarFallback}
+                          style={{ display: isStockView ? "flex" : "none" }}
+                        >
+                          {asset.symbol.slice(0, 2)}
+                        </span>
                       </span>
-                      <img
-                        src={`https://assets.coincap.io/assets/icons/${asset.symbol.toLowerCase()}@2x.png`}
-                        alt={asset.symbol}
-                        style={{
-                          position: "absolute",
-                          inset: 0,
-                          width: "100%",
-                          height: "100%",
-                          objectFit: "contain",
-                          padding: "4px",
-                          borderRadius: "50%",
-                          backgroundColor: "inherit",
-                        }}
-                        onError={(e) => {
-                          const img = e.currentTarget;
-                          img.style.display = "none";
-                        }}
-                      />
-                    </span>
-                    <div
-                      className={`${styles.assetMeta} ${styles.tokenClickable}`}
-                      onClick={() => handleOpenTerminal(asset)}
-                      title="Click to open terminal"
-                    >
-                      <span className={styles.assetSymbol}>{asset.symbol}</span>
-                      <div className={styles.nameRow}>
-                        <span className={styles.assetName}>{asset.name}</span>
-                        <div className={styles.exchangeIconsInline}>
-                          {asset.exchanges.includes("Hyperliquid") && (
-                            <span className={styles.exchangeIconMark} title="Available on Hyperliquid">
-                              <IconHyperliquid size={13} />
-                            </span>
-                          )}
-                          {asset.exchanges.includes("Aster") && (
-                            <span className={styles.exchangeIconMark} title="Available on Aster">
-                              <IconAster size={13} />
-                            </span>
-                          )}
+                      <div
+                        className={`${styles.assetMeta} ${styles.tokenClickable}`}
+                        onClick={() => handleOpenTerminal(asset)}
+                        title="Click to open terminal"
+                      >
+                        <span className={styles.assetSymbol}>{asset.symbol}</span>
+                        <div className={styles.nameRow}>
+                          <span className={styles.assetName}>{asset.name}</span>
+                          <div className={styles.exchangeIconsInline}>
+                            {asset.exchanges.includes("Hyperliquid") && (
+                              <span className={styles.exchangeIconMark} title="Available on Hyperliquid">
+                                <IconHyperliquid size={13} />
+                              </span>
+                            )}
+                            {asset.exchanges.includes("Aster") && (
+                              <span className={styles.exchangeIconMark} title="Available on Aster">
+                                <IconAster size={13} />
+                              </span>
+                            )}
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                </td>
+                  </td>
 
-                {/* Price */}
-                <td className={styles.priceCell}>{asset.price}</td>
+                  {/* Price */}
+                  <td className={styles.priceCell}>{asset.price}</td>
 
-                {/* 24h % */}
-                <td className={asset.isPositive ? styles.gainCell : styles.lossCell}>
-                  {asset.change24h}
-                </td>
+                  {/* 24h % */}
+                  <td className={asset.isPositive ? styles.gainCell : styles.lossCell}>
+                    {asset.change24h}
+                  </td>
 
-                {/* Vol 24h */}
-                <td className={styles.volCell}>{asset.vol24h}</td>
+                  {/* Vol 24h */}
+                  <td className={styles.volCell}>{asset.vol24h}</td>
 
-                {/* Trade Button */}
-                <td style={{ textAlign: "right" }}>
-                  <button
-                    className={styles.tradeBtn}
-                    onClick={() => handleTradeClick(asset)}
-                    title={`Trade ${asset.symbol}`}
-                  >
-                    TRADE
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+                  {/* Trade Button */}
+                  <td style={{ textAlign: "right" }}>
+                    <button
+                      className={styles.tradeBtn}
+                      onClick={() => handleTradeClick(asset)}
+                      title={`Trade ${asset.symbol}`}
+                    >
+                      TRADE
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
 
-      {/* All Trending Tokens Full View Modal */}
+      {/* Mobile Responsive Cards View */}
+      <div className={styles.mobileCardsView}>
+        {filteredAssets.slice(0, 7).map((asset) => (
+          <div
+            key={asset.symbol}
+            className={styles.mobileAssetCard}
+            onClick={() => handleOpenTerminal(asset)}
+          >
+            <div className={styles.mobileCardTop}>
+              <div className={styles.mobileCardLeft}>
+                <span
+                  className={styles.assetAvatar}
+                  style={{ backgroundColor: asset.avatarBg }}
+                >
+                  {!isStockView ? (
+                    <img
+                      src={`https://assets.coincap.io/assets/icons/${asset.symbol.toLowerCase()}@2x.png`}
+                      alt={asset.symbol}
+                      className={styles.avatarImg}
+                      onError={(e) => {
+                        e.currentTarget.style.display = "none";
+                        const fallback = e.currentTarget.nextElementSibling as HTMLElement;
+                        if (fallback) fallback.style.display = "flex";
+                      }}
+                    />
+                  ) : null}
+                  <span
+                    className={styles.avatarFallback}
+                    style={{ display: isStockView ? "flex" : "none" }}
+                  >
+                    {asset.symbol.slice(0, 2)}
+                  </span>
+                </span>
+                <div className={styles.assetMeta}>
+                  <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+                    <span className={styles.assetSymbol}>{asset.symbol}</span>
+                    <div className={styles.exchangeIconsInline}>
+                      {asset.exchanges.includes("Hyperliquid") && (
+                        <span className={styles.exchangeIconMark} title="Available on Hyperliquid">
+                          <IconHyperliquid size={12} />
+                        </span>
+                      )}
+                      {asset.exchanges.includes("Aster") && (
+                        <span className={styles.exchangeIconMark} title="Available on Aster">
+                          <IconAster size={12} />
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                  <span className={styles.assetName}>{asset.name}</span>
+                </div>
+              </div>
+
+              <div className={styles.mobileCardRight}>
+                <span className={styles.priceCell}>{asset.price}</span>
+                <span className={asset.isPositive ? styles.gainCell : styles.lossCell}>
+                  {asset.change24h}
+                </span>
+              </div>
+            </div>
+
+            <div className={styles.mobileCardBottom}>
+              <span className={styles.mobileVolLabel}>
+                Vol: <span className={styles.mobileVolVal}>{asset.vol24h}</span>
+              </span>
+              <button
+                type="button"
+                className={styles.tradeBtn}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleTradeClick(asset);
+                }}
+                title={`Trade ${asset.symbol}`}
+              >
+                TRADE
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* All Trending Tokens / Stocks Full View Modal */}
       <TrendingTokensModal
         isOpen={viewAllModalOpen}
         onClose={() => setViewAllModalOpen(false)}
         initialExchange={selectedExchange}
+        isStockMode={isStockView}
       />
 
       {/* Select Exchange Prompt Modal (when All is selected and token has multiple exchanges) */}

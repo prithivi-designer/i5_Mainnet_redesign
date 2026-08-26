@@ -1897,29 +1897,34 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 10px 14px;
-  background-color: #0c0d11;
+  padding: 12px 16px;
+  background-color: rgba(255, 255, 255, 0.02);
   border: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: var(--radius-lg, 12px);
+  border-radius: 12px;
   cursor: pointer;
   transition: all var(--duration-fast) var(--easing-standard);
+  gap: 16px;
 }
 
 .fullPosRow:hover {
   border-color: rgba(255, 255, 255, 0.16);
-  background-color: #14151b;
+  background-color: rgba(255, 255, 255, 0.04);
+  transform: translateY(-1px);
 }
 
 .fullPosLeft {
   display: flex;
   align-items: center;
   gap: 12px;
+  min-width: 0;
+  flex: 1;
 }
 
 .posAvatarBox {
   position: relative;
   width: 38px;
   height: 38px;
+  flex-shrink: 0;
 }
 
 .posAvatarImg {
@@ -1928,6 +1933,10 @@
   border-radius: var(--radius-full);
   object-fit: cover;
   border: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
 }
 
 .blueCheckBadge {
@@ -1950,26 +1959,84 @@
 .posNames {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 3px;
+  min-width: 0;
+  flex: 1;
+}
+
+.posBadgeRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
 }
 
 .posMainName {
   font-family: var(--font-sans);
-  font-size: 13px;
+  font-size: 13.5px;
   font-weight: 700;
   color: #ffffff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.spotBadge {
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #a1a1aa;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.perpLeverageBadgeLong {
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  font-weight: 800;
+  padding: 1px 6px;
+  border-radius: 4px;
+  background: rgba(16, 185, 129, 0.12);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  color: #10b981;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.perpLeverageBadgeShort {
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  font-weight: 800;
+  padding: 1px 6px;
+  border-radius: 4px;
+  background: rgba(244, 63, 94, 0.12);
+  border: 1px solid rgba(244, 63, 94, 0.3);
+  color: #f43f5e;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .posTickerMuted {
   font-family: var(--font-mono);
   font-size: 11px;
-  color: #71717a;
+  color: #888891;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .fullPosRight {
   display: flex;
   align-items: center;
-  gap: 24px;
+  gap: 16px;
+  flex-shrink: 0;
 }
 
 .posPriceBlock {
@@ -1977,6 +2044,7 @@
   flex-direction: column;
   align-items: flex-end;
   gap: 2px;
+  text-align: right;
 }
 
 .posPriceVal {
@@ -1984,21 +2052,133 @@
   font-size: 14px;
   font-weight: 700;
   color: #ffffff;
+  white-space: nowrap;
 }
 
 .posGainGreen {
   font-family: var(--font-mono);
-  font-size: 11px;
-  font-weight: 600;
+  font-size: 11.5px;
+  font-weight: 700;
   color: #10b981;
+  white-space: nowrap;
+}
+
+.posGainRed {
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  font-weight: 700;
+  color: #f43f5e;
+  white-space: nowrap;
+}
+
+.pnlHeaderRow {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  justify-content: flex-end;
+}
+
+.pnlBadge {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 800;
+  padding: 1px 5px;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #d4d4d8;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.pnlSmallBadge {
+  font-family: var(--font-mono);
+  font-size: 8.5px;
+  font-weight: 700;
+  padding: 0 4px;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.06);
+  color: #a1a1aa;
+  letter-spacing: 0.04em;
+}
+
+.pnlSubRow {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+.roeGreen {
+  color: #10b981;
+  font-weight: 700;
+}
+
+.roeRed {
+  color: #f43f5e;
+  font-weight: 700;
+}
+
+.marginMuted {
+  color: #71717a;
+  font-size: 10.5px;
+}
+
+.posSubMetaLine {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  font-family: var(--font-mono);
+  white-space: nowrap;
+}
+
+.posMarginLabel {
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  color: #71717a;
+  white-space: nowrap;
 }
 
 .posSparklineWave {
-  width: 80px;
+  width: 84px;
   height: 28px;
+  flex-shrink: 0;
 }
 
 .posChevron {
   color: #71717a;
+  flex-shrink: 0;
+  transition: transform var(--duration-fast);
 }
+
+.fullPosRow:hover .posChevron {
+  color: #ffffff;
+  transform: translateX(2px);
+}
+
+.positionsList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+.emptyPositions {
+  padding: 32px 16px;
+  text-align: center;
+  color: #71717a;
+  font-size: 12.5px;
+  font-weight: 500;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 8px;
+  border: 1px dashed rgba(255, 255, 255, 0.08);
+}
+
 

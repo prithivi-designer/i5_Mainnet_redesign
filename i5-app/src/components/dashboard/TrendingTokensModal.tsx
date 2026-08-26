@@ -193,16 +193,129 @@ export const fullTrendingAssets: TrendingAssetItem[] = [
   },
 ];
 
+export const fullTrendingStocks: TrendingAssetItem[] = [
+  {
+    symbol: "NVDA",
+    name: "NVIDIA Corporation",
+    avatarBg: "#064E3B",
+    price: "$128.40",
+    change24h: "+4.15%",
+    isPositive: true,
+    vol24h: "$34.2B",
+    marketCap: "$3.15T",
+    category: "Semiconductors",
+    exchanges: ["Hyperliquid", "Aster"],
+  },
+  {
+    symbol: "AAPL",
+    name: "Apple Inc.",
+    avatarBg: "#1F2937",
+    price: "$226.50",
+    change24h: "+1.20%",
+    isPositive: true,
+    vol24h: "$18.4B",
+    marketCap: "$3.45T",
+    category: "Tech",
+    exchanges: ["Aster"],
+  },
+  {
+    symbol: "TSLA",
+    name: "Tesla, Inc.",
+    avatarBg: "#450A0A",
+    price: "$248.80",
+    change24h: "-2.40%",
+    isPositive: false,
+    vol24h: "$22.6B",
+    marketCap: "$792.4B",
+    category: "Automotive",
+    exchanges: ["Hyperliquid"],
+  },
+  {
+    symbol: "MSFT",
+    name: "Microsoft Corporation",
+    avatarBg: "#0C2340",
+    price: "$418.20",
+    change24h: "+0.85%",
+    isPositive: true,
+    vol24h: "$14.1B",
+    marketCap: "$3.10T",
+    category: "Tech",
+    exchanges: ["Aster"],
+  },
+  {
+    symbol: "AMZN",
+    name: "Amazon.com, Inc.",
+    avatarBg: "#3A2A14",
+    price: "$186.40",
+    change24h: "+2.30%",
+    isPositive: true,
+    vol24h: "$12.8B",
+    marketCap: "$1.94T",
+    category: "E-Commerce",
+    exchanges: ["Hyperliquid"],
+  },
+  {
+    symbol: "META",
+    name: "Meta Platforms, Inc.",
+    avatarBg: "#0A2540",
+    price: "$512.90",
+    change24h: "+3.10%",
+    isPositive: true,
+    vol24h: "$11.2B",
+    marketCap: "$1.30T",
+    category: "Tech",
+    exchanges: ["Aster"],
+  },
+  {
+    symbol: "PLTR",
+    name: "Palantir Technologies",
+    avatarBg: "#18181B",
+    price: "$31.40",
+    change24h: "+6.80%",
+    isPositive: true,
+    vol24h: "$6.2B",
+    marketCap: "$68.4B",
+    category: "AI",
+    exchanges: ["Hyperliquid"],
+  },
+  {
+    symbol: "AMD",
+    name: "Advanced Micro Devices",
+    avatarBg: "#2E1010",
+    price: "$154.20",
+    change24h: "+5.40%",
+    isPositive: true,
+    vol24h: "$8.6B",
+    marketCap: "$249.2B",
+    category: "Semiconductors",
+    exchanges: ["Aster"],
+  },
+  {
+    symbol: "COIN",
+    name: "Coinbase Global",
+    avatarBg: "#0052FF",
+    price: "$214.60",
+    change24h: "+7.25%",
+    isPositive: true,
+    vol24h: "$5.4B",
+    marketCap: "$52.8B",
+    category: "Financial",
+    exchanges: ["Hyperliquid", "Aster"],
+  },
+];
+
 interface TrendingTokensModalProps {
   isOpen: boolean;
   onClose: () => void;
   initialExchange?: "All" | "Hyperliquid" | "Aster";
+  isStockMode?: boolean;
 }
 
 export default function TrendingTokensModal({
   isOpen,
   onClose,
   initialExchange = "All",
+  isStockMode = false,
 }: TrendingTokensModalProps) {
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [activePill, setActivePill] = useState<string>("All");
@@ -227,9 +340,13 @@ export default function TrendingTokensModal({
 
   if (!isOpen) return null;
 
-  const categoryPills = ["All", "Gainers", "Losers", "Layer 1", "Layer 2", "AI", "DeFi", "Meme"];
+  const categoryPills = isStockMode
+    ? ["All", "Gainers", "Losers", "Tech", "Semiconductors", "AI", "Automotive", "Financial"]
+    : ["All", "Gainers", "Losers", "Layer 1", "Layer 2", "AI", "DeFi", "Meme"];
 
-  const filtered = fullTrendingAssets.filter((token) => {
+  const baseData = isStockMode ? fullTrendingStocks : fullTrendingAssets;
+
+  const filtered = baseData.filter((token) => {
     // Exchange filter
     if (selectedExchange !== "All" && !token.exchanges.includes(selectedExchange)) {
       return false;
@@ -244,11 +361,9 @@ export default function TrendingTokensModal({
     // Category pill
     if (activePill === "Gainers" && !token.isPositive) return false;
     if (activePill === "Losers" && token.isPositive) return false;
-    if (activePill === "Layer 1" && token.category !== "Layer 1") return false;
-    if (activePill === "Layer 2" && token.category !== "Layer 2") return false;
-    if (activePill === "AI" && token.category !== "AI") return false;
-    if (activePill === "DeFi" && token.category !== "DeFi") return false;
-    if (activePill === "Meme" && token.category !== "Meme") return false;
+    if (activePill !== "All" && activePill !== "Gainers" && activePill !== "Losers") {
+      if (token.category !== activePill) return false;
+    }
 
     return true;
   });
@@ -300,8 +415,8 @@ export default function TrendingTokensModal({
         {/* Header */}
         <div className={styles.header}>
           <div className={styles.headerLeft}>
-            <h2 className={styles.title}>All Trending Tokens</h2>
-            <span className={styles.badgeTotal}>{filtered.length} Assets</span>
+            <h2 className={styles.title}>{isStockMode ? "All Trending Stocks" : "All Trending Tokens"}</h2>
+            <span className={styles.badgeTotal}>{filtered.length} {isStockMode ? "Stocks" : "Tokens"}</span>
           </div>
           <button className={styles.closeBtn} onClick={onClose} aria-label="Close modal">
             ✕

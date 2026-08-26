@@ -39,6 +39,11 @@
   gap: var(--space-2);
 }
 
+.dropdownWrapper {
+  position: relative;
+  display: inline-flex;
+}
+
 /* Bubble Map Pill Dropdown */
 .dropdownPill {
   display: inline-flex;
@@ -60,6 +65,51 @@
 .dropdownPill:hover {
   background-color: var(--bg-surface-overlay);
   border-color: var(--border-color-strong);
+}
+
+.mapSelectMenu {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  width: 170px;
+  background: var(--bg-surface-raised, #181a24);
+  border: 1px solid var(--border-color-strong, rgba(255, 255, 255, 0.15));
+  border-radius: var(--radius-md, 8px);
+  padding: 4px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.mapSelectItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 6px 10px;
+  background: transparent;
+  border: none;
+  border-radius: 6px;
+  color: var(--text-secondary, #a1a1aa);
+  font-family: var(--font-sans);
+  font-size: 11.5px;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: left;
+  transition: all var(--duration-fast) var(--easing-standard);
+}
+
+.mapSelectItem:hover {
+  background: rgba(255, 255, 255, 0.06);
+  color: #ffffff;
+}
+
+.mapSelectItemActive {
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  font-weight: 700;
 }
 
 .scatterIcon {
@@ -297,3 +347,48 @@
 .floatA { animation: float1 4.5s ease-in-out infinite; }
 .floatB { animation: float2 5.2s ease-in-out infinite; }
 .floatC { animation: float3 6s ease-in-out infinite; }
+
+@media (max-width: 768px) {
+  .card {
+    min-width: 0 !important;
+    width: 100% !important;
+    flex: 1 1 100% !important;
+    min-height: auto;
+    padding: 12px;
+  }
+
+  .header {
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+
+  .leftControls {
+    gap: 6px;
+  }
+
+  .dropdownPill {
+    padding: 4px 8px;
+    font-size: 10.5px;
+  }
+
+  .expandBtn {
+    width: 28px;
+    height: 28px;
+  }
+
+  .timeframeGroup {
+    padding: 2px;
+    gap: 1px;
+  }
+
+  .tfBtn {
+    padding: 3px 7px;
+    font-size: 10px;
+  }
+
+  .canvasArea {
+    min-height: 330px;
+    height: 350px;
+  }
+}

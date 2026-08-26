@@ -370,10 +370,10 @@ export default function DashboardSubSidebar({ mobileBottomSheet }: DashboardSubS
           <div className={styles.mobileHeadingGroup}>
             <h2 className={styles.mobileHeading}>
               {activeTab === "activities" || activeTab === "meme"
-                ? "🔥 Meme Trenches"
+                ? "Meme Trenches"
                 : activeTab === "crypto"
-                ? "🪙 Crypto Intelligence"
-                : "📊 Stock Intelligence"}
+                ? "Crypto Intelligence"
+                : "Stock Intelligence"}
             </h2>
             <span className={styles.mobileSubheading}>
               {getActiveFilterLabel()}
@@ -422,10 +422,10 @@ export default function DashboardSubSidebar({ mobileBottomSheet }: DashboardSubS
             <div className={styles.sheetHeaderLeft}>
               <h3 className={styles.sheetTitle}>
                 {activeTab === "activities" || activeTab === "meme"
-                  ? "🔥 Meme Filters"
+                  ? "Meme Filters"
                   : activeTab === "crypto"
-                  ? "🪙 Crypto Filters"
-                  : "📊 Stock Filters"}
+                  ? "Crypto Filters"
+                  : "Stock Filters"}
               </h3>
               <span className={styles.sheetActiveTag}>{getActiveFilterLabel()}</span>
             </div>
@@ -477,33 +477,31 @@ export default function DashboardSubSidebar({ mobileBottomSheet }: DashboardSubS
           </div>
 
           {/* Fixed Bottom Section for Action Callout Banner Card */}
-          <div className={styles.sheetBottomSection}>
-            <div
-              className={styles.actionCard}
-              onClick={() => {
-                setIsBottomSheetOpen(false);
-                setEarningsModalOpen(true);
-              }}
-              role="button"
-              tabIndex={0}
-              aria-label={
-                activeTab === "activities" || activeTab === "meme"
-                  ? "Open Live Memes Radar"
-                  : activeTab === "crypto"
-                  ? "Open Upcoming Token Unlocks"
-                  : "Open Upcoming Earnings Overlay Modal"
-              }
-            >
-              <h4 className={styles.actionTitle}>
-                {activeTab === "activities" || activeTab === "meme"
-                  ? "Live Memes Radar"
-                  : activeTab === "crypto"
-                  ? "Upcoming Unlocks"
-                  : "Upcoming Earnings"}
-              </h4>
-              <span className={styles.animatedArrow}>→</span>
+          {activeTab !== "activities" && activeTab !== "meme" && (
+            <div className={styles.sheetBottomSection}>
+              <div
+                className={styles.actionCard}
+                onClick={() => {
+                  setIsBottomSheetOpen(false);
+                  setEarningsModalOpen(true);
+                }}
+                role="button"
+                tabIndex={0}
+                aria-label={
+                  activeTab === "crypto"
+                    ? "Open Upcoming Token Unlocks"
+                    : "Open Upcoming Earnings Overlay Modal"
+                }
+              >
+                <h4 className={styles.actionTitle}>
+                  {activeTab === "crypto"
+                    ? "Upcoming Unlocks"
+                    : "Upcoming Earnings"}
+                </h4>
+                <span className={styles.animatedArrow}>→</span>
+              </div>
             </div>
-          </div>
+          )}
         </div>
 
         {/* Upcoming Earnings / Catalyst Overlay PopUp Modal */}
@@ -587,30 +585,28 @@ export default function DashboardSubSidebar({ mobileBottomSheet }: DashboardSubS
         </div>
 
         {/* Fixed Pinned Bottom Section for Action Callout Banner Card */}
-        <div className={styles.bottomSection}>
-          <div
-            className={styles.actionCard}
-            onClick={() => setEarningsModalOpen(true)}
-            role="button"
-            tabIndex={0}
-            aria-label={
-              activeTab === "activities" || activeTab === "meme"
-                ? "Open Live Meme Radar"
-                : activeTab === "crypto"
-                ? "Open Upcoming Token Unlocks"
-                : "Open Upcoming Earnings Overlay Modal"
-            }
-          >
-            <h4 className={styles.actionTitle}>
-              {activeTab === "activities" || activeTab === "meme"
-                ? "Live Meme Radar"
-                : activeTab === "crypto"
-                ? "Upcoming Unlocks"
-                : "Upcoming Earnings"}
-            </h4>
-            <span className={styles.animatedArrow}>→</span>
+        {activeTab !== "activities" && activeTab !== "meme" && (
+          <div className={styles.bottomSection}>
+            <div
+              className={styles.actionCard}
+              onClick={() => setEarningsModalOpen(true)}
+              role="button"
+              tabIndex={0}
+              aria-label={
+                activeTab === "crypto"
+                  ? "Open Upcoming Token Unlocks"
+                  : "Open Upcoming Earnings Overlay Modal"
+              }
+            >
+              <h4 className={styles.actionTitle}>
+                {activeTab === "crypto"
+                  ? "Upcoming Unlocks"
+                  : "Upcoming Earnings"}
+              </h4>
+              <span className={styles.animatedArrow}>→</span>
+            </div>
           </div>
-        </div>
+        )}
       </aside>
 
       {/* Upcoming Earnings / Catalyst Overlay PopUp Modal */}

@@ -532,6 +532,105 @@
   font-weight: 600;
 }
 
+.desktopTableView {
+  display: block;
+  width: 100%;
+}
+
+.mobileCardsView {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .desktopTableView {
+    display: none !important;
+  }
+
+  .mobileCardsView {
+    display: flex !important;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+  }
+
+  .mobileAssetCard {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 10px 12px;
+    background-color: var(--bg-app, #080808);
+    border: 1px solid var(--border-color-default, rgba(255, 255, 255, 0.08));
+    border-radius: var(--radius-lg, 12px);
+    cursor: pointer;
+    transition: all var(--duration-fast) var(--easing-standard);
+  }
+
+  .mobileAssetCard:hover {
+    background-color: var(--bg-surface-raised, #161822);
+    border-color: var(--border-color-strong, rgba(255, 255, 255, 0.18));
+  }
+
+  .mobileCardTop {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .mobileCardLeft {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
+  }
+
+  .mobileCardRight {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 2px;
+    flex-shrink: 0;
+  }
+
+  .mobileCardBottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 6px;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .mobileVolLabel {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-tertiary, #71717a);
+  }
+
+  .mobileVolVal {
+    color: var(--text-secondary, #d4d4d8);
+    font-weight: 600;
+  }
+}
+
+.avatarImg {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 3px;
+  border-radius: 50%;
+  display: block;
+}
+
+.avatarFallback {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
 .tableWrapper {
   width: 100%;
   overflow-x: auto;

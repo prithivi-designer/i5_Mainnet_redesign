@@ -56,7 +56,7 @@
   }
 
   .main {
-    padding: 12px 16px 16px 16px;
+    padding: 12px 14px calc(var(--layout-bottomnav-height, 68px) + var(--safe-area-inset-bottom, 0px) + 36px) 14px !important;
   }
 }
 
