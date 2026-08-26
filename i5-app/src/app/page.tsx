@@ -13,7 +13,11 @@ export default function HomePage() {
     const handler = (e: Event) => {
       const evt = e as CustomEvent<{ tab: string; subId: string }>;
       if (evt.detail?.tab) {
-        setActiveTab(evt.detail.tab);
+        const normalized =
+          evt.detail.tab === "activities" || evt.detail.tab === "meme"
+            ? "meme"
+            : evt.detail.tab;
+        setActiveTab(normalized);
       }
     };
     window.addEventListener("i5-sidepanel-filter", handler);

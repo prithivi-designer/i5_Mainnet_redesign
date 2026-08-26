@@ -564,11 +564,15 @@ export default function IntelligenceFeed() {
     const handleSidepanelFilter = (e: Event) => {
       const customEvent = e as CustomEvent<{ tab: string; subId: string; isTabChange?: boolean }>;
       if (customEvent.detail) {
-        setSidepanelFilter(customEvent.detail);
+        const normalizedTab =
+          customEvent.detail.tab === "activities" || customEvent.detail.tab === "meme"
+            ? "meme"
+            : customEvent.detail.tab;
+        setSidepanelFilter({ ...customEvent.detail, tab: normalizedTab });
 
         // If top tab changed (Crypto / Stocks), scroll to top of page
         if (customEvent.detail.isTabChange) {
-          if (customEvent.detail.tab !== "activities" && customEvent.detail.tab !== "meme") {
+          if (normalizedTab !== "meme") {
             const mainEl = document.querySelector("main");
             if (mainEl) {
               mainEl.scrollTo({ top: 0, behavior: "smooth" });
@@ -578,7 +582,7 @@ export default function IntelligenceFeed() {
         }
 
         // When on memes, skip scrolling
-        if (customEvent.detail.tab === "activities" || customEvent.detail.tab === "meme") {
+        if (normalizedTab === "meme") {
           return;
         }
 
@@ -680,7 +684,7 @@ export default function IntelligenceFeed() {
     return true;
   });
 
-  if (sidepanelFilter.tab === "meme") {
+  if (sidepanelFilter.tab === "meme" || sidepanelFilter.tab === "activities") {
     return (
       <section
         ref={containerRef}
