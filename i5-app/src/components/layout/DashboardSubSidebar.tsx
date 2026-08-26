@@ -365,40 +365,35 @@ export default function DashboardSubSidebar({ mobileBottomSheet }: DashboardSubS
   if (mobileBottomSheet) {
     return (
       <>
-        {/* Mobile Filter Bar Trigger (pinned at top of dashboard main content) */}
+        {/* Mobile Header Bar (Heading + Filter Button) */}
         <div className={styles.mobileFilterBar}>
-          {/* Quick tab switcher pills */}
-          <div className={styles.mobileTabsGroup}>
-            <button
-              className={`${styles.mobileTabPill} ${activeTab === "meme" ? styles.mobileTabPillActive : ""}`}
-              onClick={() => handleTabSelect("meme")}
-            >
-              🔥 Meme
-            </button>
-            <button
-              className={`${styles.mobileTabPill} ${activeTab === "crypto" ? styles.mobileTabPillActive : ""}`}
-              onClick={() => handleTabSelect("crypto")}
-            >
-              ₿ Crypto
-            </button>
-            <button
-              className={`${styles.mobileTabPill} ${activeTab === "stocks" ? styles.mobileTabPillActive : ""}`}
-              onClick={() => handleTabSelect("stocks")}
-            >
-              📈 Stocks
-            </button>
+          <div className={styles.mobileHeadingGroup}>
+            <h2 className={styles.mobileHeading}>
+              {activeTab === "activities" || activeTab === "meme"
+                ? "🔥 Meme Trenches"
+                : activeTab === "crypto"
+                ? "🪙 Crypto Intelligence"
+                : "📊 Stock Intelligence"}
+            </h2>
+            <span className={styles.mobileSubheading}>
+              {getActiveFilterLabel()}
+            </span>
           </div>
 
           {/* Trigger Button that slides up the Bottom Sheet */}
           <button
             className={styles.mobileFilterBtn}
             onClick={() => setIsBottomSheetOpen(true)}
-            aria-label="Open filter bottom sheet"
+            aria-label="Open filter options"
           >
             <IconFilter />
-            <span>Filters</span>
+            <span>Filter</span>
             <span className={styles.mobileFilterBadge}>
-              {activeTab === "meme" ? "42" : activeTab === "crypto" ? "4" : "8"}
+              {activeTab === "activities" || activeTab === "meme"
+                ? "42"
+                : activeTab === "crypto"
+                ? "4"
+                : "8"}
             </span>
           </button>
         </div>
@@ -425,7 +420,13 @@ export default function DashboardSubSidebar({ mobileBottomSheet }: DashboardSubS
           {/* Sheet Header */}
           <div className={styles.sheetHeader}>
             <div className={styles.sheetHeaderLeft}>
-              <h3 className={styles.sheetTitle}>Market Intelligence</h3>
+              <h3 className={styles.sheetTitle}>
+                {activeTab === "activities" || activeTab === "meme"
+                  ? "🔥 Meme Filters"
+                  : activeTab === "crypto"
+                  ? "🪙 Crypto Filters"
+                  : "📊 Stock Filters"}
+              </h3>
               <span className={styles.sheetActiveTag}>{getActiveFilterLabel()}</span>
             </div>
             <button
@@ -435,30 +436,6 @@ export default function DashboardSubSidebar({ mobileBottomSheet }: DashboardSubS
             >
               <IconClose />
             </button>
-          </div>
-
-          {/* Segmented Control Tabs */}
-          <div className={styles.sheetTabsWrapper}>
-            <div className={styles.segmentedControl}>
-              <button
-                className={`${styles.tabBtn} ${activeTab === "activities" || activeTab === "meme" ? styles.tabBtnActive : ""}`}
-                onClick={() => handleTabSelect("activities")}
-              >
-                Memes
-              </button>
-              <button
-                className={`${styles.tabBtn} ${activeTab === "crypto" ? styles.tabBtnActive : ""}`}
-                onClick={() => handleTabSelect("crypto")}
-              >
-                Crypto
-              </button>
-              <button
-                className={`${styles.tabBtn} ${activeTab === "stocks" ? styles.tabBtnActive : ""}`}
-                onClick={() => handleTabSelect("stocks")}
-              >
-                Stocks
-              </button>
-            </div>
           </div>
 
           {/* Scrollable Content inside Bottom Sheet */}
@@ -617,7 +594,7 @@ export default function DashboardSubSidebar({ mobileBottomSheet }: DashboardSubS
             role="button"
             tabIndex={0}
             aria-label={
-              activeTab === "meme"
+              activeTab === "activities" || activeTab === "meme"
                 ? "Open Live Meme Radar"
                 : activeTab === "crypto"
                 ? "Open Upcoming Token Unlocks"
@@ -625,7 +602,7 @@ export default function DashboardSubSidebar({ mobileBottomSheet }: DashboardSubS
             }
           >
             <h4 className={styles.actionTitle}>
-              {activeTab === "meme"
+              {activeTab === "activities" || activeTab === "meme"
                 ? "Live Meme Radar"
                 : activeTab === "crypto"
                 ? "Upcoming Unlocks"
