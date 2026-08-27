@@ -372,8 +372,8 @@ export default function DashboardSubSidebar({ mobileBottomSheet }: DashboardSubS
               {activeTab === "activities" || activeTab === "meme"
                 ? "Meme Trenches"
                 : activeTab === "crypto"
-                ? "Crypto Intelligence"
-                : "Stock Intelligence"}
+                  ? "Crypto Intelligence"
+                  : "Stock Intelligence"}
             </h2>
             <span className={styles.mobileSubheading}>
               {getActiveFilterLabel()}
@@ -392,8 +392,8 @@ export default function DashboardSubSidebar({ mobileBottomSheet }: DashboardSubS
               {activeTab === "activities" || activeTab === "meme"
                 ? "42"
                 : activeTab === "crypto"
-                ? "4"
-                : "8"}
+                  ? "4"
+                  : "8"}
             </span>
           </button>
         </div>
@@ -424,8 +424,8 @@ export default function DashboardSubSidebar({ mobileBottomSheet }: DashboardSubS
                 {activeTab === "activities" || activeTab === "meme"
                   ? "Meme Filters"
                   : activeTab === "crypto"
-                  ? "Crypto Filters"
-                  : "Stock Filters"}
+                    ? "Crypto Filters"
+                    : "Stock Filters"}
               </h3>
               <span className={styles.sheetActiveTag}>{getActiveFilterLabel()}</span>
             </div>
@@ -454,9 +454,8 @@ export default function DashboardSubSidebar({ mobileBottomSheet }: DashboardSubS
                       return (
                         <li key={item.id}>
                           <button
-                            className={`${styles.itemButton} ${
-                              isActive ? styles.itemButtonActive : ""
-                            }`}
+                            className={`${styles.itemButton} ${isActive ? styles.itemButtonActive : ""
+                              }`}
                             onClick={() => handleSubItemSelect(item.id)}
                           >
                             <span className={styles.itemIcon} style={{ color: item.iconColor }}>
@@ -559,9 +558,8 @@ export default function DashboardSubSidebar({ mobileBottomSheet }: DashboardSubS
                     return (
                       <li key={item.id}>
                         <button
-                          className={`${styles.itemButton} ${
-                            isActive ? styles.itemButtonActive : ""
-                          }`}
+                          className={`${styles.itemButton} ${isActive ? styles.itemButtonActive : ""
+                            }`}
                           onClick={() => {
                             setActiveSubId(item.id);
                             dispatchFilterEvent(activeTab, item.id);

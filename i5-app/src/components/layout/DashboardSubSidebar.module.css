@@ -5,7 +5,8 @@
 .subSidebar {
   position: fixed;
   top: calc(var(--layout-header-height) + 12px);
-  left: 84px; /* 72px collapsed main rail + 12px floating gap */
+  left: 84px;
+  /* 72px collapsed main rail + 12px floating gap */
   width: 270px;
   height: calc(100vh - var(--layout-header-height) - 24px);
   background-color: var(--bg-surface);
@@ -32,6 +33,7 @@
 .content::-webkit-scrollbar {
   width: 4px;
 }
+
 .content::-webkit-scrollbar-thumb {
   background-color: var(--neutral-700);
   border-radius: 4px;
@@ -318,8 +320,13 @@
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to   { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 .bottomSheet {
@@ -427,6 +434,7 @@
 .sheetContent::-webkit-scrollbar {
   width: 4px;
 }
+
 .sheetContent::-webkit-scrollbar-thumb {
   background-color: var(--neutral-700);
   border-radius: 4px;

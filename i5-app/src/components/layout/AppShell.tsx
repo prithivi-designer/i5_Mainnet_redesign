@@ -103,8 +103,8 @@ export default function AppShell({ children }: AppShellProps) {
   const isMainSidebarCollapsed = isMobile
     ? true  // always "collapsed" on mobile (becomes drawer)
     : isDashboard
-    ? true
-    : collapsed;
+      ? true
+      : collapsed;
 
   // Sidebar width for content body offset
   // Mobile: 0 (sidebar is off-canvas drawer, not in flow)
@@ -114,12 +114,12 @@ export default function AppShell({ children }: AppShellProps) {
   const totalSidebarWidth = isMobile
     ? "0px"
     : isTablet
-    ? "var(--layout-sidebar-collapsed-width)" // 72px always on tablet
-    : isDashboard
-    ? "366px"
-    : isMainSidebarCollapsed
-    ? "var(--layout-sidebar-collapsed-width)"
-    : "var(--layout-sidebar-width)";
+      ? "var(--layout-sidebar-collapsed-width)" // 72px always on tablet
+      : isDashboard
+        ? "366px"
+        : isMainSidebarCollapsed
+          ? "var(--layout-sidebar-collapsed-width)"
+          : "var(--layout-sidebar-width)";
 
   return (
     <div className={styles.shell}>

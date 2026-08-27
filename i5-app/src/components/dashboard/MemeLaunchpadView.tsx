@@ -1826,10 +1826,10 @@ export default function MemeLaunchpadView() {
                 kol.rank === 1
                   ? styles.rankPillGold
                   : kol.rank === 2
-                  ? styles.rankPillSilver
-                  : kol.rank === 3
-                  ? styles.rankPillBronze
-                  : styles.rankPillNormal;
+                    ? styles.rankPillSilver
+                    : kol.rank === 3
+                      ? styles.rankPillBronze
+                      : styles.rankPillNormal;
 
               return (
                 <tr key={kol.id} className={styles.lbTableRow}>
@@ -2195,9 +2195,8 @@ export default function MemeLaunchpadView() {
                           <button
                             key={s.id}
                             type="button"
-                            className={`${styles.dropdownTabBtn} ${
-                              activeFilter === s.id ? styles.dropdownTabBtnActive : ""
-                            }`}
+                            className={`${styles.dropdownTabBtn} ${activeFilter === s.id ? styles.dropdownTabBtnActive : ""
+                              }`}
                             onClick={() => {
                               setActiveFilter(s.id);
                               showToast(`Status: ${s.label}`);
@@ -2220,9 +2219,8 @@ export default function MemeLaunchpadView() {
                           <button
                             key={opt}
                             type="button"
-                            className={`${styles.dropdownSortItem} ${
-                              sortBy === opt ? styles.dropdownSortItemActive : ""
-                            }`}
+                            className={`${styles.dropdownSortItem} ${sortBy === opt ? styles.dropdownSortItemActive : ""
+                              }`}
                             onClick={() => {
                               setSortBy(opt);
                               setIsMemeFilterSheetOpen(false);
@@ -2244,831 +2242,831 @@ export default function MemeLaunchpadView() {
             </div>
           </div>
 
-      {/* ── MAIN CONTENT AREA ────────────────────────────────── */}
-      <div className={styles.mainContent}>
+          {/* ── MAIN CONTENT AREA ────────────────────────────────── */}
+          <div className={styles.mainContent}>
 
-        {/* ═══ VIEW 1: INTELLIGENCE MATRIX & BUBBLE MAP ═════ */}
-        {view === "matrix" && (
-          <div style={{ display: "flex", flexDirection: "column", gap: "var(--space-6)" }}>
-            {/* Top Bubble Map Controls & Interactive Canvas */}
-            <div style={{ display: "flex", flexDirection: "column", gap: "var(--space-4)" }}>
-              <div className={styles.bubbleControls}>
-                <span className={styles.bubbleSizeLabel}>Size By:</span>
-                <div className={styles.bubbleSizeBtns}>
-                  {BUBBLE_SIZE_OPTIONS.map((opt) => (
-                    <button
-                      key={opt}
-                      className={`${styles.bubbleSizeBtn} ${bubbleSizeBy === opt ? styles.bubbleSizeBtnActive : ""}`}
-                      onClick={() => setBubbleSizeBy(opt)}
-                    >
-                      {opt}
-                    </button>
-                  ))}
-                </div>
-                <div className={styles.bubbleDivider} />
-                <span className={styles.bubbleColorLabel}>Colors:</span>
-                <select className={styles.bubbleColorSelect}>
-                  <option>24h Gain / Loss</option>
-                  <option>KOL Holding</option>
-                  <option>Bonding Curve</option>
-                </select>
-                <select className={styles.bubbleKolFilterSelect}>
-                  <option>All KOLs</option>
-                  <option>KOLs Holding</option>
-                  <option>Top KOLs</option>
-                </select>
-                <ZoomIn size={14} style={{ color: "var(--text-tertiary)", cursor: "pointer" }} />
-                <ZoomOut size={14} style={{ color: "var(--text-tertiary)", cursor: "pointer" }} />
-                <RefreshCw size={13} style={{ color: "var(--text-tertiary)", cursor: "pointer" }} />
-              </div>
-
-              {/* ── BUBBLE MAP CANVAS ───────────────────────── */}
-              <div className={styles.bubbleMapArea}>
-                
-                {/* Bottom Guide Legend */}
-                <div className={styles.bubbleLegendBar}>
-                  <div className={styles.legendItem}>
-                    <span className={styles.legendDotGain} />
-                    <span>Gain (+%)</span>
+            {/* ═══ VIEW 1: INTELLIGENCE MATRIX & BUBBLE MAP ═════ */}
+            {view === "matrix" && (
+              <div style={{ display: "flex", flexDirection: "column", gap: "var(--space-6)" }}>
+                {/* Top Bubble Map Controls & Interactive Canvas */}
+                <div style={{ display: "flex", flexDirection: "column", gap: "var(--space-4)" }}>
+                  <div className={styles.bubbleControls}>
+                    <span className={styles.bubbleSizeLabel}>Size By:</span>
+                    <div className={styles.bubbleSizeBtns}>
+                      {BUBBLE_SIZE_OPTIONS.map((opt) => (
+                        <button
+                          key={opt}
+                          className={`${styles.bubbleSizeBtn} ${bubbleSizeBy === opt ? styles.bubbleSizeBtnActive : ""}`}
+                          onClick={() => setBubbleSizeBy(opt)}
+                        >
+                          {opt}
+                        </button>
+                      ))}
+                    </div>
+                    <div className={styles.bubbleDivider} />
+                    <span className={styles.bubbleColorLabel}>Colors:</span>
+                    <select className={styles.bubbleColorSelect}>
+                      <option>24h Gain / Loss</option>
+                      <option>KOL Holding</option>
+                      <option>Bonding Curve</option>
+                    </select>
+                    <select className={styles.bubbleKolFilterSelect}>
+                      <option>All KOLs</option>
+                      <option>KOLs Holding</option>
+                      <option>Top KOLs</option>
+                    </select>
+                    <ZoomIn size={14} style={{ color: "var(--text-tertiary)", cursor: "pointer" }} />
+                    <ZoomOut size={14} style={{ color: "var(--text-tertiary)", cursor: "pointer" }} />
+                    <RefreshCw size={13} style={{ color: "var(--text-tertiary)", cursor: "pointer" }} />
                   </div>
-                  <div className={styles.legendItem}>
-                    <span className={styles.legendDotLoss} />
-                    <span>Loss (-%)</span>
-                  </div>
-                  <div className={styles.legendItem}>
-                    <span className={styles.legendDotKol} />
-                    <span>Top KOL Bag</span>
-                  </div>
-                  <span>| 💡 Click bubble for breakdown · Double-click to open terminal</span>
-                </div>
 
-                {/* Bubbles */}
-                {filtered.map((token, index) => {
-                  const isGain = token.change24h >= 0;
-                  const isSelected = selectedBubbleToken?.id === token.id;
-                  const size = token.bubbleSize;
-                  const floatClass = [styles.floatA, styles.floatB, styles.floatC][index % 3];
-                  const logoSize = Math.max(16, Math.min(28, size * 0.22));
-                  const symbolFontSize = Math.max(10, Math.min(16, size * 0.16));
-                  const changeFontSize = Math.max(9, Math.min(13, size * 0.13));
+                  {/* ── BUBBLE MAP CANVAS ───────────────────────── */}
+                  <div className={styles.bubbleMapArea}>
 
-                  return (
-                    <div
-                      key={token.id}
-                      className={`${styles.bubbleWrap} ${floatClass}`}
-                      style={{
-                        left: `${token.bubbleX}%`,
-                        top: `${token.bubbleY}%`,
-                        width: size,
-                        height: size,
-                      }}
-                      onMouseEnter={() => setHoveredToken(token)}
-                      onMouseLeave={() => setHoveredToken(null)}
-                      onClick={() => setSelectedBubbleToken(token)}
-                      onDoubleClick={() => setTradingTerminalToken(token)}
-                    >
-                      {/* Main 3D Glossy Sphere (Identical to Crypto Bubble Map) */}
+                    {/* Bottom Guide Legend */}
+                    <div className={styles.bubbleLegendBar}>
+                      <div className={styles.legendItem}>
+                        <span className={styles.legendDotGain} />
+                        <span>Gain (+%)</span>
+                      </div>
+                      <div className={styles.legendItem}>
+                        <span className={styles.legendDotLoss} />
+                        <span>Loss (-%)</span>
+                      </div>
+                      <div className={styles.legendItem}>
+                        <span className={styles.legendDotKol} />
+                        <span>Top KOL Bag</span>
+                      </div>
+                      <span>| 💡 Click bubble for breakdown · Double-click to open terminal</span>
+                    </div>
+
+                    {/* Bubbles */}
+                    {filtered.map((token, index) => {
+                      const isGain = token.change24h >= 0;
+                      const isSelected = selectedBubbleToken?.id === token.id;
+                      const size = token.bubbleSize;
+                      const floatClass = [styles.floatA, styles.floatB, styles.floatC][index % 3];
+                      const logoSize = Math.max(16, Math.min(28, size * 0.22));
+                      const symbolFontSize = Math.max(10, Math.min(16, size * 0.16));
+                      const changeFontSize = Math.max(9, Math.min(13, size * 0.13));
+
+                      return (
+                        <div
+                          key={token.id}
+                          className={`${styles.bubbleWrap} ${floatClass}`}
+                          style={{
+                            left: `${token.bubbleX}%`,
+                            top: `${token.bubbleY}%`,
+                            width: size,
+                            height: size,
+                          }}
+                          onMouseEnter={() => setHoveredToken(token)}
+                          onMouseLeave={() => setHoveredToken(null)}
+                          onClick={() => setSelectedBubbleToken(token)}
+                          onDoubleClick={() => setTradingTerminalToken(token)}
+                        >
+                          {/* Main 3D Glossy Sphere (Identical to Crypto Bubble Map) */}
+                          <div
+                            className={`${styles.bubble} ${isGain ? styles.bubbleGreen : styles.bubbleRed} ${isSelected ? styles.bubbleSelected : ""}`}
+                            style={{
+                              width: size,
+                              height: size,
+                            }}
+                          >
+                            {/* Avatar / Logo */}
+                            <div className={styles.bubbleLogo} style={{ width: logoSize, height: logoSize }}>
+                              {token.avatarImg ? (
+                                <img
+                                  src={token.avatarImg}
+                                  alt={token.name}
+                                  style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                                  onError={(e) => { (e.target as HTMLElement).style.display = "none"; }}
+                                />
+                              ) : (
+                                <span>{token.avatarEmoji || "💎"}</span>
+                              )}
+                            </div>
+
+                            {/* Symbol / Ticker */}
+                            <span className={styles.bubbleSymbol} style={{ fontSize: symbolFontSize }}>
+                              {token.ticker}
+                            </span>
+
+                            {/* 24h Change */}
+                            <span className={styles.bubbleChange} style={{ fontSize: changeFontSize }}>
+                              {isGain ? `+${token.change24h.toFixed(1)}%` : `${token.change24h.toFixed(1)}%`}
+                            </span>
+
+                            {/* KOL Badge if size allows */}
+                            {size >= 85 && token.kolsHolding > 0 && (
+                              <span className={styles.bubbleKolBadge} style={{ fontSize: Math.max(8.5, size * 0.08) }}>
+                                {token.kolsHolding} KOLs
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                      );
+                    })}
+
+                    {/* ── HOVER POPUP TOOLTIP (matches Screenshot 1) ─── */}
+                    {hoveredToken && (
                       <div
-                        className={`${styles.bubble} ${isGain ? styles.bubbleGreen : styles.bubbleRed} ${isSelected ? styles.bubbleSelected : ""}`}
+                        className={styles.bubbleHoverTooltip}
                         style={{
-                          width: size,
-                          height: size,
+                          left: `${Math.min(Math.max(hoveredToken.bubbleX, 22), 78)}%`,
+                          top: `${hoveredToken.bubbleY}%`,
+                          transform: hoveredToken.bubbleY < 42 ? "translate(-50%, 20%)" : "translate(-50%, -115%)",
                         }}
                       >
-                        {/* Avatar / Logo */}
-                        <div className={styles.bubbleLogo} style={{ width: logoSize, height: logoSize }}>
-                          {token.avatarImg ? (
-                            <img
-                              src={token.avatarImg}
-                              alt={token.name}
-                              style={{ width: "100%", height: "100%", objectFit: "cover" }}
-                              onError={(e) => { (e.target as HTMLElement).style.display = "none"; }}
-                            />
-                          ) : (
-                            <span>{token.avatarEmoji || "💎"}</span>
-                          )}
+                        <div className={styles.hoverHeaderRow}>
+                          <div className={styles.hoverIdentityBlock}>
+                            <div className={styles.hoverAvatar}>
+                              {hoveredToken.avatarImg ? (
+                                <img src={hoveredToken.avatarImg} alt={hoveredToken.name} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                              ) : (
+                                hoveredToken.avatarEmoji || "💎"
+                              )}
+                            </div>
+                            <div className={styles.hoverTitleStack}>
+                              <div className={styles.hoverNameLine}>
+                                <span>{hoveredToken.name}</span>
+                                <span className={styles.hoverTickerText}>{hoveredToken.ticker}</span>
+                              </div>
+                              <span className={styles.hoverPriceText}>{hoveredToken.price}</span>
+                            </div>
+                          </div>
+                          <span className={styles.hoverChangePill}>
+                            +{hoveredToken.change24h.toFixed(2)}%
+                          </span>
                         </div>
 
-                        {/* Symbol / Ticker */}
-                        <span className={styles.bubbleSymbol} style={{ fontSize: symbolFontSize }}>
-                          {token.ticker}
-                        </span>
+                        <div className={styles.hoverKolBox}>
+                          <div className={styles.hoverKolBoxHeader}>
+                            <span>👥 {hoveredToken.kolsHolding || 3} KOL Callers</span>
+                            <span className={styles.hoverKolBagVal}>{hoveredToken.totalKolBag || "$46,000"}</span>
+                          </div>
+                          <div className={styles.hoverKolChipsRow}>
+                            {(hoveredToken.kolDetails || [
+                              { name: "Murad Mahm...", handle: "@murad" },
+                              { name: "Cobie", handle: "@cobie" },
+                              { name: "Rewkang", handle: "@rew" },
+                            ]).map((k, i) => (
+                              <span key={i} className={styles.hoverKolChip}>
+                                <span>👤</span>
+                                <span>{k.name}</span>
+                              </span>
+                            ))}
+                          </div>
+                        </div>
 
-                        {/* 24h Change */}
-                        <span className={styles.bubbleChange} style={{ fontSize: changeFontSize }}>
-                          {isGain ? `+${token.change24h.toFixed(1)}%` : `${token.change24h.toFixed(1)}%`}
-                        </span>
+                        <div className={styles.hoverFooterRow}>
+                          <span>Market Cap: {hoveredToken.marketCap}</span>
+                          <span>24h Volume: {hoveredToken.volume24h}</span>
+                        </div>
+                      </div>
+                    )}
 
-                        {/* KOL Badge if size allows */}
-                        {size >= 85 && token.kolsHolding > 0 && (
-                          <span className={styles.bubbleKolBadge} style={{ fontSize: Math.max(8.5, size * 0.08) }}>
-                            {token.kolsHolding} KOLs
+                    {/* ── SIDE POPUP DETAIL CARD (matches Screenshot 2) ─── */}
+                    {selectedBubbleToken && (
+                      <div className={styles.bubbleSidePopup}>
+                        <div className={styles.sidePopupHeader}>
+                          <div className={styles.sidePopupIdentity}>
+                            <div className={styles.sidePopupAvatar}>
+                              {selectedBubbleToken.avatarImg ? (
+                                <img src={selectedBubbleToken.avatarImg} alt={selectedBubbleToken.name} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                              ) : (
+                                selectedBubbleToken.avatarEmoji || "💎"
+                              )}
+                            </div>
+                            <div className={styles.sidePopupInfo}>
+                              <span className={styles.sidePopupName}>{selectedBubbleToken.name}</span>
+                              <div className={styles.sidePopupMeta}>
+                                <span className={styles.sidePopupTickerBadge}>{selectedBubbleToken.ticker}</span>
+                                <span>·</span>
+                                <span>{selectedBubbleToken.price}</span>
+                              </div>
+                            </div>
+                          </div>
+                          <button
+                            className={styles.sidePopupCloseBtn}
+                            onClick={() => setSelectedBubbleToken(null)}
+                          >
+                            <X size={13} />
+                          </button>
+                        </div>
+
+                        {/* 4-Stat Grid */}
+                        <div className={styles.sidePopupStatsGrid}>
+                          <div className={styles.sidePopupStatCell}>
+                            <span className={styles.sidePopupStatLabel}>24h Change</span>
+                            <span className={styles.sidePopupStatVal} style={{ color: "var(--emerald-500)" }}>
+                              +{selectedBubbleToken.change24h.toFixed(2)}%
+                            </span>
+                          </div>
+                          <div className={styles.sidePopupStatCell}>
+                            <span className={styles.sidePopupStatLabel}>Market Cap</span>
+                            <span className={styles.sidePopupStatVal}>{selectedBubbleToken.marketCap}</span>
+                          </div>
+                          <div className={styles.sidePopupStatCell}>
+                            <span className={styles.sidePopupStatLabel}>24h Volume</span>
+                            <span className={styles.sidePopupStatVal}>{selectedBubbleToken.volume24h}</span>
+                          </div>
+                          <div className={styles.sidePopupStatCell}>
+                            <span className={styles.sidePopupStatLabel}>Total Holders</span>
+                            <span className={styles.sidePopupStatVal}>{selectedBubbleToken.holders.toLocaleString()}</span>
+                          </div>
+                        </div>
+
+                        {/* KOL Holders List */}
+                        <div className={styles.sidePopupKolSection}>
+                          <div className={styles.sidePopupKolHeader}>
+                            <span>👥 KOL Holders ({selectedBubbleToken.kolsHolding || 3})</span>
+                            <span style={{ color: "var(--emerald-400)", fontFamily: "var(--font-mono)" }}>
+                              {selectedBubbleToken.totalKolBag || "$36,000"}
+                            </span>
+                          </div>
+
+                          <div className={styles.sidePopupKolList}>
+                            {(selectedBubbleToken.kolDetails || [
+                              { name: "Ansem", handle: "@blknoiz06", multiple: "+5.7x", tier: "Tier 1 KOL" },
+                              { name: "Murad Mahmudov", handle: "@MustStopMurad", multiple: "+15.3x", tier: "Tier 1 KOL" },
+                              { name: "Cobie", handle: "@coffeebreak_sol", multiple: "+8.1x", tier: "Ecosystem Lead" },
+                            ]).map((kol, idx) => (
+                              <div key={idx} className={styles.sidePopupKolRow}>
+                                <div className={styles.sidePopupKolLeft}>
+                                  <div className={styles.sidePopupKolAvatar}>👤</div>
+                                  <div>
+                                    <div className={styles.sidePopupKolName}>{kol.name}</div>
+                                    <div className={styles.sidePopupKolHandle}>{kol.handle}</div>
+                                  </div>
+                                </div>
+                                <div className={styles.sidePopupKolRight}>
+                                  <span className={styles.sidePopupKolMultiple}>{kol.multiple}</span>
+                                  <span className={styles.sidePopupKolTier}>{kol.tier}</span>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+
+                        {/* Action Buttons */}
+                        <button
+                          className={styles.sidePopupSnipeBtn}
+                          onClick={() => handleBuy(selectedBubbleToken)}
+                        >
+                          <Zap size={14} />
+                          Snipe Buy {selectedBubbleToken.ticker}
+                        </button>
+
+                        <button
+                          className={styles.sidePopupTerminalBtn}
+                          onClick={() => setTradingTerminalToken(selectedBubbleToken)}
+                        >
+                          <ExternalLink size={13} />
+                          Open Trading Terminal
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                {/* Bottom Intelligence Matrix Table Card */}
+                <div className={styles.matrixSectionCard}>
+                  <div className={styles.matrixSectionHeader}>
+                    <h2 className={styles.matrixSectionTitle}>Trending Meme Tokens Matrix</h2>
+                    <span style={{ fontSize: 11, color: "var(--text-tertiary)" }}>
+                      Showing {filtered.length} active market tokens
+                    </span>
+                  </div>
+
+                  {/* Filter Dropdowns Bar */}
+                  <div className={styles.matrixFiltersBar}>
+                    <div className={styles.filterSelectGroup}>
+                      <span className={styles.filterSelectLabel}>Blockchain</span>
+                      <select
+                        className={styles.filterSelect}
+                        value={chainFilter}
+                        onChange={(e) => setChainFilter(e.target.value)}
+                      >
+                        <option value="all">All Chains</option>
+                        <option value="bnb">BNB Chain</option>
+                        <option value="sol">Solana</option>
+                        <option value="eth">Ethereum</option>
+                      </select>
+                    </div>
+
+                    <div className={styles.filterSelectGroup}>
+                      <span className={styles.filterSelectLabel}>Market Cap</span>
+                      <select
+                        className={styles.filterSelect}
+                        value={capFilter}
+                        onChange={(e) => setCapFilter(e.target.value)}
+                      >
+                        <option value="all">All Caps</option>
+                        <option value="sub100k">&lt; $100K</option>
+                        <option value="mid">$100K - $1M</option>
+                        <option value="high">&gt; $1M</option>
+                      </select>
+                    </div>
+
+                    <div className={styles.filterSelectGroup}>
+                      <span className={styles.filterSelectLabel}>Min Liquidity</span>
+                      <select
+                        className={styles.filterSelect}
+                        value={liqFilter}
+                        onChange={(e) => setLiqFilter(e.target.value)}
+                      >
+                        <option value="any">Any Liquidity</option>
+                        <option value="10k">&gt; $10K</option>
+                        <option value="50k">&gt; $50K</option>
+                        <option value="100k">&gt; $100K</option>
+                      </select>
+                    </div>
+
+                    <div className={styles.filterSelectGroup}>
+                      <span className={styles.filterSelectLabel}>Launch Age</span>
+                      <select
+                        className={styles.filterSelect}
+                        value={ageFilter}
+                        onChange={(e) => setAgeFilter(e.target.value)}
+                      >
+                        <option value="any">Any Age</option>
+                        <option value="1h">&lt; 1 Hour</option>
+                        <option value="24h">&lt; 24 Hours</option>
+                        <option value="7d">&lt; 7 Days</option>
+                      </select>
+                    </div>
+
+                    <div className={styles.filterSelectGroup}>
+                      <span className={styles.filterSelectLabel}>Security Status</span>
+                      <select
+                        className={styles.filterSelect}
+                        value={riskFilter}
+                        onChange={(e) => setRiskFilter(e.target.value)}
+                      >
+                        <option value="all">All Risk Levels</option>
+                        <option value="low">Low Risk Only</option>
+                        <option value="verified">Verified Only</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  {/* Matrix Data Table */}
+                  <div className={styles.matrixTableWrapper}>
+                    <table className={styles.matrixTable}>
+                      <thead>
+                        <tr>
+                          <th className={styles.matrixTh}>Asset</th>
+                          <th className={styles.matrixTh}>Smart Money</th>
+                          <th className={styles.matrixTh}>Influential Traders</th>
+                          <th className={styles.matrixTh}>Whales</th>
+                          <th className={styles.matrixTh}>Social Acceleration</th>
+                          <th className={styles.matrixTh}>i5 Conviction</th>
+                          <th className={styles.matrixTh}>Quick Trade</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {filtered.map((token) => {
+                          const snipeAmt = activeSnipe[token.id] || (token.chain === "SOL" ? "0.5" : "0.1");
+                          const snipeOptions = token.chain === "SOL" ? ["0.2", "0.5", "1.5"] : ["0.1", "0.5", "1"];
+                          const isGain = token.change24h >= 0;
+
+                          return (
+                            <tr key={token.id} className={styles.matrixTr}>
+                              {/* ASSET CELL */}
+                              <td className={styles.matrixTd}>
+                                <div className={styles.assetCellWrap}>
+                                  <button
+                                    className={styles.assetStarBtn}
+                                    onClick={() => toggleFavorite(token.id)}
+                                  >
+                                    <Star
+                                      size={13}
+                                      fill={token.isFavorited ? "currentColor" : "none"}
+                                    />
+                                  </button>
+
+                                  <div className={`${styles.assetRankBadge} ${token.rank === 1 ? styles.assetRankBadgeTop : ""}`}>
+                                    {token.rank}
+                                  </div>
+
+                                  <div className={styles.assetAvatar}>
+                                    {token.avatarImg ? (
+                                      <img
+                                        src={token.avatarImg}
+                                        alt={token.name}
+                                        className={styles.assetAvatarImg}
+                                        onError={(e) => { (e.target as HTMLElement).style.display = "none"; }}
+                                      />
+                                    ) : token.avatarEmoji}
+                                  </div>
+
+                                  <div className={styles.assetInfoStack}>
+                                    <div className={styles.assetNameLine}>
+                                      <span className={styles.assetNameText}>{token.name}</span>
+                                      <span className={styles.assetTickerText}>{token.ticker}</span>
+                                      <span className={styles.assetChainPillSmall}>{token.chain}</span>
+                                    </div>
+                                    <div className={styles.assetPriceLine}>
+                                      <span className={styles.assetPriceVal}>{token.price}</span>
+                                      <span className={isGain ? styles.assetChangeValUp : styles.assetChangeValDown}>
+                                        {isGain ? "↗ +" : "↘ -"}{Math.abs(token.change24h).toFixed(2)}%
+                                      </span>
+                                      <span className={styles.assetCapVal}>· Cap: {token.marketCap}</span>
+                                    </div>
+                                  </div>
+                                </div>
+                              </td>
+
+                              {/* SMART MONEY */}
+                              <td className={styles.matrixTd}>
+                                <div className={styles.smartMoneyBox}>
+                                  <span className={styles.smartMoneyCountHeader}>{token.smartMoneyCount}</span>
+                                  <span className={styles.smartMoneyStatusText}>{token.smartMoneyLabel}</span>
+                                  <span className={styles.smartMoneySubLabel}>Smart Wallets</span>
+                                </div>
+                              </td>
+
+                              {/* INFLUENTIAL TRADERS */}
+                              <td className={styles.matrixTd}>
+                                <div className={styles.cellStack}>
+                                  <span className={styles.influentialPill}>
+                                    <span className={styles.influentialDot} />
+                                    {token.kolBullishCount} bullish
+                                  </span>
+                                  <span className={styles.cellSubLabel}>KOL Alpha Calls</span>
+                                </div>
+                              </td>
+
+                              {/* WHALES */}
+                              <td className={styles.matrixTd}>
+                                <div className={styles.cellStack}>
+                                  <span className={styles.whalePill}>
+                                    🐳 {token.whaleInflow}
+                                  </span>
+                                  <span className={styles.cellSubLabel}>Net Inflow</span>
+                                </div>
+                              </td>
+
+                              {/* SOCIAL ACCELERATION */}
+                              <td className={styles.matrixTd}>
+                                <div className={styles.cellStack}>
+                                  <span className={styles.socialBox}>
+                                    ↗ ↑ {token.socialVelocity}
+                                  </span>
+                                  <span className={styles.cellSubLabel}>Viral Velocity</span>
+                                </div>
+                              </td>
+
+                              {/* i5 CONVICTION */}
+                              <td className={styles.matrixTd}>
+                                <div className={styles.convictionWrap}>
+                                  <div className={styles.convictionScoreRow}>
+                                    <div className={styles.convictionTrack}>
+                                      <div
+                                        className={styles.convictionFill}
+                                        style={{ width: `${token.convictionScore}%` }}
+                                      />
+                                    </div>
+                                    <span className={styles.convictionScoreVal}>{token.convictionScore}</span>
+                                  </div>
+                                  <span className={styles.cellSubLabel}>{token.convictionTier}</span>
+                                </div>
+                              </td>
+
+                              {/* QUICK TRADE */}
+                              <td className={styles.matrixTd}>
+                                <div className={styles.quickTradeCell}>
+                                  <div className={styles.matrixSnipeGroup}>
+                                    {snipeOptions.map((amt) => (
+                                      <button
+                                        key={amt}
+                                        className={`${styles.matrixSnipeBtn} ${snipeAmt === amt ? styles.matrixSnipeBtnActive : ""}`}
+                                        onClick={() => handleSnipe(token.id, amt)}
+                                      >
+                                        {amt}
+                                      </button>
+                                    ))}
+                                  </div>
+                                  <button
+                                    className={styles.matrixBuyBtn}
+                                    onClick={() => handleBuy(token)}
+                                  >
+                                    <ShoppingCart size={11} />
+                                    Buy {snipeAmt} {token.chain === "SOL" ? "SOL" : "BNB"}
+                                  </button>
+                                  <button
+                                    className={styles.matrixChartBtn}
+                                    onClick={() => setTradingTerminalToken(token)}
+                                  >
+                                    <BarChart2 size={12} />
+                                  </button>
+                                </div>
+                              </td>
+                            </tr>
+                          );
+                        })}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* ═══ VIEW 2: HORIZONTAL CARDS ══════════════════════ */}
+            {view === "horizontal" && (
+              <div className={styles.hCardsList}>
+                {filtered.map((token) => {
+                  const snipeAmt = activeSnipe[token.id] || "0.5";
+                  const snipeOptions = ["0.2", "0.5", "1.5"];
+                  const isGain = token.change24h >= 0;
+                  const rawTicker = token.ticker.replace(/^\$/, "");
+
+                  return (
+                    <div key={token.id} className={styles.hCard}>
+                      {/* ── LEFT COLUMN ─────────────────────────────── */}
+                      <div className={styles.hCardLeft}>
+                        <div className={styles.hCardTopRow}>
+                          <span className={styles.trendingBadge}>🔥 Trending</span>
+                          <span className={styles.chainPill}>{token.chain}</span>
+                          <span className={styles.ageMeta}>
+                            <Clock size={11} />
+                            {formatAge(token.ageMinutes)}
                           </span>
-                        )}
+                          <button
+                            className={`${styles.starBtn} ${token.isFavorited ? styles.starBtnActive : ""}`}
+                            onClick={() => toggleFavorite(token.id)}
+                          >
+                            <Star size={14} fill={token.isFavorited ? "currentColor" : "none"} />
+                          </button>
+                        </div>
+
+                        <div className={styles.hCardIdentityWrap}>
+                          <div className={styles.hCardIdentity}>
+                            <div className={styles.hCardAvatar}>
+                              {token.avatarImg ? (
+                                <img
+                                  src={token.avatarImg}
+                                  alt={token.name}
+                                  className={styles.hCardAvatarImg}
+                                  onError={(e) => { (e.target as HTMLElement).style.display = "none"; }}
+                                />
+                              ) : token.avatarEmoji}
+                            </div>
+                            <div className={styles.hCardIdentityText}>
+                              <span className={styles.hCardTickerBadge}>{rawTicker}</span>
+                              <span className={styles.hCardName}>{token.name}</span>
+                              <span className={styles.hCardTicker}>{token.ticker}</span>
+                            </div>
+                          </div>
+
+                          <div className={styles.hCardBadgeRow}>
+                            {token.isVerified && (
+                              <span className={styles.greenBadge}>
+                                <Check size={11} strokeWidth={3} />
+                                Verified
+                              </span>
+                            )}
+                            <span className={styles.greenBadge}>Low Risk</span>
+                          </div>
+                        </div>
+
+                        <div className={styles.devRow}>
+                          <Globe size={12} />
+                          dev: {token.devHandle}
+                        </div>
+                      </div>
+
+                      {/* ── MIDDLE COLUMN: STATS ────────────────────── */}
+                      <div className={styles.hCardMiddle}>
+                        <div className={styles.statsGrid}>
+                          <div className={styles.statsRow}>
+                            <div className={styles.statCell}>
+                              <span className={styles.statLabel}>Price</span>
+                              <span className={styles.statVal}>{token.price}</span>
+                            </div>
+                            <div className={styles.statCell}>
+                              <span className={styles.statLabel}>24H Change</span>
+                              <span className={`${styles.statVal} ${isGain ? styles.statValUp : styles.statValDown}`}>
+                                {isGain ? "↑" : "↓"}{Math.abs(token.change24h).toFixed(2)}%
+                              </span>
+                            </div>
+                          </div>
+
+                          <div className={styles.statsRow}>
+                            <div className={styles.statCell}>
+                              <span className={styles.statLabel}>Market Cap</span>
+                              <span className={styles.statVal}>{token.marketCap}</span>
+                            </div>
+                            <div className={styles.statCell}>
+                              <span className={styles.statLabel}>24H Volume</span>
+                              <span className={styles.statVal}>{token.volume24h}</span>
+                            </div>
+                          </div>
+
+                          <div className={styles.statsRow}>
+                            <div className={styles.statCell}>
+                              <span className={styles.statLabel}>Liquidity</span>
+                              <span className={styles.statVal}>{token.liquidity}</span>
+                            </div>
+                            <div className={styles.statCell}>
+                              <span className={styles.statLabel}>Holders</span>
+                              <span className={styles.statVal}>{token.holders.toLocaleString()}</span>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div className={styles.middleFooterPills}>
+                          <span className={styles.smartMoneyBadge}>Smart Money: accumulating</span>
+                          <span className={styles.i5ScoreBadge}>i5 Score: {token.i5Score}</span>
+                        </div>
+                      </div>
+
+                      {/* ── RIGHT COLUMN: CURVE & ACTIONS ───────────── */}
+                      <div className={styles.hCardRight}>
+                        <div className={styles.curveSection}>
+                          <div className={styles.curveHeader}>
+                            <div className={styles.curveHeaderLeft}>
+                              <TrendingUp size={13} />
+                              <span>Bonding Curve</span>
+                            </div>
+                            <span>{token.bondingPercent.toFixed(1)}%</span>
+                          </div>
+                          <div className={styles.curveProgressTrack}>
+                            <div
+                              className={styles.curveProgressFill}
+                              style={{ width: `${token.bondingPercent}%` }}
+                            />
+                          </div>
+                          <div className={styles.curveMetaRow}>
+                            <div className={styles.curveMetaLeft}>
+                              <Users size={12} />
+                              <span>Top 10</span>
+                            </div>
+                            <span className={styles.curveMetaRight}>{token.topTenPct}</span>
+                          </div>
+                          <div className={styles.curveMetaRow}>
+                            <div className={styles.curveMetaLeft}>
+                              <Bot size={12} />
+                              <span>Bot Activity</span>
+                            </div>
+                            <span className={styles.lowRiskBadgeSmall}>Low</span>
+                          </div>
+                        </div>
+
+                        <div className={styles.dividerDotted} />
+
+                        <div className={styles.quickSnipeWrap}>
+                          <span className={styles.quickSnipeHeader}>Quick Snipe</span>
+                          <div className={styles.snipeButtonsRow}>
+                            {snipeOptions.map((amt) => (
+                              <button
+                                key={amt}
+                                className={`${styles.snipeButton} ${snipeAmt === amt ? styles.snipeButtonActive : ""}`}
+                                onClick={() => handleSnipe(token.id, amt)}
+                              >
+                                {amt}
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+
+                        <button className={styles.buyActionButton} onClick={() => handleBuy(token)}>
+                          Buy {snipeAmt} {token.chain === "SOL" ? "SOL" : "BNB"}
+                        </button>
+                        <button className={styles.chartActionButton} onClick={() => setTradingTerminalToken(token)}>
+                          <BarChart2 size={13} />
+                          View Chart
+                        </button>
                       </div>
                     </div>
                   );
                 })}
-
-                {/* ── HOVER POPUP TOOLTIP (matches Screenshot 1) ─── */}
-                {hoveredToken && (
-                  <div
-                    className={styles.bubbleHoverTooltip}
-                    style={{
-                      left: `${Math.min(Math.max(hoveredToken.bubbleX, 22), 78)}%`,
-                      top: `${hoveredToken.bubbleY}%`,
-                      transform: hoveredToken.bubbleY < 42 ? "translate(-50%, 20%)" : "translate(-50%, -115%)",
-                    }}
-                  >
-                    <div className={styles.hoverHeaderRow}>
-                      <div className={styles.hoverIdentityBlock}>
-                        <div className={styles.hoverAvatar}>
-                          {hoveredToken.avatarImg ? (
-                            <img src={hoveredToken.avatarImg} alt={hoveredToken.name} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-                          ) : (
-                            hoveredToken.avatarEmoji || "💎"
-                          )}
-                        </div>
-                        <div className={styles.hoverTitleStack}>
-                          <div className={styles.hoverNameLine}>
-                            <span>{hoveredToken.name}</span>
-                            <span className={styles.hoverTickerText}>{hoveredToken.ticker}</span>
-                          </div>
-                          <span className={styles.hoverPriceText}>{hoveredToken.price}</span>
-                        </div>
-                      </div>
-                      <span className={styles.hoverChangePill}>
-                        +{hoveredToken.change24h.toFixed(2)}%
-                      </span>
-                    </div>
-
-                    <div className={styles.hoverKolBox}>
-                      <div className={styles.hoverKolBoxHeader}>
-                        <span>👥 {hoveredToken.kolsHolding || 3} KOL Callers</span>
-                        <span className={styles.hoverKolBagVal}>{hoveredToken.totalKolBag || "$46,000"}</span>
-                      </div>
-                      <div className={styles.hoverKolChipsRow}>
-                        {(hoveredToken.kolDetails || [
-                          { name: "Murad Mahm...", handle: "@murad" },
-                          { name: "Cobie", handle: "@cobie" },
-                          { name: "Rewkang", handle: "@rew" },
-                        ]).map((k, i) => (
-                          <span key={i} className={styles.hoverKolChip}>
-                            <span>👤</span>
-                            <span>{k.name}</span>
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-
-                    <div className={styles.hoverFooterRow}>
-                      <span>Market Cap: {hoveredToken.marketCap}</span>
-                      <span>24h Volume: {hoveredToken.volume24h}</span>
-                    </div>
-                  </div>
-                )}
-
-                {/* ── SIDE POPUP DETAIL CARD (matches Screenshot 2) ─── */}
-                {selectedBubbleToken && (
-                  <div className={styles.bubbleSidePopup}>
-                    <div className={styles.sidePopupHeader}>
-                      <div className={styles.sidePopupIdentity}>
-                        <div className={styles.sidePopupAvatar}>
-                          {selectedBubbleToken.avatarImg ? (
-                            <img src={selectedBubbleToken.avatarImg} alt={selectedBubbleToken.name} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
-                          ) : (
-                            selectedBubbleToken.avatarEmoji || "💎"
-                          )}
-                        </div>
-                        <div className={styles.sidePopupInfo}>
-                          <span className={styles.sidePopupName}>{selectedBubbleToken.name}</span>
-                          <div className={styles.sidePopupMeta}>
-                            <span className={styles.sidePopupTickerBadge}>{selectedBubbleToken.ticker}</span>
-                            <span>·</span>
-                            <span>{selectedBubbleToken.price}</span>
-                          </div>
-                        </div>
-                      </div>
-                      <button
-                        className={styles.sidePopupCloseBtn}
-                        onClick={() => setSelectedBubbleToken(null)}
-                      >
-                        <X size={13} />
-                      </button>
-                    </div>
-
-                    {/* 4-Stat Grid */}
-                    <div className={styles.sidePopupStatsGrid}>
-                      <div className={styles.sidePopupStatCell}>
-                        <span className={styles.sidePopupStatLabel}>24h Change</span>
-                        <span className={styles.sidePopupStatVal} style={{ color: "var(--emerald-500)" }}>
-                          +{selectedBubbleToken.change24h.toFixed(2)}%
-                        </span>
-                      </div>
-                      <div className={styles.sidePopupStatCell}>
-                        <span className={styles.sidePopupStatLabel}>Market Cap</span>
-                        <span className={styles.sidePopupStatVal}>{selectedBubbleToken.marketCap}</span>
-                      </div>
-                      <div className={styles.sidePopupStatCell}>
-                        <span className={styles.sidePopupStatLabel}>24h Volume</span>
-                        <span className={styles.sidePopupStatVal}>{selectedBubbleToken.volume24h}</span>
-                      </div>
-                      <div className={styles.sidePopupStatCell}>
-                        <span className={styles.sidePopupStatLabel}>Total Holders</span>
-                        <span className={styles.sidePopupStatVal}>{selectedBubbleToken.holders.toLocaleString()}</span>
-                      </div>
-                    </div>
-
-                    {/* KOL Holders List */}
-                    <div className={styles.sidePopupKolSection}>
-                      <div className={styles.sidePopupKolHeader}>
-                        <span>👥 KOL Holders ({selectedBubbleToken.kolsHolding || 3})</span>
-                        <span style={{ color: "var(--emerald-400)", fontFamily: "var(--font-mono)" }}>
-                          {selectedBubbleToken.totalKolBag || "$36,000"}
-                        </span>
-                      </div>
-
-                      <div className={styles.sidePopupKolList}>
-                        {(selectedBubbleToken.kolDetails || [
-                          { name: "Ansem", handle: "@blknoiz06", multiple: "+5.7x", tier: "Tier 1 KOL" },
-                          { name: "Murad Mahmudov", handle: "@MustStopMurad", multiple: "+15.3x", tier: "Tier 1 KOL" },
-                          { name: "Cobie", handle: "@coffeebreak_sol", multiple: "+8.1x", tier: "Ecosystem Lead" },
-                        ]).map((kol, idx) => (
-                          <div key={idx} className={styles.sidePopupKolRow}>
-                            <div className={styles.sidePopupKolLeft}>
-                              <div className={styles.sidePopupKolAvatar}>👤</div>
-                              <div>
-                                <div className={styles.sidePopupKolName}>{kol.name}</div>
-                                <div className={styles.sidePopupKolHandle}>{kol.handle}</div>
-                              </div>
-                            </div>
-                            <div className={styles.sidePopupKolRight}>
-                              <span className={styles.sidePopupKolMultiple}>{kol.multiple}</span>
-                              <span className={styles.sidePopupKolTier}>{kol.tier}</span>
-                            </div>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-
-                    {/* Action Buttons */}
-                    <button
-                      className={styles.sidePopupSnipeBtn}
-                      onClick={() => handleBuy(selectedBubbleToken)}
-                    >
-                      <Zap size={14} />
-                      Snipe Buy {selectedBubbleToken.ticker}
-                    </button>
-
-                    <button
-                      className={styles.sidePopupTerminalBtn}
-                      onClick={() => setTradingTerminalToken(selectedBubbleToken)}
-                    >
-                      <ExternalLink size={13} />
-                      Open Trading Terminal
-                    </button>
-                  </div>
-                )}
               </div>
-            </div>
+            )}
 
-            {/* Bottom Intelligence Matrix Table Card */}
-            <div className={styles.matrixSectionCard}>
-              <div className={styles.matrixSectionHeader}>
-                <h2 className={styles.matrixSectionTitle}>Trending Meme Tokens Matrix</h2>
-                <span style={{ fontSize: 11, color: "var(--text-tertiary)" }}>
-                  Showing {filtered.length} active market tokens
-                </span>
-              </div>
-
-              {/* Filter Dropdowns Bar */}
-              <div className={styles.matrixFiltersBar}>
-                <div className={styles.filterSelectGroup}>
-                  <span className={styles.filterSelectLabel}>Blockchain</span>
-                  <select
-                    className={styles.filterSelect}
-                    value={chainFilter}
-                    onChange={(e) => setChainFilter(e.target.value)}
-                  >
-                    <option value="all">All Chains</option>
-                    <option value="bnb">BNB Chain</option>
-                    <option value="sol">Solana</option>
-                    <option value="eth">Ethereum</option>
-                  </select>
-                </div>
-
-                <div className={styles.filterSelectGroup}>
-                  <span className={styles.filterSelectLabel}>Market Cap</span>
-                  <select
-                    className={styles.filterSelect}
-                    value={capFilter}
-                    onChange={(e) => setCapFilter(e.target.value)}
-                  >
-                    <option value="all">All Caps</option>
-                    <option value="sub100k">&lt; $100K</option>
-                    <option value="mid">$100K - $1M</option>
-                    <option value="high">&gt; $1M</option>
-                  </select>
-                </div>
-
-                <div className={styles.filterSelectGroup}>
-                  <span className={styles.filterSelectLabel}>Min Liquidity</span>
-                  <select
-                    className={styles.filterSelect}
-                    value={liqFilter}
-                    onChange={(e) => setLiqFilter(e.target.value)}
-                  >
-                    <option value="any">Any Liquidity</option>
-                    <option value="10k">&gt; $10K</option>
-                    <option value="50k">&gt; $50K</option>
-                    <option value="100k">&gt; $100K</option>
-                  </select>
-                </div>
-
-                <div className={styles.filterSelectGroup}>
-                  <span className={styles.filterSelectLabel}>Launch Age</span>
-                  <select
-                    className={styles.filterSelect}
-                    value={ageFilter}
-                    onChange={(e) => setAgeFilter(e.target.value)}
-                  >
-                    <option value="any">Any Age</option>
-                    <option value="1h">&lt; 1 Hour</option>
-                    <option value="24h">&lt; 24 Hours</option>
-                    <option value="7d">&lt; 7 Days</option>
-                  </select>
-                </div>
-
-                <div className={styles.filterSelectGroup}>
-                  <span className={styles.filterSelectLabel}>Security Status</span>
-                  <select
-                    className={styles.filterSelect}
-                    value={riskFilter}
-                    onChange={(e) => setRiskFilter(e.target.value)}
-                  >
-                    <option value="all">All Risk Levels</option>
-                    <option value="low">Low Risk Only</option>
-                    <option value="verified">Verified Only</option>
-                  </select>
-                </div>
-              </div>
-
-              {/* Matrix Data Table */}
-              <div className={styles.matrixTableWrapper}>
-                <table className={styles.matrixTable}>
-                  <thead>
-                    <tr>
-                      <th className={styles.matrixTh}>Asset</th>
-                      <th className={styles.matrixTh}>Smart Money</th>
-                      <th className={styles.matrixTh}>Influential Traders</th>
-                      <th className={styles.matrixTh}>Whales</th>
-                      <th className={styles.matrixTh}>Social Acceleration</th>
-                      <th className={styles.matrixTh}>i5 Conviction</th>
-                      <th className={styles.matrixTh}>Quick Trade</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {filtered.map((token) => {
-                      const snipeAmt = activeSnipe[token.id] || (token.chain === "SOL" ? "0.5" : "0.1");
-                      const snipeOptions = token.chain === "SOL" ? ["0.2", "0.5", "1.5"] : ["0.1", "0.5", "1"];
-                      const isGain = token.change24h >= 0;
-
-                      return (
-                        <tr key={token.id} className={styles.matrixTr}>
-                          {/* ASSET CELL */}
-                          <td className={styles.matrixTd}>
-                            <div className={styles.assetCellWrap}>
-                              <button
-                                className={styles.assetStarBtn}
-                                onClick={() => toggleFavorite(token.id)}
-                              >
-                                <Star
-                                  size={13}
-                                  fill={token.isFavorited ? "currentColor" : "none"}
-                                />
-                              </button>
-
-                              <div className={`${styles.assetRankBadge} ${token.rank === 1 ? styles.assetRankBadgeTop : ""}`}>
-                                {token.rank}
-                              </div>
-
-                              <div className={styles.assetAvatar}>
-                                {token.avatarImg ? (
-                                  <img
-                                    src={token.avatarImg}
-                                    alt={token.name}
-                                    className={styles.assetAvatarImg}
-                                    onError={(e) => { (e.target as HTMLElement).style.display = "none"; }}
-                                  />
-                                ) : token.avatarEmoji}
-                              </div>
-
-                              <div className={styles.assetInfoStack}>
-                                <div className={styles.assetNameLine}>
-                                  <span className={styles.assetNameText}>{token.name}</span>
-                                  <span className={styles.assetTickerText}>{token.ticker}</span>
-                                  <span className={styles.assetChainPillSmall}>{token.chain}</span>
-                                </div>
-                                <div className={styles.assetPriceLine}>
-                                  <span className={styles.assetPriceVal}>{token.price}</span>
-                                  <span className={isGain ? styles.assetChangeValUp : styles.assetChangeValDown}>
-                                    {isGain ? "↗ +" : "↘ -"}{Math.abs(token.change24h).toFixed(2)}%
-                                  </span>
-                                  <span className={styles.assetCapVal}>· Cap: {token.marketCap}</span>
-                                </div>
-                              </div>
-                            </div>
-                          </td>
-
-                          {/* SMART MONEY */}
-                          <td className={styles.matrixTd}>
-                            <div className={styles.smartMoneyBox}>
-                              <span className={styles.smartMoneyCountHeader}>{token.smartMoneyCount}</span>
-                              <span className={styles.smartMoneyStatusText}>{token.smartMoneyLabel}</span>
-                              <span className={styles.smartMoneySubLabel}>Smart Wallets</span>
-                            </div>
-                          </td>
-
-                          {/* INFLUENTIAL TRADERS */}
-                          <td className={styles.matrixTd}>
-                            <div className={styles.cellStack}>
-                              <span className={styles.influentialPill}>
-                                <span className={styles.influentialDot} />
-                                {token.kolBullishCount} bullish
-                              </span>
-                              <span className={styles.cellSubLabel}>KOL Alpha Calls</span>
-                            </div>
-                          </td>
-
-                          {/* WHALES */}
-                          <td className={styles.matrixTd}>
-                            <div className={styles.cellStack}>
-                              <span className={styles.whalePill}>
-                                🐳 {token.whaleInflow}
-                              </span>
-                              <span className={styles.cellSubLabel}>Net Inflow</span>
-                            </div>
-                          </td>
-
-                          {/* SOCIAL ACCELERATION */}
-                          <td className={styles.matrixTd}>
-                            <div className={styles.cellStack}>
-                              <span className={styles.socialBox}>
-                                ↗ ↑ {token.socialVelocity}
-                              </span>
-                              <span className={styles.cellSubLabel}>Viral Velocity</span>
-                            </div>
-                          </td>
-
-                          {/* i5 CONVICTION */}
-                          <td className={styles.matrixTd}>
-                            <div className={styles.convictionWrap}>
-                              <div className={styles.convictionScoreRow}>
-                                <div className={styles.convictionTrack}>
-                                  <div
-                                    className={styles.convictionFill}
-                                    style={{ width: `${token.convictionScore}%` }}
-                                  />
-                                </div>
-                                <span className={styles.convictionScoreVal}>{token.convictionScore}</span>
-                              </div>
-                              <span className={styles.cellSubLabel}>{token.convictionTier}</span>
-                            </div>
-                          </td>
-
-                          {/* QUICK TRADE */}
-                          <td className={styles.matrixTd}>
-                            <div className={styles.quickTradeCell}>
-                              <div className={styles.matrixSnipeGroup}>
-                                {snipeOptions.map((amt) => (
-                                  <button
-                                    key={amt}
-                                    className={`${styles.matrixSnipeBtn} ${snipeAmt === amt ? styles.matrixSnipeBtnActive : ""}`}
-                                    onClick={() => handleSnipe(token.id, amt)}
-                                  >
-                                    {amt}
-                                  </button>
-                                ))}
-                              </div>
-                              <button
-                                className={styles.matrixBuyBtn}
-                                onClick={() => handleBuy(token)}
-                              >
-                                <ShoppingCart size={11} />
-                                Buy {snipeAmt} {token.chain === "SOL" ? "SOL" : "BNB"}
-                              </button>
-                              <button
-                                className={styles.matrixChartBtn}
-                                onClick={() => setTradingTerminalToken(token)}
-                              >
-                                <BarChart2 size={12} />
-                              </button>
-                            </div>
-                          </td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* ═══ VIEW 2: HORIZONTAL CARDS ══════════════════════ */}
-        {view === "horizontal" && (
-          <div className={styles.hCardsList}>
-            {filtered.map((token) => {
-              const snipeAmt = activeSnipe[token.id] || "0.5";
-              const snipeOptions = ["0.2", "0.5", "1.5"];
-              const isGain = token.change24h >= 0;
-              const rawTicker = token.ticker.replace(/^\$/, "");
-
-              return (
-                <div key={token.id} className={styles.hCard}>
-                  {/* ── LEFT COLUMN ─────────────────────────────── */}
-                  <div className={styles.hCardLeft}>
-                    <div className={styles.hCardTopRow}>
-                      <span className={styles.trendingBadge}>🔥 Trending</span>
-                      <span className={styles.chainPill}>{token.chain}</span>
-                      <span className={styles.ageMeta}>
-                        <Clock size={11} />
-                        {formatAge(token.ageMinutes)}
-                      </span>
-                      <button
-                        className={`${styles.starBtn} ${token.isFavorited ? styles.starBtnActive : ""}`}
-                        onClick={() => toggleFavorite(token.id)}
-                      >
-                        <Star size={14} fill={token.isFavorited ? "currentColor" : "none"} />
-                      </button>
-                    </div>
-
-                    <div className={styles.hCardIdentityWrap}>
-                      <div className={styles.hCardIdentity}>
-                        <div className={styles.hCardAvatar}>
+            {/* ═══ VIEW 3: CARD GRID ═════════════════════════════ */}
+            {view === "grid" && (
+              <div className={styles.cardGrid}>
+                {filtered.map((token) => (
+                  <div key={token.id} className={styles.gridCard} onClick={() => setTradingTerminalToken(token)}>
+                    {/* Top Header Row */}
+                    <div className={styles.gridCardTop}>
+                      <div className={styles.gridCardIdentity}>
+                        <div className={styles.gridCardAvatar}>
                           {token.avatarImg ? (
                             <img
                               src={token.avatarImg}
                               alt={token.name}
-                              className={styles.hCardAvatarImg}
+                              className={styles.gridCardAvatarImg}
                               onError={(e) => { (e.target as HTMLElement).style.display = "none"; }}
                             />
                           ) : token.avatarEmoji}
                         </div>
-                        <div className={styles.hCardIdentityText}>
-                          <span className={styles.hCardTickerBadge}>{rawTicker}</span>
-                          <span className={styles.hCardName}>{token.name}</span>
-                          <span className={styles.hCardTicker}>{token.ticker}</span>
+                        <div className={styles.gridCardMeta}>
+                          <div className={styles.gridCardNameRow}>
+                            <span className={styles.gridCardName}>{token.name}</span>
+                            <span className={styles.gridCardTicker}>{token.ticker}</span>
+                          </div>
+                          <div className={styles.gridCardDev}>
+                            <span>by {token.devHandle}</span>
+                            {token.isVerified && <Check size={10} style={{ color: "var(--emerald-500)" }} strokeWidth={3} />}
+                            <span className={styles.gridCardDot}>·</span>
+                            <span className={styles.gridCardAge}>
+                              {formatAge(token.ageMinutes)}
+                            </span>
+                          </div>
                         </div>
                       </div>
-
-                      <div className={styles.hCardBadgeRow}>
-                        {token.isVerified && (
-                          <span className={styles.greenBadge}>
-                            <Check size={11} strokeWidth={3} />
-                            Verified
-                          </span>
-                        )}
-                        <span className={styles.greenBadge}>Low Risk</span>
-                      </div>
-                    </div>
-
-                    <div className={styles.devRow}>
-                      <Globe size={12} />
-                      dev: {token.devHandle}
-                    </div>
-                  </div>
-
-                  {/* ── MIDDLE COLUMN: STATS ────────────────────── */}
-                  <div className={styles.hCardMiddle}>
-                    <div className={styles.statsGrid}>
-                      <div className={styles.statsRow}>
-                        <div className={styles.statCell}>
-                          <span className={styles.statLabel}>Price</span>
-                          <span className={styles.statVal}>{token.price}</span>
-                        </div>
-                        <div className={styles.statCell}>
-                          <span className={styles.statLabel}>24H Change</span>
-                          <span className={`${styles.statVal} ${isGain ? styles.statValUp : styles.statValDown}`}>
-                            {isGain ? "↑" : "↓"}{Math.abs(token.change24h).toFixed(2)}%
-                          </span>
-                        </div>
-                      </div>
-
-                      <div className={styles.statsRow}>
-                        <div className={styles.statCell}>
-                          <span className={styles.statLabel}>Market Cap</span>
-                          <span className={styles.statVal}>{token.marketCap}</span>
-                        </div>
-                        <div className={styles.statCell}>
-                          <span className={styles.statLabel}>24H Volume</span>
-                          <span className={styles.statVal}>{token.volume24h}</span>
-                        </div>
-                      </div>
-
-                      <div className={styles.statsRow}>
-                        <div className={styles.statCell}>
-                          <span className={styles.statLabel}>Liquidity</span>
-                          <span className={styles.statVal}>{token.liquidity}</span>
-                        </div>
-                        <div className={styles.statCell}>
-                          <span className={styles.statLabel}>Holders</span>
-                          <span className={styles.statVal}>{token.holders.toLocaleString()}</span>
-                        </div>
+                      <div className={styles.gridCardTopRight}>
+                        <span className={`${styles.gridCardBadge} ${token.badge === "HIGH KOL BAG" ? styles.highKolBadge : styles.communityBadge}`}>
+                          {token.badge}
+                        </span>
+                        <button
+                          className={styles.gridCardFavBtn}
+                          onClick={(e) => { e.stopPropagation(); toggleFavorite(token.id); }}
+                          aria-label="Favorite token"
+                        >
+                          <Star size={13} fill={token.isFavorited ? "#ffffff" : "none"} color={token.isFavorited ? "#ffffff" : "var(--text-disabled)"} />
+                        </button>
                       </div>
                     </div>
 
-                    <div className={styles.middleFooterPills}>
-                      <span className={styles.smartMoneyBadge}>Smart Money: accumulating</span>
-                      <span className={styles.i5ScoreBadge}>i5 Score: {token.i5Score}</span>
-                    </div>
-                  </div>
+                    {/* Description (Clamped with fixed 2-line height for aligned cards) */}
+                    <p className={styles.gridCardDesc}>{token.description}</p>
 
-                  {/* ── RIGHT COLUMN: CURVE & ACTIONS ───────────── */}
-                  <div className={styles.hCardRight}>
-                    <div className={styles.curveSection}>
-                      <div className={styles.curveHeader}>
-                        <div className={styles.curveHeaderLeft}>
-                          <TrendingUp size={13} />
-                          <span>Bonding Curve</span>
-                        </div>
-                        <span>{token.bondingPercent.toFixed(1)}%</span>
-                      </div>
-                      <div className={styles.curveProgressTrack}>
-                        <div
-                          className={styles.curveProgressFill}
-                          style={{ width: `${token.bondingPercent}%` }}
-                        />
-                      </div>
-                      <div className={styles.curveMetaRow}>
-                        <div className={styles.curveMetaLeft}>
+                    {/* KOL Section */}
+                    <div className={styles.gridCardKolSection}>
+                      <div className={styles.kolSectionHeader}>
+                        <span className={styles.kolSectionTitle}>
                           <Users size={12} />
-                          <span>Top 10</span>
-                        </div>
-                        <span className={styles.curveMetaRight}>{token.topTenPct}</span>
-                      </div>
-                      <div className={styles.curveMetaRow}>
-                        <div className={styles.curveMetaLeft}>
-                          <Bot size={12} />
-                          <span>Bot Activity</span>
-                        </div>
-                        <span className={styles.lowRiskBadgeSmall}>Low</span>
-                      </div>
-                    </div>
-
-                    <div className={styles.dividerDotted} />
-
-                    <div className={styles.quickSnipeWrap}>
-                      <span className={styles.quickSnipeHeader}>Quick Snipe</span>
-                      <div className={styles.snipeButtonsRow}>
-                        {snipeOptions.map((amt) => (
-                          <button
-                            key={amt}
-                            className={`${styles.snipeButton} ${snipeAmt === amt ? styles.snipeButtonActive : ""}`}
-                            onClick={() => handleSnipe(token.id, amt)}
-                          >
-                            {amt}
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-
-                    <button className={styles.buyActionButton} onClick={() => handleBuy(token)}>
-                      Buy {snipeAmt} {token.chain === "SOL" ? "SOL" : "BNB"}
-                    </button>
-                    <button className={styles.chartActionButton} onClick={() => setTradingTerminalToken(token)}>
-                      <BarChart2 size={13} />
-                      View Chart
-                    </button>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        )}
-
-        {/* ═══ VIEW 3: CARD GRID ═════════════════════════════ */}
-        {view === "grid" && (
-          <div className={styles.cardGrid}>
-            {filtered.map((token) => (
-              <div key={token.id} className={styles.gridCard} onClick={() => setTradingTerminalToken(token)}>
-                {/* Top Header Row */}
-                <div className={styles.gridCardTop}>
-                  <div className={styles.gridCardIdentity}>
-                    <div className={styles.gridCardAvatar}>
-                      {token.avatarImg ? (
-                        <img
-                          src={token.avatarImg}
-                          alt={token.name}
-                          className={styles.gridCardAvatarImg}
-                          onError={(e) => { (e.target as HTMLElement).style.display = "none"; }}
-                        />
-                      ) : token.avatarEmoji}
-                    </div>
-                    <div className={styles.gridCardMeta}>
-                      <div className={styles.gridCardNameRow}>
-                        <span className={styles.gridCardName}>{token.name}</span>
-                        <span className={styles.gridCardTicker}>{token.ticker}</span>
-                      </div>
-                      <div className={styles.gridCardDev}>
-                        <span>by {token.devHandle}</span>
-                        {token.isVerified && <Check size={10} style={{ color: "var(--emerald-500)" }} strokeWidth={3} />}
-                        <span className={styles.gridCardDot}>·</span>
-                        <span className={styles.gridCardAge}>
-                          {formatAge(token.ageMinutes)}
+                          KOL Holders
+                        </span>
+                        <span className={`${styles.kolCountPill} ${token.kolsHolding > 0 ? styles.kolCountPillActive : ""}`}>
+                          {token.kolsHolding} holding
                         </span>
                       </div>
-                    </div>
-                  </div>
-                  <div className={styles.gridCardTopRight}>
-                    <span className={`${styles.gridCardBadge} ${token.badge === "HIGH KOL BAG" ? styles.highKolBadge : styles.communityBadge}`}>
-                      {token.badge}
-                    </span>
-                    <button
-                      className={styles.gridCardFavBtn}
-                      onClick={(e) => { e.stopPropagation(); toggleFavorite(token.id); }}
-                      aria-label="Favorite token"
-                    >
-                      <Star size={13} fill={token.isFavorited ? "#ffffff" : "none"} color={token.isFavorited ? "#ffffff" : "var(--text-disabled)"} />
-                    </button>
-                  </div>
-                </div>
-
-                {/* Description (Clamped with fixed 2-line height for aligned cards) */}
-                <p className={styles.gridCardDesc}>{token.description}</p>
-
-                {/* KOL Section */}
-                <div className={styles.gridCardKolSection}>
-                  <div className={styles.kolSectionHeader}>
-                    <span className={styles.kolSectionTitle}>
-                      <Users size={12} />
-                      KOL Holders
-                    </span>
-                    <span className={`${styles.kolCountPill} ${token.kolsHolding > 0 ? styles.kolCountPillActive : ""}`}>
-                      {token.kolsHolding} holding
-                    </span>
-                  </div>
-                  <div className={styles.kolBodyRow}>
-                    {token.kolsHolding > 0 ? (
-                      <div className={styles.kolAvatarsRow}>
-                        {token.kolAvatars.slice(0, 4).map((av, i) => (
-                          <div key={i} className={styles.kolAvatar}>{av}</div>
-                        ))}
-                        {token.kolsHolding > 4 && (
-                          <span className={styles.kolMoreCount}>
-                            +{token.kolsHolding - 4}
-                          </span>
+                      <div className={styles.kolBodyRow}>
+                        {token.kolsHolding > 0 ? (
+                          <div className={styles.kolAvatarsRow}>
+                            {token.kolAvatars.slice(0, 4).map((av, i) => (
+                              <div key={i} className={styles.kolAvatar}>{av}</div>
+                            ))}
+                            {token.kolsHolding > 4 && (
+                              <span className={styles.kolMoreCount}>
+                                +{token.kolsHolding - 4}
+                              </span>
+                            )}
+                          </div>
+                        ) : (
+                          <span className={styles.noKolsText}>No callers holding</span>
                         )}
+                        <div className={styles.kolBagBlock}>
+                          <span className={styles.kolBagMeta}>KOL BAG</span>
+                          <span className={`${styles.kolBagLabel} ${token.kolsHolding > 0 ? styles.kolBagValue : ""}`}>{token.totalKolBag}</span>
+                        </div>
                       </div>
-                    ) : (
-                      <span className={styles.noKolsText}>No callers holding</span>
-                    )}
-                    <div className={styles.kolBagBlock}>
-                      <span className={styles.kolBagMeta}>KOL BAG</span>
-                      <span className={`${styles.kolBagLabel} ${token.kolsHolding > 0 ? styles.kolBagValue : ""}`}>{token.totalKolBag}</span>
+                    </div>
+
+                    {/* Metrics Stats Row */}
+                    <div className={styles.gridCardStats}>
+                      <div className={styles.gridStatCell}>
+                        <span className={styles.gridStatLabel}>Market Cap</span>
+                        <span className={styles.gridStatValue}>{token.marketCap}</span>
+                      </div>
+                      <div className={styles.gridStatCell}>
+                        <span className={styles.gridStatLabel}>24H Vol</span>
+                        <span className={styles.gridStatValue}>{token.volume24h}</span>
+                      </div>
+                      <div className={styles.gridStatCell}>
+                        <span className={styles.gridStatLabel}>Holders</span>
+                        <span className={styles.gridStatValue}>{token.holders.toLocaleString()}</span>
+                      </div>
+                    </div>
+
+                    {/* Footer Action Row */}
+                    <div className={styles.gridCardFooter}>
+                      <div className={styles.i5ScoreBadge}>
+                        <ShieldCheck size={11} />
+                        <span>{token.i5Score}/100</span>
+                      </div>
+                      <span className={styles.top10Row}>Top 10: {token.topTenPct}</span>
+                      <button
+                        className={styles.quickBuyBtn}
+                        onClick={(e) => { e.stopPropagation(); handleBuy(token); }}
+                      >
+                        Quick Buy
+                      </button>
                     </div>
                   </div>
-                </div>
-
-                {/* Metrics Stats Row */}
-                <div className={styles.gridCardStats}>
-                  <div className={styles.gridStatCell}>
-                    <span className={styles.gridStatLabel}>Market Cap</span>
-                    <span className={styles.gridStatValue}>{token.marketCap}</span>
-                  </div>
-                  <div className={styles.gridStatCell}>
-                    <span className={styles.gridStatLabel}>24H Vol</span>
-                    <span className={styles.gridStatValue}>{token.volume24h}</span>
-                  </div>
-                  <div className={styles.gridStatCell}>
-                    <span className={styles.gridStatLabel}>Holders</span>
-                    <span className={styles.gridStatValue}>{token.holders.toLocaleString()}</span>
-                  </div>
-                </div>
-
-                {/* Footer Action Row */}
-                <div className={styles.gridCardFooter}>
-                  <div className={styles.i5ScoreBadge}>
-                    <ShieldCheck size={11} />
-                    <span>{token.i5Score}/100</span>
-                  </div>
-                  <span className={styles.top10Row}>Top 10: {token.topTenPct}</span>
-                  <button
-                    className={styles.quickBuyBtn}
-                    onClick={(e) => { e.stopPropagation(); handleBuy(token); }}
-                  >
-                    Quick Buy
-                  </button>
-                </div>
+                ))}
               </div>
-            ))}
+            )}
           </div>
-        )}
-      </div>
 
-      {/* ── KOL LEADERBOARD FULL SECTION (BELOW CARD GRID) ──── */}
-      {renderLeaderboardSection()}
-      </>
+          {/* ── KOL LEADERBOARD FULL SECTION (BELOW CARD GRID) ──── */}
+          {renderLeaderboardSection()}
+        </>
       ) : (
         /* ══════════════════════════════════════════════════════════
            KOL RADAR VIEW (MATCHES REFERENCE IN i5 THEME & STYLE)
