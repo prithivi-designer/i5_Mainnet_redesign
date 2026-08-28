@@ -126,7 +126,6 @@ export default function AppShell({ children }: AppShellProps) {
       {/* Full-width header spanning top (100% width) */}
       <Topbar
         onMenuToggle={isMobile || isTablet ? () => setIsMobileDrawerOpen((v) => !v) : undefined}
-        showMenuBtn={isMobile || isTablet}
       />
 
       {/* Mobile/Tablet: Drawer backdrop */}
