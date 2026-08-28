@@ -110,7 +110,7 @@
 }
 
 .iconBtn:hover {
-  background: var(--neutral-800);
+  background: var(--bg-surface-overlay);
   color: var(--text-primary);
   border-color: var(--border-color-strong);
 }
@@ -119,7 +119,7 @@
 .swapSegmentTabs {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  background: var(--neutral-900);
+  background: var(--bg-surface);
   border: 1px solid var(--border-color-default);
   border-radius: var(--radius-md);
   padding: 3px;
@@ -147,7 +147,7 @@
 }
 
 .swapSegmentBtnActiveBuy {
-  background: var(--neutral-800);
+  background: var(--bg-surface-overlay);
   color: var(--text-primary);
   border-color: var(--border-color-emphasis);
   font-weight: 800;
@@ -155,7 +155,7 @@
 }
 
 .swapSegmentBtnActiveSell {
-  background: var(--neutral-800);
+  background: var(--bg-surface-overlay);
   color: var(--text-primary);
   border-color: var(--border-color-emphasis);
   font-weight: 800;
@@ -215,7 +215,7 @@
 .swapCurrencyBadge {
   padding: 3px 8px;
   border-radius: var(--radius-sm);
-  background: var(--neutral-800);
+  background: var(--bg-surface-overlay);
   border: 1px solid var(--border-color-strong);
   font-family: var(--font-mono);
   font-size: 11.5px;
@@ -234,7 +234,7 @@
 .swapQuickPill {
   height: 24px;
   border-radius: var(--radius-sm);
-  background: var(--neutral-900);
+  background: var(--bg-surface);
   border: 1px solid var(--border-color-default);
   color: var(--text-secondary);
   font-family: var(--font-mono);
@@ -248,13 +248,13 @@
 }
 
 .swapQuickPill:hover {
-  background: var(--neutral-800);
+  background: var(--bg-surface-overlay);
   color: var(--text-primary);
   border-color: var(--border-color-strong);
 }
 
 .swapQuickPillActive {
-  background: var(--neutral-800);
+  background: var(--bg-surface-overlay);
   color: var(--text-primary);
   border-color: var(--border-color-emphasis);
   font-weight: 700;
@@ -429,7 +429,7 @@
 .historyFilterTabs {
   display: flex;
   align-items: center;
-  background: var(--neutral-900);
+  background: var(--bg-surface);
   border: 1px solid var(--border-color-default);
   border-radius: var(--radius-md);
   padding: 2px;
@@ -456,7 +456,7 @@
 }
 
 .historyTabBtnActive {
-  background: var(--neutral-800);
+  background: var(--bg-surface-overlay);
   color: var(--text-primary);
   font-weight: 700;
 }
@@ -506,7 +506,7 @@
 
 .historyRow:hover {
   border-color: var(--border-color-strong);
-  background: var(--neutral-900);
+  background: var(--bg-surface);
   transform: translateY(-1px);
 }
 

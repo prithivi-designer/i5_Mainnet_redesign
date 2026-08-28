@@ -323,7 +323,7 @@
   width: 12px;
   height: 12px;
   border-radius: var(--radius-full);
-  background-color: var(--neutral-800);
+  background-color: var(--bg-surface-overlay);
   border: 1.5px solid var(--neutral-700);
   display: flex;
   align-items: center;
@@ -340,7 +340,7 @@
   width: 12px;
   height: 12px;
   border-radius: var(--radius-full);
-  background-color: var(--neutral-800);
+  background-color: var(--bg-surface-overlay);
   border: 1.5px solid var(--neutral-700);
   display: flex;
   align-items: center;
@@ -749,7 +749,7 @@
 
 .accumulating {
   color: var(--text-primary);
-  background-color: var(--neutral-800);
+  background-color: var(--bg-surface-overlay);
   border: 1px solid var(--border-color-strong);
 }
 
@@ -761,13 +761,13 @@
 
 .whale {
   color: var(--text-secondary);
-  background-color: var(--neutral-800);
+  background-color: var(--bg-surface-overlay);
   border: 1px solid var(--border-color-default);
 }
 
 .smartLong {
   color: var(--text-secondary);
-  background-color: var(--neutral-800);
+  background-color: var(--bg-surface-overlay);
   border: 1px solid var(--border-color-default);
 }
 

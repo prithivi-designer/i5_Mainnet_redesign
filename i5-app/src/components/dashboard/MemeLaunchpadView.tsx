@@ -1259,7 +1259,6 @@ const TOKENS: LaunchpadToken[] = [
 const VIEW_TYPES = [
   { id: "grid", label: "Card Grid", icon: <LayoutGrid size={14} /> },
   { id: "matrix", label: "Bubble Map", icon: <CircleDot size={14} /> },
-  { id: "horizontal", label: "Horizontal Cards", icon: <TrendingUp size={14} /> },
 ] as const;
 
 const STATUS_FILTERS = [
@@ -1273,7 +1272,7 @@ const STATUS_FILTERS = [
 const SORT_OPTIONS = ["Market Cap", "Trending Momentum", "24h Volume", "24h Change", "Bonding %", "KOL Count"];
 const BUBBLE_SIZE_OPTIONS = ["KOLs Count", "KOL Bag USD", "Market Cap", "24h Volume", "24h Change"];
 
-type ViewType = "grid" | "matrix" | "horizontal";
+type ViewType = "grid" | "matrix";
 
 function formatAge(minutes: number): string {
   if (minutes < 60) return `${minutes}m ago`;
@@ -1955,12 +1954,7 @@ export default function MemeLaunchpadView() {
           </button>
         </div>
 
-        <div className={styles.masterTabsMeta}>
-          <span className={styles.masterTabsStatus}>
-            <CircleDot size={12} className={styles.statusLiveDot} />
-            <span>Real-time on-chain telemetry</span>
-          </span>
-        </div>
+
       </div>
 
       {masterTab === "launchpad" ? (
@@ -2744,177 +2738,7 @@ export default function MemeLaunchpadView() {
               </div>
             )}
 
-            {/* ═══ VIEW 2: HORIZONTAL CARDS ══════════════════════ */}
-            {view === "horizontal" && (
-              <div className={styles.hCardsList}>
-                {filtered.map((token) => {
-                  const snipeAmt = activeSnipe[token.id] || "0.5";
-                  const snipeOptions = ["0.2", "0.5", "1.5"];
-                  const isGain = token.change24h >= 0;
-                  const rawTicker = token.ticker.replace(/^\$/, "");
 
-                  return (
-                    <div key={token.id} className={styles.hCard}>
-                      {/* ── LEFT COLUMN ─────────────────────────────── */}
-                      <div className={styles.hCardLeft}>
-                        <div className={styles.hCardTopRow}>
-                          <span className={styles.trendingBadge}>🔥 Trending</span>
-                          <span className={styles.chainPill}>{token.chain}</span>
-                          <span className={styles.ageMeta}>
-                            <Clock size={11} />
-                            {formatAge(token.ageMinutes)}
-                          </span>
-                          <button
-                            className={`${styles.starBtn} ${token.isFavorited ? styles.starBtnActive : ""}`}
-                            onClick={() => toggleFavorite(token.id)}
-                          >
-                            <Star size={14} fill={token.isFavorited ? "currentColor" : "none"} />
-                          </button>
-                        </div>
-
-                        <div className={styles.hCardIdentityWrap}>
-                          <div className={styles.hCardIdentity}>
-                            <div className={styles.hCardAvatar}>
-                              {token.avatarImg ? (
-                                <img
-                                  src={token.avatarImg}
-                                  alt={token.name}
-                                  className={styles.hCardAvatarImg}
-                                  onError={(e) => { (e.target as HTMLElement).style.display = "none"; }}
-                                />
-                              ) : token.avatarEmoji}
-                            </div>
-                            <div className={styles.hCardIdentityText}>
-                              <span className={styles.hCardTickerBadge}>{rawTicker}</span>
-                              <span className={styles.hCardName}>{token.name}</span>
-                              <span className={styles.hCardTicker}>{token.ticker}</span>
-                            </div>
-                          </div>
-
-                          <div className={styles.hCardBadgeRow}>
-                            {token.isVerified && (
-                              <span className={styles.greenBadge}>
-                                <Check size={11} strokeWidth={3} />
-                                Verified
-                              </span>
-                            )}
-                            <span className={styles.greenBadge}>Low Risk</span>
-                          </div>
-                        </div>
-
-                        <div className={styles.devRow}>
-                          <Globe size={12} />
-                          dev: {token.devHandle}
-                        </div>
-                      </div>
-
-                      {/* ── MIDDLE COLUMN: STATS ────────────────────── */}
-                      <div className={styles.hCardMiddle}>
-                        <div className={styles.statsGrid}>
-                          <div className={styles.statsRow}>
-                            <div className={styles.statCell}>
-                              <span className={styles.statLabel}>Price</span>
-                              <span className={styles.statVal}>{token.price}</span>
-                            </div>
-                            <div className={styles.statCell}>
-                              <span className={styles.statLabel}>24H Change</span>
-                              <span className={`${styles.statVal} ${isGain ? styles.statValUp : styles.statValDown}`}>
-                                {isGain ? "↑" : "↓"}{Math.abs(token.change24h).toFixed(2)}%
-                              </span>
-                            </div>
-                          </div>
-
-                          <div className={styles.statsRow}>
-                            <div className={styles.statCell}>
-                              <span className={styles.statLabel}>Market Cap</span>
-                              <span className={styles.statVal}>{token.marketCap}</span>
-                            </div>
-                            <div className={styles.statCell}>
-                              <span className={styles.statLabel}>24H Volume</span>
-                              <span className={styles.statVal}>{token.volume24h}</span>
-                            </div>
-                          </div>
-
-                          <div className={styles.statsRow}>
-                            <div className={styles.statCell}>
-                              <span className={styles.statLabel}>Liquidity</span>
-                              <span className={styles.statVal}>{token.liquidity}</span>
-                            </div>
-                            <div className={styles.statCell}>
-                              <span className={styles.statLabel}>Holders</span>
-                              <span className={styles.statVal}>{token.holders.toLocaleString()}</span>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div className={styles.middleFooterPills}>
-                          <span className={styles.smartMoneyBadge}>Smart Money: accumulating</span>
-                          <span className={styles.i5ScoreBadge}>i5 Score: {token.i5Score}</span>
-                        </div>
-                      </div>
-
-                      {/* ── RIGHT COLUMN: CURVE & ACTIONS ───────────── */}
-                      <div className={styles.hCardRight}>
-                        <div className={styles.curveSection}>
-                          <div className={styles.curveHeader}>
-                            <div className={styles.curveHeaderLeft}>
-                              <TrendingUp size={13} />
-                              <span>Bonding Curve</span>
-                            </div>
-                            <span>{token.bondingPercent.toFixed(1)}%</span>
-                          </div>
-                          <div className={styles.curveProgressTrack}>
-                            <div
-                              className={styles.curveProgressFill}
-                              style={{ width: `${token.bondingPercent}%` }}
-                            />
-                          </div>
-                          <div className={styles.curveMetaRow}>
-                            <div className={styles.curveMetaLeft}>
-                              <Users size={12} />
-                              <span>Top 10</span>
-                            </div>
-                            <span className={styles.curveMetaRight}>{token.topTenPct}</span>
-                          </div>
-                          <div className={styles.curveMetaRow}>
-                            <div className={styles.curveMetaLeft}>
-                              <Bot size={12} />
-                              <span>Bot Activity</span>
-                            </div>
-                            <span className={styles.lowRiskBadgeSmall}>Low</span>
-                          </div>
-                        </div>
-
-                        <div className={styles.dividerDotted} />
-
-                        <div className={styles.quickSnipeWrap}>
-                          <span className={styles.quickSnipeHeader}>Quick Snipe</span>
-                          <div className={styles.snipeButtonsRow}>
-                            {snipeOptions.map((amt) => (
-                              <button
-                                key={amt}
-                                className={`${styles.snipeButton} ${snipeAmt === amt ? styles.snipeButtonActive : ""}`}
-                                onClick={() => handleSnipe(token.id, amt)}
-                              >
-                                {amt}
-                              </button>
-                            ))}
-                          </div>
-                        </div>
-
-                        <button className={styles.buyActionButton} onClick={() => handleBuy(token)}>
-                          Buy {snipeAmt} {token.chain === "SOL" ? "SOL" : "BNB"}
-                        </button>
-                        <button className={styles.chartActionButton} onClick={() => setTradingTerminalToken(token)}>
-                          <BarChart2 size={13} />
-                          View Chart
-                        </button>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            )}
 
             {/* ═══ VIEW 3: CARD GRID ═════════════════════════════ */}
             {view === "grid" && (

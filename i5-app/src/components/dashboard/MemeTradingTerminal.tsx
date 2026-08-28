@@ -403,7 +403,7 @@ export default function MemeTradingTerminal({
               bottom: "24px",
               left: "50%",
               transform: "translateX(-50%)",
-              background: "var(--neutral-900)",
+              background: "var(--bg-surface)",
               border: "1px solid var(--emerald-500)",
               color: "var(--emerald-400)",
               padding: "9px 18px",

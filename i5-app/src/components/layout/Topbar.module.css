@@ -249,28 +249,20 @@
   letter-spacing: 0.02em;
 }
 
-/* User Avatar (Dark Circle displaying I5) */
-.avatar {
+.walletAvatar {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 36px;
-  height: 36px;
+  width: 18px;
+  height: 18px;
   border-radius: var(--radius-full);
   background-color: var(--bg-surface-overlay);
   color: var(--text-primary);
   font-family: var(--font-sans);
   font-weight: 700;
-  font-size: 12px;
-  cursor: pointer;
+  font-size: 9px;
   border: var(--border-width-default) solid var(--border-color-default);
-  transition: border-color var(--duration-fast) var(--easing-standard), background-color var(--duration-fast) var(--easing-standard);
   flex-shrink: 0;
-}
-
-.avatar:hover {
-  border-color: var(--border-color-strong);
-  background-color: var(--neutral-700);
 }
 
 /* ----------------------------------------------------------

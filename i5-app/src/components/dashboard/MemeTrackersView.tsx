@@ -1295,10 +1295,10 @@ function SocialAlertCard({ alert }: { alert: AlertItem }) {
               <radialGradient id="brainGlow" cx="50%" cy="50%" r="50%">
                 <stop offset="0%" stopColor="var(--emerald-400)" stopOpacity="0.8" />
                 <stop offset="60%" stopColor="var(--emerald-600)" stopOpacity="0.3" />
-                <stop offset="100%" stopColor="var(--neutral-900)" stopOpacity="0" />
+                <stop offset="100%" stopColor="var(--bg-surface)" stopOpacity="0" />
               </radialGradient>
             </defs>
-            <circle cx="50" cy="50" r="46" fill="var(--neutral-900)" />
+            <circle cx="50" cy="50" r="46" fill="var(--bg-surface)" />
             <circle cx="50" cy="46" r="32" fill="url(#brainGlow)" />
             <path
               d="M32 75 C32 60, 40 50, 48 45 C42 40, 42 32, 48 26 C55 20, 68 22, 70 34 C72 44, 66 52, 60 56 C68 62, 72 70, 72 75 Z"
@@ -1319,7 +1319,7 @@ function SocialAlertCard({ alert }: { alert: AlertItem }) {
 
     if (alert.avatarType === "cat") {
       return (
-        <div className={styles.genericAvatar} style={{ background: "linear-gradient(135deg, var(--neutral-800), var(--neutral-900))" }}>
+        <div className={styles.genericAvatar} style={{ background: "linear-gradient(135deg, var(--bg-surface-overlay), var(--bg-surface))" }}>
           <span style={{ fontSize: 18 }}>🐱</span>
         </div>
       );
@@ -1327,7 +1327,7 @@ function SocialAlertCard({ alert }: { alert: AlertItem }) {
 
     if (alert.avatarType === "moon") {
       return (
-        <div className={styles.genericAvatar} style={{ background: "linear-gradient(135deg, var(--neutral-800), var(--neutral-900))" }}>
+        <div className={styles.genericAvatar} style={{ background: "linear-gradient(135deg, var(--bg-surface-overlay), var(--bg-surface))" }}>
           <span style={{ fontSize: 18 }}>🌙</span>
         </div>
       );
@@ -1335,7 +1335,7 @@ function SocialAlertCard({ alert }: { alert: AlertItem }) {
 
     if (alert.avatarType === "floki") {
       return (
-        <div className={styles.genericAvatar} style={{ background: "linear-gradient(135deg, var(--neutral-800), var(--neutral-900))" }}>
+        <div className={styles.genericAvatar} style={{ background: "linear-gradient(135deg, var(--bg-surface-overlay), var(--bg-surface))" }}>
           <span style={{ fontSize: 18 }}>⚡</span>
         </div>
       );
@@ -1343,7 +1343,7 @@ function SocialAlertCard({ alert }: { alert: AlertItem }) {
 
     if (alert.avatarType === "pepe") {
       return (
-        <div className={styles.genericAvatar} style={{ background: "linear-gradient(135deg, var(--neutral-800), var(--neutral-900))" }}>
+        <div className={styles.genericAvatar} style={{ background: "linear-gradient(135deg, var(--bg-surface-overlay), var(--bg-surface))" }}>
           <span style={{ fontSize: 18 }}>🐸</span>
         </div>
       );
@@ -1353,7 +1353,7 @@ function SocialAlertCard({ alert }: { alert: AlertItem }) {
       <div
         className={styles.genericAvatar}
         style={{
-          background: `linear-gradient(135deg, ${alert.avatarBg}33, var(--neutral-900))`,
+          background: `linear-gradient(135deg, ${alert.avatarBg}33, var(--bg-surface))`,
           borderColor: alert.avatarBg + "44",
         }}
       >

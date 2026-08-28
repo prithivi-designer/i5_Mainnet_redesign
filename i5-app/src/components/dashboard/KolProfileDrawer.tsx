@@ -552,7 +552,7 @@ export default function KolProfileDrawer({
               position: "fixed",
               bottom: "24px",
               right: "24px",
-              background: "var(--neutral-900)",
+              background: "var(--bg-surface)",
               border: "1px solid var(--border-color-emphasis)",
               color: "var(--text-primary)",
               padding: "10px 18px",

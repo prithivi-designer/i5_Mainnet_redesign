@@ -267,7 +267,7 @@
 }
 
 .nichePillActive .nicheBadge {
-  background: var(--neutral-950);
+  background: var(--bg-app);
   border-color: var(--border-color-strong);
   color: var(--text-primary);
 }
@@ -374,7 +374,7 @@
 }
 
 .sortOptionActive {
-  background: var(--neutral-800);
+  background: var(--bg-surface-overlay);
   color: var(--text-primary);
   font-weight: 600;
 }
@@ -439,7 +439,7 @@
   height: 36px;
   border-radius: var(--radius-md);
   object-fit: cover;
-  background: var(--neutral-850);
+  background: var(--bg-surface-raised);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -462,8 +462,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--neutral-950);
-  border: 1.5px solid var(--neutral-900);
+  color: var(--bg-app);
+  border: 1.5px solid var(--bg-surface);
   box-shadow: var(--shadow-xs);
 }
 
@@ -533,7 +533,7 @@
 .progressBarTrack {
   flex: 1 1 0%;
   height: 4px;
-  background-color: var(--neutral-800);
+  background-color: var(--bg-surface-overlay);
   border: var(--border-width-hairline) solid var(--border-color-default);
   border-radius: 2px;
   overflow: hidden;

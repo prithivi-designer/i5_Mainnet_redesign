@@ -292,7 +292,7 @@
 
 .toggleSwitch input:checked + .slider:before {
   transform: translateX(17px);
-  background-color: var(--neutral-950);
+  background-color: var(--bg-app);
 }
 
 /* Filter Section Groups */
@@ -534,7 +534,7 @@
 
 .longPill {
   color: var(--text-secondary);
-  background-color: var(--neutral-800);
+  background-color: var(--bg-surface-overlay);
   border: 1px solid var(--border-color-default);
 }
 

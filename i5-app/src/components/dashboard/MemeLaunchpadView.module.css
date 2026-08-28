@@ -75,7 +75,7 @@
 }
 
 .masterTabBadge {
-  background: var(--neutral-800);
+  background: var(--bg-surface-overlay);
   border: var(--border-width-default) solid var(--border-color-strong);
   color: var(--text-secondary);
   font-size: 11px;
@@ -88,7 +88,7 @@
 }
 
 .masterTabBadgeLive {
-  background: var(--neutral-800);
+  background: var(--bg-surface-overlay);
   border: 1px solid var(--border-color-strong);
   color: var(--text-secondary);
   font-size: 11px;
@@ -412,7 +412,7 @@
   font-family: var(--font-sans);
   font-size: 26px;
   font-weight: 600;
-  color: var(--neutral-0);
+  color: var(--text-primary);
   line-height: 1;
   letter-spacing: -0.03em;
 }
@@ -528,7 +528,7 @@
 .viewSelectorGroup {
   display: inline-flex;
   align-items: center;
-  background-color: var(--neutral-900);
+  background-color: var(--bg-surface-raised);
   border: 1px solid var(--border-color-default);
   border-radius: var(--radius-md);
   padding: 3px;
@@ -569,7 +569,7 @@
 }
 
 .viewSelectorBtnActive {
-  background-color: var(--neutral-800);
+  background-color: var(--bg-surface-overlay);
   color: var(--text-primary);
   font-weight: 700;
   border: 1px solid var(--border-color-strong);
@@ -579,7 +579,7 @@
 .subFilterTabsDesktop {
   display: inline-flex;
   align-items: center;
-  background-color: var(--neutral-900);
+  background-color: var(--bg-surface-raised);
   border: 1px solid var(--border-color-default);
   border-radius: var(--radius-md);
   padding: 3px;
@@ -617,7 +617,7 @@
 }
 
 .subFilterTabActive {
-  background-color: var(--neutral-800);
+  background-color: var(--bg-surface-overlay);
   color: var(--text-primary);
   font-weight: 700;
   border: 1px solid var(--border-color-strong);
@@ -1199,7 +1199,7 @@
 }
 
 .sortDropdownItemActive {
-  background-color: var(--neutral-800);
+  background-color: var(--bg-surface-overlay);
   color: var(--text-primary);
   font-weight: 600;
 }
@@ -1269,7 +1269,7 @@
   height: 30px;
   min-width: 125px;
   padding: 0 var(--space-3);
-  background-color: var(--neutral-850);
+  background-color: var(--bg-surface-overlay);
   border: var(--border-width-default) solid var(--border-color-default);
   border-radius: var(--radius-sm);
   color: var(--text-secondary);
@@ -1307,19 +1307,19 @@
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--text-tertiary);
-  background-color: var(--neutral-900);
+  background-color: var(--bg-surface-raised);
   border-bottom: var(--border-width-default) solid var(--border-color-default);
   white-space: nowrap;
 }
 
 .matrixTr {
   border-bottom: var(--border-width-default) solid var(--border-color-default);
-  background-color: var(--neutral-950);
+  background-color: var(--bg-app);
   transition: background-color var(--duration-fast) var(--easing-standard);
 }
 
 .matrixTr:hover {
-  background-color: var(--neutral-850);
+  background-color: var(--bg-surface-overlay);
 }
 
 .matrixTd {
@@ -1353,7 +1353,7 @@
   width: 20px;
   height: 20px;
   border-radius: var(--radius-full);
-  background: var(--neutral-800);
+  background: var(--bg-surface-overlay);
   border: var(--border-width-default) solid var(--border-color-strong);
   font-size: 10px;
   font-weight: 700;
@@ -1366,15 +1366,15 @@
 
 .assetRankBadgeTop {
   background: var(--neutral-100);
-  border-color: var(--neutral-0);
-  color: var(--neutral-950);
+  border-color: var(--border-color-strong);
+  color: var(--text-primary);
 }
 
 .assetAvatar {
   width: 38px;
   height: 38px;
   border-radius: var(--radius-md);
-  background-color: var(--neutral-800);
+  background-color: var(--bg-surface-overlay);
   border: var(--border-width-default) solid var(--border-color-default);
   overflow: hidden;
   display: flex;
@@ -1418,7 +1418,7 @@
 .assetChainPillSmall {
   padding: 1px 5px;
   border-radius: var(--radius-sm);
-  background: var(--neutral-800);
+  background: var(--bg-surface-overlay);
   border: var(--border-width-default) solid var(--border-color-default);
   font-size: 9.5px;
   font-weight: 700;
@@ -1455,7 +1455,7 @@
 
 /* Metric Cells */
 .smartMoneyBox {
-  background: var(--neutral-800);
+  background: var(--bg-surface-overlay);
   border: var(--border-width-default) solid var(--border-color-strong);
   border-radius: var(--radius-md);
   padding: 6px 12px;
@@ -1499,7 +1499,7 @@
   align-items: center;
   gap: 5px;
   padding: 3px 10px;
-  background: var(--neutral-800);
+  background: var(--bg-surface-overlay);
   border: var(--border-width-default) solid var(--border-color-default);
   border-radius: var(--radius-md);
   font-size: 11px;
@@ -1524,7 +1524,7 @@
   align-items: center;
   gap: 4px;
   padding: 3px 10px;
-  background: var(--neutral-800);
+  background: var(--bg-surface-overlay);
   border: var(--border-width-default) solid var(--border-color-default);
   border-radius: var(--radius-md);
   font-family: var(--font-mono);
@@ -1538,7 +1538,7 @@
   align-items: center;
   gap: 4px;
   padding: 3px 10px;
-  background: var(--neutral-800);
+  background: var(--bg-surface-overlay);
   border: var(--border-width-default) solid var(--border-color-default);
   border-radius: var(--radius-md);
   font-family: var(--font-mono);
@@ -1564,7 +1564,7 @@
   width: 48px;
   height: 6px;
   border-radius: var(--radius-full);
-  background: var(--neutral-800);
+  background: var(--bg-surface-overlay);
   overflow: hidden;
 }
 
@@ -1599,7 +1599,7 @@
   padding: 0 6px;
   border: var(--border-width-default) solid var(--border-color-default);
   border-radius: var(--radius-sm);
-  background: var(--neutral-850);
+  background: var(--bg-surface-overlay);
   color: var(--text-tertiary);
   font-family: var(--font-mono);
   font-size: 10.5px;
@@ -1614,7 +1614,7 @@
 }
 
 .matrixSnipeBtnActive {
-  background: var(--neutral-800);
+  background: var(--bg-surface-overlay);
   border-color: var(--border-color-emphasis);
   color: var(--text-primary);
   font-weight: 700;
@@ -1659,7 +1659,7 @@
 }
 
 .matrixChartBtn:hover {
-  background: var(--neutral-800);
+  background: var(--bg-surface-overlay);
   color: var(--text-primary);
   border-color: var(--border-color-strong);
 }
@@ -1716,11 +1716,11 @@
 .bubbleSizeBtn:hover {
   color: var(--text-primary);
   border-color: var(--border-color-strong);
-  background: var(--neutral-800);
+  background: var(--bg-surface-overlay);
 }
 
 .bubbleSizeBtnActive {
-  background: var(--neutral-800);
+  background: var(--bg-surface-overlay);
   border-color: var(--border-color-strong);
   color: var(--text-primary);
   font-weight: 600;
@@ -1736,7 +1736,7 @@
 .bubbleKolFilterSelect {
   height: 26px;
   padding: 0 var(--space-3);
-  background-color: var(--neutral-850);
+  background-color: var(--bg-surface-overlay);
   border: var(--border-width-default) solid var(--border-color-default);
   border-radius: var(--radius-sm);
   color: var(--text-secondary);
@@ -1750,8 +1750,8 @@
   position: relative;
   width: 100%;
   height: 520px;
-  background: radial-gradient(circle at 50% 50%, rgba(20, 20, 20, 0.7) 0%, rgba(8, 8, 8, 0.95) 100%);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  background: radial-gradient(circle at 50% 50%, var(--bg-surface-raised) 0%, var(--bg-app) 100%);
+  border: 1px solid var(--border-color-default);
   border-radius: var(--radius-xl);
   overflow: hidden;
 }
@@ -1775,9 +1775,9 @@
   gap: var(--space-4);
   font-size: 11px;
   color: var(--text-tertiary);
-  background: rgba(14, 14, 18, 0.85);
+  background: var(--bg-surface-overlay);
   backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--border-color-default);
   border-radius: var(--radius-full);
   padding: 5px 14px;
   pointer-events: none;
@@ -1853,8 +1853,8 @@
   width: 18px;
   height: 18px;
   border-radius: 50%;
-  background: var(--neutral-800);
-  border: 1.5px solid var(--neutral-950);
+  background: var(--bg-surface-overlay);
+  border: 1.5px solid var(--bg-app);
   font-size: 10px;
   display: flex;
   align-items: center;
@@ -2019,7 +2019,7 @@
   position: absolute;
   z-index: 50;
   width: 280px;
-  background: var(--neutral-850);
+  background: var(--bg-surface-overlay);
   border: var(--border-width-default) solid var(--border-color-strong);
   border-radius: var(--radius-lg);
   padding: var(--space-3) var(--space-4);
@@ -2060,7 +2060,7 @@
   width: 28px;
   height: 28px;
   border-radius: var(--radius-sm);
-  background: var(--neutral-800);
+  background: var(--bg-surface-overlay);
   border: 1px solid var(--border-color-default);
   overflow: hidden;
   display: flex;
@@ -2097,14 +2097,14 @@
   font-size: 11px;
   font-weight: 700;
   color: var(--emerald-500);
-  background: var(--neutral-800);
+  background: var(--bg-surface-overlay);
   border: var(--border-width-default) solid var(--border-color-default);
   padding: 2px 6px;
   border-radius: var(--radius-sm);
 }
 
 .hoverKolBox {
-  background: var(--neutral-900);
+  background: var(--bg-surface-raised);
   border: var(--border-width-default) solid var(--border-color-default);
   border-radius: var(--radius-md);
   padding: 6px var(--space-3);
@@ -2140,7 +2140,7 @@
   align-items: center;
   gap: 4px;
   padding: 2px 6px;
-  background: var(--neutral-800);
+  background: var(--bg-surface-overlay);
   border: var(--border-width-default) solid var(--border-color-default);
   border-radius: var(--radius-sm);
   font-size: 10px;
@@ -2171,7 +2171,7 @@
   right: 16px;
   width: 320px;
   max-height: calc(100% - 32px);
-  background: var(--neutral-900);
+  background: var(--bg-surface-raised);
   border: var(--border-width-default) solid var(--border-color-strong);
   border-radius: var(--radius-xl);
   box-shadow: var(--shadow-xl);
@@ -2213,7 +2213,7 @@
   width: 42px;
   height: 42px;
   border-radius: var(--radius-md);
-  background: var(--neutral-800);
+  background: var(--bg-surface-overlay);
   border: var(--border-width-default) solid var(--border-color-default);
   overflow: hidden;
   display: flex;
@@ -2252,7 +2252,7 @@
   width: 24px;
   height: 24px;
   border-radius: var(--radius-full);
-  background: var(--neutral-800);
+  background: var(--bg-surface-overlay);
   border: var(--border-width-default) solid var(--border-color-default);
   color: var(--text-tertiary);
   cursor: pointer;
@@ -2278,7 +2278,7 @@
 }
 
 .sidePopupStatCell {
-  background: var(--neutral-850);
+  background: var(--bg-surface-overlay);
   padding: 6px 10px;
   display: flex;
   flex-direction: column;
@@ -2326,7 +2326,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 6px 8px;
-  background: var(--neutral-850);
+  background: var(--bg-surface-overlay);
   border: var(--border-width-default) solid var(--border-color-default);
   border-radius: var(--radius-md);
 }
@@ -2341,7 +2341,7 @@
   width: 24px;
   height: 24px;
   border-radius: var(--radius-full);
-  background: var(--neutral-800);
+  background: var(--bg-surface-overlay);
   border: var(--border-width-default) solid var(--border-color-default);
   overflow: hidden;
   font-size: 11px;
@@ -2472,7 +2472,7 @@
   align-items: center;
   gap: 4px;
   padding: 3px 8px;
-  background: var(--neutral-800);
+  background: var(--bg-surface-overlay);
   border: var(--border-width-default) solid var(--border-color-strong);
   border-radius: var(--radius-md);
   font-size: 11px;
@@ -2484,7 +2484,7 @@
   display: inline-flex;
   align-items: center;
   padding: 3px 8px;
-  background: var(--neutral-800);
+  background: var(--bg-surface-overlay);
   border: var(--border-width-default) solid var(--border-color-strong);
   border-radius: var(--radius-md);
   font-size: 11px;
@@ -2536,7 +2536,7 @@
   width: 56px;
   height: 56px;
   border-radius: var(--radius-lg);
-  background-color: var(--neutral-800);
+  background-color: var(--bg-surface-overlay);
   border: var(--border-width-default) solid var(--border-color-default);
   overflow: hidden;
   display: flex;
@@ -2601,7 +2601,7 @@
   align-items: center;
   gap: 4px;
   padding: 2px 8px;
-  background: var(--neutral-800);
+  background: var(--bg-surface-overlay);
   border: var(--border-width-default) solid var(--border-color-default);
   border-radius: var(--radius-md);
   font-size: 11px;
@@ -2692,7 +2692,7 @@
   font-size: 11px;
   font-weight: 600;
   color: var(--text-secondary);
-  background: var(--neutral-800);
+  background: var(--bg-surface-overlay);
   border: var(--border-width-default) solid var(--border-color-strong);
   padding: 3px 10px;
   border-radius: var(--radius-md);
@@ -2705,7 +2705,7 @@
   font-size: 11px;
   font-weight: 600;
   color: var(--text-secondary);
-  background: var(--neutral-800);
+  background: var(--bg-surface-overlay);
   border: var(--border-width-default) solid var(--border-color-strong);
   padding: 3px 10px;
   border-radius: var(--radius-md);
@@ -2744,7 +2744,7 @@
 .curveProgressTrack {
   width: 100%;
   height: 8px;
-  background-color: var(--neutral-800);
+  background-color: var(--bg-surface-overlay);
   border-radius: var(--radius-full);
   overflow: hidden;
 }
@@ -2821,7 +2821,7 @@
   height: 30px;
   border: var(--border-width-default) solid var(--border-color-default);
   border-radius: var(--radius-md);
-  background: var(--neutral-850);
+  background: var(--bg-surface-overlay);
   color: var(--text-secondary);
   font-family: var(--font-mono);
   font-size: 11.5px;
@@ -2839,7 +2839,7 @@
 }
 
 .snipeButtonActive {
-  background: var(--neutral-800);
+  background: var(--bg-surface-overlay);
   border: 1.5px solid var(--border-color-emphasis);
   color: var(--text-primary);
   font-weight: 700;
@@ -2887,7 +2887,7 @@
 }
 
 .chartActionButton:hover {
-  background-color: var(--neutral-800);
+  background-color: var(--bg-surface-overlay);
   border-color: var(--border-color-emphasis);
 }
 
@@ -3084,7 +3084,7 @@
   width: 38px;
   height: 38px;
   border-radius: var(--radius-md);
-  background-color: var(--neutral-800);
+  background-color: var(--bg-surface-overlay);
   border: var(--border-width-default) solid var(--border-color-default);
   display: flex;
   align-items: center;
@@ -3199,7 +3199,7 @@
   width: 100%;
   height: 5px;
   border-radius: var(--radius-full);
-  background: var(--neutral-800);
+  background: var(--bg-surface-overlay);
   overflow: hidden;
 }
 
@@ -3431,7 +3431,7 @@
   bottom: var(--space-12);
   left: 50%;
   transform: translateX(-50%) translateY(8px);
-  background: var(--neutral-800);
+  background: var(--bg-surface-overlay);
   border: var(--border-width-default) solid var(--border-color-strong);
   border-radius: var(--radius-lg);
   padding: var(--space-3) var(--space-6);
@@ -3550,7 +3550,7 @@
   display: inline-flex;
   align-items: center;
   gap: 2px;
-  background: var(--neutral-900);
+  background: var(--bg-surface-raised);
   padding: 2px;
   border-radius: var(--radius-md);
   border: 1px solid var(--border-color-default);
@@ -3582,7 +3582,7 @@
 }
 
 .kolChainSelectBtnActive {
-  background: var(--neutral-800);
+  background: var(--bg-surface-overlay);
   color: var(--text-primary);
   font-weight: 700;
   border: 1px solid var(--border-color-strong);
@@ -3594,7 +3594,7 @@
   font-weight: 700;
   padding: 0 3px;
   border-radius: 3px;
-  background: var(--neutral-800);
+  background: var(--bg-surface-overlay);
   color: var(--text-disabled);
 }
 
@@ -3605,7 +3605,7 @@
   gap: 4px;
   padding: 0 8px;
   height: 28px;
-  background: var(--neutral-900);
+  background: var(--bg-surface-raised);
   border: 1px solid var(--border-color-default);
   border-radius: var(--radius-md);
   font-family: var(--font-mono);
@@ -3645,7 +3645,7 @@
   gap: 5px;
   padding: 0 8px;
   height: 28px;
-  background: var(--neutral-900);
+  background: var(--bg-surface-raised);
   border: 1px solid var(--border-color-default);
   border-radius: var(--radius-md);
   width: 150px;
@@ -3680,7 +3680,7 @@
   width: 28px;
   height: 28px;
   border-radius: var(--radius-md);
-  background: var(--neutral-900);
+  background: var(--bg-surface-raised);
   border: 1px solid var(--border-color-default);
   color: var(--text-secondary);
   display: flex;
@@ -3824,7 +3824,7 @@
   display: inline-flex;
   align-items: center;
   gap: 2px;
-  background: var(--neutral-900);
+  background: var(--bg-surface-raised);
   padding: 2px;
   border-radius: var(--radius-md);
   border: 1px solid var(--border-color-default);
@@ -3856,7 +3856,7 @@
 }
 
 .kolSubTabBtnActive {
-  background: var(--neutral-800);
+  background: var(--bg-surface-overlay);
   color: var(--text-primary);
   font-weight: 700;
   border: 1px solid var(--border-color-strong);
@@ -3868,7 +3868,7 @@
   font-weight: 700;
   padding: 0 4px;
   border-radius: var(--radius-full);
-  background: var(--neutral-850);
+  background: var(--bg-surface-overlay);
   color: var(--text-secondary);
   border: 1px solid var(--border-color-default);
 }
@@ -3886,7 +3886,7 @@
   gap: 4px;
   height: 28px;
   padding: 0 8px;
-  background: var(--neutral-900);
+  background: var(--bg-surface-raised);
   border: 1px solid var(--border-color-default);
   border-radius: var(--radius-md);
   color: var(--text-secondary);
@@ -4022,7 +4022,7 @@
   width: 42px;
   height: 42px;
   border-radius: 12px;
-  background-color: var(--neutral-800);
+  background-color: var(--bg-surface-overlay);
   border: 1px solid var(--border-color-strong);
   display: flex;
   align-items: center;
@@ -4112,7 +4112,7 @@
   font-weight: 700;
   padding: 2px 7px;
   border-radius: var(--radius-sm);
-  background: var(--neutral-800);
+  background: var(--bg-surface-overlay);
   border: 1px solid var(--border-color-strong);
   color: var(--text-secondary);
   letter-spacing: 0.04em;
@@ -4181,7 +4181,7 @@
   font-family: var(--font-mono);
   font-size: 17px;
   font-weight: 800;
-  color: var(--neutral-0);
+  color: var(--text-primary);
   letter-spacing: -0.02em;
 }
 
@@ -4248,7 +4248,7 @@
   font-weight: 700;
   padding: 1px 6px;
   border-radius: var(--radius-full);
-  background: var(--neutral-800);
+  background: var(--bg-surface-overlay);
   color: var(--text-secondary);
   border: 1px solid var(--border-color-default);
   white-space: nowrap;
@@ -4420,7 +4420,7 @@
   width: 34px;
   height: 34px;
   border-radius: var(--radius-full);
-  background: var(--neutral-800);
+  background: var(--bg-surface-overlay);
   border: 1px solid var(--border-color-strong);
   display: flex;
   align-items: center;
@@ -4566,7 +4566,7 @@
   width: 28px;
   height: 28px;
   border-radius: var(--radius-sm);
-  background: var(--neutral-850);
+  background: var(--bg-surface-overlay);
   border: 1px solid var(--border-color-default);
   color: var(--text-secondary);
   display: flex;
@@ -4585,7 +4585,7 @@
   width: 28px;
   height: 28px;
   border-radius: var(--radius-sm);
-  background: var(--neutral-850);
+  background: var(--bg-surface-overlay);
   border: 1px solid var(--border-color-default);
   color: var(--text-secondary);
   display: flex;
@@ -4601,7 +4601,7 @@
 }
 
 .tradeProfileActive {
-  background: var(--neutral-800);
+  background: var(--bg-surface-overlay);
   border-color: var(--border-color-emphasis);
   color: var(--text-primary);
 }
@@ -4682,7 +4682,7 @@
   font-weight: 700;
   padding: 1px 6px;
   border-radius: var(--radius-full);
-  background: var(--neutral-800);
+  background: var(--bg-surface-overlay);
   color: #c084fc;
   border: 1px solid rgba(192, 132, 252, 0.3);
 }
@@ -4697,7 +4697,7 @@
   width: 32px;
   height: 32px;
   border-radius: var(--radius-full);
-  background: var(--neutral-800);
+  background: var(--bg-surface-overlay);
   border: 1px solid var(--border-color-strong);
   display: flex;
   align-items: center;
@@ -4833,7 +4833,7 @@
   font-size: 11px;
   font-weight: 600;
   color: var(--text-secondary);
-  background: var(--neutral-800);
+  background: var(--bg-surface-overlay);
   border: 1px solid var(--border-color-default);
   border-radius: var(--radius-full);
   padding: 2px 8px;
@@ -4873,7 +4873,7 @@
 .lbTimeframeGroup {
   display: inline-flex;
   align-items: center;
-  background: var(--neutral-900);
+  background: var(--bg-surface-raised);
   padding: 3px;
   border-radius: var(--radius-md);
   border: 1px solid var(--border-color-default);
@@ -4901,7 +4901,7 @@
 }
 
 .lbTfBtnActive {
-  background-color: var(--neutral-800);
+  background-color: var(--bg-surface-overlay);
   color: var(--text-primary);
   font-weight: 700;
   border: 1px solid var(--border-color-strong);
@@ -4952,7 +4952,7 @@
 .lbCategoryGroup {
   display: inline-flex;
   align-items: center;
-  background-color: var(--neutral-900);
+  background-color: var(--bg-surface-raised);
   border: 1px solid var(--border-color-default);
   border-radius: var(--radius-md);
   padding: 3px;
@@ -4984,7 +4984,7 @@
 }
 
 .lbCategoryBtnActive {
-  background-color: var(--neutral-800);
+  background-color: var(--bg-surface-overlay);
   color: var(--text-primary);
   font-weight: 700;
   border: 1px solid var(--border-color-strong);
@@ -5172,7 +5172,7 @@
   width: 30px;
   height: 30px;
   border-radius: var(--radius-full);
-  background: var(--neutral-800);
+  background: var(--bg-surface-overlay);
   border: 1px solid var(--border-color-strong);
   display: flex;
   align-items: center;
@@ -5253,7 +5253,7 @@
   font-family: var(--font-sans);
   font-size: 19px;
   font-weight: 700;
-  color: var(--neutral-0);
+  color: var(--text-primary);
   line-height: 1.1;
   letter-spacing: -0.02em;
   white-space: nowrap;
@@ -5434,7 +5434,7 @@
   width: 42px;
   height: 42px;
   border-radius: var(--radius-full);
-  background: var(--neutral-800);
+  background: var(--bg-surface-overlay);
   border: 1px solid var(--border-color-strong);
   display: flex;
   align-items: center;
@@ -5750,7 +5750,7 @@
 }
 
 .rankPillNormal {
-  background: var(--neutral-800);
+  background: var(--bg-surface-overlay);
   border: 1px solid var(--border-color-default);
   color: var(--text-secondary);
 }
@@ -5759,7 +5759,7 @@
   width: 36px;
   height: 36px;
   border-radius: var(--radius-full);
-  background: var(--neutral-800);
+  background: var(--bg-surface-overlay);
   border: 1px solid var(--border-color-strong);
   display: flex;
   align-items: center;
@@ -5834,7 +5834,7 @@
   width: 100%;
   height: 4px;
   border-radius: var(--radius-full);
-  background: var(--neutral-800);
+  background: var(--bg-surface-overlay);
   overflow: hidden;
 }
 

@@ -263,7 +263,7 @@ export default function LeaderboardView() {
                       width: 32,
                       height: 32,
                       borderRadius: "50%",
-                      background: "var(--neutral-800)",
+                      background: "var(--bg-surface-overlay)",
                       border: "1px solid var(--border-color-strong)",
                       display: "flex",
                       alignItems: "center",
