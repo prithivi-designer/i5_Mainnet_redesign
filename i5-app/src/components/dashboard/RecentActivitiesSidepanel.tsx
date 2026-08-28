@@ -16,7 +16,7 @@ import {
 } from "lucide-react";
 import styles from "./RecentActivitiesSidepanel.module.css";
 
-export type ActivityType = "buy" | "sell" | "whale" | "signal" | "unlock" | "macro";
+export type ActivityType = "buy" | "sell";
 
 export interface ActivityItem {
   id: string;
@@ -52,20 +52,7 @@ const INITIAL_ACTIVITIES: ActivityItem[] = [
     highlightGain: "+18.4%",
     txHash: "0x8f2a...b3dc",
   },
-  {
-    id: "act-2",
-    type: "whale",
-    entityName: "Whale Inflow 🐋",
-    tokenSymbol: "$USDC",
-    tokenName: "USD Coin",
-    avatarIcon: "🐋",
-    actionText: "Deposited 500 ETH ($1.62M)",
-    amount: "$1.62M",
-    venue: "Arbitrum Perps",
-    timestamp: "18s ago",
-    secondsAgo: 18,
-    txHash: "0x32c1...94a1",
-  },
+
   {
     id: "act-3",
     type: "buy",
@@ -82,20 +69,7 @@ const INITIAL_ACTIVITIES: ActivityItem[] = [
     highlightGain: "+14.2%",
     txHash: "0x71a4...94f2",
   },
-  {
-    id: "act-4",
-    type: "signal",
-    entityName: "Technical Signal ⚡",
-    tokenSymbol: "$SOL",
-    tokenName: "Solana",
-    avatarIcon: "⚡",
-    actionText: "4H Golden Cross Breakout",
-    amount: "$184.20",
-    venue: "Mainnet",
-    timestamp: "1m ago",
-    secondsAgo: 70,
-    highlightGain: "+8.9%",
-  },
+
   {
     id: "act-5",
     type: "sell",
@@ -127,19 +101,7 @@ const INITIAL_ACTIVITIES: ActivityItem[] = [
     highlightGain: "+24.6%",
     txHash: "0x12d4...88f1",
   },
-  {
-    id: "act-7",
-    type: "unlock",
-    entityName: "Catalyst Alert 🔓",
-    tokenSymbol: "$OP",
-    tokenName: "Optimism",
-    avatarIcon: "🔓",
-    actionText: "2.4% Supply Cliff Release",
-    amount: "$34.2M",
-    venue: "Optimism",
-    timestamp: "5m ago",
-    secondsAgo: 300,
-  },
+
   {
     id: "act-8",
     type: "buy",
@@ -156,20 +118,7 @@ const INITIAL_ACTIVITIES: ActivityItem[] = [
     highlightGain: "+34.8%",
     txHash: "0x55c9...a123",
   },
-  {
-    id: "act-9",
-    type: "macro",
-    entityName: "Macro Event 🌐",
-    tokenSymbol: "$BTC",
-    tokenName: "Bitcoin",
-    avatarIcon: "🌐",
-    actionText: "Core CPI Cooling at -0.2%",
-    amount: "$68,400.00",
-    venue: "Global",
-    timestamp: "12m ago",
-    secondsAgo: 720,
-    highlightGain: "+3.4%",
-  },
+
   {
     id: "act-10",
     type: "sell",
@@ -190,7 +139,7 @@ const INITIAL_ACTIVITIES: ActivityItem[] = [
 export default function RecentActivitiesSidepanel() {
   const [activities, setActivities] = useState<ActivityItem[]>(INITIAL_ACTIVITIES);
   const [searchQuery, setSearchQuery] = useState("");
-  const [filterTab, setFilterTab] = useState<"all" | "trades" | "whales" | "signals" | "unlocks">("all");
+  const [filterTab, setFilterTab] = useState<"all" | "trades">("all");
   const [isLiveStreaming, setIsLiveStreaming] = useState(true);
 
   // Simulated live feed additions
@@ -214,19 +163,7 @@ export default function RecentActivitiesSidepanel() {
           secondsAgo: 1,
           highlightGain: "+18.4%",
         },
-        {
-          id: `live-${Date.now()}-2`,
-          type: "whale",
-          entityName: "Whale Alert 🐋",
-          tokenSymbol: "$ETH",
-          tokenName: "Ethereum",
-          avatarIcon: "🐋",
-          actionText: "Transferred 350 ETH to Perp Vault",
-          amount: "$1.14M",
-          venue: "Pacifica",
-          timestamp: "Just now",
-          secondsAgo: 1,
-        },
+
         {
           id: `live-${Date.now()}-3`,
           type: "buy",
@@ -256,9 +193,6 @@ export default function RecentActivitiesSidepanel() {
     return activities.filter((act) => {
       // Filter tab
       if (filterTab === "trades" && act.type !== "buy" && act.type !== "sell") return false;
-      if (filterTab === "whales" && act.type !== "whale") return false;
-      if (filterTab === "signals" && act.type !== "signal" && act.type !== "macro") return false;
-      if (filterTab === "unlocks" && act.type !== "unlock") return false;
 
       // Search query
       if (searchQuery.trim()) {
@@ -337,9 +271,6 @@ export default function RecentActivitiesSidepanel() {
           [
             { id: "all", label: "All" },
             { id: "trades", label: "Trades" },
-            { id: "whales", label: "Whales" },
-            { id: "signals", label: "Signals" },
-            { id: "unlocks", label: "Unlocks" },
           ] as const
         ).map((pill) => (
           <button
@@ -381,10 +312,6 @@ export default function RecentActivitiesSidepanel() {
                     {/* Action Badge */}
                     {act.type === "buy" && <span className={styles.badgeBuy}>BUY</span>}
                     {act.type === "sell" && <span className={styles.badgeSell}>SELL</span>}
-                    {act.type === "whale" && <span className={styles.badgeWhale}>WHALE</span>}
-                    {act.type === "signal" && <span className={styles.badgeSignal}>SIGNAL</span>}
-                    {act.type === "unlock" && <span className={styles.badgeUnlock}>UNLOCK</span>}
-                    {act.type === "macro" && <span className={styles.badgeMacro}>MACRO</span>}
 
                     <span className={styles.entityName}>{act.tokenSymbol}</span>
                   </div>

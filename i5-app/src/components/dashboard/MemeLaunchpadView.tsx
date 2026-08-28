@@ -1284,7 +1284,7 @@ function formatAge(minutes: number): string {
 export default function MemeLaunchpadView() {
   /* ── Master Tabs State (Launchpad vs KOL Radar) ──────────── */
   const [masterTab, setMasterTab] = useState<"launchpad" | "kol-radar">("launchpad");
-  const [kolSubTab, setKolSubTab] = useState<"overview" | "signals" | "tokens" | "leaderboard" | "watchlist">("overview");
+  const [kolSubTab, setKolSubTab] = useState<"signals" | "tokens" | "leaderboard" | "watchlist">("signals");
   const [kolChainSelected, setKolChainSelected] = useState<"BNB" | "SOL" | "ETH" | "BASE">("BNB");
   const [isFeedPaused, setIsFeedPaused] = useState<boolean>(false);
   const [isSoundAlerts, setIsSoundAlerts] = useState<boolean>(true);
@@ -1762,25 +1762,7 @@ export default function MemeLaunchpadView() {
                 </div>
               </div>
 
-              {/* Middle Mini Stat Row: W/L & Top Alpha Holding */}
-              <div className={styles.top5StatsRow}>
-                <div className={styles.top5StatItem}>
-                  <span className={styles.top5StatLabel}>Record</span>
-                  <span className={styles.top5StatVal}>{kol.wins}W / {kol.losses}L</span>
-                </div>
-                <div
-                  className={styles.top5HoldingPill}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    openTerminalForToken(kol.topHolding);
-                  }}
-                  title={`Snipe ${kol.topHolding.ticker}`}
-                >
-                  <span>{kol.topHolding.avatar}</span>
-                  <span className={styles.top5HoldingTicker}>{kol.topHolding.ticker}</span>
-                  <span className={styles.top5HoldingBag}>{kol.topHolding.kolBag}</span>
-                </div>
-              </div>
+              {/* Middle Mini Stat Row Removed */}
 
               {/* Footer: Avg ROI Delta + Copy Buy CTA Button */}
               <div className={styles.metricCardFooter}>
@@ -1955,7 +1937,7 @@ export default function MemeLaunchpadView() {
             onClick={() => setMasterTab("launchpad")}
           >
             <Rocket size={15} />
-            <span>Launchpad</span>
+            <span>Meme Radar</span>
             <span className={styles.masterTabBadge}>42 Live</span>
           </button>
 
@@ -2619,7 +2601,6 @@ export default function MemeLaunchpadView() {
                           <th className={styles.matrixTh}>Asset</th>
                           <th className={styles.matrixTh}>Smart Money</th>
                           <th className={styles.matrixTh}>Influential Traders</th>
-                          <th className={styles.matrixTh}>Whales</th>
                           <th className={styles.matrixTh}>Social Acceleration</th>
                           <th className={styles.matrixTh}>i5 Conviction</th>
                           <th className={styles.matrixTh}>Quick Trade</th>
@@ -2695,16 +2676,6 @@ export default function MemeLaunchpadView() {
                                     {token.kolBullishCount} bullish
                                   </span>
                                   <span className={styles.cellSubLabel}>KOL Alpha Calls</span>
-                                </div>
-                              </td>
-
-                              {/* WHALES */}
-                              <td className={styles.matrixTd}>
-                                <div className={styles.cellStack}>
-                                  <span className={styles.whalePill}>
-                                    🐳 {token.whaleInflow}
-                                  </span>
-                                  <span className={styles.cellSubLabel}>Net Inflow</span>
                                 </div>
                               </td>
 
@@ -3046,10 +3017,6 @@ export default function MemeLaunchpadView() {
 
                     {/* Footer Action Row */}
                     <div className={styles.gridCardFooter}>
-                      <div className={styles.i5ScoreBadge}>
-                        <ShieldCheck size={11} />
-                        <span>{token.i5Score}/100</span>
-                      </div>
                       <span className={styles.top10Row}>Top 10: {token.topTenPct}</span>
                       <button
                         className={styles.quickBuyBtn}
@@ -3197,14 +3164,7 @@ export default function MemeLaunchpadView() {
           <div className={styles.kolNavControlsBar}>
             {/* Left: Subtabs Group */}
             <div className={styles.kolSubTabGroup}>
-              <button
-                type="button"
-                className={`${styles.kolSubTabBtn} ${kolSubTab === "overview" ? styles.kolSubTabBtnActive : ""}`}
-                onClick={() => setKolSubTab("overview")}
-              >
-                <Compass size={14} />
-                <span>Overview</span>
-              </button>
+
 
               <button
                 type="button"
@@ -3366,7 +3326,6 @@ export default function MemeLaunchpadView() {
                     className={styles.modernCard}
                     onClick={() => openTerminalForToken(token)}
                     style={{ cursor: "pointer" }}
-                    title={`Open ${token.name} Chart & Terminal`}
                   >
                     {/* 1. Header: Avatar + Title/Chain/Address + Badge/Star */}
                     <div className={styles.modernCardHeader}>
@@ -3446,7 +3405,6 @@ export default function MemeLaunchpadView() {
                           <span className={styles.modernBuySellPill}>{token.kolBuyCount} Buy / {token.kolSellCount} Sell</span>
                         </div>
                         <div className={styles.modernNetFlow}>
-                          <span className={styles.modernNetLabel}>Net:</span>
                           <strong className={styles.modernNetVal}>{token.netKolFlow}</strong>
                         </div>
                       </div>
@@ -3461,13 +3419,7 @@ export default function MemeLaunchpadView() {
                           <span className={styles.modernStatCellLabel}>LIQUIDITY</span>
                           <span className={styles.modernStatCellValue}>{token.liquidity}</span>
                         </div>
-                        <div className={styles.modernStatCell}>
-                          <span className={styles.modernStatCellLabel}>SECURITY</span>
-                          <div className={styles.modernScoreVal}>
-                            <ShieldCheck size={11} />
-                            <span>94/100</span>
-                          </div>
-                        </div>
+                        {/* Security Cell Removed */}
                       </div>
                     </div>
 
@@ -3519,7 +3471,7 @@ export default function MemeLaunchpadView() {
           )}
 
           {/* ── SECTION 2: LATEST KOL ACTIVITY (REAL-TIME STREAM IN OVERVIEW & SIGNALS) ──── */}
-          {(kolSubTab === "overview" || kolSubTab === "signals" || kolSubTab === "watchlist") && (
+          {(kolSubTab === "signals" || kolSubTab === "watchlist") && (
             <div className={styles.kolSectionWrapper}>
               <div className={styles.kolSectionHeaderRow}>
                 <div>

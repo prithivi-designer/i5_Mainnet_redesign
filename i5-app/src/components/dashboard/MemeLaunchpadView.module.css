@@ -4202,6 +4202,7 @@
 .modernMetricItem {
   display: flex;
   flex-direction: column;
+  align-items: flex-end;
   gap: 2px;
 }
 
@@ -4250,6 +4251,7 @@
   background: var(--neutral-800);
   color: var(--text-secondary);
   border: 1px solid var(--border-color-default);
+  white-space: nowrap;
 }
 
 .modernNetFlow {
@@ -4272,7 +4274,7 @@
 
 .modernInnerStatsRow {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 6px;
   padding: 10px 14px;
   border-top: 1px solid var(--border-color-default);
