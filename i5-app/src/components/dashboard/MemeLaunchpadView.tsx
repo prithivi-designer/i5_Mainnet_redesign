@@ -461,7 +461,7 @@ export interface FullKolLeaderboardEntry {
   kolAvatar: string;
   tierBadge: string;
   tierIcon: string;
-  category: "Tier 1 KOLs" | "Alpha Callers" | "Whale KOLs" | "OG Traders";
+  category: "Tier 1 KOLs" | "Alpha Callers" | "Whale KOLs" | "OG Traders" | "Early Snipers";
   followers: string;
   winRate: number;
   wins: number;
@@ -2414,6 +2414,7 @@ export default function MemeLaunchpadView() {
             { id: "Alpha Callers", label: "Alpha Callers" },
             { id: "Whale KOLs", label: "Whale KOLs" },
             { id: "OG Traders", label: "OG Traders" },
+            { id: "Early Snipers", label: "Early Snipers" },
           ].map((cat) => (
             <button
               key={cat.id}
