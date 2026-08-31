@@ -49,24 +49,33 @@ body {
 }
 
 /* ----------------------------------------------------------
-   Scrollbar (webkit)
+   Scrollbar (Hide globally across all browsers & containers)
    ---------------------------------------------------------- */
+*,
+html,
+body {
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+
+*::-webkit-scrollbar,
+html::-webkit-scrollbar,
+body::-webkit-scrollbar,
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  background: transparent !important;
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--bg-surface);
+  display: none !important;
+  background: transparent !important;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--border-color-strong);
-  border-radius: var(--radius-full);
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: var(--border-color-default);
+  display: none !important;
+  background: transparent !important;
 }
 
 /* ----------------------------------------------------------

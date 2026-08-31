@@ -28,15 +28,12 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-4);
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
 .content::-webkit-scrollbar {
-  width: 4px;
-}
-
-.content::-webkit-scrollbar-thumb {
-  background-color: var(--neutral-700);
-  border-radius: 4px;
+  display: none;
 }
 
 /* Stocks & Crypto Segmented Control */
@@ -429,15 +426,12 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-4);
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
 .sheetContent::-webkit-scrollbar {
-  width: 4px;
-}
-
-.sheetContent::-webkit-scrollbar-thumb {
-  background-color: var(--neutral-700);
-  border-radius: 4px;
+  display: none;
 }
 
 .sheetBottomSection {
