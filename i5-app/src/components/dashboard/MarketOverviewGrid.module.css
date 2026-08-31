@@ -2,7 +2,7 @@
 
 .container {
   width: 100%;
-  margin-bottom: var(--space-6);
+  margin-bottom: var(--section-gap);
   position: relative;
   overflow: hidden;
 }
@@ -11,7 +11,10 @@
 .scrollMask {
   position: relative;
   width: 100%;
-  overflow: hidden;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;  /* IE and Edge */
   mask-image: linear-gradient(
     to right,
     transparent 0%,
@@ -26,6 +29,10 @@
     black calc(100% - 24px),
     transparent 100%
   );
+}
+
+.scrollMask::-webkit-scrollbar {
+  display: none;
 }
 
 /* Auto-scrolling Track (Marquee) */

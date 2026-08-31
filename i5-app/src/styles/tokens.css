@@ -160,6 +160,14 @@
   --layout-content-max-width:       1440px;
   --layout-header-height:           64px;
   --layout-bottomnav-height:        60px;
+  
+  /* Layout Spacing Tokens */
+  --page-padding: var(--space-6);
+  --section-gap: var(--space-6);
+  --panel-gap: var(--space-4);
+  --panel-padding: var(--space-5);
+  --component-gap: var(--space-3);
+  --control-height: 36px;
 
   /* Breakpoint references (for JS / custom property use) */
   --bp-mobile:  639px;

@@ -196,20 +196,6 @@ const stocksSubSections: SubSection[] = [
         icon: subIcons.allIntelligence,
         iconColor: "#56D68F", // Mint Green
       },
-      {
-        id: "technical-signals",
-        label: "Technical Signals",
-        count: 2,
-        icon: subIcons.technicalSignals,
-        iconColor: "#38BDF8", // Sky Blue
-      },
-      {
-        id: "macro-signals",
-        label: "Macro Signals",
-        count: 2,
-        icon: subIcons.macroSignals,
-        iconColor: "#F59E0B", // Amber Gold
-      },
     ],
   },
   {

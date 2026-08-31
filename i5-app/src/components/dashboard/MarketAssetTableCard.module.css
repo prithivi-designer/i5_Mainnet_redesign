@@ -1,18 +1,16 @@
 /* Market Asset Radar Card with Platform Design Tokens & Theme Tabs */
 
 .card {
-  flex: 1 1 480px;
-  min-width: 380px;
   background-color: var(--bg-surface);
   border: var(--border-width-default) solid var(--border-color-default);
   border-radius: var(--radius-xl);
-  padding: var(--space-5) var(--space-6);
+  padding: var(--panel-padding);
   display: flex;
   flex-direction: column;
   transition:
     background-color var(--duration-fast) var(--easing-standard),
     border-color var(--duration-fast) var(--easing-standard);
-  min-height: 480px;
+  height: 100%;
 }
 
 .card:hover {
@@ -22,9 +20,7 @@
 
 @media (max-width: 767px) {
   .card {
-    min-width: 0;
-    flex: 1 1 100%;
-    min-height: auto;
+    height: auto;
   }
 }
 

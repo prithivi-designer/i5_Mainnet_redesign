@@ -228,10 +228,6 @@ export default function RecentActivitiesSidepanel() {
       <div className={styles.headerRow}>
         <div className={styles.headerTitleGroup}>
           <h3 className={styles.headerTitle}>Recent Activities</h3>
-          <div className={styles.liveBadge} title="Real-time live on-chain stream">
-            <span className={styles.liveDot} />
-            <span>LIVE</span>
-          </div>
         </div>
 
         <button

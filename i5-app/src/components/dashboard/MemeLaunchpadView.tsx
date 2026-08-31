@@ -6,6 +6,8 @@ import {
   Sparkles,
   Search,
   ChevronDown,
+  ChevronLeft,
+  ChevronRight,
   Star,
   Check,
   TrendingUp,
@@ -1256,6 +1258,76 @@ const TOKENS: LaunchpadToken[] = [
   },
 ];
 
+/* ── Chain Logos & Icons ─────────────────────────────────── */
+export function ChainIconBNB({ size = 14 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+      <rect width="24" height="24" rx="12" fill="#F3BA2F" />
+      <path
+        d="M12 4.5L14.475 6.975L8.55 12.9L6.075 10.425L12 4.5ZM17.925 10.425L19.5 12L12 19.5L9.525 17.025L17.925 10.425ZM12 8.4L15.6 12L12 15.6L8.4 12L12 8.4Z"
+        fill="#000000"
+      />
+      <path
+        d="M4.5 12L6.075 10.425L7.65 12L6.075 13.575L4.5 12ZM19.5 12L17.925 10.425L16.35 12L17.925 13.575L19.5 12Z"
+        fill="#000000"
+      />
+    </svg>
+  );
+}
+
+export function ChainIconSOL({ size = 14 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+      <rect width="24" height="24" rx="12" fill="#14151a" />
+      <path
+        d="M5.5 17.5L8 15H18.5L16 17.5H5.5ZM5.5 12L8 9.5H18.5L16 12H5.5ZM8 6.5L5.5 4H16L18.5 6.5H8Z"
+        fill="url(#sol_grad_meme)"
+      />
+      <defs>
+        <linearGradient id="sol_grad_meme" x1="5.5" y1="4" x2="18.5" y2="17.5" gradientUnits="userSpaceOnUse">
+          <stop stopColor="#9945FF" />
+          <stop offset="1" stopColor="#14F195" />
+        </linearGradient>
+      </defs>
+    </svg>
+  );
+}
+
+export function ChainIconETH({ size = 14 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+      <rect width="24" height="24" rx="12" fill="#627EEA" />
+      <path d="M12 3.5L6.5 12.5L12 16L17.5 12.5L12 3.5Z" fill="#FFFFFF" fillOpacity="0.7" />
+      <path d="M12 3.5L12 16L17.5 12.5L12 3.5Z" fill="#FFFFFF" />
+      <path d="M12 17.2L6.5 13.7L12 21.5L17.5 13.7L12 17.2Z" fill="#FFFFFF" fillOpacity="0.7" />
+      <path d="M12 17.2L12 21.5L17.5 13.7L12 17.2Z" fill="#FFFFFF" />
+    </svg>
+  );
+}
+
+export function ChainIconBASE({ size = 14 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+      <rect width="24" height="24" rx="12" fill="#0052FF" />
+      <path
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M12 18.5C15.5899 18.5 18.5 15.5899 18.5 12C18.5 8.41015 15.5899 5.5 12 5.5C8.41015 5.5 5.5 8.41015 5.5 12C5.5 15.5899 8.41015 18.5 12 18.5ZM12.75 8.5V15.5H11.25V8.5H12.75Z"
+        fill="#FFFFFF"
+      />
+    </svg>
+  );
+}
+
+export function renderChainLogo(chain?: string, size = 14) {
+  const norm = (chain || "").toUpperCase();
+  if (norm.includes("BNB") || norm.includes("BSC")) return <ChainIconBNB size={size} />;
+  if (norm.includes("SOL")) return <ChainIconSOL size={size} />;
+  if (norm.includes("ETH")) return <ChainIconETH size={size} />;
+  if (norm.includes("BASE")) return <ChainIconBASE size={size} />;
+  return <ChainIconBNB size={size} />;
+}
+
 const VIEW_TYPES = [
   { id: "grid", label: "Card Grid", icon: <LayoutGrid size={14} /> },
   { id: "matrix", label: "Bubble Map", icon: <CircleDot size={14} /> },
@@ -1266,7 +1338,6 @@ const STATUS_FILTERS = [
   { id: "trending", label: "Trending", icon: <Flame size={12} /> },
   { id: "new", label: "New Launches", icon: <Zap size={12} /> },
   { id: "graduating", label: "KOL Bag", icon: <Sprout size={12} /> },
-  { id: "migrated", label: "Migrated (DEX)", icon: <Gem size={12} /> },
 ] as const;
 
 const SORT_OPTIONS = ["Market Cap", "Trending Momentum", "24h Volume", "24h Change", "Bonding %", "KOL Count"];
@@ -1299,6 +1370,7 @@ export default function MemeLaunchpadView() {
   const [view, setView] = useState<ViewType>("grid");
   const [activeFilter, setActiveFilter] = useState<string>("all");
   const [isMemeFilterSheetOpen, setIsMemeFilterSheetOpen] = useState<boolean>(false);
+  const [isChainDropdownOpen, setIsChainDropdownOpen] = useState<boolean>(false);
   const [search, setSearch] = useState("");
   const [sortBy, setSortBy] = useState(SORT_OPTIONS[0]);
   const [sortOpen, setSortOpen] = useState(false);
@@ -1308,6 +1380,7 @@ export default function MemeLaunchpadView() {
   const [activeSnipe, setActiveSnipe] = useState<Record<string, string>>({});
 
   const filterDropdownRef = React.useRef<HTMLDivElement>(null);
+  const chainDropdownRef = React.useRef<HTMLDivElement>(null);
 
   React.useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -1316,6 +1389,12 @@ export default function MemeLaunchpadView() {
         !filterDropdownRef.current.contains(event.target as Node)
       ) {
         setIsMemeFilterSheetOpen(false);
+      }
+      if (
+        chainDropdownRef.current &&
+        !chainDropdownRef.current.contains(event.target as Node)
+      ) {
+        setIsChainDropdownOpen(false);
       }
     }
     document.addEventListener("mousedown", handleClickOutside);
@@ -1335,6 +1414,7 @@ export default function MemeLaunchpadView() {
   const [leaderboardTimeframe, setLeaderboardTimeframe] = useState<"24H" | "7D" | "30D" | "All-Time">("7D");
   const [leaderboardCategory, setLeaderboardCategory] = useState<string>("All Callers");
   const [leaderboardSearch, setLeaderboardSearch] = useState<string>("");
+  const [leaderboardPage, setLeaderboardPage] = useState<number>(1);
 
   /* Matrix specific filters */
   const [chainFilter, setChainFilter] = useState("all");
@@ -1587,13 +1667,8 @@ export default function MemeLaunchpadView() {
               <Sparkles size={11} />
               Smart Money & Alpha Radar
             </span>
-            <span className={styles.lbLiveBadge}>
-              <span className={styles.liveRadarDot} />
-              Live Tracking
-            </span>
           </div>
           <div className={styles.lbTitleRow}>
-            <Award size={20} className={styles.lbTrophyIcon} />
             <h2 className={styles.lbMainTitle}>KOL Leaderboard</h2>
           </div>
           <p className={styles.lbSubtitle}>
@@ -1802,7 +1877,7 @@ export default function MemeLaunchpadView() {
             </tr>
           </thead>
           <tbody>
-            {filteredLeaderboardEntries.map((kol) => {
+            {filteredLeaderboardEntries.slice((leaderboardPage - 1) * 6, leaderboardPage * 6).map((kol) => {
               const rankPillClass =
                 kol.rank === 1
                   ? styles.rankPillGold
@@ -1921,6 +1996,42 @@ export default function MemeLaunchpadView() {
           </tbody>
         </table>
       </div>
+
+      {/* 5. Pagination Bar (Exact Reference Style) */}
+      <div className={styles.lbPaginationBar}>
+        <button
+          type="button"
+          className={`${styles.lbPageNavBtn} ${leaderboardPage === 1 ? styles.lbPageNavBtnDisabled : ""}`}
+          onClick={() => setLeaderboardPage((p) => Math.max(1, p - 1))}
+          disabled={leaderboardPage === 1}
+        >
+          <ChevronLeft size={14} />
+          <span>Previous</span>
+        </button>
+
+        <div className={styles.lbPageNumbers}>
+          {[1, 2, 3, 4].map((page) => (
+            <button
+              key={page}
+              type="button"
+              className={`${styles.lbPageNumBtn} ${leaderboardPage === page ? styles.lbPageNumBtnActive : ""}`}
+              onClick={() => setLeaderboardPage(page)}
+            >
+              {page}
+            </button>
+          ))}
+        </div>
+
+        <button
+          type="button"
+          className={`${styles.lbPageNavBtn} ${leaderboardPage === 4 ? styles.lbPageNavBtnDisabled : ""}`}
+          onClick={() => setLeaderboardPage((p) => Math.min(4, p + 1))}
+          disabled={leaderboardPage === 4}
+        >
+          <span>Next</span>
+          <ChevronRight size={14} />
+        </button>
+      </div>
     </div>
   );
 
@@ -1935,9 +2046,7 @@ export default function MemeLaunchpadView() {
             className={`${styles.masterTabBtn} ${masterTab === "launchpad" ? styles.masterTabBtnActive : ""}`}
             onClick={() => setMasterTab("launchpad")}
           >
-            <Rocket size={15} />
             <span>Meme Radar</span>
-            <span className={styles.masterTabBadge}>42 Live</span>
           </button>
 
           <button
@@ -1945,12 +2054,7 @@ export default function MemeLaunchpadView() {
             className={`${styles.masterTabBtn} ${masterTab === "kol-radar" ? styles.masterTabBtnActive : ""}`}
             onClick={() => setMasterTab("kol-radar")}
           >
-            <Award size={15} className={masterTab === "kol-radar" ? styles.pulseRadarIcon : ""} />
             <span>KOL Radar</span>
-            <span className={styles.masterTabBadgeLive}>
-              <span className={styles.liveRadarDot} />
-              Live Radar
-            </span>
           </button>
         </div>
 
@@ -2128,6 +2232,58 @@ export default function MemeLaunchpadView() {
 
             {/* Search & Unified Filter Control */}
             <div className={styles.searchSortGroup}>
+              {/* Chain Dropdown Filter */}
+              <div className={styles.chainDropdownWrapper} ref={chainDropdownRef}>
+                <button
+                  type="button"
+                  className={`${styles.chainDropdownBtn} ${isChainDropdownOpen ? styles.chainDropdownBtnActive : ""}`}
+                  onClick={() => setIsChainDropdownOpen((prev) => !prev)}
+                  aria-label="Filter by Blockchain"
+                >
+                  {renderChainLogo(chainFilter === "all" ? "BNB" : chainFilter, 14)}
+                  <span>
+                    {chainFilter === "all"
+                      ? "All Chains"
+                      : chainFilter.toUpperCase() + " Chain"}
+                  </span>
+                  <ChevronDown
+                    size={11}
+                    className={`${styles.filterChevron} ${isChainDropdownOpen ? styles.filterChevronOpen : ""}`}
+                  />
+                </button>
+
+                {isChainDropdownOpen && (
+                  <div className={styles.chainDropdownMenu}>
+                    {[
+                      { id: "all", label: "All Chains" },
+                      { id: "bnb", label: "BNB Chain", chain: "BNB" },
+                      { id: "sol", label: "Solana", chain: "SOL" },
+                      { id: "eth", label: "Ethereum", chain: "ETH" },
+                      { id: "base", label: "Base", chain: "BASE" },
+                    ].map((c) => (
+                      <button
+                        key={c.id}
+                        type="button"
+                        className={`${styles.chainMenuItem} ${
+                          chainFilter === c.id ? styles.chainMenuItemActive : ""
+                        }`}
+                        onClick={() => {
+                          setChainFilter(c.id);
+                          setIsChainDropdownOpen(false);
+                          showToast(`Chain filtered: ${c.label}`);
+                        }}
+                      >
+                        {c.id !== "all" && renderChainLogo(c.chain, 14)}
+                        <span>{c.label}</span>
+                        {chainFilter === c.id && (
+                          <Check size={12} strokeWidth={2.5} style={{ marginLeft: "auto", color: "var(--emerald-500)" }} />
+                        )}
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+
               <div className={styles.searchWrap}>
                 <Search size={13} className={styles.searchIcon} />
                 <input
@@ -2640,7 +2796,11 @@ export default function MemeLaunchpadView() {
                                     <div className={styles.assetNameLine}>
                                       <span className={styles.assetNameText}>{token.name}</span>
                                       <span className={styles.assetTickerText}>{token.ticker}</span>
-                                      <span className={styles.assetChainPillSmall}>{token.chain}</span>
+                                      <div className={styles.exchangeIconsInline}>
+                                        <span className={styles.exchangeIconMark} title={`${token.chain} Chain`}>
+                                          {renderChainLogo(token.chain, 13)}
+                                        </span>
+                                      </div>
                                     </div>
                                     <div className={styles.assetPriceLine}>
                                       <span className={styles.assetPriceVal}>{token.price}</span>
@@ -2762,6 +2922,11 @@ export default function MemeLaunchpadView() {
                           <div className={styles.gridCardNameRow}>
                             <span className={styles.gridCardName}>{token.name}</span>
                             <span className={styles.gridCardTicker}>{token.ticker}</span>
+                            <div className={styles.exchangeIconsInline}>
+                              <span className={styles.exchangeIconMark} title={`${token.chain} Chain`}>
+                                {renderChainLogo(token.chain, 13)}
+                              </span>
+                            </div>
                           </div>
                           <div className={styles.gridCardDev}>
                             <span>by {token.devHandle}</span>
@@ -2866,18 +3031,11 @@ export default function MemeLaunchpadView() {
 
           {/* ── TOP HEADER & BREADCRUMB BAR ────────────────────── */}
           <div className={styles.kolHeaderBar}>
-            {/* Left: Title, Icon & Node Status */}
+            {/* Left: Title & Subtitle */}
             <div className={styles.kolHeaderLeft}>
-              <div className={styles.kolRadarIconBox}>
-                <Award size={18} className={styles.pulseRadarIcon} />
-              </div>
               <div className={styles.kolTitleMeta}>
                 <div className={styles.kolTitleRow}>
                   <h2 className={styles.kolMainTitle}>KOL Radar</h2>
-                  <span className={styles.kolNodeBadge}>
-                    <span className={styles.liveRadarDot} />
-                    {kolChainSelected} Node Live
-                  </span>
                 </div>
                 <p className={styles.kolSubtitle}>
                   Track top verified meme traders, profitable alpha callers, and their live moves in real time.
@@ -3127,7 +3285,7 @@ export default function MemeLaunchpadView() {
               <div className={styles.kolSectionHeaderRow}>
                 <div>
                   <h3 className={styles.kolSectionTitle}>
-                    <span>🔥</span> Trending Among KOLs
+                    Trending Among KOLs
                   </h3>
                   <p className={styles.kolSectionSubtitle}>
                     Meme tokens experiencing highest net buy accumulation by verified wallets
@@ -3161,6 +3319,11 @@ export default function MemeLaunchpadView() {
                           <div className={styles.modernNameRow}>
                             <span className={styles.modernName}>{token.name}</span>
                             <span className={styles.modernTicker}>{token.ticker}</span>
+                            <div className={styles.exchangeIconsInline}>
+                              <span className={styles.exchangeIconMark} title={`${token.chain} Chain`}>
+                                {renderChainLogo(token.chain, 13)}
+                              </span>
+                            </div>
                           </div>
                           <div className={styles.modernSubRow}>
                             <span className={styles.modernChainPill}>{token.chain} Chain</span>
@@ -3300,7 +3463,7 @@ export default function MemeLaunchpadView() {
               <div className={styles.kolSectionHeaderRow}>
                 <div>
                   <h3 className={styles.kolSectionTitle}>
-                    <span>⚡</span> Latest KOL Activity
+                    Latest KOL Activity
                   </h3>
                   <p className={styles.kolSectionSubtitle}>
                     Real-time transaction stream from monitored smart wallets on {kolChainSelected} Chain
