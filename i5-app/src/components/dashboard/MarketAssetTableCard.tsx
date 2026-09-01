@@ -343,9 +343,8 @@ export default function MarketAssetTableCard() {
             {isExchangeMenuOpen && (
               <div className={styles.exchangeDropdownMenu}>
                 <button
-                  className={`${styles.exchangeMenuItem} ${
-                    selectedExchange === "All" ? styles.exchangeMenuItemActive : ""
-                  }`}
+                  className={`${styles.exchangeMenuItem} ${selectedExchange === "All" ? styles.exchangeMenuItemActive : ""
+                    }`}
                   onClick={() => {
                     setSelectedExchange("All");
                     setIsExchangeMenuOpen(false);
@@ -361,9 +360,8 @@ export default function MarketAssetTableCard() {
                 </button>
 
                 <button
-                  className={`${styles.exchangeMenuItem} ${
-                    selectedExchange === "Hyperliquid" ? styles.exchangeMenuItemActive : ""
-                  }`}
+                  className={`${styles.exchangeMenuItem} ${selectedExchange === "Hyperliquid" ? styles.exchangeMenuItemActive : ""
+                    }`}
                   onClick={() => {
                     setSelectedExchange("Hyperliquid");
                     setIsExchangeMenuOpen(false);
@@ -374,9 +372,8 @@ export default function MarketAssetTableCard() {
                 </button>
 
                 <button
-                  className={`${styles.exchangeMenuItem} ${
-                    selectedExchange === "Aster" ? styles.exchangeMenuItemActive : ""
-                  }`}
+                  className={`${styles.exchangeMenuItem} ${selectedExchange === "Aster" ? styles.exchangeMenuItemActive : ""
+                    }`}
                   onClick={() => {
                     setSelectedExchange("Aster");
                     setIsExchangeMenuOpen(false);

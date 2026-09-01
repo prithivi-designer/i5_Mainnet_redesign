@@ -196,3 +196,27 @@ hr {
   --safe-area-inset-bottom: env(safe-area-inset-bottom, 0px);
   --safe-area-inset-top: env(safe-area-inset-top, 0px);
 }
+
+/* ----------------------------------------------------------
+   Live Data Animations
+   ---------------------------------------------------------- */
+@keyframes shimmer {
+  0%   { opacity: 0.5; }
+  50%  { opacity: 1; }
+  100% { opacity: 0.5; }
+}
+
+@keyframes priceFlashGreen {
+  0%   { background-color: transparent; }
+  20%  { background-color: rgba(47, 203, 115, 0.18); }
+  100% { background-color: transparent; }
+}
+
+@keyframes priceFlashRed {
+  0%   { background-color: transparent; }
+  20%  { background-color: rgba(234, 94, 94, 0.18); }
+  100% { background-color: transparent; }
+}
+
+.priceFlashGreen { animation: priceFlashGreen 0.8s ease-out; }
+.priceFlashRed   { animation: priceFlashRed 0.8s ease-out; }
