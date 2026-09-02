@@ -293,10 +293,28 @@ export default function DashboardSubSidebar({ mobileBottomSheet }: DashboardSubS
   const [activeTab, setActiveTab] = useState<"activities" | "meme" | "crypto" | "stocks">("activities");
   const [activeSubId, setActiveSubId] = useState<string>("all-intelligence");
   const [activeTimeframe, setActiveTimeframe] = useState<string>("24H");
+  const [isTimeframeDropdownOpen, setIsTimeframeDropdownOpen] = useState<boolean>(false);
   const [earningsModalOpen, setEarningsModalOpen] = useState<boolean>(false);
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState<boolean>(false);
 
   const TIMEFRAMES = ["4H", "24H", "7D", "30D", "1Y"] as const;
+  const timeframeDropdownRef = React.useRef<HTMLDivElement>(null);
+
+  // Close timeframe dropdown on outside click
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (
+        timeframeDropdownRef.current &&
+        !timeframeDropdownRef.current.contains(e.target as Node)
+      ) {
+        setIsTimeframeDropdownOpen(false);
+      }
+    }
+    if (isTimeframeDropdownOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [isTimeframeDropdownOpen]);
 
   // Sync tab state when external events fire
   useEffect(() => {
@@ -330,12 +348,14 @@ export default function DashboardSubSidebar({ mobileBottomSheet }: DashboardSubS
   const handleTabSelect = (tab: "activities" | "meme" | "crypto" | "stocks") => {
     const normalizedTab = tab === "meme" ? "activities" : tab;
     setActiveTab(normalizedTab);
+    setIsTimeframeDropdownOpen(false);
     dispatchFilterEvent(normalizedTab, "all-intelligence", true);
     setActiveSubId("all-intelligence");
   };
 
   const handleTimeframeSelect = (tf: string) => {
     setActiveTimeframe(tf);
+    setIsTimeframeDropdownOpen(false);
     if (typeof window !== "undefined") {
       window.dispatchEvent(
         new CustomEvent("i5-timeframe-filter", { detail: { timeframe: tf, tab: activeTab } })
@@ -438,22 +458,6 @@ export default function DashboardSubSidebar({ mobileBottomSheet }: DashboardSubS
 
           {/* Scrollable Content inside Bottom Sheet */}
           <div className={styles.sheetContent}>
-            {/* Timeframe Filter Pills — shown only on Crypto / Stocks tabs */}
-            {activeTab !== "activities" && activeTab !== "meme" && (
-              <div className={styles.timeframeRow}>
-                {TIMEFRAMES.map((tf) => (
-                  <button
-                    key={tf}
-                    className={`${styles.timeframeBtn} ${activeTimeframe === tf ? styles.timeframeBtnActive : ""}`}
-                    onClick={() => handleTimeframeSelect(tf)}
-                    aria-label={`Timeframe ${tf}`}
-                    aria-pressed={activeTimeframe === tf}
-                  >
-                    {tf}
-                  </button>
-                ))}
-              </div>
-            )}
             {activeTab === "activities" || activeTab === "meme" ? (
               <RecentActivitiesSidepanel />
             ) : (
@@ -465,21 +469,81 @@ export default function DashboardSubSidebar({ mobileBottomSheet }: DashboardSubS
                   <ul className={styles.list}>
                     {section.items.map((item) => {
                       const isActive = activeSubId === item.id;
+                      const isAllIntelligence = item.id === "all-intelligence";
                       return (
                         <li key={item.id}>
-                          <button
-                            className={`${styles.itemButton} ${isActive ? styles.itemButtonActive : ""
-                              }`}
+                          <div
+                            className={`${styles.itemButton} ${isActive ? styles.itemButtonActive : ""}`}
                             onClick={() => handleSubItemSelect(item.id)}
+                            role="button"
+                            tabIndex={0}
+                            onKeyDown={(e) => {
+                              if (e.key === "Enter" || e.key === " ") {
+                                handleSubItemSelect(item.id);
+                              }
+                            }}
                           >
                             <span className={styles.itemIcon} style={{ color: item.iconColor }}>
                               {item.icon}
                             </span>
                             <span className={`${styles.itemLabel} text-body-sm`}>{item.label}</span>
+
+                            {isAllIntelligence && (
+                              <div
+                                className={styles.timeframeDropdownContainer}
+                                ref={timeframeDropdownRef}
+                                onClick={(e) => e.stopPropagation()}
+                              >
+                                <button
+                                  type="button"
+                                  className={styles.timeframeTriggerBtn}
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    setIsTimeframeDropdownOpen((prev) => !prev);
+                                  }}
+                                  aria-label="Select Timeframe"
+                                  aria-expanded={isTimeframeDropdownOpen}
+                                >
+                                  <span>{activeTimeframe}</span>
+                                  <svg
+                                    width={10}
+                                    height={10}
+                                    viewBox="0 0 12 12"
+                                    fill="none"
+                                    className={`${styles.dropdownChevron} ${isTimeframeDropdownOpen ? styles.dropdownChevronOpen : ""}`}
+                                    aria-hidden
+                                  >
+                                    <path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                                  </svg>
+                                </button>
+
+                                {isTimeframeDropdownOpen && (
+                                  <div
+                                    className={styles.timeframeDropdownMenu}
+                                    onClick={(e) => e.stopPropagation()}
+                                  >
+                                    {TIMEFRAMES.map((tf) => (
+                                      <button
+                                        key={tf}
+                                        type="button"
+                                        className={`${styles.timeframeMenuBtn} ${activeTimeframe === tf ? styles.timeframeMenuBtnActive : ""}`}
+                                        onClick={(e) => {
+                                          e.stopPropagation();
+                                          handleTimeframeSelect(tf);
+                                        }}
+                                      >
+                                        {tf}
+                                      </button>
+                                    ))}
+                                  </div>
+                                )}
+                              </div>
+                            )}
+
                             {item.count !== undefined && (
                               <span className={styles.itemBadge}>{item.count}</span>
                             )}
-                          </button>
+                          </div>
                         </li>
                       );
                     })}
@@ -558,23 +622,6 @@ export default function DashboardSubSidebar({ mobileBottomSheet }: DashboardSubS
           </div>
 
           {/* Conditional Content: Recent Activities Sidepanel View or Tab Sections */}
-          {/* Timeframe Filter Pills — shown only on Crypto / Stocks tabs */}
-          {activeTab !== "activities" && activeTab !== "meme" && (
-            <div className={styles.timeframeRow}>
-              {TIMEFRAMES.map((tf) => (
-                <button
-                  key={tf}
-                  className={`${styles.timeframeBtn} ${activeTimeframe === tf ? styles.timeframeBtnActive : ""}`}
-                  onClick={() => handleTimeframeSelect(tf)}
-                  aria-label={`Timeframe ${tf}`}
-                  aria-pressed={activeTimeframe === tf}
-                >
-                  {tf}
-                </button>
-              ))}
-            </div>
-          )}
-
           {activeTab === "activities" || activeTab === "meme" ? (
             <RecentActivitiesSidepanel />
           ) : (
@@ -586,24 +633,85 @@ export default function DashboardSubSidebar({ mobileBottomSheet }: DashboardSubS
                 <ul className={styles.list}>
                   {section.items.map((item) => {
                     const isActive = activeSubId === item.id;
+                    const isAllIntelligence = item.id === "all-intelligence";
                     return (
                       <li key={item.id}>
-                        <button
-                          className={`${styles.itemButton} ${isActive ? styles.itemButtonActive : ""
-                            }`}
+                        <div
+                          className={`${styles.itemButton} ${isActive ? styles.itemButtonActive : ""}`}
                           onClick={() => {
                             setActiveSubId(item.id);
                             dispatchFilterEvent(activeTab, item.id);
+                          }}
+                          role="button"
+                          tabIndex={0}
+                          onKeyDown={(e) => {
+                            if (e.key === "Enter" || e.key === " ") {
+                              setActiveSubId(item.id);
+                              dispatchFilterEvent(activeTab, item.id);
+                            }
                           }}
                         >
                           <span className={styles.itemIcon} style={{ color: item.iconColor }}>
                             {item.icon}
                           </span>
                           <span className={`${styles.itemLabel} text-body-sm`}>{item.label}</span>
+
+                          {isAllIntelligence && (
+                            <div
+                              className={styles.timeframeDropdownContainer}
+                              ref={timeframeDropdownRef}
+                              onClick={(e) => e.stopPropagation()}
+                            >
+                              <button
+                                type="button"
+                                className={styles.timeframeTriggerBtn}
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setIsTimeframeDropdownOpen((prev) => !prev);
+                                }}
+                                aria-label="Select Timeframe"
+                                aria-expanded={isTimeframeDropdownOpen}
+                              >
+                                <span>{activeTimeframe}</span>
+                                <svg
+                                  width={10}
+                                  height={10}
+                                  viewBox="0 0 12 12"
+                                  fill="none"
+                                  className={`${styles.dropdownChevron} ${isTimeframeDropdownOpen ? styles.dropdownChevronOpen : ""}`}
+                                  aria-hidden
+                                >
+                                  <path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                                </svg>
+                              </button>
+
+                              {isTimeframeDropdownOpen && (
+                                <div
+                                  className={styles.timeframeDropdownMenu}
+                                  onClick={(e) => e.stopPropagation()}
+                                >
+                                  {TIMEFRAMES.map((tf) => (
+                                    <button
+                                      key={tf}
+                                      type="button"
+                                      className={`${styles.timeframeMenuBtn} ${activeTimeframe === tf ? styles.timeframeMenuBtnActive : ""}`}
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        handleTimeframeSelect(tf);
+                                      }}
+                                    >
+                                      {tf}
+                                    </button>
+                                  ))}
+                                </div>
+                              )}
+                            </div>
+                          )}
+
                           {item.count !== undefined && (
                             <span className={styles.itemBadge}>{item.count}</span>
                           )}
-                        </button>
+                        </div>
                       </li>
                     );
                   })}
