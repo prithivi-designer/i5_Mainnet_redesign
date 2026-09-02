@@ -292,8 +292,11 @@ interface DashboardSubSidebarProps {
 export default function DashboardSubSidebar({ mobileBottomSheet }: DashboardSubSidebarProps) {
   const [activeTab, setActiveTab] = useState<"activities" | "meme" | "crypto" | "stocks">("activities");
   const [activeSubId, setActiveSubId] = useState<string>("all-intelligence");
+  const [activeTimeframe, setActiveTimeframe] = useState<string>("24H");
   const [earningsModalOpen, setEarningsModalOpen] = useState<boolean>(false);
   const [isBottomSheetOpen, setIsBottomSheetOpen] = useState<boolean>(false);
+
+  const TIMEFRAMES = ["4H", "24H", "7D", "30D", "1Y"] as const;
 
   // Sync tab state when external events fire
   useEffect(() => {
@@ -329,6 +332,15 @@ export default function DashboardSubSidebar({ mobileBottomSheet }: DashboardSubS
     setActiveTab(normalizedTab);
     dispatchFilterEvent(normalizedTab, "all-intelligence", true);
     setActiveSubId("all-intelligence");
+  };
+
+  const handleTimeframeSelect = (tf: string) => {
+    setActiveTimeframe(tf);
+    if (typeof window !== "undefined") {
+      window.dispatchEvent(
+        new CustomEvent("i5-timeframe-filter", { detail: { timeframe: tf, tab: activeTab } })
+      );
+    }
   };
 
   const handleSubItemSelect = (subId: string) => {
@@ -426,6 +438,22 @@ export default function DashboardSubSidebar({ mobileBottomSheet }: DashboardSubS
 
           {/* Scrollable Content inside Bottom Sheet */}
           <div className={styles.sheetContent}>
+            {/* Timeframe Filter Pills — shown only on Crypto / Stocks tabs */}
+            {activeTab !== "activities" && activeTab !== "meme" && (
+              <div className={styles.timeframeRow}>
+                {TIMEFRAMES.map((tf) => (
+                  <button
+                    key={tf}
+                    className={`${styles.timeframeBtn} ${activeTimeframe === tf ? styles.timeframeBtnActive : ""}`}
+                    onClick={() => handleTimeframeSelect(tf)}
+                    aria-label={`Timeframe ${tf}`}
+                    aria-pressed={activeTimeframe === tf}
+                  >
+                    {tf}
+                  </button>
+                ))}
+              </div>
+            )}
             {activeTab === "activities" || activeTab === "meme" ? (
               <RecentActivitiesSidepanel />
             ) : (
@@ -530,6 +558,23 @@ export default function DashboardSubSidebar({ mobileBottomSheet }: DashboardSubS
           </div>
 
           {/* Conditional Content: Recent Activities Sidepanel View or Tab Sections */}
+          {/* Timeframe Filter Pills — shown only on Crypto / Stocks tabs */}
+          {activeTab !== "activities" && activeTab !== "meme" && (
+            <div className={styles.timeframeRow}>
+              {TIMEFRAMES.map((tf) => (
+                <button
+                  key={tf}
+                  className={`${styles.timeframeBtn} ${activeTimeframe === tf ? styles.timeframeBtnActive : ""}`}
+                  onClick={() => handleTimeframeSelect(tf)}
+                  aria-label={`Timeframe ${tf}`}
+                  aria-pressed={activeTimeframe === tf}
+                >
+                  {tf}
+                </button>
+              ))}
+            </div>
+          )}
+
           {activeTab === "activities" || activeTab === "meme" ? (
             <RecentActivitiesSidepanel />
           ) : (
