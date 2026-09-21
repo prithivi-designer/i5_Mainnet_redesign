@@ -4,6 +4,7 @@ import React, { useState, useEffect, useMemo } from "react";
 import {
   X,
   User,
+  Wallet,
   Box,
   ChevronDown,
   ChevronRight,
@@ -22,6 +23,11 @@ import {
   CreditCard,
   HelpCircle,
   Plus,
+  ArrowDownToLine,
+  ArrowUpRight,
+  ArrowLeftRight,
+  ArrowRight,
+  Info,
 } from "lucide-react";
 import styles from "./AccountModal.module.css";
 import { IconHyperliquid, IconAster } from "../dashboard/QuickTradeModal";
@@ -407,6 +413,239 @@ const SAMPLE_PERP_POSITIONS: PerpPositionItem[] = [
   },
 ];
 
+/* ----------------------------------------------------------
+   Supported Deposit Network SVGs
+   ---------------------------------------------------------- */
+const IconBNB = () => (
+  <svg width={14} height={14} viewBox="0 0 24 24" fill="none">
+    <path d="M12 2L4.5 9.5L7.5 12.5L12 8L16.5 12.5L19.5 9.5L12 2Z" fill="#F0B90B" />
+    <path d="M4.5 14.5L7.5 11.5L9 13L6 16L4.5 14.5Z" fill="#F0B90B" />
+    <path d="M19.5 14.5L18 16L15 13L16.5 11.5L19.5 14.5Z" fill="#F0B90B" />
+    <path d="M12 22L4.5 14.5L7.5 11.5L12 16L16.5 11.5L19.5 14.5L12 22Z" fill="#F0B90B" />
+    <path d="M12 11L14 13L12 15L10 13L12 11Z" fill="#F0B90B" />
+  </svg>
+);
+
+const IconBase = () => (
+  <svg width={14} height={14} viewBox="0 0 24 24" fill="none">
+    <circle cx="12" cy="12" r="10" fill="#0052FF" />
+    <circle cx="12" cy="12" r="4.5" fill="#FFFFFF" />
+  </svg>
+);
+
+const IconArbitrum = () => (
+  <svg width={14} height={14} viewBox="0 0 24 24" fill="none">
+    <path
+      d="M12 3L2 20H22L12 3Z"
+      fill="#28A0F0"
+      fillOpacity="0.25"
+      stroke="#28A0F0"
+      strokeWidth="2"
+      strokeLinejoin="round"
+    />
+    <path d="M12 7L6 17H18L12 7Z" fill="#28A0F0" />
+  </svg>
+);
+
+const IconRobinhood = () => (
+  <svg width={14} height={14} viewBox="0 0 24 24" fill="none">
+    <path
+      d="M12 2C7 2 3.5 7.5 3.5 13.5C3.5 18 7 21 12 21C13.5 21 15 20.5 16 19.5C18 17.5 19 14.5 19 10.5C19 6 15.5 2 12 2Z"
+      fill="#00C805"
+    />
+    <path
+      d="M12 6.5C14 6.5 15.5 8.5 15.5 11.5C15.5 14 14 15.5 12 15.5"
+      stroke="#0a0a0c"
+      strokeWidth="1.6"
+      strokeLinecap="round"
+    />
+  </svg>
+);
+
+const IconI5Badge = () => (
+  <svg width={18} height={18} viewBox="0 0 24 24" fill="none">
+    <path
+      d="M12 2L21 7.2V16.8L12 22L3 16.8V7.2L12 2Z"
+      fill="#ff2a85"
+      fillOpacity="0.25"
+      stroke="#ff2a85"
+      strokeWidth="2"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M12 6V18M7.5 9.5L16.5 14.5M16.5 9.5L7.5 14.5"
+      stroke="#ffffff"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+    />
+  </svg>
+);
+
+const QrCodeVector = () => (
+  <svg
+    viewBox="0 0 100 100"
+    width="100%"
+    height="100%"
+    shapeRendering="crispEdges"
+    style={{ display: "block" }}
+  >
+    <rect width="100" height="100" fill="#ffffff" />
+    {/* Top-Left Finder Pattern */}
+    <rect x="8" y="8" width="24" height="24" rx="2" fill="#000000" />
+    <rect x="11.5" y="11.5" width="17" height="17" rx="1.5" fill="#ffffff" />
+    <rect x="14" y="14" width="12" height="12" rx="1" fill="#000000" />
+
+    {/* Top-Right Finder Pattern */}
+    <rect x="68" y="8" width="24" height="24" rx="2" fill="#000000" />
+    <rect x="71.5" y="11.5" width="17" height="17" rx="1.5" fill="#ffffff" />
+    <rect x="74" y="14" width="12" height="12" rx="1" fill="#000000" />
+
+    {/* Bottom-Left Finder Pattern */}
+    <rect x="8" y="68" width="24" height="24" rx="2" fill="#000000" />
+    <rect x="11.5" y="71.5" width="17" height="17" rx="1.5" fill="#ffffff" />
+    <rect x="14" y="74" width="12" height="12" rx="1" fill="#000000" />
+
+    {/* Timing Patterns */}
+    <rect x="36" y="14" width="4" height="4" fill="#000000" />
+    <rect x="44" y="14" width="4" height="4" fill="#000000" />
+    <rect x="52" y="14" width="4" height="4" fill="#000000" />
+    <rect x="60" y="14" width="4" height="4" fill="#000000" />
+    <rect x="14" y="36" width="4" height="4" fill="#000000" />
+    <rect x="14" y="44" width="4" height="4" fill="#000000" />
+    <rect x="14" y="52" width="4" height="4" fill="#000000" />
+    <rect x="14" y="60" width="4" height="4" fill="#000000" />
+
+    {/* Upper Data Blocks */}
+    <rect x="36" y="8" width="4" height="4" fill="#000000" />
+    <rect x="44" y="8" width="4" height="4" fill="#000000" />
+    <rect x="56" y="8" width="4" height="4" fill="#000000" />
+    <rect x="40" y="22" width="4" height="4" fill="#000000" />
+    <rect x="48" y="22" width="4" height="4" fill="#000000" />
+    <rect x="56" y="22" width="4" height="4" fill="#000000" />
+    <rect x="36" y="28" width="4" height="4" fill="#000000" />
+    <rect x="60" y="28" width="4" height="4" fill="#000000" />
+
+    {/* Left/Right Data Blocks */}
+    <rect x="8" y="36" width="4" height="4" fill="#000000" />
+    <rect x="22" y="36" width="4" height="4" fill="#000000" />
+    <rect x="26" y="44" width="4" height="4" fill="#000000" />
+    <rect x="8" y="52" width="4" height="4" fill="#000000" />
+    <rect x="22" y="60" width="4" height="4" fill="#000000" />
+
+    <rect x="68" y="36" width="4" height="4" fill="#000000" />
+    <rect x="76" y="36" width="4" height="4" fill="#000000" />
+    <rect x="84" y="36" width="4" height="4" fill="#000000" />
+    <rect x="72" y="44" width="4" height="4" fill="#000000" />
+    <rect x="88" y="44" width="4" height="4" fill="#000000" />
+    <rect x="68" y="52" width="4" height="4" fill="#000000" />
+    <rect x="80" y="52" width="4" height="4" fill="#000000" />
+    <rect x="76" y="60" width="4" height="4" fill="#000000" />
+    <rect x="84" y="60" width="4" height="4" fill="#000000" />
+
+    {/* Bottom Data Blocks */}
+    <rect x="36" y="68" width="4" height="4" fill="#000000" />
+    <rect x="44" y="68" width="4" height="4" fill="#000000" />
+    <rect x="52" y="68" width="4" height="4" fill="#000000" />
+    <rect x="60" y="68" width="4" height="4" fill="#000000" />
+    <rect x="40" y="76" width="4" height="4" fill="#000000" />
+    <rect x="56" y="76" width="4" height="4" fill="#000000" />
+    <rect x="68" y="76" width="4" height="4" fill="#000000" />
+    <rect x="84" y="76" width="4" height="4" fill="#000000" />
+    <rect x="36" y="84" width="4" height="4" fill="#000000" />
+    <rect x="48" y="84" width="4" height="4" fill="#000000" />
+    <rect x="72" y="84" width="4" height="4" fill="#000000" />
+    <rect x="88" y="84" width="4" height="4" fill="#000000" />
+    <rect x="44" y="90" width="4" height="4" fill="#000000" />
+    <rect x="60" y="90" width="4" height="4" fill="#000000" />
+    <rect x="80" y="90" width="4" height="4" fill="#000000" />
+  </svg>
+);
+
+/* Top 4 Balance Metrics */
+const BALANCE_METRICS = [
+  {
+    id: "main",
+    label: "Main Balance",
+    value: "$4.58",
+    subtext: "Primary Cash • 0.33 USD Avail",
+    dotColor: "#ff2a85",
+  },
+  {
+    id: "crypto",
+    label: "Crypto Balance",
+    value: "$14,250.00",
+    subtext: "Spot Vault • 4 Assets",
+    dotColor: "#10b981",
+  },
+  {
+    id: "hyperliquid",
+    label: "Hyperliquid Balance",
+    value: "$8,420.50",
+    subtext: "Perps Margin • 2 Open",
+    dotColor: "#00e5ff",
+  },
+  {
+    id: "aster",
+    label: "Aster Balance",
+    value: "$3,180.25",
+    subtext: "Aster Ecosystem • Staked",
+    dotColor: "#a855f7",
+  },
+];
+
+/* Wallet Activity Feed Models */
+interface WalletActivityItem {
+  id: string;
+  type: "deposit" | "transfer" | "withdrawal";
+  title: string;
+  badge: string;
+  badgeType: "completed" | "instant" | "confirmed";
+  networkOrRoute: string;
+  timeAgo: string;
+  amount: string;
+  amountColor: string;
+  feeOrAddress: string;
+}
+
+const SAMPLE_WALLET_ACTIVITIES: WalletActivityItem[] = [
+  {
+    id: "act-1",
+    type: "deposit",
+    title: "USDC Deposit",
+    badge: "Completed",
+    badgeType: "completed",
+    networkOrRoute: "Arbitrum One",
+    timeAgo: "12 mins ago",
+    amount: "+$500.00 USDC",
+    amountColor: "#10b981",
+    feeOrAddress: "Fee $0.12",
+  },
+  {
+    id: "act-2",
+    type: "transfer",
+    title: "Internal Transfer",
+    badge: "Instant",
+    badgeType: "instant",
+    networkOrRoute: "Spot Vault → Perps Margin",
+    timeAgo: "2 hrs ago",
+    amount: "$2,000.00 USD",
+    amountColor: "#ffffff",
+    feeOrAddress: "Free ($0.00)",
+  },
+  {
+    id: "act-3",
+    type: "withdrawal",
+    title: "SOL Withdrawal",
+    badge: "Confirmed",
+    badgeType: "confirmed",
+    networkOrRoute: "Solana Network",
+    timeAgo: "1 day ago",
+    amount: "-1.85 SOL",
+    amountColor: "#e5e7eb",
+    feeOrAddress: "0x98f2...34b1",
+  },
+];
+
 interface AccountModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -414,7 +653,7 @@ interface AccountModalProps {
 
 export default function AccountModal({ isOpen, onClose }: AccountModalProps) {
   // Navigation State — Default to Profile Menu
-  const [activeTab, setActiveTab] = useState<"profile" | "userInfo" | "exchanges">("profile");
+  const [activeTab, setActiveTab] = useState<"profile" | "wallet" | "userInfo" | "exchanges">("profile");
   const [selectedExchangeFilter, setSelectedExchangeFilter] = useState<string>("all");
   const [isExchangeAccordionOpen, setIsExchangeAccordionOpen] = useState<boolean>(true);
 
@@ -426,9 +665,16 @@ export default function AccountModal({ isOpen, onClose }: AccountModalProps) {
   const [tradesCount] = useState<number>(1);
   const [isBalanceVisible, setIsBalanceVisible] = useState<boolean>(true);
   const [portfolioTimeframe, setPortfolioTimeframe] = useState<"24H" | "7D" | "30D" | "ALL">("24H");
-  const [positionsStatus, setPositionsStatus] = useState<"Open" | "Closed">("Open");
+  const [positionsStatus, setPositionsStatus] = useState<"Open" | "Closed">("Closed");
   const [positionsFilter, setPositionsFilter] = useState<"All" | "Tokens" | "Perps">("All");
   const [swapsFilter, setSwapsFilter] = useState<"All swaps" | "Buys" | "Sells">("All swaps");
+
+  // Wallet View States (Matching Reference Screenshots)
+  const [walletActivityFilter, setWalletActivityFilter] = useState<"All Activity" | "Deposits" | "Transfers">("All Activity");
+
+  // Deposit Tokens Sub-Modal Dialog (Matching Reference Screenshots)
+  const [isDepositModalOpen, setIsDepositModalOpen] = useState<boolean>(false);
+  const [depositChainType, setDepositChainType] = useState<"EVM" | "Solana">("EVM");
 
   const filteredPositions = useMemo<PositionItem[]>(() => {
     const tokens = SAMPLE_TOKEN_POSITIONS.filter((t) => t.status === positionsStatus);
@@ -485,7 +731,9 @@ export default function AccountModal({ isOpen, onClose }: AccountModalProps) {
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
-        if (isEditProfileOpen) {
+        if (isDepositModalOpen) {
+          setIsDepositModalOpen(false);
+        } else if (isEditProfileOpen) {
           setIsEditProfileOpen(false);
         } else if (isConnectModalOpen) {
           setIsConnectModalOpen(false);
@@ -504,7 +752,17 @@ export default function AccountModal({ isOpen, onClose }: AccountModalProps) {
       window.removeEventListener("keydown", handleKeyDown);
       document.body.style.overflow = "unset";
     };
-  }, [isOpen, isEditProfileOpen, isConnectModalOpen, isConnectingEmail, onClose]);
+  }, [isOpen, isDepositModalOpen, isEditProfileOpen, isConnectModalOpen, isConnectingEmail, onClose]);
+
+  const filteredWalletActivities = useMemo(() => {
+    if (walletActivityFilter === "Deposits") {
+      return SAMPLE_WALLET_ACTIVITIES.filter((a) => a.type === "deposit");
+    }
+    if (walletActivityFilter === "Transfers") {
+      return SAMPLE_WALLET_ACTIVITIES.filter((a) => a.type === "transfer" || a.type === "withdrawal");
+    }
+    return SAMPLE_WALLET_ACTIVITIES;
+  }, [walletActivityFilter]);
 
   if (!isOpen) return null;
 
@@ -559,6 +817,30 @@ export default function AccountModal({ isOpen, onClose }: AccountModalProps) {
     return accounts.filter((a) => a.exchangeId === exchangeId).length;
   };
 
+  // Helper: Shared Top 4 Balance Metric Cards
+  const renderBalanceCards = () => (
+    <div className={styles.balanceCardsGrid}>
+      {BALANCE_METRICS.map((metric) => (
+        <div key={metric.id} className={styles.balanceCard}>
+          <div className={styles.balanceCardHeader}>
+            <span className={styles.balanceCardLabel}>{metric.label}</span>
+            <span
+              className={styles.balanceCardDot}
+              style={{
+                backgroundColor: metric.dotColor,
+                boxShadow: `0 0 8px ${metric.dotColor}`,
+              }}
+            />
+          </div>
+          <div className={styles.balanceCardValue}>
+            {isBalanceVisible ? metric.value : "••••••"}
+          </div>
+          <div className={styles.balanceCardSub}>{metric.subtext}</div>
+        </div>
+      ))}
+    </div>
+  );
+
   return (
     <div className={styles.overlay} onClick={onClose}>
       <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
@@ -579,7 +861,7 @@ export default function AccountModal({ isOpen, onClose }: AccountModalProps) {
           {/* Left Navigation Sidebar */}
           <aside className={styles.sidebar}>
             <div className={styles.sidebarNavGroup}>
-              {/* Tab 1: Profile (New Reference Feature) */}
+              {/* Tab 1: Profile (Screenshot 1) */}
               <button
                 className={`${styles.navItem} ${activeTab === "profile" ? styles.navItemActive : ""}`}
                 onClick={() => setActiveTab("profile")}
@@ -590,7 +872,19 @@ export default function AccountModal({ isOpen, onClose }: AccountModalProps) {
                 <span>Profile</span>
               </button>
 
-              {/* Tab 2: User Info */}
+              {/* Tab 2: Wallet with ACTIVE badge (Screenshot 2) */}
+              <button
+                className={`${styles.navItem} ${activeTab === "wallet" ? styles.navItemActive : ""}`}
+                onClick={() => setActiveTab("wallet")}
+              >
+                <span className={styles.navItemIcon}>
+                  <Wallet size={16} />
+                </span>
+                <span>Wallet</span>
+                <span className={styles.walletActiveBadge}>ACTIVE</span>
+              </button>
+
+              {/* Tab 3: User Info (Screenshot 4) */}
               <button
                 className={`${styles.navItem} ${activeTab === "userInfo" ? styles.navItemActive : ""}`}
                 onClick={() => setActiveTab("userInfo")}
@@ -601,7 +895,7 @@ export default function AccountModal({ isOpen, onClose }: AccountModalProps) {
                 <span>User Info</span>
               </button>
 
-              {/* Tab 3: Exchange Accounts (Clean Standard Tab) */}
+              {/* Tab 4: Exchange Accounts */}
               <button
                 className={`${styles.navItem} ${activeTab === "exchanges" ? styles.navItemActive : ""}`}
                 onClick={() => setActiveTab("exchanges")}
@@ -665,97 +959,11 @@ export default function AccountModal({ isOpen, onClose }: AccountModalProps) {
 
           {/* Right Content Area */}
           <main className={styles.contentArea}>
-            {/* VIEW 0: PROFILE (Matching Reference Mockup) */}
+            {/* VIEW 0: PROFILE (Screenshot 1) */}
             {activeTab === "profile" && (
               <div className={styles.profileContainer}>
-                {/* Block 1: Hero Top Banner Card */}
-                <div className={styles.heroBannerCard}>
-                  {/* Glowing Wave SVG Background */}
-                  <div className={styles.heroWaveBg}>
-                    <svg
-                      className={styles.heroWaveSvg}
-                      viewBox="0 0 700 120"
-                      preserveAspectRatio="none"
-                      fill="none"
-                    >
-                      <path
-                        d="M0 60 C 150 90, 280 20, 420 70 C 550 110, 620 40, 700 80"
-                        stroke="rgba(255, 42, 133, 0.4)"
-                        strokeWidth="2.5"
-                      />
-                      <path
-                        d="M0 75 C 180 30, 320 100, 480 40 C 580 10, 650 70, 700 50"
-                        stroke="rgba(56, 189, 248, 0.45)"
-                        strokeWidth="2"
-                      />
-                    </svg>
-                  </div>
-
-                  <div className={styles.heroLeft}>
-                    <div
-                      className={styles.heroAvatarWrap}
-                      onClick={() => setIsEditProfileOpen(true)}
-                      title="Click to edit profile"
-                    >
-                      <svg className={styles.heroAvatarPillsSvg} viewBox="0 0 100 100" fill="currentColor">
-                        <rect x="20" y="32" width="24" height="36" rx="12" fill="#ffffff" transform="rotate(-15 32 50)" />
-                        <rect x="52" y="32" width="24" height="36" rx="12" fill="#ffffff" transform="rotate(-15 64 50)" />
-                      </svg>
-                    </div>
-
-                    <div className={styles.heroMetaCol}>
-                      <h3 className={styles.heroDisplayName}>{profileName}</h3>
-                      <p className={styles.heroHandle}>{profileHandle}</p>
-                      <div className={styles.heroChipsRow}>
-                        <span className={styles.heroChip}>🕒 No hold time</span>
-                        <span className={styles.heroChip}>⚡ {tradesCount} trade</span>
-                        <span className={styles.heroChip}>📅 Joined Aug 2026</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className={styles.heroRight}>
-                    <div className={styles.heroActionsRow}>
-                      <button
-                        className={styles.heroEditBtn}
-                        onClick={() => {
-                          setEditNameInput(profileName);
-                          setEditHandleInput(profileHandle);
-                          setIsEditProfileOpen(true);
-                        }}
-                      >
-                        <Pencil size={12} />
-                        <span>Edit profile</span>
-                      </button>
-                      <button
-                        className={styles.heroIconBtn}
-                        title="Reload / Trade History"
-                        onClick={() => showToast("Trade history refreshed")}
-                      >
-                        <RotateCw size={14} />
-                      </button>
-                      <button
-                        className={styles.heroIconBtn}
-                        title="Rewards & Referral Gift"
-                        onClick={() => showToast("Rewards program active")}
-                      >
-                        <Gift size={14} />
-                      </button>
-                    </div>
-
-                    <div className={styles.heroStatsRow}>
-                      <div className={styles.heroStatItem}>
-                        <span className={styles.heroStatNum}>{followingCount}</span>
-                        <span className={styles.heroStatLabel}>Following</span>
-                      </div>
-                      <div className={styles.heroStatDivider} />
-                      <div className={styles.heroStatItem}>
-                        <span className={styles.heroStatNum}>{followersCount}</span>
-                        <span className={styles.heroStatLabel}>Followers</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                {/* Top 4 Balance Metric Cards Row */}
+                {renderBalanceCards()}
 
                 {/* Block 2: Middle Grid (Portfolio Value + All Swaps) */}
                 <div className={styles.middleGrid}>
@@ -858,13 +1066,13 @@ export default function AccountModal({ isOpen, onClose }: AccountModalProps) {
                       <div className={styles.cashBtnGroup}>
                         <button
                           className={styles.withdrawActionBtn}
-                          onClick={() => showToast("Withdrawal flow opened")}
+                          onClick={() => setActiveTab("wallet")}
                         >
                           Withdraw
                         </button>
                         <button
                           className={styles.depositActionBtn}
-                          onClick={() => showToast("Deposit modal opened")}
+                          onClick={() => setIsDepositModalOpen(true)}
                         >
                           Deposit
                         </button>
@@ -1210,199 +1418,210 @@ export default function AccountModal({ isOpen, onClose }: AccountModalProps) {
               </div>
             )}
 
-            {/* VIEW 1 & 2 in standard panelCard container */}
-            {activeTab !== "profile" && (
-              <div className={styles.panelCard}>
-                {/* VIEW 1: USER INFO */}
-                {activeTab === "userInfo" && (
-                  <div className={styles.userInfoList}>
-                  {/* Row 1: Email Login */}
-                  <div className={styles.infoRow}>
-                    <span className={styles.infoLabel}>Email Login</span>
-                    {email ? (
-                      <div className={styles.infoValueGroup}>
-                        <span className={styles.infoMonoValue}>{email}</span>
-                        <button
-                          className={styles.iconOnlyBtn}
-                          onClick={() => {
-                            setEmail("");
-                            showToast("Email disconnected");
-                          }}
-                          title="Disconnect email"
-                        >
-                          <X size={14} />
-                        </button>
-                      </div>
-                    ) : isConnectingEmail ? (
-                      <div className={styles.infoValueGroup}>
-                        <input
-                          type="email"
-                          className={styles.inlineInput}
-                          placeholder="user@domain.com"
-                          value={emailInput}
-                          onChange={(e) => setEmailInput(e.target.value)}
-                          onKeyDown={(e) => {
-                            if (e.key === "Enter" && emailInput) {
-                              setEmail(emailInput);
-                              setIsConnectingEmail(false);
-                              setEmailInput("");
-                              showToast("Email connected");
-                            }
-                          }}
-                          autoFocus
-                        />
-                        <button
-                          className={styles.saveBtn}
-                          onClick={() => {
-                            if (emailInput) {
-                              setEmail(emailInput);
-                              setIsConnectingEmail(false);
-                              setEmailInput("");
-                              showToast("Email connected");
-                            }
-                          }}
-                        >
-                          Save
-                        </button>
-                      </div>
-                    ) : (
-                      <button
-                        className={styles.actionBtn}
-                        onClick={() => setIsConnectingEmail(true)}
-                      >
-                        <LinkIcon size={12} />
-                        <span>CONNECT EMAIL</span>
-                      </button>
-                    )}
-                  </div>
+            {/* VIEW 1: WALLET (Screenshot 2) */}
+            {activeTab === "wallet" && (
+              <div className={styles.profileContainer}>
+                {/* Top 4 Balance Metric Cards Row */}
+                {renderBalanceCards()}
 
-                  {/* Row 2: Wallet Address */}
-                  <div className={styles.infoRow}>
-                    <span className={styles.infoLabel}>Wallet Address</span>
-                    <div className={styles.infoValueGroup}>
-                      <span className={styles.infoMonoValue}>****b3dc</span>
-                      <button
-                        className={styles.iconOnlyBtn}
-                        onClick={() => handleCopy(walletAddress, "Wallet address")}
-                        title="Copy wallet address"
-                      >
-                        <Copy size={14} />
-                      </button>
+                {/* 3 Quick Action Cards Row */}
+                <div className={styles.actionCardsRow}>
+                  {/* Card 1: Deposit */}
+                  <div className={styles.actionCard}>
+                    <div className={styles.actionCardTop}>
+                      <div className={`${styles.actionIconWrap} ${styles.actionIconWrapDeposit}`}>
+                        <ArrowDownToLine size={18} />
+                      </div>
+                      <span className={styles.actionBadgeGreen}>Instant EVM</span>
                     </div>
-                  </div>
-
-                  {/* Row 3: Telegram */}
-                  <div className={styles.infoRow}>
-                    <span className={styles.infoLabel}>Telegram</span>
-                    {isEditingTelegram ? (
-                      <div className={styles.infoValueGroup}>
-                        <input
-                          type="text"
-                          className={styles.inlineInput}
-                          placeholder="@username"
-                          value={telegramDraft}
-                          onChange={(e) => setTelegramDraft(e.target.value)}
-                          onKeyDown={(e) => {
-                            if (e.key === "Enter") handleSaveTelegram();
-                          }}
-                          autoFocus
-                        />
-                        <button className={styles.saveBtn} onClick={handleSaveTelegram}>
-                          Save
-                        </button>
-                      </div>
-                    ) : (
-                      <div className={styles.infoValueGroup}>
-                        <span className={styles.infoMonoValue}>{telegram || "—"}</span>
-                        <button
-                          className={styles.iconOnlyBtn}
-                          onClick={() => {
-                            setTelegramDraft(telegram);
-                            setIsEditingTelegram(true);
-                          }}
-                          title="Edit Telegram handle"
-                        >
-                          <Pencil size={13} />
-                        </button>
-                      </div>
-                    )}
-                  </div>
-
-                  {/* Row 4: Discord */}
-                  <div className={styles.infoRow}>
-                    <span className={styles.infoLabel}>Discord</span>
-                    {discordConnected ? (
-                      <div className={styles.infoValueGroup}>
-                        <span className={styles.infoMonoValue}>i5_trader#0001</span>
-                        <button
-                          className={`${styles.actionBtn} ${styles.actionBtnConnected}`}
-                          onClick={() => {
-                            setDiscordConnected(false);
-                            showToast("Discord disconnected");
-                          }}
-                        >
-                          CONNECTED
-                        </button>
-                      </div>
-                    ) : (
-                      <button
-                        className={styles.actionBtn}
-                        onClick={() => {
-                          setDiscordConnected(true);
-                          showToast("Discord connected successfully");
-                        }}
-                      >
-                        CONNECT DISCORD
-                      </button>
-                    )}
-                  </div>
-
-                  {/* Row 5: X (Twitter) */}
-                  <div className={styles.infoRow}>
-                    <span className={styles.infoLabel}>X</span>
-                    {xConnected ? (
-                      <div className={styles.infoValueGroup}>
-                        <span className={styles.infoMonoValue}>@i5_trader</span>
-                        <button
-                          className={`${styles.actionBtn} ${styles.actionBtnConnected}`}
-                          onClick={() => {
-                            setXConnected(false);
-                            showToast("X account disconnected");
-                          }}
-                        >
-                          CONNECTED
-                        </button>
-                      </div>
-                    ) : (
-                      <button
-                        className={styles.actionBtn}
-                        onClick={() => {
-                          setXConnected(true);
-                          showToast("X account connected successfully");
-                        }}
-                      >
-                        CONNECT X
-                      </button>
-                    )}
-                  </div>
-
-                  {/* Guided Setup Section */}
-                  <div className={styles.guidedSetupSection}>
-                    <div className={styles.guidedSetupLeft}>
-                      <span className={styles.guidedSetupTitle}>Guided setup</span>
-                      <span className={styles.guidedSetupDesc}>
-                        Review your display name, avatar, and Arbitai features.
-                      </span>
+                    <div className={styles.actionCardBody}>
+                      <h4 className={styles.actionCardTitle}>Deposit</h4>
+                      <p className={styles.actionCardDesc}>
+                        Deposit crypto or fiat into your account via EVM or Solana networks
+                      </p>
                     </div>
                     <button
-                      className={styles.actionBtn}
-                      onClick={() => showToast("Starting Guided Setup...")}
+                      className={styles.actionBtnDeposit}
+                      onClick={() => setIsDepositModalOpen(true)}
                     >
-                      RESTART SETUP
+                      <span>Deposit</span>
+                      <ArrowRight size={14} />
+                    </button>
+                  </div>
+
+                  {/* Card 2: Withdraw */}
+                  <div className={styles.actionCard}>
+                    <div className={styles.actionCardTop}>
+                      <div className={`${styles.actionIconWrap} ${styles.actionIconWrapWithdraw}`}>
+                        <ArrowUpRight size={18} />
+                      </div>
+                      <span className={styles.actionBadgeGrey}>0% Fee</span>
+                    </div>
+                    <div className={styles.actionCardBody}>
+                      <h4 className={styles.actionCardTitle}>Withdraw</h4>
+                      <p className={styles.actionCardDesc}>
+                        Withdraw funds directly to external Web3 wallets or bank accounts
+                      </p>
+                    </div>
+                    <button
+                      className={styles.actionBtnSecondary}
+                      onClick={() => showToast("Withdrawal portal: enter destination address")}
+                    >
+                      <span>Withdraw</span>
+                      <ChevronRight size={14} />
+                    </button>
+                  </div>
+
+                  {/* Card 3: Transfer */}
+                  <div className={styles.actionCard}>
+                    <div className={styles.actionCardTop}>
+                      <div className={`${styles.actionIconWrap} ${styles.actionIconWrapTransfer}`}>
+                        <ArrowLeftRight size={18} />
+                      </div>
+                      <span className={styles.actionBadgeBlue}>Internal</span>
+                    </div>
+                    <div className={styles.actionCardBody}>
+                      <h4 className={styles.actionCardTitle}>Transfer</h4>
+                      <p className={styles.actionCardDesc}>
+                        Instant zero-fee transfer between Main, Crypto, Hyperliquid, and Aster balances
+                      </p>
+                    </div>
+                    <button
+                      className={styles.actionBtnSecondary}
+                      onClick={() => showToast("Internal transfer: select source & destination accounts")}
+                    >
+                      <span>Transfer</span>
+                      <ChevronRight size={14} />
                     </button>
                   </div>
                 </div>
-              )}
+
+                {/* Bottom Card: Wallet Activity (Recent) */}
+                <div className={styles.activityCard}>
+                  <div className={styles.activityHeaderRow}>
+                    <div className={styles.activityHeaderLeft}>
+                      <div className={styles.activityTitleRow}>
+                        <span className={styles.activityMainTitle}>Wallet Activity</span>
+                        <span className={styles.activityRecentTag}>(Recent)</span>
+                      </div>
+                      <span className={styles.activitySubtitle}>
+                        Recent deposits, withdrawals, and internal transfers across accounts.
+                      </span>
+                    </div>
+
+                    <div className={styles.activityFilters}>
+                      {(["All Activity", "Deposits", "Transfers"] as const).map((filter) => (
+                        <button
+                          key={filter}
+                          className={`${styles.activityFilterBtn} ${
+                            walletActivityFilter === filter ? styles.activityFilterBtnActive : ""
+                          }`}
+                          onClick={() => setWalletActivityFilter(filter)}
+                        >
+                          {filter}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Activity Items List */}
+                  <div className={styles.activityList}>
+                    {filteredWalletActivities.map((act) => (
+                      <div key={act.id} className={styles.activityRow}>
+                        <div className={styles.activityRowLeft}>
+                          <div
+                            className={styles.activityIconCircle}
+                            style={{
+                              backgroundColor:
+                                act.type === "deposit"
+                                  ? "rgba(16, 185, 129, 0.12)"
+                                  : act.type === "transfer"
+                                  ? "rgba(99, 102, 241, 0.12)"
+                                  : "rgba(255, 255, 255, 0.05)",
+                              color:
+                                act.type === "deposit"
+                                  ? "#10b981"
+                                  : act.type === "transfer"
+                                  ? "#818cf8"
+                                  : "#9ca3af",
+                            }}
+                          >
+                            {act.type === "deposit" ? (
+                              <ArrowDownToLine size={15} />
+                            ) : act.type === "transfer" ? (
+                              <ArrowLeftRight size={15} />
+                            ) : (
+                              <ArrowUpRight size={15} />
+                            )}
+                          </div>
+                          <div className={styles.activityMeta}>
+                            <div className={styles.activityNameRow}>
+                              <span className={styles.activityName}>{act.title}</span>
+                              <span
+                                className={
+                                  act.badgeType === "completed"
+                                    ? styles.activityBadgeCompleted
+                                    : act.badgeType === "instant"
+                                    ? styles.activityBadgeInstant
+                                    : styles.activityBadgeConfirmed
+                                }
+                              >
+                                {act.badge}
+                              </span>
+                            </div>
+                            <span className={styles.activitySub}>
+                              {act.networkOrRoute} • {act.timeAgo}
+                            </span>
+                          </div>
+                        </div>
+
+                        <div className={styles.activityRowRight}>
+                          <span
+                            className={styles.activityAmount}
+                            style={{ color: act.amountColor }}
+                          >
+                            {act.amount}
+                          </span>
+                          <span
+                            className={styles.activityFee}
+                            style={{
+                              color:
+                                act.feeOrAddress.includes("Free")
+                                  ? "#10b981"
+                                  : undefined,
+                            }}
+                          >
+                            {act.feeOrAddress}
+                          </span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* VIEW 2 & 3 in standard panelCard container */}
+            {(activeTab === "userInfo" || activeTab === "exchanges") && (
+              <div className={styles.panelCard}>
+                {/* VIEW 2: USER INFO (Screenshot 4) */}
+                {activeTab === "userInfo" && (
+                  <div className={styles.userInfoCenterWrap}>
+                    <div className={styles.userInfoIconCircle}>
+                      <Info size={22} />
+                    </div>
+                    <h3 className={styles.userInfoMainHeading}>User Info & Preferences</h3>
+                    <p className={styles.userInfoSubHeading}>
+                      Manage your personal details, security settings, and notification alerts.
+                    </p>
+                    <button
+                      className={styles.returnProfileBtn}
+                      onClick={() => setActiveTab("profile")}
+                    >
+                      Return to Profile
+                    </button>
+                  </div>
+                )}
 
               {/* VIEW 2: EXCHANGE ACCOUNTS (All Exchanges Shown Inside View) */}
               {activeTab === "exchanges" && (
@@ -1681,6 +1900,133 @@ export default function AccountModal({ isOpen, onClose }: AccountModalProps) {
                   Connect Account
                 </button>
               </div>
+            </div>
+          </div>
+        )}
+
+        {/* Sub-Dialog: Deposit Tokens Modal (Screenshot 3) */}
+        {isDepositModalOpen && (
+          <div className={styles.subModalOverlay} onClick={() => setIsDepositModalOpen(false)}>
+            <div className={styles.depositModal} onClick={(e) => e.stopPropagation()}>
+              <div className={styles.depositModalHeader}>
+                <h3 className={styles.depositModalTitle}>Deposit tokens</h3>
+                <button
+                  className={styles.iconOnlyBtn}
+                  onClick={() => setIsDepositModalOpen(false)}
+                  aria-label="Close deposit dialog"
+                >
+                  <X size={16} />
+                </button>
+              </div>
+
+              {/* Chain Type Selector Tabs (EVM / Solana) */}
+              <div className={styles.depositTabsRow}>
+                <button
+                  className={`${styles.depositTabBtn} ${
+                    depositChainType === "EVM" ? styles.depositTabBtnActive : ""
+                  }`}
+                  onClick={() => setDepositChainType("EVM")}
+                >
+                  EVM
+                </button>
+                <button
+                  className={`${styles.depositTabBtn} ${
+                    depositChainType === "Solana" ? styles.depositTabBtnActive : ""
+                  }`}
+                  onClick={() => setDepositChainType("Solana")}
+                >
+                  Solana
+                </button>
+              </div>
+
+              {/* QR Code Card */}
+              <div className={styles.depositQrCard}>
+                <div className={styles.depositQrInner}>
+                  <QrCodeVector />
+                  <div className={styles.depositQrBadge}>
+                    <IconI5Badge />
+                  </div>
+                </div>
+              </div>
+
+              {/* Address Field */}
+              <div
+                className={styles.depositAddressBox}
+                onClick={() => {
+                  const addr =
+                    depositChainType === "EVM"
+                      ? "0x487fbecc6b8ed61e5d5c28dea8f9a900ad6d6ec91"
+                      : "6vGB8MtqZpL49P4eP3N9k2XN1Y5J3qL1oW9m6aqg2";
+                  handleCopy(addr, `${depositChainType} deposit address`);
+                }}
+                title="Click to copy full address"
+              >
+                <span className={styles.depositAddressText}>
+                  {depositChainType === "EVM"
+                    ? "0x487fbecc6b8ed61e5d5c28dea8f9a900ad6d6..."
+                    : "6vGB8MtqZpL49P4eP3N9k2XN1Y5J3qL1oW9m..."}
+                </span>
+                <div className={styles.depositCopyIconBtn}>
+                  <Copy size={13} />
+                </div>
+              </div>
+
+              {/* Supported Networks */}
+              <div className={styles.supportedNetworksSection}>
+                <span className={styles.supportedNetworksLabel}>Supported networks:</span>
+                <div className={styles.supportedNetworksList}>
+                  {depositChainType === "EVM" ? (
+                    <>
+                      <div className={styles.networkPill}>
+                        <IconBNB />
+                        <span>BNB</span>
+                      </div>
+                      <div className={styles.networkPill}>
+                        <IconBase />
+                        <span>Base</span>
+                      </div>
+                      <div className={styles.networkPill}>
+                        <IconArbitrum />
+                        <span>Arbitrum</span>
+                      </div>
+                      <div className={styles.networkPill}>
+                        <IconRobinhood />
+                        <span>Robinhood</span>
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <div className={styles.networkPill}>
+                        <span style={{ color: "#a855f7", fontSize: "12px", lineHeight: 1 }}>◎</span>
+                        <span>Solana</span>
+                      </div>
+                      <div className={styles.networkPill}>
+                        <span style={{ color: "#ec4899", fontSize: "12px", lineHeight: 1 }}>🌑</span>
+                        <span>Eclipse</span>
+                      </div>
+                    </>
+                  )}
+                </div>
+              </div>
+
+              {/* Notice */}
+              <p className={styles.depositWarning}>
+                Only deposit on supported chains. Deposits on unsupported networks may be lost.
+              </p>
+
+              {/* Action Button */}
+              <button
+                className={styles.depositCopyBtn}
+                onClick={() => {
+                  const addr =
+                    depositChainType === "EVM"
+                      ? "0x487fbecc6b8ed61e5d5c28dea8f9a900ad6d6ec91"
+                      : "6vGB8MtqZpL49P4eP3N9k2XN1Y5J3qL1oW9m6aqg2";
+                  handleCopy(addr, `${depositChainType} deposit address`);
+                }}
+              >
+                Copy Address
+              </button>
             </div>
           </div>
         )}
