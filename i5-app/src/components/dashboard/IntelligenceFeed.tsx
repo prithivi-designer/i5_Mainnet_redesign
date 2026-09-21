@@ -28,6 +28,25 @@ export interface FeedItem {
 
 const mockFeedData: FeedItem[] = [
   {
+    id: "spcx-1",
+    ticker: "SPCX",
+    companyName: "Space Exploration Technologies Corp.",
+    avatarBg: "#0B1528",
+    category: "EARNINGS & GUIDANCE",
+    assetType: "STOCKS",
+    stance: "BULLISH",
+    position: "LONG",
+    title: "SpaceX (SPCX) Q2 revenue jumps +91.9% to $7.81B, initiates $60B AI guidance",
+    summary:
+      "Revenue accelerated to $7.81B (+91.9% YoY) with gross margin expanding 1132 bps to 55.3%. Operating cash flow reached $3.47B with $93.5B cash fortress. Initiated Q3 2026 acquisition guidance of $60.0B for Cursor (AI) segment.",
+    timeAgo: "15m ago",
+    source: "SEC 8-K Edgar",
+    publishPrice: "$153.85 at publish",
+    priceChange: "+0.75%",
+    isPositiveChange: true,
+    aiConfidence: 94,
+  },
+  {
     id: "1",
     ticker: "NVDA",
     companyName: "NVIDIA Corp.",
@@ -1033,7 +1052,7 @@ export default function IntelligenceFeed() {
               {/* Action Buttons Row */}
               <div className={styles.actionsRow}>
                 <button className={styles.viewAnalysisBtn} onClick={() => setSelectedAnalysisItem(item)}>
-                  View analysis
+                  View Analytics
                   <svg width={12} height={12} viewBox="0 0 16 16" fill="none" aria-hidden>
                     <path d="M4.5 11.5L11.5 4.5M11.5 4.5H5.5M11.5 4.5V10.5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>

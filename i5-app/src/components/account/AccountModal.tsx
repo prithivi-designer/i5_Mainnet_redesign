@@ -27,7 +27,12 @@ import {
   ArrowUpRight,
   ArrowLeftRight,
   ArrowRight,
+  ArrowUpDown,
   Info,
+  Search,
+  MoreVertical,
+  LayoutGrid,
+  List,
 } from "lucide-react";
 import styles from "./AccountModal.module.css";
 import { IconHyperliquid, IconAster } from "../dashboard/QuickTradeModal";
@@ -197,6 +202,162 @@ export interface PerpPositionItem {
 }
 
 export type PositionItem = TokenPositionItem | PerpPositionItem;
+
+/* ----------------------------------------------------------
+   Blueprint Portfolio Layout Data Models & Mock Datasets
+   ---------------------------------------------------------- */
+export interface BlueprintPositionItem {
+  id: string;
+  name: string;
+  ticker: string;
+  typeBadge: string;
+  isPerp?: boolean;
+  amountSub: string;
+  value: string;
+  pnlDollar: string;
+  pnlPercent: string;
+  isPositive: boolean;
+  avatar: string;
+  isCustomImg?: boolean;
+  category: "Tokens" | "Perps";
+  sparkline: "up" | "down";
+}
+
+export const BLUEPRINT_POSITIONS: BlueprintPositionItem[] = [
+  {
+    id: "kate",
+    name: "Kate Coin",
+    ticker: "KATE",
+    typeBadge: "SPOT",
+    amountSub: "105.5K KATE • Avg $0.00074",
+    value: "$110.78",
+    pnlDollar: "+$85.40",
+    pnlPercent: "41.20%",
+    isPositive: true,
+    avatar: "👑",
+    category: "Tokens",
+    sparkline: "up",
+  },
+  {
+    id: "four",
+    name: "Four Meme",
+    ticker: "FOUR",
+    typeBadge: "SPOT",
+    amountSub: "50,000 FOUR • Avg $0.0018",
+    value: "$74.00",
+    pnlDollar: "-$16.00",
+    pnlPercent: "12.40%",
+    isPositive: false,
+    avatar: "4",
+    category: "Tokens",
+    sparkline: "down",
+  },
+  {
+    id: "pepe-perp",
+    name: "PEPE-PERP",
+    ticker: "PEPE",
+    typeBadge: "10x LONG",
+    isPerp: true,
+    amountSub: "1,250 PEPE • Entry $0.00012",
+    value: "$184.20",
+    pnlDollar: "+$184.20",
+    pnlPercent: "120.00%",
+    isPositive: true,
+    avatar: "🐸",
+    category: "Perps",
+    sparkline: "up",
+  },
+  {
+    id: "doho",
+    name: "DOHO",
+    ticker: "DOHO",
+    typeBadge: "SPOT",
+    amountSub: "200 DOHO • Avg $0.0220",
+    value: "$4.41",
+    pnlDollar: "+$0.61",
+    pnlPercent: "16.10%",
+    isPositive: true,
+    avatar: "https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?w=100&auto=format&fit=crop&q=60",
+    isCustomImg: true,
+    category: "Tokens",
+    sparkline: "up",
+  },
+  {
+    id: "cashcat",
+    name: "CASHCAT",
+    ticker: "CASHCAT",
+    typeBadge: "SPOT",
+    amountSub: "120 CASHCAT • Avg $0.0189",
+    value: "$2.29",
+    pnlDollar: "-$0.33",
+    pnlPercent: "12.60%",
+    isPositive: false,
+    avatar: "https://images.unsplash.com/photo-1543852786-1cf6624b9987?w=100&auto=format&fit=crop&q=60",
+    isCustomImg: true,
+    category: "Tokens",
+    sparkline: "down",
+  },
+];
+
+export interface BlueprintActivityItem {
+  id: string;
+  time: string;
+  tokenName: string;
+  tokenAvatar?: string;
+  isPair?: boolean;
+  pairFrom?: string;
+  pairTo?: string;
+  isDepositIcon?: boolean;
+  action: "Buy" | "Swap" | "Deposit";
+  actionCategory: "Trades" | "Transfers" | "Deposits";
+  amount: string;
+  value: string;
+}
+
+export const BLUEPRINT_ACTIVITIES: BlueprintActivityItem[] = [
+  {
+    id: "act-1",
+    time: "2m ago",
+    tokenName: "DOHO",
+    tokenAvatar: "https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?w=100&auto=format&fit=crop&q=60",
+    action: "Buy",
+    actionCategory: "Trades",
+    amount: "200 DOHO",
+    value: "$4.41",
+  },
+  {
+    id: "act-2",
+    time: "18m ago",
+    tokenName: "CASHCAT",
+    tokenAvatar: "https://images.unsplash.com/photo-1543852786-1cf6624b9987?w=100&auto=format&fit=crop&q=60",
+    action: "Buy",
+    actionCategory: "Trades",
+    amount: "120 CASHCAT",
+    value: "$2.29",
+  },
+  {
+    id: "act-3",
+    time: "2h ago",
+    tokenName: "FOUR → KATE",
+    isPair: true,
+    pairFrom: "4",
+    pairTo: "👑",
+    action: "Swap",
+    actionCategory: "Trades",
+    amount: "50 FOUR → 2000 KATE",
+    value: "$1.12",
+  },
+  {
+    id: "act-4",
+    time: "5h ago",
+    tokenName: "Deposit",
+    isDepositIcon: true,
+    action: "Deposit",
+    actionCategory: "Deposits",
+    amount: "+$20.00",
+    value: "$20.00",
+  },
+];
 
 const SAMPLE_TOKEN_POSITIONS: TokenPositionItem[] = [
   {
@@ -466,15 +627,14 @@ const IconI5Badge = () => (
   <svg width={18} height={18} viewBox="0 0 24 24" fill="none">
     <path
       d="M12 2L21 7.2V16.8L12 22L3 16.8V7.2L12 2Z"
-      fill="#ff2a85"
-      fillOpacity="0.25"
-      stroke="#ff2a85"
+      fill="rgba(228, 228, 228, 0.12)"
+      stroke="var(--neutral-100, #e4e4e4)"
       strokeWidth="2"
       strokeLinejoin="round"
     />
     <path
       d="M12 6V18M7.5 9.5L16.5 14.5M16.5 9.5L7.5 14.5"
-      stroke="#ffffff"
+      stroke="var(--neutral-100, #e4e4e4)"
       strokeWidth="1.5"
       strokeLinecap="round"
     />
@@ -561,35 +721,143 @@ const QrCodeVector = () => (
   </svg>
 );
 
-/* Top 4 Balance Metrics */
+/* Top 4 Balance Metrics (Respective Icons instead of colored dots) */
 const BALANCE_METRICS = [
   {
     id: "main",
     label: "Main Balance",
     value: "$4.58",
     subtext: "Primary Cash • 0.33 USD Avail",
-    dotColor: "#ff2a85",
+    iconType: "wallet" as const,
   },
   {
     id: "crypto",
     label: "Crypto Balance",
     value: "$14,250.00",
     subtext: "Spot Vault • 4 Assets",
-    dotColor: "#10b981",
+    iconType: "vault" as const,
   },
   {
     id: "hyperliquid",
     label: "Hyperliquid Balance",
     value: "$8,420.50",
     subtext: "Perps Margin • 2 Open",
-    dotColor: "#00e5ff",
+    iconType: "hyperliquid" as const,
   },
   {
     id: "aster",
     label: "Aster Balance",
     value: "$3,180.25",
     subtext: "Aster Ecosystem • Staked",
-    dotColor: "#a855f7",
+    iconType: "aster" as const,
+  },
+];
+
+/* USDC Brand Icon SVG */
+const IconUSDC = ({ size = 26 }: { size?: number }) => (
+  <svg width={size} height={size} viewBox="0 0 32 32" fill="none">
+    <circle cx="16" cy="16" r="16" fill="#2775CA" />
+    <path
+      d="M16 6.5C10.753 6.5 6.5 10.753 6.5 16s4.253 9.5 9.5 9.5 9.5-4.253 9.5-9.5S21.247 6.5 16 6.5zm0 17.5c-4.418 0-8-3.582-8-8s3.582-8 8-8 8 3.582 8 8-3.582 8-8 8z"
+      fill="#ffffff"
+      fillOpacity="0.25"
+    />
+    <path
+      d="M17.8 11.2h-3.4c-1.1 0-2 .9-2 2s.9 2 2 2h3.2c1.1 0 2 .9 2 2s-.9 2-2 2h-3.8m2-10.2v2.2m0 8v2.2"
+      stroke="#ffffff"
+      strokeWidth="2.1"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
+
+/* Transfer Routing Flow Accounts */
+interface TransferAccountOption {
+  id: string;
+  name: string;
+  sub: string;
+  avail: string;
+  availNum: number;
+  type: "vault" | "wallet" | "hyperliquid" | "aster";
+  exchange?: string;
+}
+
+const TRANSFER_ACCOUNTS: TransferAccountOption[] = [
+  {
+    id: "crypto",
+    name: "Crypto Balance (Spot Vault)",
+    sub: "Spot Vault",
+    avail: "$14,250.00",
+    availNum: 14250.0,
+    type: "vault",
+    exchange: "hyperliquid",
+  },
+  {
+    id: "main",
+    name: "Main Balance",
+    sub: "Primary Cash",
+    avail: "$4.58",
+    availNum: 4.58,
+    type: "wallet",
+  },
+  {
+    id: "hyperliquid",
+    name: "Hyperliquid Balance",
+    sub: "Perps Margin",
+    avail: "$8,420.50",
+    availNum: 8420.5,
+    type: "hyperliquid",
+    exchange: "hyperliquid",
+  },
+  {
+    id: "aster",
+    name: "Aster Balance",
+    sub: "Aster Ecosystem",
+    avail: "$3,180.25",
+    availNum: 3180.25,
+    type: "aster",
+    exchange: "aster",
+  },
+];
+
+/* Transfer Select Asset Items */
+interface TransferAssetOption {
+  symbol: string;
+  name: string;
+  network: string;
+  avail: number;
+  price: number;
+}
+
+const TRANSFER_ASSETS: TransferAssetOption[] = [
+  {
+    symbol: "USDC",
+    name: "USDC • USD Coin",
+    network: "Arbitrum Native • Instant Sync",
+    avail: 2450.0,
+    price: 1.0,
+  },
+  {
+    symbol: "USDT",
+    name: "USDT • Tether USD",
+    network: "Ethereum Direct • Zero Fee",
+    avail: 850.5,
+    price: 1.0,
+  },
+  {
+    symbol: "ETH",
+    name: "ETH • Ethereum",
+    network: "Arbitrum One • Instant L2",
+    avail: 1.45,
+    price: 3450.0,
+  },
+  {
+    symbol: "SOL",
+    name: "SOL • Solana",
+    network: "Solana Direct • Fast TPS",
+    avail: 12.8,
+    price: 180.0,
   },
 ];
 
@@ -617,7 +885,7 @@ const SAMPLE_WALLET_ACTIVITIES: WalletActivityItem[] = [
     networkOrRoute: "Arbitrum One",
     timeAgo: "12 mins ago",
     amount: "+$500.00 USDC",
-    amountColor: "#10b981",
+    amountColor: "var(--emerald-400, #56d68f)",
     feeOrAddress: "Fee $0.12",
   },
   {
@@ -629,7 +897,7 @@ const SAMPLE_WALLET_ACTIVITIES: WalletActivityItem[] = [
     networkOrRoute: "Spot Vault → Perps Margin",
     timeAgo: "2 hrs ago",
     amount: "$2,000.00 USD",
-    amountColor: "#ffffff",
+    amountColor: "var(--text-primary, #e4e4e4)",
     feeOrAddress: "Free ($0.00)",
   },
   {
@@ -641,7 +909,7 @@ const SAMPLE_WALLET_ACTIVITIES: WalletActivityItem[] = [
     networkOrRoute: "Solana Network",
     timeAgo: "1 day ago",
     amount: "-1.85 SOL",
-    amountColor: "#e5e7eb",
+    amountColor: "var(--text-primary, #e4e4e4)",
     feeOrAddress: "0x98f2...34b1",
   },
 ];
@@ -669,12 +937,47 @@ export default function AccountModal({ isOpen, onClose }: AccountModalProps) {
   const [positionsFilter, setPositionsFilter] = useState<"All" | "Tokens" | "Perps">("All");
   const [swapsFilter, setSwapsFilter] = useState<"All swaps" | "Buys" | "Sells">("All swaps");
 
+  const [portfolioSearchQuery, setPortfolioSearchQuery] = useState<string>("");
+  const [positionsSearchQuery, setPositionsSearchQuery] = useState<string>("");
+  const [positionsViewMode, setPositionsViewMode] = useState<"grid" | "list">("grid");
+  const [activityFilter, setActivityFilter] = useState<"All" | "Trades" | "Transfers" | "Deposits">("All");
+
   // Wallet View States (Matching Reference Screenshots)
   const [walletActivityFilter, setWalletActivityFilter] = useState<"All Activity" | "Deposits" | "Transfers">("All Activity");
 
   // Deposit Tokens Sub-Modal Dialog (Matching Reference Screenshots)
   const [isDepositModalOpen, setIsDepositModalOpen] = useState<boolean>(false);
   const [depositChainType, setDepositChainType] = useState<"EVM" | "Solana">("EVM");
+
+  // Transfer Sub-Modal State (Matching Transfer Flow Blueprint)
+  const [isTransferModalOpen, setIsTransferModalOpen] = useState<boolean>(false);
+  const [fromAccount, setFromAccount] = useState<TransferAccountOption>(TRANSFER_ACCOUNTS[0]);
+  const [toAccount, setToAccount] = useState<TransferAccountOption>(TRANSFER_ACCOUNTS[1]);
+  const [isFromDropdownOpen, setIsFromDropdownOpen] = useState<boolean>(false);
+  const [isToDropdownOpen, setIsToDropdownOpen] = useState<boolean>(false);
+  const [selectedTransferAsset, setSelectedTransferAsset] = useState<TransferAssetOption>(TRANSFER_ASSETS[0]);
+  const [isAssetDropdownOpen, setIsAssetDropdownOpen] = useState<boolean>(false);
+  const [transferAmount, setTransferAmount] = useState<string>("");
+
+  const filteredBlueprintPositions = useMemo<BlueprintPositionItem[]>(() => {
+    return BLUEPRINT_POSITIONS.filter((pos) => {
+      const q = positionsSearchQuery.trim().toLowerCase();
+      const matchesSearch = !q || pos.name.toLowerCase().includes(q) || pos.ticker.toLowerCase().includes(q);
+      if (!matchesSearch) return false;
+      if (positionsFilter === "Tokens") return pos.category === "Tokens";
+      if (positionsFilter === "Perps") return pos.category === "Perps";
+      return true;
+    });
+  }, [positionsSearchQuery, positionsFilter]);
+
+  const filteredBlueprintActivities = useMemo<BlueprintActivityItem[]>(() => {
+    return BLUEPRINT_ACTIVITIES.filter((act) => {
+      if (activityFilter === "Trades") return act.actionCategory === "Trades";
+      if (activityFilter === "Transfers") return act.actionCategory === "Transfers";
+      if (activityFilter === "Deposits") return act.actionCategory === "Deposits";
+      return true;
+    });
+  }, [activityFilter]);
 
   const filteredPositions = useMemo<PositionItem[]>(() => {
     const tokens = SAMPLE_TOKEN_POSITIONS.filter((t) => t.status === positionsStatus);
@@ -731,7 +1034,12 @@ export default function AccountModal({ isOpen, onClose }: AccountModalProps) {
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
-        if (isDepositModalOpen) {
+        if (isTransferModalOpen) {
+          setIsTransferModalOpen(false);
+          setIsFromDropdownOpen(false);
+          setIsToDropdownOpen(false);
+          setIsAssetDropdownOpen(false);
+        } else if (isDepositModalOpen) {
           setIsDepositModalOpen(false);
         } else if (isEditProfileOpen) {
           setIsEditProfileOpen(false);
@@ -752,7 +1060,7 @@ export default function AccountModal({ isOpen, onClose }: AccountModalProps) {
       window.removeEventListener("keydown", handleKeyDown);
       document.body.style.overflow = "unset";
     };
-  }, [isOpen, isDepositModalOpen, isEditProfileOpen, isConnectModalOpen, isConnectingEmail, onClose]);
+  }, [isOpen, isTransferModalOpen, isDepositModalOpen, isEditProfileOpen, isConnectModalOpen, isConnectingEmail, onClose]);
 
   const filteredWalletActivities = useMemo(() => {
     if (walletActivityFilter === "Deposits") {
@@ -817,25 +1125,38 @@ export default function AccountModal({ isOpen, onClose }: AccountModalProps) {
     return accounts.filter((a) => a.exchangeId === exchangeId).length;
   };
 
-  // Helper: Shared Top 4 Balance Metric Cards
-  const renderBalanceCards = () => (
+  // Helper: Render account exchange logo or respective icon
+  const renderAccountIcon = (acc: TransferAccountOption, size: number = 15) => {
+    if (acc.exchange === "hyperliquid" || acc.type === "hyperliquid") {
+      return <IconHyperliquid size={size} />;
+    }
+    if (acc.exchange === "aster" || acc.type === "aster") {
+      return <IconAster size={size} />;
+    }
+    if (acc.type === "wallet") {
+      return <Wallet size={size} />;
+    }
+    return <Box size={size} />;
+  };
+
+  // Helper: Shared Top 4 Balance Metric Cards (Respective icons instead of dots)
+  const renderBalanceCards = (showSubtext: boolean = true) => (
     <div className={styles.balanceCardsGrid}>
       {BALANCE_METRICS.map((metric) => (
         <div key={metric.id} className={styles.balanceCard}>
           <div className={styles.balanceCardHeader}>
             <span className={styles.balanceCardLabel}>{metric.label}</span>
-            <span
-              className={styles.balanceCardDot}
-              style={{
-                backgroundColor: metric.dotColor,
-                boxShadow: `0 0 8px ${metric.dotColor}`,
-              }}
-            />
+            <div className={styles.balanceCardIconWrap}>
+              {metric.iconType === "wallet" && <Wallet size={13} />}
+              {metric.iconType === "vault" && <Box size={13} />}
+              {metric.iconType === "hyperliquid" && <IconHyperliquid size={14} />}
+              {metric.iconType === "aster" && <IconAster size={14} />}
+            </div>
           </div>
           <div className={styles.balanceCardValue}>
             {isBalanceVisible ? metric.value : "••••••"}
           </div>
-          <div className={styles.balanceCardSub}>{metric.subtext}</div>
+          {showSubtext && <div className={styles.balanceCardSub}>{metric.subtext}</div>}
         </div>
       ))}
     </div>
@@ -959,15 +1280,33 @@ export default function AccountModal({ isOpen, onClose }: AccountModalProps) {
 
           {/* Right Content Area */}
           <main className={styles.contentArea}>
-            {/* VIEW 0: PROFILE (Screenshot 1) */}
+            {/* VIEW 0: PROFILE (BLUEPRINT LAYOUT) */}
             {activeTab === "profile" && (
               <div className={styles.profileContainer}>
-                {/* Top 4 Balance Metric Cards Row */}
-                {renderBalanceCards()}
+                {/* 1. TOP SECTION: PORTFOLIO TITLE & SEARCH BAR */}
+                <div className={styles.portfolioTopHeader}>
+                  <div className={styles.portfolioTopTitleCol}>
+                    <h2 className={styles.portfolioPageTitle}>Portfolio</h2>
+                    <p className={styles.portfolioPageSub}>
+                      Real-time performance across all your tokens and positions
+                    </p>
+                  </div>
+                  <div className={styles.portfolioSearchWrap}>
+                    <Search size={14} className={styles.searchIconMuted} />
+                    <input
+                      type="text"
+                      placeholder="Search tokens, pairs, or wallets..."
+                      value={portfolioSearchQuery}
+                      onChange={(e) => setPortfolioSearchQuery(e.target.value)}
+                      className={styles.portfolioSearchInput}
+                    />
+                    <span className={styles.kbdShortcut}>⌘ K</span>
+                  </div>
+                </div>
 
-                {/* Block 2: Middle Grid (Portfolio Value + All Swaps) */}
-                <div className={styles.middleGrid}>
-                  {/* Left Column: Portfolio Value Card */}
+                {/* 2. TOP GRID: PORTFOLIO VALUE (LEFT) + 3 STACKED CARDS (RIGHT) */}
+                <div className={styles.portfolioTopGrid}>
+                  {/* Left Column: Portfolio Value Card with Chart */}
                   <div className={styles.portfolioCard}>
                     <div className={styles.portfolioHeader}>
                       <div className={styles.portfolioTitleRow}>
@@ -1008,7 +1347,7 @@ export default function AccountModal({ isOpen, onClose }: AccountModalProps) {
                       </div>
                     </div>
 
-                    {/* Detailed Chart with Y-Axis and X-Axis labels */}
+                    {/* Detailed Chart with Y-Axis and X-Axis labels matching blueprint */}
                     <div className={styles.chartContainer}>
                       <div className={styles.yAxisLabels}>
                         <span>$5.00</span>
@@ -1020,23 +1359,23 @@ export default function AccountModal({ isOpen, onClose }: AccountModalProps) {
                         <div className={styles.chartSvgWrap}>
                           <svg
                             className={styles.chartSvg}
-                            viewBox="0 0 320 65"
+                            viewBox="0 0 360 80"
                             preserveAspectRatio="none"
                           >
                             <defs>
-                              <linearGradient id="pnlGradArea" x1="0%" y1="0%" x2="0%" y2="100%">
-                                <stop offset="0%" stopColor="#ff3b69" stopOpacity="0.32" />
-                                <stop offset="100%" stopColor="#ff3b69" stopOpacity="0.0" />
+                              <linearGradient id="portfolioAreaGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                                <stop offset="0%" stopColor="#ffffff" stopOpacity="0.18" />
+                                <stop offset="100%" stopColor="#ffffff" stopOpacity="0.0" />
                               </linearGradient>
                             </defs>
                             <path
-                              d="M 0 45 Q 15 48 30 54 Q 40 56 45 42 Q 55 12 75 14 Q 150 14 200 13 Q 260 16 320 12 L 320 65 L 0 65 Z"
-                              fill="url(#pnlGradArea)"
+                              d="M 0 48 C 20 50 30 60 45 60 C 60 60 70 25 100 22 C 150 20 220 22 280 20 C 320 18 340 14 360 12 L 360 80 L 0 80 Z"
+                              fill="url(#portfolioAreaGrad)"
                             />
                             <path
-                              d="M 0 45 Q 15 48 30 54 Q 40 56 45 42 Q 55 12 75 14 Q 150 14 200 13 Q 260 16 320 12"
+                              d="M 0 48 C 20 50 30 60 45 60 C 60 60 70 25 100 22 C 150 20 220 22 280 20 C 320 18 340 14 360 12"
                               fill="none"
-                              stroke="#ff3b69"
+                              stroke="#ffffff"
                               strokeWidth="2.2"
                               strokeLinecap="round"
                             />
@@ -1051,378 +1390,487 @@ export default function AccountModal({ isOpen, onClose }: AccountModalProps) {
                         </div>
                       </div>
                     </div>
+                  </div>
 
-                    {/* Total Cash Card inside */}
-                    <div className={styles.totalCashRow}>
-                      <div className={styles.totalCashLeft}>
-                        <div className={styles.walletIconBox}>
-                          <CreditCard size={16} />
+                  {/* Right Column: 3 Stacked Cards */}
+                  <div className={styles.topStatsStackCol}>
+                    {/* Card 1: Total Cash */}
+                    <div className={styles.topMiniCard}>
+                      <div className={styles.topMiniCardHeader}>
+                        <span className={styles.topMiniCardLabel}>Total Cash</span>
+                        <button
+                          className={styles.miniCardIconBtn}
+                          onClick={() => setActiveTab("wallet")}
+                          title="Manage cash in wallet"
+                        >
+                          <CreditCard size={15} />
+                        </button>
+                      </div>
+                      <div className={styles.topMiniCardBigVal}>$0.33</div>
+                    </div>
+
+                    {/* Card 2: Assets */}
+                    <div
+                      className={`${styles.topMiniCard} ${styles.topMiniCardClickable}`}
+                      onClick={() => {
+                        setPositionsFilter("All");
+                        showToast("Showing all positions");
+                      }}
+                    >
+                      <div className={styles.topMiniCardHeader}>
+                        <span className={styles.topMiniCardLabel}>Assets</span>
+                        <ChevronRight size={15} className={styles.chevronMuted} />
+                      </div>
+                      <div className={styles.topMiniCardBigVal}>5</div>
+                      <div className={styles.assetsBreakdownList}>
+                        <div className={styles.assetBreakdownRow}>
+                          <span className={styles.assetDotLabel}>
+                            <span className={styles.dotIndicatorTokens} /> Tokens
+                          </span>
+                          <span className={styles.assetBreakdownNum}>3</span>
                         </div>
-                        <div className={styles.cashTextMeta}>
-                          <span className={styles.cashSmallLabel}>Total cash</span>
-                          <span className={styles.cashAmountVal}>$0.33</span>
+                        <div className={styles.assetBreakdownRow}>
+                          <span className={styles.assetDotLabel}>
+                            <span className={styles.dotIndicatorPerps} /> Perps
+                          </span>
+                          <span className={styles.assetBreakdownNum}>2</span>
                         </div>
                       </div>
-                      <div className={styles.cashBtnGroup}>
-                        <button
-                          className={styles.withdrawActionBtn}
-                          onClick={() => setActiveTab("wallet")}
-                        >
-                          Withdraw
-                        </button>
-                        <button
-                          className={styles.depositActionBtn}
-                          onClick={() => setIsDepositModalOpen(true)}
-                        >
-                          Deposit
-                        </button>
+                    </div>
+
+                    {/* Card 3: 24H P&L */}
+                    <div className={styles.topMiniCard}>
+                      <div className={styles.topMiniCardHeader}>
+                        <span className={styles.topMiniCardLabel}>24H P&L</span>
+                      </div>
+                      <div className={styles.pnlCardContentRow}>
+                        <div>
+                          <div className={styles.pnlCardBigVal}>-$0.23</div>
+                          <div className={styles.pnlCardSubRow}>
+                            <span>-4.78%</span>
+                            <ChevronDown size={12} />
+                          </div>
+                        </div>
+                        {/* Mini downward sparkline */}
+                        <svg className={styles.pnlMiniSparkline} viewBox="0 0 76 24" fill="none">
+                          <path
+                            d="M 2 4 C 18 4 30 10 44 12 C 56 14 66 20 74 22"
+                            stroke="#ffffff"
+                            strokeWidth="1.8"
+                            strokeLinecap="round"
+                          />
+                        </svg>
                       </div>
                     </div>
                   </div>
+                </div>
 
-                  {/* Right Column: All Swaps Card */}
-                  <div className={styles.swapsCard}>
-                    <div>
-                      <div className={styles.swapsNavRow}>
-                        {(["All swaps", "Buys", "Sells"] as const).map((tab) => (
+                {/* 3. MIDDLE SECTION: YOUR POSITIONS (5) */}
+                <div className={styles.positionsSection}>
+                  <div className={styles.positionsSectionHeader}>
+                    <div className={styles.positionsTitleCol}>
+                      <h3 className={styles.positionsSectionTitle}>
+                        Your Positions <span className={styles.positionsCountMuted}>({filteredBlueprintPositions.length})</span>
+                      </h3>
+                      <p className={styles.positionsSectionSub}>
+                        Live performance across your tokens and perps
+                      </p>
+                    </div>
+
+                    <div className={styles.positionsControlsRow}>
+                      {/* Search Bar */}
+                      <div className={styles.posSearchBarWrap}>
+                        <Search size={13} className={styles.searchIconMuted} />
+                        <input
+                          type="text"
+                          placeholder="Search positions..."
+                          value={positionsSearchQuery}
+                          onChange={(e) => setPositionsSearchQuery(e.target.value)}
+                          className={styles.posSearchInput}
+                        />
+                      </div>
+
+                      {/* Filter Pills */}
+                      <div className={styles.posFilterSegment}>
+                        {(["All", "Tokens", "Perps"] as const).map((tab) => (
                           <button
                             key={tab}
-                            className={`${styles.swapNavItem} ${
-                              swapsFilter === tab ? styles.swapNavItemActive : ""
+                            className={`${styles.posFilterBtn} ${
+                              positionsFilter === tab ? styles.posFilterBtnActive : ""
                             }`}
-                            onClick={() => setSwapsFilter(tab)}
+                            onClick={() => setPositionsFilter(tab)}
                           >
                             {tab}
-                            {swapsFilter === tab && <div className={styles.swapActiveLine} />}
                           </button>
                         ))}
                       </div>
 
-                      <div className={styles.swapsTableHead}>
-                        <span>Token</span>
-                        <span>Action</span>
-                        <span style={{ textAlign: "right" }}>Amount</span>
-                        <span />
-                      </div>
-
-                      <div className={styles.swapsItemsList}>
-                        {/* Row 1: DOHO */}
-                        <div
-                          className={styles.swapItemRow}
-                          onClick={() => showToast("DOHO transaction detail opened")}
+                      {/* View Mode Toggle Buttons */}
+                      <div className={styles.viewModeToggleGroup}>
+                        <button
+                          className={`${styles.viewToggleBtn} ${
+                            positionsViewMode === "grid" ? styles.viewToggleBtnActive : ""
+                          }`}
+                          onClick={() => setPositionsViewMode("grid")}
+                          title="Grid view"
                         >
-                          <div className={styles.swapTokenBox}>
-                            <img
-                              src="https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?w=100&auto=format&fit=crop&q=60"
-                              alt="DOHO"
-                              className={styles.swapTokenAvatar}
-                            />
-                            <span className={styles.swapTokenName}>DOHO</span>
-                          </div>
-                          <div>
-                            <span className={styles.buyBadge}>Buy</span>
-                          </div>
-                          <div className={styles.swapAmountText}>$4.41</div>
-                          <div className={styles.swapRowChevron}>
-                            <ChevronRight size={14} />
-                          </div>
-                        </div>
-
-                        {/* Row 2: CASHCAT */}
-                        <div
-                          className={styles.swapItemRow}
-                          onClick={() => showToast("CASHCAT transaction detail opened")}
+                          <LayoutGrid size={15} />
+                        </button>
+                        <button
+                          className={`${styles.viewToggleBtn} ${
+                            positionsViewMode === "list" ? styles.viewToggleBtnActive : ""
+                          }`}
+                          onClick={() => setPositionsViewMode("list")}
+                          title="List view"
                         >
-                          <div className={styles.swapTokenBox}>
-                            <img
-                              src="https://images.unsplash.com/photo-1543852786-1cf6624b9987?w=100&auto=format&fit=crop&q=60"
-                              alt="CASHCAT"
-                              className={styles.swapTokenAvatar}
-                            />
-                            <span className={styles.swapTokenName}>CASHCAT</span>
-                          </div>
-                          <div>
-                            <span className={styles.buyBadge}>Buy</span>
-                          </div>
-                          <div className={styles.swapAmountText}>$2.29</div>
-                          <div className={styles.swapRowChevron}>
-                            <ChevronRight size={14} />
-                          </div>
-                        </div>
+                          <List size={15} />
+                        </button>
                       </div>
-                    </div>
-
-                    <button
-                      className={styles.viewAllSwapsLink}
-                      onClick={() => showToast("Showing all historical swaps")}
-                    >
-                      <span>View all swaps</span>
-                      <ChevronRight size={14} />
-                    </button>
-                  </div>
-                </div>
-
-                {/* Block 3: Bottom Full-Width Card: Positions */}
-                <div className={styles.positionsCardFull}>
-                  <div className={styles.posHeaderRow}>
-                    <h4 className={styles.posTitleBig}>
-                      Positions <span className={styles.posCountMuted}>({filteredPositions.length})</span>
-                    </h4>
-                    <div className={styles.openClosedSegment}>
-                      <button
-                        className={positionsStatus === "Open" ? styles.openTabActive : styles.closedTabInactive}
-                        onClick={() => setPositionsStatus("Open")}
-                      >
-                        <span className={styles.openCyanDot} />
-                        Open
-                      </button>
-                      <button
-                        className={positionsStatus === "Closed" ? styles.openTabActive : styles.closedTabInactive}
-                        onClick={() => setPositionsStatus("Closed")}
-                      >
-                        Closed
-                      </button>
                     </div>
                   </div>
 
-                  <div className={styles.posSubTabsRow}>
-                    {(["All", "Tokens", "Perps"] as const).map((filter) => (
-                      <button
-                        key={filter}
-                        className={`${styles.posFilterChip} ${
-                          positionsFilter === filter ? styles.posFilterChipActive : ""
-                        }`}
-                        onClick={() => setPositionsFilter(filter)}
-                      >
-                        {filter}
-                      </button>
-                    ))}
-                  </div>
+                  {/* Render Grid Mode or List Mode */}
+                  {positionsViewMode === "grid" ? (
+                    <div className={styles.positionsGrid}>
+                      {filteredBlueprintPositions.map((pos) => (
+                        <div
+                          key={pos.id}
+                          className={styles.positionGridCard}
+                          onClick={() => showToast(`Navigating to ${pos.name} (${pos.ticker}) market terminal`)}
+                        >
+                          {/* Card Top Row: Avatar, Name, Badge, 3-Dots */}
+                          <div className={styles.posGridCardTop}>
+                            <div className={styles.posGridCardLeft}>
+                              <div className={styles.posAvatarCircle}>
+                                {pos.isCustomImg ? (
+                                  <img
+                                    src={pos.avatar}
+                                    alt={pos.name}
+                                    className={styles.posAvatarCircleImg}
+                                  />
+                                ) : (
+                                  <span>{pos.avatar}</span>
+                                )}
+                              </div>
+                              <div>
+                                <div className={styles.posNameBadgeRow}>
+                                  <span className={styles.posCardTitle}>{pos.name}</span>
+                                  <span
+                                    className={
+                                      pos.isPerp ? styles.posTypeBadgePerp : styles.posTypeBadge
+                                    }
+                                  >
+                                    {pos.typeBadge}
+                                  </span>
+                                </div>
+                                <div className={styles.posCardMetaSub}>{pos.amountSub}</div>
+                              </div>
+                            </div>
 
-                  {/* Positions List */}
-                  <div className={styles.positionsList}>
-                    {filteredPositions.length === 0 ? (
-                      <div className={styles.emptyPositions}>
-                        <span>No {positionsStatus.toLowerCase()} {positionsFilter.toLowerCase()} found</span>
-                      </div>
-                    ) : (
-                      filteredPositions.map((pos: PositionItem) => {
-                        if (pos.kind === "token") {
-                          return (
-                            <div
-                              key={pos.id}
-                              className={styles.fullPosRow}
-                              onClick={() => showToast(`Navigating to ${pos.name} (${pos.ticker}) trading terminal`)}
+                            <button
+                              className={styles.posCardMenuBtn}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                showToast(`${pos.name} options`);
+                              }}
+                              title="More options"
                             >
-                              <div className={styles.fullPosLeft}>
-                                <div className={styles.posAvatarBox}>
-                                  {pos.isCustomImg ? (
-                                    <img
-                                      src={pos.avatar}
-                                      alt={pos.name}
-                                      className={styles.posAvatarImg}
-                                    />
-                                  ) : (
-                                    <div className={styles.posAvatarImg} style={{ display: "flex", alignItems: "center", justifyContent: "center", fontSize: "16px", background: "rgba(255,255,255,0.06)" }}>
-                                      {pos.avatar}
-                                    </div>
-                                  )}
-                                  <span className={styles.blueCheckBadge}>✓</span>
-                                </div>
-                                <div className={styles.posNames}>
-                                  <div className={styles.posBadgeRow}>
-                                    <span className={styles.posMainName}>{pos.name}</span>
-                                    <span className={styles.spotBadge}>SPOT</span>
-                                  </div>
-                                  <span className={styles.posTickerMuted}>
-                                    {pos.amount} • Avg {pos.avgBuy}
-                                  </span>
-                                </div>
-                              </div>
+                              <MoreVertical size={15} />
+                            </button>
+                          </div>
 
-                              <div className={styles.fullPosRight}>
-                                <div className={styles.posPriceBlock}>
-                                  <span className={styles.posPriceVal}>{pos.value}</span>
-                                  <div className={styles.pnlSubRow}>
-                                    <span className={styles.pnlSmallBadge}>P&L</span>
-                                    <span className={pos.isPositive ? styles.roeGreen : styles.roeRed}>
-                                      {pos.pnlDollar} ({pos.change24h})
-                                    </span>
-                                  </div>
-                                </div>
+                          {/* Card Middle: Position Value */}
+                          <div className={styles.posGridCardValueSection}>
+                            <span className={styles.posGridCardValueLabel}>Position Value</span>
+                            <span className={styles.posGridCardValue}>{pos.value}</span>
+                          </div>
 
-                                {/* Mini sparkline */}
-                                <svg className={styles.posSparklineWave} viewBox="0 0 84 28" fill="none">
-                                  <defs>
-                                    <linearGradient id={`posGrad_${pos.id}`} x1="0%" y1="0%" x2="0%" y2="100%">
-                                      <stop offset="0%" stopColor={pos.isPositive ? "#10b981" : "#f43f5e"} stopOpacity="0.28" />
-                                      <stop offset="100%" stopColor={pos.isPositive ? "#10b981" : "#f43f5e"} stopOpacity="0" />
-                                    </linearGradient>
-                                  </defs>
-                                  <path
-                                    d={pos.isPositive ? "M0 24 Q 20 22 35 16 T 55 18 T 84 4 L 84 28 L 0 28 Z" : "M0 4 Q 20 8 35 14 T 55 12 T 84 24 L 84 28 L 0 28 Z"}
-                                    fill={`url(#posGrad_${pos.id})`}
-                                  />
-                                  <path
-                                    d={pos.isPositive ? "M0 24 Q 20 22 35 16 T 55 18 T 84 4" : "M0 4 Q 20 8 35 14 T 55 12 T 84 24"}
-                                    stroke={pos.isPositive ? "#10b981" : "#f43f5e"}
-                                    strokeWidth="2"
-                                    strokeLinecap="round"
-                                  />
-                                </svg>
-
-                                <ChevronRight size={16} className={styles.posChevron} />
-                              </div>
-                            </div>
-                          );
-                        }
-
-                        // Perp position
-                        const coinBg = pos.pair.startsWith("BTC")
-                          ? "rgba(247, 147, 26, 0.15)"
-                          : pos.pair.startsWith("ETH")
-                          ? "rgba(98, 126, 234, 0.15)"
-                          : pos.pair.startsWith("SOL")
-                          ? "rgba(153, 69, 255, 0.15)"
-                          : pos.pair.startsWith("DOGE")
-                          ? "rgba(251, 191, 36, 0.15)"
-                          : pos.pair.startsWith("PEPE")
-                          ? "rgba(67, 176, 42, 0.15)"
-                          : pos.pair.startsWith("AVAX")
-                          ? "rgba(244, 63, 94, 0.15)"
-                          : "rgba(250, 204, 21, 0.15)";
-
-                        const coinColor = pos.pair.startsWith("BTC")
-                          ? "#f7931a"
-                          : pos.pair.startsWith("ETH")
-                          ? "#a5b4fc"
-                          : pos.pair.startsWith("SOL")
-                          ? "#c084fc"
-                          : pos.pair.startsWith("DOGE")
-                          ? "#fbbf24"
-                          : pos.pair.startsWith("PEPE")
-                          ? "#4ade80"
-                          : pos.pair.startsWith("AVAX")
-                          ? "#f43f5e"
-                          : "#facc15";
-
-                        return (
-                          <div
-                            key={pos.id}
-                            className={styles.fullPosRow}
-                            onClick={() => showToast(`Navigating to ${pos.pair} leverage terminal`)}
-                          >
-                            <div className={styles.fullPosLeft}>
-                              <div className={styles.posAvatarBox}>
-                                <div
-                                  className={styles.posAvatarImg}
-                                  style={{
-                                    background: coinBg,
-                                    color: coinColor,
-                                    border: "1px solid rgba(255, 255, 255, 0.1)",
-                                    fontWeight: 800,
-                                  }}
-                                >
-                                  {pos.avatar}
-                                </div>
-                              </div>
-                              <div className={styles.posNames}>
-                                <div className={styles.posBadgeRow}>
-                                  <span className={styles.posMainName}>{pos.pair}</span>
-                                  <span
-                                    className={
-                                      pos.side === "LONG"
-                                        ? styles.perpLeverageBadgeLong
-                                        : styles.perpLeverageBadgeShort
-                                    }
-                                  >
-                                    {pos.leverage}x {pos.side}
-                                  </span>
-                                </div>
-                                <span className={styles.posTickerMuted}>
-                                  Size {pos.size} • Entry {pos.entryPrice}{" "}
-                                  {pos.status === "Open"
-                                    ? `• Liq ${pos.liqPrice}`
-                                    : `• Exit ${pos.closedPrice}`}
-                                </span>
-                              </div>
+                          {/* Card Bottom: P&L + Sparkline */}
+                          <div className={styles.posGridCardBottom}>
+                            <div className={styles.posCardPnlCol}>
+                              <span className={styles.posCardPnlLabel}>P&L</span>
+                              <span
+                                className={
+                                  pos.isPositive ? styles.posCardPnlValGreen : styles.posCardPnlValRed
+                                }
+                              >
+                                {pos.pnlDollar} ({pos.pnlPercent})
+                              </span>
                             </div>
 
-                            <div className={styles.fullPosRight}>
-                              <div className={styles.posPriceBlock}>
-                                <div className={styles.pnlHeaderRow}>
-                                  <span className={styles.pnlBadge}>P&L</span>
-                                  <span
-                                    className={
-                                      pos.isPositive ? styles.posGainGreen : styles.posGainRed
-                                    }
-                                    style={{ fontSize: "14px" }}
-                                  >
-                                    {pos.pnl}
-                                  </span>
-                                </div>
-                                <div className={styles.pnlSubRow}>
-                                  <span style={{ color: pos.isPositive ? "#10b981" : "#f43f5e", fontWeight: 700 }}>
-                                    {pos.pnlPercent} ROE
-                                  </span>
-                                  <span className={styles.marginMuted}>
-                                    • {pos.status === "Open" ? `Margin ${pos.margin}` : "Realized"}
-                                  </span>
-                                </div>
-                              </div>
-
-                              {/* Mini sparkline */}
-                              <svg className={styles.posSparklineWave} viewBox="0 0 84 28" fill="none">
-                                <defs>
-                                  <linearGradient id={`perpGrad_${pos.id}`} x1="0%" y1="0%" x2="0%" y2="100%">
-                                    <stop
-                                      offset="0%"
-                                      stopColor={pos.isPositive ? "#10b981" : "#f43f5e"}
-                                      stopOpacity="0.28"
-                                    />
-                                    <stop
-                                      offset="100%"
-                                      stopColor={pos.isPositive ? "#10b981" : "#f43f5e"}
-                                      stopOpacity="0"
-                                    />
-                                  </linearGradient>
-                                </defs>
+                            {/* Sparkline Graph */}
+                            {pos.sparkline === "up" ? (
+                              <svg className={styles.posCardSparkline} viewBox="0 0 76 24" fill="none">
                                 <path
-                                  d={
-                                    pos.isPositive
-                                      ? "M0 24 Q 20 22 35 16 T 55 18 T 84 4 L 84 28 L 0 28 Z"
-                                      : "M0 4 Q 20 8 35 14 T 55 12 T 84 24 L 84 28 L 0 28 Z"
-                                  }
-                                  fill={`url(#perpGrad_${pos.id})`}
-                                />
-                                <path
-                                  d={
-                                    pos.isPositive
-                                      ? "M0 24 Q 20 22 35 16 T 55 18 T 84 4"
-                                      : "M0 4 Q 20 8 35 14 T 55 12 T 84 24"
-                                  }
-                                  stroke={pos.isPositive ? "#10b981" : "#f43f5e"}
+                                  d="M 2 20 C 14 19 24 16 34 16 C 44 16 52 10 62 8 C 68 6 72 3 74 2"
+                                  stroke="#ffffff"
                                   strokeWidth="2"
                                   strokeLinecap="round"
                                 />
                               </svg>
-
-                              <ChevronRight size={16} className={styles.posChevron} />
-                            </div>
+                            ) : (
+                              <svg className={styles.posCardSparkline} viewBox="0 0 76 24" fill="none">
+                                <path
+                                  d="M 2 4 C 14 5 24 8 34 10 C 44 12 52 16 62 18 C 68 20 72 22 74 22"
+                                  stroke="#ffffff"
+                                  strokeWidth="2"
+                                  strokeLinecap="round"
+                                />
+                              </svg>
+                            )}
                           </div>
-                        );
-                      })
-                    )}
+                        </div>
+                      ))}
+
+                      {/* 6th Card: Explore More Tokens Card */}
+                      <div
+                        className={styles.exploreTokensCard}
+                        onClick={() => showToast("Exploring all available tokens & opportunities...")}
+                      >
+                        <div className={styles.explorePlusCircle}>
+                          <Plus size={19} />
+                        </div>
+                        <div>
+                          <h4 className={styles.exploreTitle}>Explore more tokens</h4>
+                          <p className={styles.exploreSub}>Discover new opportunities</p>
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    /* List Mode Table */
+                    <div className={styles.positionsListWrap}>
+                      <table className={styles.positionsTable}>
+                        <thead>
+                          <tr>
+                            <th className={styles.positionsTh}>Asset</th>
+                            <th className={styles.positionsTh}>Type</th>
+                            <th className={styles.positionsTh}>Holdings / Size</th>
+                            <th className={styles.positionsTh}>Position Value</th>
+                            <th className={styles.positionsTh}>P&L</th>
+                            <th className={styles.positionsTh}>Trend</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {filteredBlueprintPositions.map((pos) => (
+                            <tr
+                              key={pos.id}
+                              className={styles.positionsTr}
+                              onClick={() => showToast(`Navigating to ${pos.name} (${pos.ticker}) terminal`)}
+                            >
+                              <td className={styles.positionsTd}>
+                                <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                                  <div className={styles.posAvatarCircle} style={{ width: 28, height: 28, fontSize: 13 }}>
+                                    {pos.isCustomImg ? (
+                                      <img src={pos.avatar} alt={pos.name} className={styles.posAvatarCircleImg} />
+                                    ) : (
+                                      <span>{pos.avatar}</span>
+                                    )}
+                                  </div>
+                                  <span style={{ fontWeight: 600, color: "var(--text-primary, #ffffff)" }}>{pos.name}</span>
+                                </div>
+                              </td>
+                              <td className={styles.positionsTd}>
+                                <span className={pos.isPerp ? styles.posTypeBadgePerp : styles.posTypeBadge}>
+                                  {pos.typeBadge}
+                                </span>
+                              </td>
+                              <td className={styles.positionsTd} style={{ fontFamily: "var(--font-mono)", color: "var(--text-secondary, #c2c2c2)" }}>
+                                {pos.amountSub}
+                              </td>
+                              <td className={styles.positionsTd} style={{ fontFamily: "var(--font-mono)", fontWeight: 600, color: "var(--text-primary, #ffffff)" }}>
+                                {pos.value}
+                              </td>
+                              <td className={styles.positionsTd}>
+                                <span className={pos.isPositive ? styles.posCardPnlValGreen : styles.posCardPnlValRed}>
+                                  {pos.pnlDollar} ({pos.pnlPercent})
+                                </span>
+                              </td>
+                              <td className={styles.positionsTd}>
+                                {pos.sparkline === "up" ? (
+                                  <svg style={{ width: 60, height: 18 }} viewBox="0 0 76 24" fill="none">
+                                    <path d="M 2 20 C 14 19 24 16 34 16 C 44 16 52 10 62 8 C 68 6 72 3 74 2" stroke="#ffffff" strokeWidth="2" strokeLinecap="round" />
+                                  </svg>
+                                ) : (
+                                  <svg style={{ width: 60, height: 18 }} viewBox="0 0 76 24" fill="none">
+                                    <path d="M 2 4 C 14 5 24 8 34 10 C 44 12 52 16 62 18 C 68 20 72 22 74 22" stroke="#ffffff" strokeWidth="2" strokeLinecap="round" />
+                                  </svg>
+                                )}
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  )}
+                </div>
+
+                {/* 4. BOTTOM SECTION: RECENT ACTIVITY & DISCOVER NEXT OPPORTUNITY */}
+                <div className={styles.bottomGrid}>
+                  {/* Left Column: Recent Activity Card */}
+                  <div className={styles.recentActivityCard}>
+                    <div className={styles.recentActivityHeader}>
+                      <h4 className={styles.recentActivityTitle}>Recent Activity</h4>
+
+                      {/* Activity Segment Filters */}
+                      <div className={styles.activityTabsSegment}>
+                        {(["All", "Trades", "Transfers", "Deposits"] as const).map((tab) => (
+                          <button
+                            key={tab}
+                            className={`${styles.activityTabBtn} ${
+                              activityFilter === tab ? styles.activityTabBtnActive : ""
+                            }`}
+                            onClick={() => setActivityFilter(tab)}
+                          >
+                            {tab}
+                          </button>
+                        ))}
+                      </div>
+
+                      <button
+                        className={styles.viewAllActivityLink}
+                        onClick={() => showToast("Opening full transaction history...")}
+                      >
+                        <span>View all</span>
+                        <ChevronRight size={13} />
+                      </button>
+                    </div>
+
+                    {/* Activity Table */}
+                    <div className={styles.activityTableWrap}>
+                      <table className={styles.activityTable}>
+                        <thead>
+                          <tr>
+                            <th className={styles.activityTh}>Time</th>
+                            <th className={styles.activityTh}>Token</th>
+                            <th className={styles.activityTh}>Action</th>
+                            <th className={styles.activityTh}>Amount</th>
+                            <th className={styles.activityTh}>Value</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {filteredBlueprintActivities.length === 0 ? (
+                            <tr>
+                              <td colSpan={5} className={styles.emptyStateRow}>
+                                No recent activity found in this category
+                              </td>
+                            </tr>
+                          ) : (
+                            filteredBlueprintActivities.map((act) => (
+                              <tr
+                                key={act.id}
+                                className={styles.activityTr}
+                                onClick={() => showToast(`${act.tokenName} transaction detail opened`)}
+                              >
+                                <td className={`${styles.activityTd} ${styles.activityTimeCell}`}>
+                                  {act.time}
+                                </td>
+                                <td className={styles.activityTd}>
+                                  <div className={styles.activityTokenCell}>
+                                    {act.isPair ? (
+                                      <div className={styles.activityPairAvatarGroup}>
+                                        <div className={styles.activityPairAvatar}>
+                                          {act.pairFrom}
+                                        </div>
+                                        <span className={styles.activityPairArrow}>→</span>
+                                        <div className={styles.activityPairAvatar}>
+                                          {act.pairTo}
+                                        </div>
+                                      </div>
+                                    ) : act.isDepositIcon ? (
+                                      <div className={styles.activityTokenAvatar}>
+                                        <CreditCard size={12} color="var(--text-secondary, #c2c2c2)" />
+                                      </div>
+                                    ) : act.tokenAvatar ? (
+                                      <img
+                                        src={act.tokenAvatar}
+                                        alt={act.tokenName}
+                                        className={styles.activityTokenAvatar}
+                                      />
+                                    ) : null}
+                                    <span className={styles.activityTokenName}>{act.tokenName}</span>
+                                  </div>
+                                </td>
+                                <td className={styles.activityTd}>
+                                  {act.action === "Buy" && (
+                                    <span className={styles.activityBadgeBuy}>Buy</span>
+                                  )}
+                                  {act.action === "Swap" && (
+                                    <span className={styles.activityBadgeSwap}>Swap</span>
+                                  )}
+                                  {act.action === "Deposit" && (
+                                    <span className={styles.activityBadgeDeposit}>Deposit</span>
+                                  )}
+                                </td>
+                                <td className={`${styles.activityTd} ${styles.activityAmountCell}`}>
+                                  {act.amount}
+                                </td>
+                                <td className={`${styles.activityTd} ${styles.activityValueCell}`}>
+                                  {act.value}
+                                </td>
+                              </tr>
+                            ))
+                          )}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+
+                  {/* Right Column: Discover Next Opportunity Card */}
+                  <div className={styles.discoverOpportunityCard}>
+                    {/* Contoured Waves Background Overlay */}
+                    <svg
+                      className={styles.discoverWaveCanvas}
+                      viewBox="0 0 300 220"
+                      preserveAspectRatio="none"
+                      fill="none"
+                    >
+                      <path
+                        d="M 0 140 C 60 110 120 180 200 130 C 260 90 280 40 300 20 L 300 220 L 0 220 Z"
+                        fill="url(#discoverGradArea)"
+                      />
+                      <path
+                        d="M 0 160 C 80 140 140 210 220 150 C 270 110 290 70 300 50"
+                        stroke="rgba(255, 255, 255, 0.14)"
+                        strokeWidth="1.5"
+                      />
+                      <path
+                        d="M 0 180 C 90 170 160 220 240 170 C 280 140 295 100 300 80"
+                        stroke="rgba(255, 255, 255, 0.08)"
+                        strokeWidth="1.2"
+                      />
+                      <defs>
+                        <linearGradient id="discoverGradArea" x1="0%" y1="0%" x2="100%" y2="100%">
+                          <stop offset="0%" stopColor="#ffffff" stopOpacity="0.03" />
+                          <stop offset="100%" stopColor="#ffffff" stopOpacity="0.12" />
+                        </linearGradient>
+                      </defs>
+                    </svg>
+
+                    <div className={styles.discoverCardContent}>
+                      <span className={styles.discoverEyebrow}>DISCOVER</span>
+                      <h4 className={styles.discoverTitle}>{"Find the\nnext opportunity"}</h4>
+                      <p className={styles.discoverDesc}>
+                        Explore trending tokens, new markets and top traders.
+                      </p>
+                    </div>
+
+                    <button
+                      className={styles.discoverActionBtn}
+                      onClick={() => showToast("Opening Market Explorer...")}
+                      title="Explore opportunities"
+                    >
+                      <ArrowRight size={17} />
+                    </button>
                   </div>
                 </div>
               </div>
             )}
 
-            {/* VIEW 1: WALLET (Screenshot 2) */}
+            {/* VIEW 1: WALLET */}
             {activeTab === "wallet" && (
               <div className={styles.profileContainer}>
-                {/* Top 4 Balance Metric Cards Row */}
-                {renderBalanceCards()}
+                {/* Top 4 Balance Metric Cards Row (without subtext) */}
+                {renderBalanceCards(false)}
 
                 {/* 3 Quick Action Cards Row */}
                 <div className={styles.actionCardsRow}>
@@ -1455,7 +1903,6 @@ export default function AccountModal({ isOpen, onClose }: AccountModalProps) {
                       <div className={`${styles.actionIconWrap} ${styles.actionIconWrapWithdraw}`}>
                         <ArrowUpRight size={18} />
                       </div>
-                      <span className={styles.actionBadgeGrey}>0% Fee</span>
                     </div>
                     <div className={styles.actionCardBody}>
                       <h4 className={styles.actionCardTitle}>Withdraw</h4>
@@ -1488,7 +1935,7 @@ export default function AccountModal({ isOpen, onClose }: AccountModalProps) {
                     </div>
                     <button
                       className={styles.actionBtnSecondary}
-                      onClick={() => showToast("Internal transfer: select source & destination accounts")}
+                      onClick={() => setIsTransferModalOpen(true)}
                     >
                       <span>Transfer</span>
                       <ChevronRight size={14} />
@@ -1534,16 +1981,16 @@ export default function AccountModal({ isOpen, onClose }: AccountModalProps) {
                             style={{
                               backgroundColor:
                                 act.type === "deposit"
-                                  ? "rgba(16, 185, 129, 0.12)"
-                                  : act.type === "transfer"
-                                  ? "rgba(99, 102, 241, 0.12)"
-                                  : "rgba(255, 255, 255, 0.05)",
+                                  ? "var(--color-chart-bullish-fill, rgba(47, 203, 115, 0.12))"
+                                  : "var(--neutral-800, #1c1c1c)",
                               color:
                                 act.type === "deposit"
-                                  ? "#10b981"
-                                  : act.type === "transfer"
-                                  ? "#818cf8"
-                                  : "#9ca3af",
+                                  ? "var(--emerald-400, #56d68f)"
+                                  : "var(--neutral-200, #c2c2c2)",
+                              border:
+                                act.type === "deposit"
+                                  ? "var(--border-width-default) solid rgba(47, 203, 115, 0.30)"
+                                  : "var(--border-width-default) solid var(--border-color-default, rgba(228, 228, 228, 0.10))",
                             }}
                           >
                             {act.type === "deposit" ? (
@@ -1587,7 +2034,7 @@ export default function AccountModal({ isOpen, onClose }: AccountModalProps) {
                             style={{
                               color:
                                 act.feeOrAddress.includes("Free")
-                                  ? "#10b981"
+                                  ? "var(--emerald-400, #56d68f)"
                                   : undefined,
                             }}
                           >
@@ -1997,11 +2444,11 @@ export default function AccountModal({ isOpen, onClose }: AccountModalProps) {
                   ) : (
                     <>
                       <div className={styles.networkPill}>
-                        <span style={{ color: "#a855f7", fontSize: "12px", lineHeight: 1 }}>◎</span>
+                        <span style={{ color: "var(--neutral-200, #c2c2c2)", fontSize: "12px", lineHeight: 1 }}>◎</span>
                         <span>Solana</span>
                       </div>
                       <div className={styles.networkPill}>
-                        <span style={{ color: "#ec4899", fontSize: "12px", lineHeight: 1 }}>🌑</span>
+                        <span style={{ color: "var(--neutral-200, #c2c2c2)", fontSize: "12px", lineHeight: 1 }}>🌑</span>
                         <span>Eclipse</span>
                       </div>
                     </>
@@ -2026,6 +2473,414 @@ export default function AccountModal({ isOpen, onClose }: AccountModalProps) {
                 }}
               >
                 Copy Address
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* Sub-Dialog: Transfer Modal (Matching Reference Blueprint Flow) */}
+        {isTransferModalOpen && (
+          <div
+            className={styles.subModalOverlay}
+            onClick={() => {
+              setIsTransferModalOpen(false);
+              setIsFromDropdownOpen(false);
+              setIsToDropdownOpen(false);
+              setIsAssetDropdownOpen(false);
+            }}
+          >
+            <div
+              className={styles.transferModal}
+              onClick={(e) => {
+                e.stopPropagation();
+              }}
+            >
+              {/* Header */}
+              <div className={styles.transferHeader}>
+                <div className={styles.transferHeaderLeft}>
+                  <div className={styles.transferIconBox}>
+                    <ArrowLeftRight size={18} />
+                  </div>
+                  <div className={styles.transferTitleGroup}>
+                    <div className={styles.transferTitleRow}>
+                      <h3 className={styles.transferTitle}>Transfer</h3>
+                      <span className={styles.transferZeroFeeBadge}>ZERO FEE</span>
+                    </div>
+                    <p className={styles.transferSubtitle}>
+                      Instant zero-gas internal routing
+                    </p>
+                  </div>
+                </div>
+                <button
+                  className={styles.iconOnlyBtn}
+                  onClick={() => setIsTransferModalOpen(false)}
+                  aria-label="Close transfer dialog"
+                >
+                  <X size={16} />
+                </button>
+              </div>
+
+              {/* Routing Stack: FROM ACCOUNT & TO DESTINATION with Center Swap */}
+              <div className={styles.transferRoutingStack}>
+                {/* FROM ACCOUNT Card */}
+                <div className={styles.transferAccountCard}>
+                  <div className={styles.transferCardMetaRow}>
+                    <span className={styles.transferFieldLabel}>From Account</span>
+                    <span className={styles.transferAvailText}>
+                      Avail:{" "}
+                      <span className={styles.transferAvailNum}>
+                        {fromAccount.avail}
+                      </span>
+                    </span>
+                  </div>
+
+                  <div
+                    className={styles.transferAccountBox}
+                    onClick={() => {
+                      setIsFromDropdownOpen(!isFromDropdownOpen);
+                      setIsToDropdownOpen(false);
+                      setIsAssetDropdownOpen(false);
+                    }}
+                  >
+                    <div className={styles.transferAccountLeft}>
+                      {/* Exchange Logo in From Account Input */}
+                      <div className={styles.transferExchangeLogoWrap}>
+                        {renderAccountIcon(fromAccount, 16)}
+                      </div>
+                      <span className={styles.transferAccountName}>
+                        {fromAccount.name}
+                      </span>
+                    </div>
+                    <div className={styles.transferChevronBox}>
+                      <ChevronDown
+                        size={15}
+                        style={{
+                          transform: isFromDropdownOpen ? "rotate(180deg)" : "none",
+                          transition: "transform 0.15s ease",
+                        }}
+                      />
+                    </div>
+                  </div>
+
+                  {/* From Account Dropdown */}
+                  {isFromDropdownOpen && (
+                    <div className={styles.transferDropdownMenu}>
+                      {TRANSFER_ACCOUNTS.map((acc) => (
+                        <div
+                          key={acc.id}
+                          className={`${styles.transferDropdownItem} ${
+                            acc.id === fromAccount.id ? styles.transferDropdownItemActive : ""
+                          }`}
+                          onClick={() => {
+                            setFromAccount(acc);
+                            setIsFromDropdownOpen(false);
+                          }}
+                        >
+                          <div className={styles.transferDropdownItemLeft}>
+                            <div className={styles.transferExchangeLogoWrapSmall}>
+                              {renderAccountIcon(acc, 13)}
+                            </div>
+                            <div>
+                              <div className={styles.transferDropdownItemName}>{acc.name}</div>
+                              <div className={styles.transferDropdownItemSub}>{acc.sub}</div>
+                            </div>
+                          </div>
+                          <span className={styles.transferDropdownItemBal}>{acc.avail}</span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
+                {/* Central Swap Invert Button */}
+                <div className={styles.transferSwapWrap}>
+                  <button
+                    type="button"
+                    className={styles.transferSwapBtn}
+                    onClick={() => {
+                      const temp = fromAccount;
+                      setFromAccount(toAccount);
+                      setToAccount(temp);
+                      setIsFromDropdownOpen(false);
+                      setIsToDropdownOpen(false);
+                    }}
+                    title="Swap accounts"
+                    aria-label="Swap accounts"
+                  >
+                    <ArrowUpDown size={14} />
+                  </button>
+                </div>
+
+                {/* TO DESTINATION Card */}
+                <div className={styles.transferAccountCard}>
+                  <div className={styles.transferCardMetaRow}>
+                    <span className={styles.transferFieldLabel}>To Destination</span>
+                    <span className={styles.transferAvailText}>
+                      Current:{" "}
+                      <span className={styles.transferAvailNum}>
+                        {toAccount.avail}
+                      </span>
+                    </span>
+                  </div>
+
+                  <div
+                    className={styles.transferAccountBox}
+                    onClick={() => {
+                      setIsToDropdownOpen(!isToDropdownOpen);
+                      setIsFromDropdownOpen(false);
+                      setIsAssetDropdownOpen(false);
+                    }}
+                  >
+                    <div className={styles.transferAccountLeft}>
+                      <div className={styles.transferExchangeLogoWrap}>
+                        {renderAccountIcon(toAccount, 16)}
+                      </div>
+                      <span className={styles.transferAccountName}>
+                        {toAccount.name}
+                      </span>
+                    </div>
+                    <div className={styles.transferChevronBox}>
+                      <ChevronDown
+                        size={15}
+                        style={{
+                          transform: isToDropdownOpen ? "rotate(180deg)" : "none",
+                          transition: "transform 0.15s ease",
+                        }}
+                      />
+                    </div>
+                  </div>
+
+                  {/* To Destination Dropdown */}
+                  {isToDropdownOpen && (
+                    <div className={styles.transferDropdownMenu}>
+                      {TRANSFER_ACCOUNTS.map((acc) => (
+                        <div
+                          key={acc.id}
+                          className={`${styles.transferDropdownItem} ${
+                            acc.id === toAccount.id ? styles.transferDropdownItemActive : ""
+                          }`}
+                          onClick={() => {
+                            setToAccount(acc);
+                            setIsToDropdownOpen(false);
+                          }}
+                        >
+                          <div className={styles.transferDropdownItemLeft}>
+                            <div className={styles.transferExchangeLogoWrapSmall}>
+                              {renderAccountIcon(acc, 13)}
+                            </div>
+                            <div>
+                              <div className={styles.transferDropdownItemName}>{acc.name}</div>
+                              <div className={styles.transferDropdownItemSub}>{acc.sub}</div>
+                            </div>
+                          </div>
+                          <span className={styles.transferDropdownItemBal}>{acc.avail}</span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {/* SELECT ASSET Card */}
+              <div className={styles.transferAssetCard}>
+                <div className={styles.transferCardMetaRow}>
+                  <span className={styles.transferFieldLabel}>Select Asset</span>
+                  <span className={styles.transferAvailText}>
+                    Avail:{" "}
+                    <span className={styles.transferAvailNum}>
+                      {selectedTransferAsset.avail.toLocaleString("en-US", {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2,
+                      })}{" "}
+                      {selectedTransferAsset.symbol}
+                    </span>
+                  </span>
+                </div>
+
+                <div
+                  className={styles.transferAssetBox}
+                  onClick={() => {
+                    setIsAssetDropdownOpen(!isAssetDropdownOpen);
+                    setIsFromDropdownOpen(false);
+                    setIsToDropdownOpen(false);
+                  }}
+                >
+                  <div className={styles.transferAssetLeft}>
+                    {selectedTransferAsset.symbol === "USDC" ? (
+                      <IconUSDC size={28} />
+                    ) : (
+                      <div className={styles.transferExchangeLogoWrap}>
+                        <span style={{ fontSize: "12px", fontWeight: 700 }}>
+                          {selectedTransferAsset.symbol.slice(0, 3)}
+                        </span>
+                      </div>
+                    )}
+                    <div className={styles.transferAssetDetails}>
+                      <span className={styles.transferAssetName}>
+                        {selectedTransferAsset.name}
+                      </span>
+                      <span className={styles.transferAssetSub}>
+                        {selectedTransferAsset.network}
+                      </span>
+                    </div>
+                  </div>
+                  <div className={styles.transferChevronBox}>
+                    <ChevronDown
+                      size={15}
+                      style={{
+                        transform: isAssetDropdownOpen ? "rotate(180deg)" : "none",
+                        transition: "transform 0.15s ease",
+                      }}
+                    />
+                  </div>
+                </div>
+
+                {/* Asset Dropdown */}
+                {isAssetDropdownOpen && (
+                  <div className={styles.transferDropdownMenu}>
+                    {TRANSFER_ASSETS.map((asset) => (
+                      <div
+                        key={asset.symbol}
+                        className={`${styles.transferDropdownItem} ${
+                          asset.symbol === selectedTransferAsset.symbol ? styles.transferDropdownItemActive : ""
+                        }`}
+                        onClick={() => {
+                          setSelectedTransferAsset(asset);
+                          setIsAssetDropdownOpen(false);
+                        }}
+                      >
+                        <div className={styles.transferDropdownItemLeft}>
+                          {asset.symbol === "USDC" ? (
+                            <IconUSDC size={22} />
+                          ) : (
+                            <div className={styles.transferExchangeLogoWrapSmall}>
+                              <span style={{ fontSize: "11px", fontWeight: 700 }}>
+                                {asset.symbol.slice(0, 3)}
+                              </span>
+                            </div>
+                          )}
+                          <div>
+                            <div className={styles.transferDropdownItemName}>{asset.name}</div>
+                            <div className={styles.transferDropdownItemSub}>{asset.network}</div>
+                          </div>
+                        </div>
+                        <span className={styles.transferDropdownItemBal}>
+                          {asset.avail.toLocaleString()} {asset.symbol}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              {/* TRANSFER AMOUNT Card */}
+              <div className={styles.transferAmountCard}>
+                <div className={styles.transferCardMetaRow}>
+                  <span className={styles.transferFieldLabel}>Transfer Amount</span>
+                  <span className={styles.transferInstantBadge}>
+                    <span className={styles.transferInstantDot} /> Instant Settlement
+                  </span>
+                </div>
+
+                <div className={styles.transferAmountInputWrap}>
+                  <div className={styles.transferAmountInputRow}>
+                    <input
+                      type="text"
+                      className={styles.transferAmountInput}
+                      value={transferAmount}
+                      onChange={(e) => {
+                        const val = e.target.value;
+                        if (val === "" || /^\d*\.?\d*$/.test(val)) {
+                          setTransferAmount(val);
+                        }
+                      }}
+                      placeholder="0"
+                    />
+                    <div className={styles.transferAmountRight}>
+                      <span className={styles.transferTokenTicker}>
+                        {selectedTransferAsset.symbol}
+                      </span>
+                      <button
+                        type="button"
+                        className={styles.transferMaxBtn}
+                        onClick={() => setTransferAmount(selectedTransferAsset.avail.toString())}
+                      >
+                        MAX
+                      </button>
+                    </div>
+                  </div>
+                  <span className={styles.transferAmountUsdSub}>
+                    ≈ $
+                    {(
+                      (parseFloat(transferAmount) || 0) * selectedTransferAsset.price
+                    ).toLocaleString("en-US", {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2,
+                    })}{" "}
+                    USD
+                  </span>
+                </div>
+
+                {/* Percentage Selector Row */}
+                <div className={styles.transferPercentRow}>
+                  {[25, 50, 75, 100].map((pct) => (
+                    <button
+                      key={pct}
+                      type="button"
+                      className={styles.transferPercentBtn}
+                      onClick={() => {
+                        const calculated = ((selectedTransferAsset.avail * pct) / 100).toFixed(2);
+                        setTransferAmount(calculated);
+                      }}
+                    >
+                      {pct}%
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Routing & Summary Box */}
+              <div className={styles.transferSummaryBox}>
+                <div className={styles.transferSummaryRow}>
+                  <span className={styles.transferSummaryLabel}>Route</span>
+                  <span className={styles.transferSummaryVal}>
+                    {fromAccount.name.replace(/\s*\(.*\)/, "")}{" "}
+                    <ArrowRight size={12} />{" "}
+                    {toAccount.name.replace(/\s*\(.*\)/, "")}
+                  </span>
+                </div>
+                <div className={styles.transferSummaryRow}>
+                  <span className={styles.transferSummaryLabel}>Internal Network Fee</span>
+                  <span className={styles.transferSummaryFeeFree}>$0.00 (Free)</span>
+                </div>
+                <div className={styles.transferSummaryRow}>
+                  <span className={styles.transferSummaryLabel}>Estimated Execution</span>
+                  <span className={styles.transferSummaryVal}>&lt; 1 sec</span>
+                </div>
+              </div>
+
+              {/* Action Button */}
+              <button
+                type="button"
+                className={styles.transferConfirmBtn}
+                onClick={() => {
+                  const num = parseFloat(transferAmount);
+                  if (!num || num <= 0) {
+                    showToast("Please enter an amount to transfer");
+                    return;
+                  }
+                  showToast(
+                    `Transferred ${num.toLocaleString()} ${selectedTransferAsset.symbol} from ${fromAccount.name.replace(/\s*\(.*\)/, "")} to ${toAccount.name.replace(/\s*\(.*\)/, "")}`
+                  );
+                  setIsTransferModalOpen(false);
+                  setTransferAmount("");
+                  setIsFromDropdownOpen(false);
+                  setIsToDropdownOpen(false);
+                  setIsAssetDropdownOpen(false);
+                }}
+              >
+                <span>Confirm Transfer</span>
+                <ArrowRight size={15} />
               </button>
             </div>
           </div>
