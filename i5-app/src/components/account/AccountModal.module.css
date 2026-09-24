@@ -1737,12 +1737,12 @@
 .positionGridCard {
   background-color: var(--card-bg, #161616);
   border: var(--border-width-default) solid var(--border-color-default, rgba(228, 228, 228, 0.10));
-  border-radius: var(--radius-xl, 14px);
-  padding: 15px 16px;
+  border-radius: var(--radius-lg, 10px);
+  padding: 10px 12px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  gap: 14px;
+  gap: 7px;
   cursor: pointer;
   transition: border-color var(--duration-fast) var(--easing-standard), transform var(--duration-fast) var(--easing-standard), background-color var(--duration-fast) var(--easing-standard);
 }
@@ -1757,25 +1757,25 @@
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  gap: 8px;
+  gap: 6px;
 }
 
 .posGridCardLeft {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
 }
 
 .posAvatarCircle {
-  width: 36px;
-  height: 36px;
+  width: 28px;
+  height: 28px;
   border-radius: var(--radius-full);
   background-color: var(--neutral-800, #1c1c1c);
   border: var(--border-width-default) solid var(--border-color-default, rgba(228, 228, 228, 0.10));
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 16px;
+  font-size: 13px;
   font-weight: 700;
   color: var(--text-primary, #ffffff);
   overflow: hidden;
@@ -1791,12 +1791,12 @@
 .posNameBadgeRow {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 5px;
 }
 
 .posCardTitle {
   font-family: var(--font-sans);
-  font-size: 13.5px;
+  font-size: 12.5px;
   font-weight: 600;
   color: var(--text-primary, #ffffff);
   line-height: 1.2;
@@ -1804,23 +1804,23 @@
 
 .posTypeBadge {
   font-family: var(--font-mono);
-  font-size: 9.5px;
+  font-size: 8.5px;
   font-weight: 600;
-  padding: 1px 6px;
-  border-radius: var(--radius-sm, 4px);
+  padding: 1px 5px;
+  border-radius: 3px;
   background-color: var(--neutral-800, #1c1c1c);
   border: var(--border-width-default) solid var(--border-color-default, rgba(228, 228, 228, 0.12));
   color: var(--neutral-300, #a8a8a8);
   text-transform: uppercase;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.03em;
 }
 
 .posTypeBadgePerp {
   font-family: var(--font-mono);
-  font-size: 9.5px;
+  font-size: 8.5px;
   font-weight: 700;
-  padding: 1px 6px;
-  border-radius: var(--radius-sm, 4px);
+  padding: 1px 5px;
+  border-radius: 3px;
   background-color: var(--neutral-800, #1c1c1c);
   border: var(--border-width-default) solid var(--border-color-default, rgba(228, 228, 228, 0.16));
   color: var(--text-primary, #ffffff);
@@ -1830,14 +1830,14 @@
 
 .posCardMetaSub {
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: 10px;
   color: var(--text-tertiary, #787878);
-  margin-top: 2px;
+  margin-top: 1px;
 }
 
 .posCardMenuBtn {
-  width: 24px;
-  height: 24px;
+  width: 20px;
+  height: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1856,47 +1856,57 @@
 
 .posGridCardValueSection {
   display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-top: 4px;
+}
+
+.posCardValCol {
+  display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 1px;
+}
+
+.posCardPnlColRight {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 1px;
 }
 
 .posGridCardValueLabel {
   font-family: var(--font-sans);
-  font-size: 11px;
+  font-size: 9.5px;
   color: var(--text-tertiary, #787878);
 }
 
 .posGridCardValue {
   font-family: var(--font-mono);
-  font-size: 20px;
+  font-size: 15.5px;
   font-weight: 700;
   color: var(--text-primary, #ffffff);
   letter-spacing: -0.02em;
 }
 
 .posGridCardBottom {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 10px;
-  margin-top: 2px;
+  display: none;
 }
 
 .posCardPnlCol {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 1px;
 }
 
 .posCardPnlLabel {
   font-family: var(--font-sans);
-  font-size: 10.5px;
+  font-size: 9px;
   color: var(--text-tertiary, #787878);
 }
 
 .posCardPnlValGreen {
   font-family: var(--font-mono);
-  font-size: 11.5px;
+  font-size: 10.5px;
   font-weight: 600;
   color: var(--emerald-400, #56d68f);
   white-space: nowrap;
@@ -1904,15 +1914,15 @@
 
 .posCardPnlValRed {
   font-family: var(--font-mono);
-  font-size: 11.5px;
+  font-size: 10.5px;
   font-weight: 600;
   color: var(--red-500, #e13b3b);
   white-space: nowrap;
 }
 
 .posCardSparkline {
-  width: 76px;
-  height: 24px;
+  width: 56px;
+  height: 18px;
   flex-shrink: 0;
 }
 
@@ -1920,13 +1930,13 @@
 .exploreTokensCard {
   background-color: var(--card-bg, #161616);
   border: 1px dashed var(--border-color-default, rgba(228, 228, 228, 0.14));
-  border-radius: var(--radius-xl, 14px);
-  padding: 24px 16px;
+  border-radius: var(--radius-lg, 10px);
+  padding: 10px 12px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 10px;
+  gap: 6px;
   cursor: pointer;
   transition: all var(--duration-fast) var(--easing-standard);
   text-align: center;
@@ -1939,8 +1949,8 @@
 }
 
 .explorePlusCircle {
-  width: 40px;
-  height: 40px;
+  width: 28px;
+  height: 28px;
   border-radius: var(--radius-full);
   background-color: var(--neutral-800, #1c1c1c);
   border: var(--border-width-default) solid var(--border-color-default, rgba(228, 228, 228, 0.12));
@@ -1959,7 +1969,7 @@
 
 .exploreTitle {
   font-family: var(--font-sans);
-  font-size: 13.5px;
+  font-size: 11.5px;
   font-weight: 600;
   color: var(--text-primary, #ffffff);
   margin: 0;
@@ -1967,7 +1977,7 @@
 
 .exploreSub {
   font-family: var(--font-sans);
-  font-size: 11px;
+  font-size: 9.5px;
   color: var(--text-tertiary, #787878);
   margin: 0;
 }
@@ -3191,6 +3201,36 @@
   border-color: var(--border-color-strong, rgba(228, 228, 228, 0.18));
 }
 
+.transferInputsRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+}
+
+.transferInputCol {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.transferTokenCol {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.transferAvailBottomRow {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 8px;
+  margin-top: 4px;
+  border-top: 1px dashed var(--border-color-default, rgba(228, 228, 228, 0.10));
+}
+
 .transferCardMetaRow {
   display: flex;
   align-items: center;
@@ -3226,6 +3266,8 @@
   border: var(--border-width-default) solid var(--border-color-default, rgba(228, 228, 228, 0.08));
   border-radius: var(--radius-lg, 10px);
   padding: 9px 12px;
+  height: 46px;
+  box-sizing: border-box;
   cursor: pointer;
   transition: all var(--duration-fast) var(--easing-standard);
 }
@@ -3272,16 +3314,14 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 10;
+  position: relative;
+  margin: -13px auto;
+  z-index: 20;
 }
 
 .transferSwapBtn {
-  width: 32px;
-  height: 32px;
+  width: 30px;
+  height: 30px;
   border-radius: var(--radius-full);
   background-color: var(--neutral-850, #1a1a1a);
   border: 2px solid var(--bg-surface, #0e0e0e);
@@ -3566,8 +3606,9 @@
   border: var(--border-width-default) solid var(--border-color-strong, rgba(228, 228, 228, 0.18));
   border-radius: var(--radius-lg, 12px);
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.7);
-  z-index: 50;
-  overflow: hidden;
+  z-index: 60;
+  max-height: 220px;
+  overflow-y: auto;
   display: flex;
   flex-direction: column;
 }
@@ -3625,6 +3666,137 @@
   font-size: 12px;
   font-weight: 600;
   color: var(--text-secondary, #c2c2c2);
+}
+
+/* Token Dropdown Section inside From Account Card (Image 2) */
+.transferFromTokenSection {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 5px;
+  padding-top: 8px;
+  border-top: 1px dashed var(--border-color-default, rgba(228, 228, 228, 0.10));
+  position: relative;
+}
+
+.transferSubFieldLabel {
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  font-weight: 600;
+  color: var(--text-tertiary, #787878);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.transferTokenSelectBox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--neutral-900, #0e0e0e);
+  border: var(--border-width-default) solid var(--border-color-default, rgba(228, 228, 228, 0.08));
+  border-radius: var(--radius-lg, 10px);
+  width: 46px;
+  height: 46px;
+  box-sizing: border-box;
+  cursor: pointer;
+  transition: all var(--duration-fast) var(--easing-standard);
+  flex-shrink: 0;
+}
+
+.transferTokenSelectBox:hover {
+  border-color: var(--border-color-strong, rgba(228, 228, 228, 0.22));
+  background-color: var(--neutral-850, #141414);
+}
+
+.transferTokenDropdownMenu {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  left: auto;
+  min-width: 160px;
+  background-color: var(--neutral-850, #181818);
+  border: var(--border-width-default) solid var(--border-color-strong, rgba(228, 228, 228, 0.18));
+  border-radius: var(--radius-lg, 12px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.7);
+  z-index: 60;
+  max-height: 220px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.transferTokenLeft {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.transferTokenLogoWrap {
+  width: 26px;
+  height: 26px;
+  border-radius: var(--radius-md, 7px);
+  background-color: var(--neutral-800, #1c1c1c);
+  border: var(--border-width-default) solid var(--border-color-default, rgba(228, 228, 228, 0.10));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-primary, #ffffff);
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.transferTokenLogoWrapSmall {
+  width: 22px;
+  height: 22px;
+  border-radius: var(--radius-sm, 6px);
+  background-color: var(--neutral-900, #121212);
+  border: var(--border-width-default) solid var(--border-color-default, rgba(228, 228, 228, 0.08));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-primary, #ffffff);
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.transferTokenTextCol {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.transferTokenName {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary, #ffffff);
+  line-height: 1.2;
+}
+
+.transferTokenSubName {
+  font-family: var(--font-sans);
+  font-size: 10.5px;
+  color: var(--text-tertiary, #787878);
+  line-height: 1.2;
+}
+
+.transferTokenRight {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.transferTokenBalDisplay {
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--text-secondary, #c2c2c2);
+}
+
+.transferDropdownAssetFull {
+  font-weight: 400;
+  color: var(--text-tertiary, #787878);
+  font-size: 11px;
 }
 
 

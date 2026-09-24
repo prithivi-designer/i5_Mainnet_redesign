@@ -833,33 +833,92 @@ interface TransferAssetOption {
 const TRANSFER_ASSETS: TransferAssetOption[] = [
   {
     symbol: "USDC",
-    name: "USDC • USD Coin",
+    name: "USD Coin",
     network: "Arbitrum Native • Instant Sync",
-    avail: 2450.0,
+    avail: 14250.0,
     price: 1.0,
   },
   {
-    symbol: "USDT",
-    name: "USDT • Tether USD",
-    network: "Ethereum Direct • Zero Fee",
-    avail: 850.5,
-    price: 1.0,
+    symbol: "KATE",
+    name: "Kate Coin",
+    network: "Spot Token • 👑 Memecoin",
+    avail: 105500.0,
+    price: 0.00105,
+  },
+  {
+    symbol: "FOUR",
+    name: "Four Token",
+    network: "Spot Token • 4️⃣ Utility",
+    avail: 50000.0,
+    price: 0.00005,
   },
   {
     symbol: "ETH",
-    name: "ETH • Ethereum",
+    name: "Ethereum",
     network: "Arbitrum One • Instant L2",
-    avail: 1.45,
+    avail: 4.82,
     price: 3450.0,
   },
   {
     symbol: "SOL",
-    name: "SOL • Solana",
+    name: "Solana",
     network: "Solana Direct • Fast TPS",
-    avail: 12.8,
+    avail: 32.5,
     price: 180.0,
   },
+  {
+    symbol: "USDT",
+    name: "Tether USD",
+    network: "Ethereum Direct • Zero Fee",
+    avail: 8500.0,
+    price: 1.0,
+  },
 ];
+
+const renderAssetIcon = (asset: TransferAssetOption, size: number = 18) => {
+  if (asset.symbol === "USDC") {
+    return <IconUSDC size={size} />;
+  }
+  if (asset.symbol === "ETH") {
+    return (
+      <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+        <path d="M12 2L4.5 14.5L12 18L19.5 14.5L12 2Z" fill="#627EEA" fillOpacity="0.8" />
+        <path d="M12 2L4.5 14.5L12 11.5V2Z" fill="#627EEA" />
+        <path d="M12 18L4.5 14.5L12 22L19.5 14.5L12 18Z" fill="#627EEA" fillOpacity="0.9" />
+        <path d="M12 11.5L4.5 14.5L12 18V11.5Z" fill="#8A92B2" />
+        <path d="M12 11.5V18L19.5 14.5L12 11.5Z" fill="#627EEA" />
+      </svg>
+    );
+  }
+  if (asset.symbol === "SOL") {
+    return (
+      <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+        <path d="M5 6.5C5 6.2 5.2 6 5.5 6H19.5C19.8 6 20 6.3 19.8 6.6L17.5 9.5C17.4 9.6 17.2 9.7 17 9.7H3C2.7 9.7 2.5 9.4 2.7 9.1L5 6.5Z" fill="#14F195" />
+        <path d="M19 12.5C19 12.2 18.8 12 18.5 12H4.5C4.2 12 4 12.3 4.2 12.6L6.5 15.5C6.6 15.6 6.8 15.7 7 15.7H21C21.3 15.7 21.5 15.4 21.3 15.1L19 12.5Z" fill="#9945FF" />
+        <path d="M5 18.5C5 18.2 5.2 18 5.5 18H19.5C19.8 18 20 18.3 19.8 18.6L17.5 21.5C17.4 21.6 17.2 21.7 17 21.7H3C2.7 21.7 2.5 21.4 2.7 21.1L5 18.5Z" fill="#00C2FF" />
+      </svg>
+    );
+  }
+  if (asset.symbol === "USDT") {
+    return (
+      <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+        <circle cx="12" cy="12" r="10" fill="#26A17B" />
+        <path d="M7 8H17M12 8V16M9 11C9 12.5 10.3 13.5 12 13.5C13.7 13.5 15 12.5 15 11" stroke="#ffffff" strokeWidth="1.6" strokeLinecap="round" />
+      </svg>
+    );
+  }
+  if (asset.symbol === "KATE") {
+    return <span style={{ fontSize: `${Math.max(12, size - 3)}px`, lineHeight: 1 }}>👑</span>;
+  }
+  if (asset.symbol === "FOUR") {
+    return <span style={{ fontSize: `${Math.max(11, size - 4)}px`, fontWeight: 800, color: "#f59e0b" }}>4️⃣</span>;
+  }
+  return (
+    <span style={{ fontSize: "10px", fontWeight: 700, color: "var(--text-primary)" }}>
+      {asset.symbol.slice(0, 3)}
+    </span>
+  );
+};
 
 /* Wallet Activity Feed Models */
 interface WalletActivityItem {
@@ -957,6 +1016,7 @@ export default function AccountModal({ isOpen, onClose }: AccountModalProps) {
   const [isToDropdownOpen, setIsToDropdownOpen] = useState<boolean>(false);
   const [selectedTransferAsset, setSelectedTransferAsset] = useState<TransferAssetOption>(TRANSFER_ASSETS[0]);
   const [isAssetDropdownOpen, setIsAssetDropdownOpen] = useState<boolean>(false);
+  const [isFromTokenDropdownOpen, setIsFromTokenDropdownOpen] = useState<boolean>(false);
   const [transferAmount, setTransferAmount] = useState<string>("");
 
   const filteredBlueprintPositions = useMemo<BlueprintPositionItem[]>(() => {
@@ -1575,19 +1635,17 @@ export default function AccountModal({ isOpen, onClose }: AccountModalProps) {
                               }}
                               title="More options"
                             >
-                              <MoreVertical size={15} />
+                              <MoreVertical size={13} />
                             </button>
                           </div>
 
-                          {/* Card Middle: Position Value */}
+                          {/* Card Middle: Position Value and P&L */}
                           <div className={styles.posGridCardValueSection}>
-                            <span className={styles.posGridCardValueLabel}>Position Value</span>
-                            <span className={styles.posGridCardValue}>{pos.value}</span>
-                          </div>
-
-                          {/* Card Bottom: P&L + Sparkline */}
-                          <div className={styles.posGridCardBottom}>
-                            <div className={styles.posCardPnlCol}>
+                            <div className={styles.posCardValCol}>
+                              <span className={styles.posGridCardValueLabel}>Position Value</span>
+                              <span className={styles.posGridCardValue}>{pos.value}</span>
+                            </div>
+                            <div className={styles.posCardPnlColRight}>
                               <span className={styles.posCardPnlLabel}>P&L</span>
                               <span
                                 className={
@@ -1597,27 +1655,6 @@ export default function AccountModal({ isOpen, onClose }: AccountModalProps) {
                                 {pos.pnlDollar} ({pos.pnlPercent})
                               </span>
                             </div>
-
-                            {/* Sparkline Graph */}
-                            {pos.sparkline === "up" ? (
-                              <svg className={styles.posCardSparkline} viewBox="0 0 76 24" fill="none">
-                                <path
-                                  d="M 2 20 C 14 19 24 16 34 16 C 44 16 52 10 62 8 C 68 6 72 3 74 2"
-                                  stroke="#ffffff"
-                                  strokeWidth="2"
-                                  strokeLinecap="round"
-                                />
-                              </svg>
-                            ) : (
-                              <svg className={styles.posCardSparkline} viewBox="0 0 76 24" fill="none">
-                                <path
-                                  d="M 2 4 C 14 5 24 8 34 10 C 44 12 52 16 62 18 C 68 20 72 22 74 22"
-                                  stroke="#ffffff"
-                                  strokeWidth="2"
-                                  strokeLinecap="round"
-                                />
-                              </svg>
-                            )}
                           </div>
                         </div>
                       ))}
@@ -1628,7 +1665,7 @@ export default function AccountModal({ isOpen, onClose }: AccountModalProps) {
                         onClick={() => showToast("Exploring all available tokens & opportunities...")}
                       >
                         <div className={styles.explorePlusCircle}>
-                          <Plus size={19} />
+                          <Plus size={15} />
                         </div>
                         <div>
                           <h4 className={styles.exploreTitle}>Explore more tokens</h4>
@@ -2487,6 +2524,7 @@ export default function AccountModal({ isOpen, onClose }: AccountModalProps) {
               setIsFromDropdownOpen(false);
               setIsToDropdownOpen(false);
               setIsAssetDropdownOpen(false);
+              setIsFromTokenDropdownOpen(false);
             }}
           >
             <div
@@ -2513,7 +2551,12 @@ export default function AccountModal({ isOpen, onClose }: AccountModalProps) {
                 </div>
                 <button
                   className={styles.iconOnlyBtn}
-                  onClick={() => setIsTransferModalOpen(false)}
+                  onClick={() => {
+                    setIsTransferModalOpen(false);
+                    setIsFromDropdownOpen(false);
+                    setIsToDropdownOpen(false);
+                    setIsFromTokenDropdownOpen(false);
+                  }}
                   aria-label="Close transfer dialog"
                 >
                   <X size={16} />
@@ -2522,7 +2565,7 @@ export default function AccountModal({ isOpen, onClose }: AccountModalProps) {
 
               {/* Routing Stack: FROM ACCOUNT & TO DESTINATION with Center Swap */}
               <div className={styles.transferRoutingStack}>
-                {/* FROM ACCOUNT Card */}
+                {/* FROM ACCOUNT Card (Image 2 with Token Dropdown) */}
                 <div className={styles.transferAccountCard}>
                   <div className={styles.transferCardMetaRow}>
                     <span className={styles.transferFieldLabel}>From Account</span>
@@ -2534,62 +2577,131 @@ export default function AccountModal({ isOpen, onClose }: AccountModalProps) {
                     </span>
                   </div>
 
-                  <div
-                    className={styles.transferAccountBox}
-                    onClick={() => {
-                      setIsFromDropdownOpen(!isFromDropdownOpen);
-                      setIsToDropdownOpen(false);
-                      setIsAssetDropdownOpen(false);
-                    }}
-                  >
-                    <div className={styles.transferAccountLeft}>
-                      {/* Exchange Logo in From Account Input */}
-                      <div className={styles.transferExchangeLogoWrap}>
-                        {renderAccountIcon(fromAccount, 16)}
-                      </div>
-                      <span className={styles.transferAccountName}>
-                        {fromAccount.name}
-                      </span>
-                    </div>
-                    <div className={styles.transferChevronBox}>
-                      <ChevronDown
-                        size={15}
-                        style={{
-                          transform: isFromDropdownOpen ? "rotate(180deg)" : "none",
-                          transition: "transform 0.15s ease",
+                  <div className={styles.transferInputsRow}>
+                    {/* Account Selector Column */}
+                    <div className={styles.transferInputCol}>
+                      <div
+                        className={styles.transferAccountBox}
+                        onClick={() => {
+                          setIsFromDropdownOpen(!isFromDropdownOpen);
+                          setIsToDropdownOpen(false);
+                          setIsFromTokenDropdownOpen(false);
                         }}
-                      />
+                      >
+                        <div className={styles.transferAccountLeft}>
+                          {/* Exchange Logo in From Account Input */}
+                          <div className={styles.transferExchangeLogoWrap}>
+                            {renderAccountIcon(fromAccount, 16)}
+                          </div>
+                          <span className={styles.transferAccountName}>
+                            {fromAccount.name}
+                          </span>
+                        </div>
+                        <div className={styles.transferChevronBox}>
+                          <ChevronDown
+                            size={15}
+                            style={{
+                              transform: isFromDropdownOpen ? "rotate(180deg)" : "none",
+                              transition: "transform 0.15s ease",
+                            }}
+                          />
+                        </div>
+                      </div>
+
+                      {/* From Account Dropdown */}
+                      {isFromDropdownOpen && (
+                        <div className={styles.transferDropdownMenu}>
+                          {TRANSFER_ACCOUNTS.map((acc) => (
+                            <div
+                              key={acc.id}
+                              className={`${styles.transferDropdownItem} ${
+                                acc.id === fromAccount.id ? styles.transferDropdownItemActive : ""
+                              }`}
+                              onClick={() => {
+                                setFromAccount(acc);
+                                setIsFromDropdownOpen(false);
+                              }}
+                            >
+                              <div className={styles.transferDropdownItemLeft}>
+                                <div className={styles.transferExchangeLogoWrapSmall}>
+                                  {renderAccountIcon(acc, 13)}
+                                </div>
+                                <div>
+                                  <div className={styles.transferDropdownItemName}>{acc.name}</div>
+                                  <div className={styles.transferDropdownItemSub}>{acc.sub}</div>
+                                </div>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Token Dropdown inside FROM ACCOUNT - ONLY TOKEN ICON */}
+                    <div className={styles.transferTokenCol}>
+                      <div
+                        className={styles.transferTokenSelectBox}
+                        onClick={() => {
+                          setIsFromTokenDropdownOpen(!isFromTokenDropdownOpen);
+                          setIsFromDropdownOpen(false);
+                          setIsToDropdownOpen(false);
+                        }}
+                        title={`Token: ${selectedTransferAsset.symbol} (Click to change)`}
+                      >
+                        <div className={styles.transferTokenLogoWrap}>
+                          {renderAssetIcon(selectedTransferAsset, 18)}
+                        </div>
+                      </div>
+
+                      {/* Token Dropdown Menu */}
+                      {isFromTokenDropdownOpen && (
+                        <div className={styles.transferTokenDropdownMenu}>
+                          {TRANSFER_ASSETS.map((asset) => (
+                            <div
+                              key={asset.symbol}
+                              className={`${styles.transferDropdownItem} ${
+                                asset.symbol === selectedTransferAsset.symbol
+                                  ? styles.transferDropdownItemActive
+                                  : ""
+                              }`}
+                              onClick={() => {
+                                setSelectedTransferAsset(asset);
+                                setIsFromTokenDropdownOpen(false);
+                              }}
+                            >
+                              <div className={styles.transferDropdownItemLeft}>
+                                <div className={styles.transferTokenLogoWrapSmall}>
+                                  {renderAssetIcon(asset, 14)}
+                                </div>
+                                <div>
+                                  <div className={styles.transferDropdownItemName}>
+                                    {asset.symbol}
+                                  </div>
+                                  <div className={styles.transferDropdownItemSub}>
+                                    {asset.network}
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      )}
                     </div>
                   </div>
-
-                  {/* From Account Dropdown */}
-                  {isFromDropdownOpen && (
-                    <div className={styles.transferDropdownMenu}>
-                      {TRANSFER_ACCOUNTS.map((acc) => (
-                        <div
-                          key={acc.id}
-                          className={`${styles.transferDropdownItem} ${
-                            acc.id === fromAccount.id ? styles.transferDropdownItemActive : ""
-                          }`}
-                          onClick={() => {
-                            setFromAccount(acc);
-                            setIsFromDropdownOpen(false);
-                          }}
-                        >
-                          <div className={styles.transferDropdownItemLeft}>
-                            <div className={styles.transferExchangeLogoWrapSmall}>
-                              {renderAccountIcon(acc, 13)}
-                            </div>
-                            <div>
-                              <div className={styles.transferDropdownItemName}>{acc.name}</div>
-                              <div className={styles.transferDropdownItemSub}>{acc.sub}</div>
-                            </div>
-                          </div>
-                          <span className={styles.transferDropdownItemBal}>{acc.avail}</span>
-                        </div>
-                      ))}
-                    </div>
-                  )}
+                  
+                  {/* Available Balance Bottom Row */}
+                  <div className={styles.transferAvailBottomRow}>
+                    <span className={styles.transferAvailText}>
+                      Available to transfer:{" "}
+                      <span className={styles.transferAvailNum}>
+                        {selectedTransferAsset.avail.toLocaleString("en-US", {
+                          minimumFractionDigits: selectedTransferAsset.avail < 10 ? 2 : 0,
+                          maximumFractionDigits: 2,
+                        })}{" "}
+                        {selectedTransferAsset.symbol}
+                      </span>
+                    </span>
+                  </div>
                 </div>
 
                 {/* Central Swap Invert Button */}
@@ -2603,11 +2715,12 @@ export default function AccountModal({ isOpen, onClose }: AccountModalProps) {
                       setToAccount(temp);
                       setIsFromDropdownOpen(false);
                       setIsToDropdownOpen(false);
+                      setIsFromTokenDropdownOpen(false);
                     }}
                     title="Swap accounts"
                     aria-label="Swap accounts"
                   >
-                    <ArrowUpDown size={14} />
+                    <ArrowUpDown size={13} />
                   </button>
                 </div>
 
@@ -2628,7 +2741,7 @@ export default function AccountModal({ isOpen, onClose }: AccountModalProps) {
                     onClick={() => {
                       setIsToDropdownOpen(!isToDropdownOpen);
                       setIsFromDropdownOpen(false);
-                      setIsAssetDropdownOpen(false);
+                      setIsFromTokenDropdownOpen(false);
                     }}
                   >
                     <div className={styles.transferAccountLeft}>
@@ -2679,98 +2792,6 @@ export default function AccountModal({ isOpen, onClose }: AccountModalProps) {
                     </div>
                   )}
                 </div>
-              </div>
-
-              {/* SELECT ASSET Card */}
-              <div className={styles.transferAssetCard}>
-                <div className={styles.transferCardMetaRow}>
-                  <span className={styles.transferFieldLabel}>Select Asset</span>
-                  <span className={styles.transferAvailText}>
-                    Avail:{" "}
-                    <span className={styles.transferAvailNum}>
-                      {selectedTransferAsset.avail.toLocaleString("en-US", {
-                        minimumFractionDigits: 2,
-                        maximumFractionDigits: 2,
-                      })}{" "}
-                      {selectedTransferAsset.symbol}
-                    </span>
-                  </span>
-                </div>
-
-                <div
-                  className={styles.transferAssetBox}
-                  onClick={() => {
-                    setIsAssetDropdownOpen(!isAssetDropdownOpen);
-                    setIsFromDropdownOpen(false);
-                    setIsToDropdownOpen(false);
-                  }}
-                >
-                  <div className={styles.transferAssetLeft}>
-                    {selectedTransferAsset.symbol === "USDC" ? (
-                      <IconUSDC size={28} />
-                    ) : (
-                      <div className={styles.transferExchangeLogoWrap}>
-                        <span style={{ fontSize: "12px", fontWeight: 700 }}>
-                          {selectedTransferAsset.symbol.slice(0, 3)}
-                        </span>
-                      </div>
-                    )}
-                    <div className={styles.transferAssetDetails}>
-                      <span className={styles.transferAssetName}>
-                        {selectedTransferAsset.name}
-                      </span>
-                      <span className={styles.transferAssetSub}>
-                        {selectedTransferAsset.network}
-                      </span>
-                    </div>
-                  </div>
-                  <div className={styles.transferChevronBox}>
-                    <ChevronDown
-                      size={15}
-                      style={{
-                        transform: isAssetDropdownOpen ? "rotate(180deg)" : "none",
-                        transition: "transform 0.15s ease",
-                      }}
-                    />
-                  </div>
-                </div>
-
-                {/* Asset Dropdown */}
-                {isAssetDropdownOpen && (
-                  <div className={styles.transferDropdownMenu}>
-                    {TRANSFER_ASSETS.map((asset) => (
-                      <div
-                        key={asset.symbol}
-                        className={`${styles.transferDropdownItem} ${
-                          asset.symbol === selectedTransferAsset.symbol ? styles.transferDropdownItemActive : ""
-                        }`}
-                        onClick={() => {
-                          setSelectedTransferAsset(asset);
-                          setIsAssetDropdownOpen(false);
-                        }}
-                      >
-                        <div className={styles.transferDropdownItemLeft}>
-                          {asset.symbol === "USDC" ? (
-                            <IconUSDC size={22} />
-                          ) : (
-                            <div className={styles.transferExchangeLogoWrapSmall}>
-                              <span style={{ fontSize: "11px", fontWeight: 700 }}>
-                                {asset.symbol.slice(0, 3)}
-                              </span>
-                            </div>
-                          )}
-                          <div>
-                            <div className={styles.transferDropdownItemName}>{asset.name}</div>
-                            <div className={styles.transferDropdownItemSub}>{asset.network}</div>
-                          </div>
-                        </div>
-                        <span className={styles.transferDropdownItemBal}>
-                          {asset.avail.toLocaleString()} {asset.symbol}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-                )}
               </div>
 
               {/* TRANSFER AMOUNT Card */}
@@ -2876,7 +2897,7 @@ export default function AccountModal({ isOpen, onClose }: AccountModalProps) {
                   setTransferAmount("");
                   setIsFromDropdownOpen(false);
                   setIsToDropdownOpen(false);
-                  setIsAssetDropdownOpen(false);
+                  setIsFromTokenDropdownOpen(false);
                 }}
               >
                 <span>Confirm Transfer</span>
