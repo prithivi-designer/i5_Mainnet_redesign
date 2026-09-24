@@ -633,7 +633,7 @@ interface EarningsModalProps {
 
 export default function EarningsModal({ isOpen, onClose, initialTab }: EarningsModalProps) {
   const [modalTab, setModalTab] = useState<"unlocks" | "earnings">(initialTab || "unlocks");
-  const [viewMode, setViewMode] = useState<"agenda" | "table" | "calendar">("agenda");
+  const [viewMode, setViewMode] = useState<"agenda" | "calendar">("agenda");
 
   useEffect(() => {
     if (initialTab) {
@@ -647,8 +647,8 @@ export default function EarningsModal({ isOpen, onClose, initialTab }: EarningsM
   const [unlockTimeframe, setUnlockTimeframe] = useState<"All" | "24H" | "7D" | "30D">("All");
   const [unlockTypeFilter, setUnlockTypeFilter] = useState<"All" | "Cliff" | "Linear">("All");
   const [unlockWatchlistOnly, setUnlockWatchlistOnly] = useState<boolean>(false);
-  const [sortField, setSortField] = useState<string>("countdown");
-  const [sortAsc, setSortAsc] = useState<boolean>(true);
+  const [sortField] = useState<string>("countdown");
+  const [sortAsc] = useState<boolean>(true);
 
   // Live countdown second ticker
   const [secondsElapsed, setSecondsElapsed] = useState<number>(0);
@@ -695,16 +695,6 @@ export default function EarningsModal({ isOpen, onClose, initialTab }: EarningsM
     setStockReports((prev) =>
       prev.map((item) => (item.id === id ? { ...item, isWatching: !item.isWatching } : item))
     );
-  };
-
-  // Sort handler for crypto table
-  const handleSort = (field: string) => {
-    if (sortField === field) {
-      setSortAsc((prev) => !prev);
-    } else {
-      setSortField(field);
-      setSortAsc(true);
-    }
   };
 
   // Reset Stock Filters
@@ -959,21 +949,6 @@ export default function EarningsModal({ isOpen, onClose, initialTab }: EarningsM
                 </svg>
                 Cards
               </button>
-
-              {modalTab === "unlocks" && (
-                <button
-                  className={`${styles.viewToggleBtn} ${
-                    viewMode === "table" ? styles.activeViewBtn : ""
-                  }`}
-                  onClick={() => setViewMode("table")}
-                  title="Table View"
-                >
-                  <svg width={14} height={14} viewBox="0 0 16 16" fill="none">
-                    <path d="M2 3.5h12M2 7.5h12M2 11.5h12" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
-                  </svg>
-                  Table
-                </button>
-              )}
 
               <button
                 className={`${styles.viewToggleBtn} ${
@@ -1346,165 +1321,7 @@ export default function EarningsModal({ isOpen, onClose, initialTab }: EarningsM
               </div>
             )}
 
-            {/* VIEW 2: TABLE VIEW */}
-            {viewMode === "table" && (
-              <div className={styles.unlocksTableWrapper}>
-                <table className={styles.unlocksTable}>
-                  <thead className={styles.unlocksThead}>
-                    <tr>
-                      <th className={styles.unlocksTh} style={{ width: 40, textAlign: "center" }}>
-                        <span className={styles.infoIcon}>★</span>
-                      </th>
-                      <th className={styles.unlocksTh} style={{ minWidth: 160 }} onClick={() => handleSort("project")}>
-                        <span className={styles.thContent}>
-                          Project Name
-                          <span className={styles.sortArrows}>▲▼</span>
-                        </span>
-                      </th>
-                      <th className={styles.unlocksTh} style={{ minWidth: 110 }} onClick={() => handleSort("price")}>
-                        <span className={styles.thContent}>
-                          Price
-                          <span className={styles.sortArrows}>▲▼</span>
-                        </span>
-                      </th>
-                      <th className={styles.unlocksTh} style={{ minWidth: 90 }} onClick={() => handleSort("change")}>
-                        <span className={styles.thContent}>
-                          24h %
-                          <span className={styles.sortArrows}>▲▼</span>
-                        </span>
-                      </th>
-                      <th className={styles.unlocksTh} style={{ minWidth: 120 }} onClick={() => handleSort("mcap")}>
-                        <span className={styles.thContent}>
-                          Reported MCap
-                          <span className={styles.sortArrows}>▲▼</span>
-                        </span>
-                      </th>
-                      <th className={styles.unlocksTh} style={{ minWidth: 180 }} onClick={() => handleSort("released")}>
-                        <span className={styles.thContent}>
-                          Released Percentage
-                          <span className={styles.infoIcon}>ℹ</span>
-                          <span className={styles.sortArrows}>▲▼</span>
-                        </span>
-                      </th>
-                      <th className={styles.unlocksTh} style={{ minWidth: 220 }} onClick={() => handleSort("upcoming")}>
-                        <span className={styles.thContent}>
-                          Upcoming Value
-                          <span className={styles.infoIcon}>ℹ</span>
-                          <span className={styles.sortArrows}>▲▼</span>
-                        </span>
-                      </th>
-                      <th className={styles.unlocksTh} style={{ minWidth: 160 }}>
-                        <span className={styles.thContent}>
-                          Next 7D Emission
-                          <span className={styles.infoIcon}>ℹ</span>
-                          <span className={styles.sortArrows}>▲▼</span>
-                        </span>
-                      </th>
-                    </tr>
-                  </thead>
-
-                  <tbody>
-                    {filteredUnlocks.map((item) => {
-                      const remainingSec = Math.max(
-                        0,
-                        item.countdownSecondsInitial - secondsElapsed
-                      );
-
-                      return (
-                        <tr key={item.id} className={styles.unlocksTr}>
-                          <td className={styles.unlocksTd} style={{ width: 40, textAlign: "center" }}>
-                            <button
-                              className={`${styles.starBtn} ${
-                                item.isWatching ? styles.starBtnActive : ""
-                              }`}
-                              onClick={() => toggleUnlockWatch(item.id)}
-                              aria-label="Star watchlist"
-                            >
-                              {item.isWatching ? "★" : "☆"}
-                            </button>
-                          </td>
-
-                          <td className={styles.unlocksTd}>
-                            <div className={styles.projectCell}>
-                              <CryptoLogo ticker={item.ticker} bg={item.logoBg} />
-                              <span className={styles.projectTicker}>{item.ticker}</span>
-                            </div>
-                          </td>
-
-                          <td className={styles.unlocksTd}>
-                            <span className={styles.priceVal}>{item.price}</span>
-                          </td>
-
-                          <td className={styles.unlocksTd}>
-                            <span
-                              className={
-                                item.change24h >= 0 ? styles.changeValGreen : styles.changeValRed
-                              }
-                            >
-                              {item.change24h >= 0 ? `+${item.change24h.toFixed(2)}%` : `${item.change24h.toFixed(2)}%`}
-                            </span>
-                          </td>
-
-                          <td className={styles.unlocksTd}>
-                            <span className={styles.mcapVal}>{item.reportedMcap}</span>
-                          </td>
-
-                          <td className={styles.unlocksTd}>
-                            <div className={styles.releasedCell}>
-                              <span className={styles.releasedText}>
-                                {item.releasedPercent.toFixed(2)}%
-                              </span>
-                              <div className={styles.progressTrack}>
-                                <div
-                                  className={styles.progressFill}
-                                  style={{ width: `${item.releasedPercent}%` }}
-                                />
-                                <div
-                                  className={styles.progressTriangle}
-                                  style={{ left: `${item.releasedPercent}%` }}
-                                />
-                              </div>
-                            </div>
-                          </td>
-
-                          <td className={styles.unlocksTd}>
-                            <div className={styles.upcomingValCell}>
-                              <div className={styles.cliffBadge} title="Cliff Unlock">
-                                <svg width={14} height={14} viewBox="0 0 16 16" fill="none">
-                                  <path
-                                    d="M2 13V9h4v-3h4V3h4v10H2Z"
-                                    fill="currentColor"
-                                    opacity="0.8"
-                                  />
-                                </svg>
-                              </div>
-
-                              <div className={styles.upcomingAmountGroup}>
-                                <span className={styles.upcomingAmount}>{item.upcomingValue}</span>
-                                <span className={styles.upcomingPercent}>({item.upcomingPercent})</span>
-                              </div>
-
-                              <div className={styles.countdownPill}>
-                                {formatCountdown(remainingSec)}
-                              </div>
-                            </div>
-                          </td>
-
-                          <td className={styles.unlocksTd}>
-                            <div className={styles.next7dPill}>
-                              <span className={styles.emissionAmount}>{item.next7dEmission}</span>
-                              <span className={styles.emissionPercent}>{item.next7dPercent}</span>
-                            </div>
-                          </td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </table>
-              </div>
-            )}
-
-            {/* VIEW 3: CALENDAR GRID VIEW */}
+            {/* VIEW 2: CALENDAR GRID VIEW */}
             {viewMode === "calendar" && (
               <div className={styles.calendarGridWrapper}>
                 <div className={styles.calendarGridHeader}>

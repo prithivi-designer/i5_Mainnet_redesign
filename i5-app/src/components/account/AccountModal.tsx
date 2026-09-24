@@ -33,6 +33,8 @@ import {
   MoreVertical,
   LayoutGrid,
   List,
+  Activity,
+  TrendingUp,
 } from "lucide-react";
 import styles from "./AccountModal.module.css";
 import { IconHyperliquid, IconAster } from "../dashboard/QuickTradeModal";
@@ -981,6 +983,7 @@ interface AccountModalProps {
 export default function AccountModal({ isOpen, onClose }: AccountModalProps) {
   // Navigation State — Default to Profile Menu
   const [activeTab, setActiveTab] = useState<"profile" | "wallet" | "userInfo" | "exchanges">("profile");
+  const [profileSectionTab, setProfileSectionTab] = useState<"portfolio" | "positions" | "activity">("portfolio");
   const [selectedExchangeFilter, setSelectedExchangeFilter] = useState<string>("all");
   const [isExchangeAccordionOpen, setIsExchangeAccordionOpen] = useState<boolean>(true);
 
@@ -1292,7 +1295,14 @@ export default function AccountModal({ isOpen, onClose }: AccountModalProps) {
             {/* Sidebar Bottom Group: Vertical Stack */}
             <div className={styles.sidebarBottomGroup}>
               {/* Stack 1: Portfolio Value & 24h PnL */}
-              <div className={styles.sidebarStatCard}>
+              <div
+                className={styles.sidebarStatCard}
+                onClick={() => {
+                  setActiveTab("profile");
+                  setProfileSectionTab("portfolio");
+                }}
+                style={{ cursor: "pointer" }}
+              >
                 <div className={styles.sidebarStatHeader}>
                   <span className={styles.sidebarStatLabel}>Portfolio</span>
                   <div className={styles.sidebarPnlRow}>
@@ -1346,26 +1356,98 @@ export default function AccountModal({ isOpen, onClose }: AccountModalProps) {
                 {/* 1. TOP SECTION: PORTFOLIO TITLE & SEARCH BAR */}
                 <div className={styles.portfolioTopHeader}>
                   <div className={styles.portfolioTopTitleCol}>
-                    <h2 className={styles.portfolioPageTitle}>Portfolio</h2>
+                    <h2 className={styles.portfolioPageTitle}>
+                      {profileSectionTab === "portfolio"
+                        ? "Portfolio"
+                        : profileSectionTab === "positions"
+                        ? "Your Positions"
+                        : "Recent Activity"}
+                    </h2>
                     <p className={styles.portfolioPageSub}>
-                      Real-time performance across all your tokens and positions
+                      {profileSectionTab === "portfolio"
+                        ? "Real-time performance across all your tokens and positions"
+                        : profileSectionTab === "positions"
+                        ? "Live performance across your active tokens and perps"
+                        : "Recent transactions, swaps, deposits and market discoveries"}
                     </p>
                   </div>
                   <div className={styles.portfolioSearchWrap}>
                     <Search size={14} className={styles.searchIconMuted} />
                     <input
                       type="text"
-                      placeholder="Search tokens, pairs, or wallets..."
-                      value={portfolioSearchQuery}
-                      onChange={(e) => setPortfolioSearchQuery(e.target.value)}
+                      placeholder={
+                        profileSectionTab === "positions"
+                          ? "Search positions, tokens, or tickers..."
+                          : profileSectionTab === "activity"
+                          ? "Search activity, tokens, or actions..."
+                          : "Search tokens, pairs, or wallets..."
+                      }
+                      value={
+                        profileSectionTab === "positions"
+                          ? positionsSearchQuery
+                          : portfolioSearchQuery
+                      }
+                      onChange={(e) => {
+                        if (profileSectionTab === "positions") {
+                          setPositionsSearchQuery(e.target.value);
+                        } else {
+                          setPortfolioSearchQuery(e.target.value);
+                        }
+                      }}
                       className={styles.portfolioSearchInput}
                     />
                     <span className={styles.kbdShortcut}>⌘ K</span>
                   </div>
                 </div>
 
-                {/* 2. TOP GRID: PORTFOLIO VALUE (LEFT) + 3 STACKED CARDS (RIGHT) */}
-                <div className={styles.portfolioTopGrid}>
+                {/* Sub-Tabs: Portfolio | Positions | Activity */}
+                <div className={styles.profileTabsBar}>
+                  <div className={styles.profileTabsSegment}>
+                    <button
+                      type="button"
+                      className={`${styles.profileTabBtn} ${
+                        profileSectionTab === "portfolio" ? styles.profileTabBtnActive : ""
+                      }`}
+                      onClick={() => setProfileSectionTab("portfolio")}
+                    >
+                      <TrendingUp size={14} />
+                      <span>Portfolio</span>
+                    </button>
+
+                    <button
+                      type="button"
+                      className={`${styles.profileTabBtn} ${
+                        profileSectionTab === "positions" ? styles.profileTabBtnActive : ""
+                      }`}
+                      onClick={() => setProfileSectionTab("positions")}
+                    >
+                      <LayoutGrid size={14} />
+                      <span>Positions</span>
+                      <span className={styles.profileTabBadge}>
+                        {filteredBlueprintPositions.length}
+                      </span>
+                    </button>
+
+                    <button
+                      type="button"
+                      className={`${styles.profileTabBtn} ${
+                        profileSectionTab === "activity" ? styles.profileTabBtnActive : ""
+                      }`}
+                      onClick={() => setProfileSectionTab("activity")}
+                    >
+                      <Activity size={14} />
+                      <span>Activity</span>
+                      <span className={styles.profileTabBadge}>
+                        {filteredBlueprintActivities.length}
+                      </span>
+                    </button>
+                  </div>
+                </div>
+
+                {/* TAB 1: PORTFOLIO SECTION */}
+                {profileSectionTab === "portfolio" && (
+                  <>
+                    <div className={styles.portfolioTopGrid}>
                   {/* Left Column: Portfolio Value Card with Chart */}
                   <div className={styles.portfolioCard}>
                     <div className={styles.portfolioHeader}>
@@ -1474,6 +1556,7 @@ export default function AccountModal({ isOpen, onClose }: AccountModalProps) {
                       className={`${styles.topMiniCard} ${styles.topMiniCardClickable}`}
                       onClick={() => {
                         setPositionsFilter("All");
+                        setProfileSectionTab("positions");
                         showToast("Showing all positions");
                       }}
                     >
@@ -1525,8 +1608,52 @@ export default function AccountModal({ isOpen, onClose }: AccountModalProps) {
                   </div>
                 </div>
 
-                {/* 3. MIDDLE SECTION: YOUR POSITIONS (5) */}
-                <div className={styles.positionsSection}>
+                {/* Quick Asset Allocation Summary */}
+                <div className={styles.portfolioAllocationCard}>
+                  <div className={styles.allocationHeader}>
+                    <div className={styles.allocationTitleRow}>
+                      <span className={styles.allocationTitle}>Asset Distribution</span>
+                      <span className={styles.allocationSub}>Breakdown of holdings across categories</span>
+                    </div>
+                    <button
+                      className={styles.viewPositionsLinkBtn}
+                      onClick={() => setProfileSectionTab("positions")}
+                    >
+                      <span>View all positions</span>
+                      <ChevronRight size={13} />
+                    </button>
+                  </div>
+
+                  <div className={styles.allocationBarWrap}>
+                    <div className={styles.allocationBarSegment} style={{ width: "74%", backgroundColor: "#ffffff" }} title="Tokens: 74%" />
+                    <div className={styles.allocationBarSegment} style={{ width: "22%", backgroundColor: "rgba(255, 255, 255, 0.4)" }} title="Perps: 22%" />
+                    <div className={styles.allocationBarSegment} style={{ width: "4%", backgroundColor: "rgba(255, 255, 255, 0.15)" }} title="Cash: 4%" />
+                  </div>
+
+                  <div className={styles.allocationLegendRow}>
+                    <div className={styles.legendItem}>
+                      <span className={styles.legendDot} style={{ backgroundColor: "#ffffff" }} />
+                      <span className={styles.legendLabel}>Tokens</span>
+                      <span className={styles.legendVal}>$184.78 (74%)</span>
+                    </div>
+                    <div className={styles.legendItem}>
+                      <span className={styles.legendDot} style={{ backgroundColor: "rgba(255, 255, 255, 0.4)" }} />
+                      <span className={styles.legendLabel}>Perps</span>
+                      <span className={styles.legendVal}>$54.98 (22%)</span>
+                    </div>
+                    <div className={styles.legendItem}>
+                      <span className={styles.legendDot} style={{ backgroundColor: "rgba(255, 255, 255, 0.15)" }} />
+                      <span className={styles.legendLabel}>Cash</span>
+                      <span className={styles.legendVal}>$0.33 (4%)</span>
+                    </div>
+                  </div>
+                </div>
+              </>
+            )}
+
+            {/* TAB 2: POSITIONS SECTION */}
+            {profileSectionTab === "positions" && (
+              <div className={styles.positionsSection}>
                   <div className={styles.positionsSectionHeader}>
                     <div className={styles.positionsTitleCol}>
                       <h3 className={styles.positionsSectionTitle}>
@@ -1740,8 +1867,10 @@ export default function AccountModal({ isOpen, onClose }: AccountModalProps) {
                     </div>
                   )}
                 </div>
+              )}
 
-                {/* 4. BOTTOM SECTION: RECENT ACTIVITY & DISCOVER NEXT OPPORTUNITY */}
+              {/* TAB 3: ACTIVITY SECTION */}
+              {profileSectionTab === "activity" && (
                 <div className={styles.bottomGrid}>
                   {/* Left Column: Recent Activity Card */}
                   <div className={styles.recentActivityCard}>
@@ -1900,8 +2029,9 @@ export default function AccountModal({ isOpen, onClose }: AccountModalProps) {
                     </button>
                   </div>
                 </div>
-              </div>
-            )}
+              )}
+            </div>
+          )}
 
             {/* VIEW 1: WALLET */}
             {activeTab === "wallet" && (
