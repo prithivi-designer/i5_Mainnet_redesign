@@ -8,6 +8,7 @@ import {
   Lock,
   History,
   ExternalLink,
+  Maximize2,
 } from "lucide-react";
 import styles from "./MemeTradingTerminal.module.css";
 
@@ -338,6 +339,45 @@ export default function MemeTradingTerminal({
                   Live Pool ({allTrades.length})
                 </button>
               </div>
+
+              <button
+                type="button"
+                className={styles.iconBtn}
+                onClick={() => {
+                  const rawPrice = parseFloat(String(selectedToken.price || "0.0058").replace(/[^0-9.]/g, "")) || 0.0058;
+                  const memePayload = {
+                    id: selectedToken.id,
+                    name: selectedToken.name,
+                    ticker: selectedToken.ticker.startsWith("$") ? selectedToken.ticker : `$${selectedToken.ticker}`,
+                    avatarImg: selectedToken.avatarImg,
+                    avatarEmoji: selectedToken.avatarEmoji,
+                    chain: (selectedToken.chain as "SOL" | "BNB" | "ETH") || "SOL",
+                    price: selectedToken.price || "$0.0058",
+                    priceNum: rawPrice,
+                    change24h: selectedToken.change24h || 142.5,
+                    marketCap: (selectedToken as any).marketCap || "$5.8M",
+                    liquidity: (selectedToken as any).liquidity || "$740K",
+                    volume24h: (selectedToken as any).volume24h || "$2.4M",
+                    totalSupply: "1B",
+                    holders: (selectedToken as any).holders || 3840,
+                    bondingPercent: (selectedToken as any).bondingPercent || 88,
+                    contractAddress: (selectedToken as any).contractAddress || `${selectedToken.id}...pump`,
+                    devHandle: (selectedToken as any).devHandle || "@alpha_creator",
+                    noMint: true,
+                    noBlacklist: true,
+                    burnt: true,
+                    rugScore: 0,
+                    top10Pct: 18.4,
+                    i5Score: 94,
+                    kolsHolding: 6,
+                  };
+                  window.dispatchEvent(new CustomEvent("i5-meme-trade", { detail: { token: memePayload } }));
+                  onClose();
+                }}
+                title="Expand to Full Terminal Page"
+              >
+                <Maximize2 size={13} />
+              </button>
 
               <button
                 type="button"

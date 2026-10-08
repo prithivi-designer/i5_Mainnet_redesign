@@ -703,6 +703,42 @@ export default function IntelligenceFeed() {
     return true;
   });
 
+  const handleItemAction = (item: FeedItem) => {
+    if (item.assetType === "MEME") {
+      const priceNum = parseFloat(item.publishPrice.replace(/[^0-9.]/g, "")) || 0.0000124;
+      const memePayload = {
+        id: item.id,
+        name: item.companyName,
+        ticker: item.ticker.startsWith("$") ? item.ticker : `$${item.ticker}`,
+        avatarBg: item.avatarBg,
+        avatarImg: ["PEPE", "WIF", "DOGE", "BONK"].includes(item.ticker)
+          ? `https://assets.coincap.io/assets/icons/${item.ticker.toLowerCase()}@2x.png`
+          : undefined,
+        chain: (item.ticker === "WIF" ? "SOL" : "ETH") as "SOL" | "BNB" | "ETH",
+        price: item.publishPrice.replace(" at publish", ""),
+        priceNum: priceNum,
+        change24h: parseFloat(item.priceChange.replace(/[^0-9.-]/g, "")) || 22.4,
+        marketCap: item.ticker === "WIF" ? "$3.8B" : "$5.2B",
+        liquidity: "$48.5M",
+        volume24h: "$210M",
+        totalSupply: "1B",
+        holders: 142000,
+        bondingPercent: 100,
+        contractAddress: `${item.ticker.toLowerCase()}7x9...pump`,
+        noMint: true,
+        noBlacklist: true,
+        burnt: true,
+        rugScore: 0,
+        top10Pct: 14.2,
+        i5Score: item.aiConfidence,
+        kolsHolding: 28,
+      };
+      window.dispatchEvent(new CustomEvent("i5-meme-trade", { detail: { token: memePayload } }));
+      return;
+    }
+    setSelectedAnalysisItem(item);
+  };
+
   if (sidepanelFilter.tab === "meme" || sidepanelFilter.tab === "activities") {
     return (
       <section
@@ -1051,8 +1087,8 @@ export default function IntelligenceFeed() {
 
               {/* Action Buttons Row */}
               <div className={styles.actionsRow}>
-                <button className={styles.viewAnalysisBtn} onClick={() => setSelectedAnalysisItem(item)}>
-                  View Analytics
+                <button className={styles.viewAnalysisBtn} onClick={() => handleItemAction(item)}>
+                  {item.assetType === "MEME" ? `Trade ${item.ticker}` : "View Analytics"}
                   <svg width={12} height={12} viewBox="0 0 16 16" fill="none" aria-hidden>
                     <path d="M4.5 11.5L11.5 4.5M11.5 4.5H5.5M11.5 4.5V10.5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>

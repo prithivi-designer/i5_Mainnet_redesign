@@ -34,6 +34,21 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  cursor: pointer;
+}
+
+.brandLogoImg {
+  width: 36px;
+  height: 36px;
+  object-fit: contain;
+  display: block;
+  filter: drop-shadow(0 2px 8px rgba(246, 235, 23, 0.25));
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), filter 0.2s ease;
+}
+
+.brandMark:hover .brandLogoImg {
+  transform: scale(1.08);
+  filter: drop-shadow(0 4px 14px rgba(246, 235, 23, 0.45));
 }
 
 .headerDivider {

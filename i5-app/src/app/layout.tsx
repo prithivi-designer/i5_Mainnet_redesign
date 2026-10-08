@@ -31,6 +31,11 @@ export const metadata: Metadata = {
   keywords: ["crypto", "stocks", "trading", "markets", "portfolio"],
   authors: [{ name: "i5 Mainnet" }],
   themeColor: "#05090A",
+  icons: {
+    icon: "/i5_sticker.svg",
+    shortcut: "/i5_sticker.svg",
+    apple: "/i5_sticker.svg",
+  },
 };
 
 /* ----------------------------------------------------------

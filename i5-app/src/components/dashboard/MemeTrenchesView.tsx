@@ -442,6 +442,43 @@ export default function MemeTrenchesView() {
   const [mcSearch, setMcSearch] = useState("");
   const [migSearch, setMigSearch] = useState("");
 
+  const handleTokenClick = (token: MemeToken) => {
+    const rawMc = parseFloat(token.mc.replace(/[^0-9.]/g, "")) || 10;
+    const isK = token.mc.includes("K");
+    const isM = token.mc.includes("M");
+    const mcNum = isM ? rawMc * 1_000_000 : isK ? rawMc * 1_000 : rawMc;
+    const priceNum = mcNum / 1_000_000_000;
+    const priceStr = priceNum < 0.0001 ? `$0.0000${(priceNum * 10000).toFixed(2)}` : `$${priceNum.toFixed(6)}`;
+
+    const memePayload = {
+      id: token.id,
+      name: token.name,
+      ticker: token.symbol.startsWith("$") ? token.symbol : `$${token.symbol}`,
+      avatarImg: token.avatar,
+      chain: "SOL" as const,
+      price: priceStr,
+      priceNum: priceNum,
+      change24h: token.timeType === "green" ? 142.5 : -8.4,
+      marketCap: token.mc,
+      liquidity: `$${Math.round(rawMc * 0.35)}${isM ? "M" : "K"}`,
+      volume24h: token.vol !== "$0" ? token.vol : "$15.4K",
+      totalSupply: "1B",
+      holders: 184,
+      bondingPercent: isM ? 100 : Math.min(99, Math.round(rawMc * 1.2)),
+      contractAddress: token.contract.includes("...") ? `${token.id}8x7...pump` : token.contract,
+      devHandle: token.handle || "@alpha_creator",
+      noMint: true,
+      noBlacklist: true,
+      burnt: true,
+      rugScore: 0,
+      top10Pct: 18.5,
+      i5Score: 92,
+      kolsHolding: 5,
+    };
+
+    window.dispatchEvent(new CustomEvent("i5-meme-trade", { detail: { token: memePayload } }));
+  };
+
   const renderTokenCard = (token: MemeToken) => {
     let mcClass = styles.mcWhite;
     if (token.mcColor === "green") mcClass = styles.mcGreen;
@@ -449,7 +486,7 @@ export default function MemeTrenchesView() {
     if (token.mcColor === "amber") mcClass = styles.mcAmber;
 
     return (
-      <div key={token.id} className={styles.card}>
+      <div key={token.id} className={styles.card} onClick={() => handleTokenClick(token)}>
         <div className={styles.cardMain}>
           <div className={styles.gridColAvatar}>
             <div className={styles.avatarWrapper}>

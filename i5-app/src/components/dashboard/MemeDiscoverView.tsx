@@ -25,6 +25,7 @@ import {
   ArrowUpDown,
 } from "lucide-react";
 import styles from "./MemeDiscoverView.module.css";
+import MemeTradingTerminal, { TerminalToken } from "./MemeTradingTerminal";
 
 interface DiscoverToken {
   id: string;
@@ -306,6 +307,8 @@ export default function MemeDiscoverView() {
   const [activePreset, setActivePreset] = useState<string | null>(null);
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
+  const [tradingTerminalToken, setTradingTerminalToken] = useState<TerminalToken | null>(null);
+  const [tradingTerminalAmount, setTradingTerminalAmount] = useState<string | undefined>(undefined);
 
   const showToast = (msg: string) => {
     setToastMessage(msg);
@@ -330,8 +333,51 @@ export default function MemeDiscoverView() {
 
   const handleBuy = (token: DiscoverToken, e: React.MouseEvent) => {
     e.stopPropagation();
-    const amt = quickBuyAmount !== "0.0" && quickBuyAmount !== "" ? `${quickBuyAmount} SOL` : "Instant Buy";
-    showToast(`Initiated ${amt} order for ${token.name}`);
+    const amt = quickBuyAmount !== "0.0" && quickBuyAmount !== "" ? quickBuyAmount : "0.5";
+    const terminalToken: TerminalToken = {
+      id: token.id,
+      name: token.name,
+      ticker: token.subname || token.name,
+      chain: "SOL",
+      price: `$${((parseFloat(token.marketCap.replace(/[$K]/g, "")) * 1000) / 1_000_000_000).toFixed(6)}`,
+      marketCap: token.marketCap,
+      change24h: parseFloat(token.priceChange.replace("%", "")) || 0,
+      avatarImg: token.avatarImg,
+      avatarEmoji: token.avatarText,
+    };
+    setTradingTerminalAmount(amt);
+    setTradingTerminalToken(terminalToken);
+  };
+
+  const handleRowClick = (token: DiscoverToken) => {
+    const memeToken = {
+      id: token.id,
+      name: token.name,
+      ticker: token.subname || token.name,
+      avatarEmoji: token.avatarText || undefined,
+      avatarImg: token.avatarImg || undefined,
+      avatarBg: token.avatarBg || "#111",
+      chain: "SOL" as const,
+      price: `$${(parseFloat(token.marketCap.replace(/[$K]/g, "")) * 1000 / 1_000_000_000).toFixed(8)}`,
+      priceNum: parseFloat(token.marketCap.replace(/[$K]/g, "")) * 1000 / 1_000_000_000,
+      change24h: parseFloat(token.priceChange.replace("%", "")),
+      marketCap: token.marketCap,
+      liquidity: token.liquidity,
+      volume24h: token.volume,
+      totalSupply: "1B",
+      holders: parseInt(token.holdersCount || "100"),
+      bondingPercent: Math.round(Math.random() * 80 + 15),
+      contractAddress: token.contract,
+      poolCreated: new Date().toLocaleString(),
+      noMint: true,
+      noBlacklist: true,
+      burnt: false,
+      rugScore: parseFloat(token.rugScore || "0"),
+      top10Pct: parseFloat(token.top10Holding || "0"),
+      i5Score: Math.round(Math.random() * 40 + 50),
+      kolsHolding: Math.floor(Math.random() * 5),
+    };
+    window.dispatchEvent(new CustomEvent("i5-meme-trade", { detail: { token: memeToken } }));
   };
 
   // Render Sparkline SVG according to type
@@ -520,7 +566,12 @@ export default function MemeDiscoverView() {
           </thead>
           <tbody>
             {DISCOVER_TOKENS.map((token) => (
-              <tr key={token.id} className={styles.row}>
+              <tr
+                key={token.id}
+                className={styles.row}
+                style={{ cursor: "pointer" }}
+                onClick={() => handleRowClick(token)}
+              >
                 {/* 1. Pair Info Column */}
                 <td className={styles.td}>
                   <div className={styles.pairInfoWrapper}>
@@ -669,6 +720,18 @@ export default function MemeDiscoverView() {
 
       {/* Floating Toast */}
       {toastMessage && <div className={styles.toast}>{toastMessage}</div>}
+
+      {/* Trading Terminal Popup Modal */}
+      {tradingTerminalToken && (
+        <MemeTradingTerminal
+          initialToken={tradingTerminalToken}
+          initialPayAmount={tradingTerminalAmount}
+          onClose={() => {
+            setTradingTerminalToken(null);
+            setTradingTerminalAmount(undefined);
+          }}
+        />
+      )}
     </div>
   );
 }

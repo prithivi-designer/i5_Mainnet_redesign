@@ -1,0 +1,1461 @@
+/* ============================================================
+   MemeTradingView — GMGN / DexScreener Style Meme Trading Terminal
+   Design Tokens: Monochrome Neutral + Emerald Green (#2FCB73) & Red (#E13B3B)
+   ============================================================ */
+
+.page {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  background: var(--bg-app);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  overflow: hidden;
+}
+
+/* ════════════════════════════════════════════════════════════
+   1. TOP HEADER BAR
+════════════════════════════════════════════════════════════ */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 14px;
+  background: var(--bg-surface);
+  border-bottom: 1px solid var(--border-color-default);
+  flex-shrink: 0;
+  z-index: 10;
+  overflow-x: auto;
+}
+
+.headerLeft {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.backBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 9px;
+  background: var(--bg-surface-raised);
+  border: 1px solid var(--border-color-default);
+  border-radius: var(--radius-md);
+  color: var(--text-secondary);
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--duration-fast);
+}
+
+.backBtn:hover {
+  background: var(--bg-surface-overlay);
+  color: var(--text-primary);
+  border-color: var(--border-color-strong);
+}
+
+.tokenBrand {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.tokenAvatar {
+  position: relative;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--bg-surface-raised);
+  border: 1px solid var(--border-color-default);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  overflow: visible;
+  flex-shrink: 0;
+}
+
+.tokenAvatarImg {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.avatarChainBadge {
+  position: absolute;
+  bottom: -3px;
+  right: -3px;
+  font-size: 8px;
+  font-weight: 800;
+  font-family: var(--font-mono);
+  background: #14f195;
+  color: #000;
+  padding: 1px 3px;
+  border-radius: 4px;
+  line-height: 1;
+  border: 1px solid #000;
+}
+
+.tokenMeta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.tokenTitleRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.tokenName {
+  font-size: 13.5px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: var(--text-primary);
+  line-height: 1.2;
+}
+
+.tokenTicker {
+  font-size: 11px;
+  color: var(--text-tertiary);
+  font-family: var(--font-mono);
+  font-weight: 600;
+}
+
+.contractAddressBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: var(--bg-surface-raised);
+  border: 1px solid var(--border-color-default);
+  border-radius: var(--radius-sm);
+  padding: 2px 5px;
+  font-size: 9.5px;
+  font-family: var(--font-mono);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all var(--duration-fast);
+}
+
+.contractAddressBtn:hover {
+  background: var(--bg-surface-overlay);
+  color: var(--text-primary);
+}
+
+.iconActionBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  background: transparent;
+  border: none;
+  color: var(--text-tertiary);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all var(--duration-fast);
+}
+
+.iconActionBtn:hover {
+  color: var(--text-primary);
+  background: var(--bg-surface-raised);
+}
+
+.tokenSubLinks {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 9.5px;
+  color: var(--text-tertiary);
+}
+
+.ageBadge {
+  background: rgba(47, 203, 115, 0.12);
+  color: #2fcb73;
+  padding: 1px 4px;
+  border-radius: 3px;
+  font-weight: 700;
+  font-family: var(--font-mono);
+  font-size: 9px;
+}
+
+.subLink {
+  color: var(--text-tertiary);
+  text-decoration: none;
+  cursor: pointer;
+  transition: color var(--duration-fast);
+}
+
+.subLink:hover {
+  color: var(--text-primary);
+}
+
+.subLinkDot {
+  color: var(--text-disabled);
+  font-size: 8px;
+}
+
+/* Header Center Stats */
+.headerCenter {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.bigMcapGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.mcapLabel {
+  font-size: 8.5px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: var(--text-disabled);
+}
+
+.mcapValue {
+  font-size: 19px;
+  font-weight: 900;
+  font-family: var(--font-mono);
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+}
+
+.headerStatDivider {
+  width: 1px;
+  height: 26px;
+  background: var(--border-color-default);
+}
+
+.statItem {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.statLabel {
+  font-size: 8.5px;
+  font-weight: 600;
+  color: var(--text-disabled);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.statValueMono {
+  font-size: 11px;
+  font-weight: 700;
+  font-family: var(--font-mono);
+  color: var(--text-secondary);
+}
+
+/* Header Right Indicators */
+.headerRight {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 3px;
+  flex-shrink: 0;
+}
+
+.tfChipsRow {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.tfChip {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(47, 203, 115, 0.08);
+  border: 1px solid rgba(47, 203, 115, 0.2);
+  border-radius: var(--radius-sm);
+  padding: 2px 5px;
+}
+
+.tfChipLabel {
+  font-size: 9px;
+  color: var(--text-tertiary);
+  font-family: var(--font-mono);
+}
+
+.tfChipVal {
+  font-size: 9.5px;
+  font-weight: 800;
+  font-family: var(--font-mono);
+  color: #2fcb73;
+}
+
+.flowSummaryBar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 9.5px;
+  font-family: var(--font-mono);
+}
+
+.flowItem {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.flowLabel {
+  color: var(--text-disabled);
+}
+
+.flowVal {
+  color: var(--text-secondary);
+  font-weight: 600;
+}
+
+.flowValGreen {
+  color: #2fcb73;
+  font-weight: 700;
+}
+
+.flowValRed {
+  color: #e13b3b;
+  font-weight: 700;
+}
+
+/* ════════════════════════════════════════════════════════════
+   2. BODY LAYOUT
+════════════════════════════════════════════════════════════ */
+.body {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+@media (max-width: 1024px) {
+  .body {
+    grid-template-columns: 1fr 300px;
+  }
+}
+
+@media (max-width: 768px) {
+  .body {
+    grid-template-columns: 1fr;
+    overflow-y: auto;
+  }
+}
+
+/* ── LEFT COLUMN ── */
+.leftCol {
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid var(--border-color-default);
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* Chart Toolbar */
+.chartToolbar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 12px;
+  background: var(--bg-surface);
+  border-bottom: 1px solid var(--border-color-default);
+  flex-shrink: 0;
+  overflow-x: auto;
+}
+
+.chartTimeframes {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.chartTfBtn {
+  padding: 2px 7px;
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  font-weight: 600;
+  color: var(--text-tertiary);
+  cursor: pointer;
+  transition: all var(--duration-fast);
+}
+
+.chartTfBtn:hover {
+  color: var(--text-primary);
+}
+
+.chartTfBtnActive {
+  background: var(--bg-surface-overlay);
+  color: var(--text-primary);
+  border: 1px solid var(--border-color-default);
+}
+
+.toolbarDivider {
+  width: 1px;
+  height: 14px;
+  background: var(--border-color-default);
+  flex-shrink: 0;
+}
+
+.chartToggleGroup {
+  display: flex;
+  background: var(--bg-surface-raised);
+  border: 1px solid var(--border-color-default);
+  border-radius: var(--radius-sm);
+  padding: 1px;
+}
+
+.togglePill {
+  padding: 1px 7px;
+  background: transparent;
+  border: none;
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--text-tertiary);
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.togglePillActive {
+  background: var(--bg-surface-overlay);
+  color: var(--text-primary);
+}
+
+.ohlcBar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+}
+
+.ohlcItem {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.ohlcLabel {
+  color: var(--text-disabled);
+}
+
+.ohlcVal {
+  color: var(--text-secondary);
+}
+
+.ohlcValGreen {
+  color: #2fcb73;
+  font-weight: 700;
+}
+
+.ohlcValRed {
+  color: #e13b3b;
+  font-weight: 700;
+}
+
+.toolbarSpacer {
+  flex: 1;
+}
+
+.chartToolIcons {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.toolIconBtn {
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  color: var(--text-tertiary);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+}
+
+.toolIconBtn:hover {
+  color: var(--text-primary);
+  background: var(--bg-surface-raised);
+}
+
+/* Chart Area */
+.chartArea {
+  flex: 1;
+  min-height: 240px;
+  position: relative;
+  background: #070b09;
+  overflow: hidden;
+}
+
+.chartWatermark {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.chartWatermark span {
+  font-size: clamp(24px, 4vw, 54px);
+  font-weight: 900;
+  letter-spacing: 0.15em;
+  color: rgba(255, 255, 255, 0.02);
+  user-select: none;
+}
+
+/* ════════════════════════════════════════════════════════════
+   3. BOTTOM FEED & TRADES PANEL
+════════════════════════════════════════════════════════════ */
+.feedPanel {
+  flex-shrink: 0;
+  border-top: 1px solid var(--border-color-default);
+  background: var(--bg-surface);
+  display: flex;
+  flex-direction: column;
+  height: 260px;
+}
+
+.feedTabsHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border-color-default);
+  padding: 0 10px;
+  background: var(--bg-surface);
+  flex-shrink: 0;
+}
+
+.feedTabsList {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  overflow-x: auto;
+}
+
+.feedTabBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 7px 11px;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  color: var(--text-tertiary);
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all var(--duration-fast);
+}
+
+.feedTabBtn:hover {
+  color: var(--text-primary);
+}
+
+.feedTabBtnActive {
+  color: var(--text-primary);
+  border-bottom-color: #2fcb73;
+}
+
+.tabCountBadge {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: #2fcb73;
+  background: rgba(47, 203, 115, 0.12);
+  padding: 1px 4px;
+  border-radius: 3px;
+}
+
+.feedHeaderActions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.instantTradeBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  background: rgba(47, 203, 115, 0.12);
+  border: 1px solid rgba(47, 203, 115, 0.3);
+  border-radius: var(--radius-sm);
+  color: #2fcb73;
+  font-size: 10.5px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all var(--duration-fast);
+}
+
+.instantTradeBtn:hover {
+  background: rgba(47, 203, 115, 0.22);
+}
+
+.calloutBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  background: var(--bg-surface-raised);
+  border: 1px solid var(--border-color-default);
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+  font-size: 10.5px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.calloutBtn:hover {
+  background: var(--bg-surface-overlay);
+  color: var(--text-primary);
+}
+
+.filterPillsRow {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 5px 10px;
+  border-bottom: 1px solid var(--border-color-default);
+  overflow-x: auto;
+  background: var(--bg-surface);
+  flex-shrink: 0;
+}
+
+.filterPill {
+  padding: 2px 7px;
+  background: var(--bg-surface-raised);
+  border: 1px solid var(--border-color-default);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  color: var(--text-tertiary);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all var(--duration-fast);
+}
+
+.filterPill:hover {
+  color: var(--text-primary);
+}
+
+.filterPillActive {
+  background: var(--bg-surface-overlay);
+  color: #2fcb73;
+  border-color: rgba(47, 203, 115, 0.35);
+}
+
+.feedTableWrap {
+  flex: 1;
+  overflow-y: auto;
+  min-height: 0;
+}
+
+.feedTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 10.5px;
+  font-family: var(--font-mono);
+}
+
+.thCol {
+  text-align: left;
+  padding: 5px 10px;
+  font-size: 9px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-disabled);
+  border-bottom: 1px solid var(--border-color-default);
+  background: var(--bg-surface);
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+
+.feedTr {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+  transition: background var(--duration-fast);
+}
+
+.feedTr:hover {
+  background: var(--bg-surface-raised);
+}
+
+.feedTrFlash {
+  background: rgba(47, 203, 115, 0.08) !important;
+}
+
+.tdCol {
+  padding: 4px 10px;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+
+.tdAge {
+  color: var(--text-tertiary);
+  font-size: 9.5px;
+}
+
+.sideBuy {
+  color: #2fcb73;
+  font-weight: 800;
+}
+
+.sideSell {
+  color: #e13b3b;
+  font-weight: 800;
+}
+
+.tdMono {
+  font-weight: 600;
+}
+
+.amountBuy {
+  color: #2fcb73;
+  font-weight: 700;
+}
+
+.amountSell {
+  color: #e13b3b;
+  font-weight: 700;
+}
+
+.tdGas {
+  color: var(--text-disabled);
+  font-size: 9.5px;
+}
+
+.traderLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--text-secondary);
+}
+
+.inlineCopyBtn {
+  background: transparent;
+  border: none;
+  color: var(--text-disabled);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  padding: 1px;
+}
+
+.inlineCopyBtn:hover {
+  color: var(--text-primary);
+}
+
+.devTradeBadge {
+  background: #f59e0b;
+  color: #000;
+  padding: 1px 4px;
+  border-radius: 3px;
+  font-size: 8.5px;
+  font-weight: 800;
+}
+
+.tagBadge {
+  background: var(--bg-surface-raised);
+  border: 1px solid var(--border-color-default);
+  border-radius: 3px;
+  padding: 1px 4px;
+  font-size: 8.5px;
+  color: var(--text-tertiary);
+}
+
+.tagEmpty {
+  color: var(--text-disabled);
+}
+
+/* ════════════════════════════════════════════════════════════
+   4. RIGHT COLUMN: TRADING TERMINAL & AUDIT
+════════════════════════════════════════════════════════════ */
+.rightCol {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 10px;
+  background: var(--bg-surface);
+  overflow-y: auto;
+  min-height: 0;
+}
+
+/* Connection status bar */
+.connectionStatusBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 6px;
+  background: var(--bg-surface-raised);
+  border: 1px solid var(--border-color-default);
+  border-radius: var(--radius-md);
+  font-size: 10px;
+}
+
+.connectionNode {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--text-secondary);
+  font-weight: 600;
+}
+
+.greenDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #2fcb73;
+  box-shadow: 0 0 5px #2fcb73;
+}
+
+.pingTime {
+  color: var(--text-disabled);
+  font-family: var(--font-mono);
+  font-size: 9px;
+}
+
+.presetGroup {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.presetBtn {
+  padding: 2px 5px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color-default);
+  border-radius: var(--radius-sm);
+  color: var(--text-tertiary);
+  font-size: 9.5px;
+  font-weight: 700;
+  font-family: var(--font-mono);
+  cursor: pointer;
+}
+
+.presetBtnActive {
+  background: var(--bg-surface-overlay);
+  color: #2fcb73;
+  border-color: rgba(47, 203, 115, 0.4);
+}
+
+.walletPicker {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color-default);
+  border-radius: var(--radius-sm);
+  padding: 2px 5px;
+  font-size: 9.5px;
+  color: var(--text-secondary);
+}
+
+.walletBal {
+  color: var(--text-tertiary);
+  font-family: var(--font-mono);
+}
+
+.settingsIconBtn {
+  background: transparent;
+  border: none;
+  color: var(--text-tertiary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+/* Action Switcher */
+.actionTabGroup {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  background: var(--bg-surface-raised);
+  border: 1px solid var(--border-color-default);
+  border-radius: var(--radius-md);
+  padding: 2px;
+}
+
+.actionTab {
+  padding: 6px 0;
+  background: transparent;
+  border: none;
+  font-size: 11.5px;
+  font-weight: 800;
+  color: var(--text-tertiary);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all var(--duration-fast);
+}
+
+.actionTabBuyActive {
+  background: #2fcb73;
+  color: #000;
+  box-shadow: 0 0 10px rgba(47, 203, 115, 0.3);
+}
+
+.actionTabSellActive {
+  background: #e13b3b;
+  color: #fff;
+  box-shadow: 0 0 10px rgba(225, 59, 59, 0.3);
+}
+
+.actionTabAutoActive {
+  background: var(--bg-surface-overlay);
+  color: var(--text-primary);
+}
+
+/* Order sub-tabs */
+.orderTypeTabs {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  border-bottom: 1px solid var(--border-color-default);
+  padding-bottom: 4px;
+}
+
+.orderTypeBtn {
+  padding: 3px 8px;
+  background: transparent;
+  border: none;
+  font-size: 10.5px;
+  font-weight: 600;
+  color: var(--text-tertiary);
+  cursor: pointer;
+}
+
+.orderTypeBtnActive {
+  color: var(--text-primary);
+  font-weight: 700;
+  border-bottom: 2px solid var(--text-primary);
+}
+
+.orderTypeBalance {
+  margin-left: auto;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-disabled);
+}
+
+/* Order Card */
+.orderCard {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background: var(--bg-surface-raised);
+  border: 1px solid var(--border-color-default);
+  border-radius: var(--radius-lg);
+  padding: 10px;
+}
+
+.amountInputWrap {
+  background: var(--bg-app);
+  border: 1px solid var(--border-color-default);
+  border-radius: var(--radius-md);
+  padding: 6px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.amountLabelRow {
+  display: flex;
+  justify-content: space-between;
+  font-size: 9.5px;
+  color: var(--text-tertiary);
+}
+
+.amountInputMain {
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: 16px;
+  font-weight: 800;
+  font-family: var(--font-mono);
+  color: var(--text-primary);
+  width: 100%;
+}
+
+.quickAmountPills {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 4px;
+}
+
+.quickPillBtn {
+  padding: 4px 0;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color-default);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all var(--duration-fast);
+}
+
+.quickPillBtn:hover {
+  background: var(--bg-surface-overlay);
+  color: var(--text-primary);
+}
+
+.quickPillBtnActive {
+  background: var(--bg-surface-overlay);
+  border-color: #2fcb73;
+  color: #2fcb73;
+}
+
+.ratioNotice {
+  font-size: 10px;
+  font-family: var(--font-mono);
+  color: var(--text-disabled);
+  text-align: right;
+}
+
+.checkboxLabel {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10.5px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  user-select: none;
+}
+
+.customCheckbox {
+  accent-color: #2fcb73;
+}
+
+.executeBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px;
+  border-radius: var(--radius-md);
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+  border: none;
+  transition: all var(--duration-fast);
+}
+
+.executeBtnBuy {
+  background: #2fcb73;
+  color: #000;
+  box-shadow: 0 0 16px rgba(47, 203, 115, 0.4);
+}
+
+.executeBtnBuy:hover {
+  background: #39e083;
+}
+
+.executeBtnSell {
+  background: #e13b3b;
+  color: #fff;
+  box-shadow: 0 0 16px rgba(225, 59, 59, 0.4);
+}
+
+.executeBtnSell:hover {
+  background: #ef4444;
+}
+
+.bottomSettingsBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 9.5px;
+  font-family: var(--font-mono);
+  color: var(--text-tertiary);
+  padding-top: 4px;
+}
+
+.settingTag {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color-default);
+  padding: 2px 4px;
+  border-radius: 3px;
+}
+
+.settingTagRed {
+  color: #e13b3b;
+}
+
+/* ════════════════════════════════════════════════════════════
+   5. COMMUNITY CALLOUT THESIS BOX
+════════════════════════════════════════════════════════════ */
+.thesisCard {
+  background: var(--bg-surface-raised);
+  border: 1px solid var(--border-color-default);
+  border-radius: var(--radius-lg);
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.thesisHeader {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.thesisUserAvatar {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--bg-surface-overlay);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+}
+
+.thesisUserName {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.thesisTextarea {
+  background: var(--bg-app);
+  border: 1px solid var(--border-color-default);
+  border-radius: var(--radius-md);
+  padding: 6px 8px;
+  font-family: var(--font-sans);
+  font-size: 11px;
+  color: var(--text-primary);
+  outline: none;
+  resize: none;
+  width: 100%;
+}
+
+.thesisTextarea::placeholder {
+  color: var(--text-disabled);
+}
+
+.thesisFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.charCount {
+  font-size: 9.5px;
+  font-family: var(--font-mono);
+  color: var(--text-disabled);
+}
+
+.postThesisBtn {
+  padding: 3px 10px;
+  background: var(--bg-surface-overlay);
+  border: 1px solid var(--border-color-default);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  font-size: 10.5px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.postThesisBtn:hover {
+  background: #2fcb73;
+  color: #000;
+}
+
+.thesisUpdatesList {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.thesisItem {
+  background: var(--bg-app);
+  border: 1px solid var(--border-color-default);
+  border-radius: var(--radius-sm);
+  padding: 6px;
+}
+
+.thesisItemText {
+  font-size: 10.5px;
+  color: var(--text-secondary);
+  margin: 0;
+  line-height: 1.3;
+}
+
+.thesisItemTime {
+  font-size: 9px;
+  color: var(--text-disabled);
+  display: block;
+  margin-top: 3px;
+}
+
+/* ════════════════════════════════════════════════════════════
+   6. 4x3 SECURITY GRID
+════════════════════════════════════════════════════════════ */
+.securityGridCard {
+  background: var(--bg-surface-raised);
+  border: 1px solid var(--border-color-default);
+  border-radius: var(--radius-lg);
+  padding: 10px;
+}
+
+.securityGridTitle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+}
+
+.metricGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 4px;
+}
+
+.metricCell {
+  background: var(--bg-app);
+  border: 1px solid var(--border-color-default);
+  border-radius: var(--radius-sm);
+  padding: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  text-align: center;
+}
+
+.metricCellLabel {
+  font-size: 8px;
+  color: var(--text-disabled);
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.metricCellValGreen {
+  font-size: 10px;
+  font-weight: 800;
+  font-family: var(--font-mono);
+  color: #2fcb73;
+}
+
+.metricCellValRed {
+  font-size: 10px;
+  font-weight: 800;
+  font-family: var(--font-mono);
+  color: #e13b3b;
+}
+
+.metricCellValMono {
+  font-size: 10px;
+  font-weight: 700;
+  font-family: var(--font-mono);
+  color: var(--text-secondary);
+}
+
+.metricCellValMuted {
+  font-size: 9.5px;
+  color: var(--text-tertiary);
+}
+
+/* ════════════════════════════════════════════════════════════
+   7. WARNING BANNER & ACCORDIONS
+════════════════════════════════════════════════════════════ */
+.warningBanner {
+  display: flex;
+  align-items: flex-start;
+  gap: 7px;
+  background: rgba(245, 158, 11, 0.08);
+  border: 1px solid rgba(245, 158, 11, 0.25);
+  border-radius: var(--radius-md);
+  padding: 8px;
+}
+
+.warningIcon {
+  color: #f59e0b;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.warningText {
+  font-size: 9.5px;
+  color: #fcd34d;
+  line-height: 1.3;
+}
+
+.accordionCard {
+  background: var(--bg-surface-raised);
+  border: 1px solid var(--border-color-default);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.accordionHeader {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 7px 10px;
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  text-align: left;
+}
+
+.accordionHeader:hover {
+  background: var(--bg-surface-overlay);
+  color: var(--text-primary);
+}
+
+.accordionHeaderLeft {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.scanBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  background: rgba(47, 203, 115, 0.12);
+  color: #2fcb73;
+  font-size: 9px;
+  font-weight: 800;
+  padding: 1px 4px;
+  border-radius: 3px;
+}
+
+.auditGoPlusBadge {
+  background: #10b981;
+  color: #000;
+  font-size: 8.5px;
+  font-weight: 900;
+  padding: 1px 4px;
+  border-radius: 3px;
+}
+
+.accordionBody {
+  padding: 8px 10px;
+  border-top: 1px solid var(--border-color-default);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  background: var(--bg-app);
+}
+
+.dataRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 10.5px;
+}
+
+.dataKey {
+  color: var(--text-tertiary);
+}
+
+.dataVal {
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+  font-weight: 600;
+}
+
+.dataValGreen {
+  color: #2fcb73;
+  font-family: var(--font-mono);
+  font-weight: 700;
+}
+
+.gainGreen {
+  color: #2fcb73;
+  font-size: 9.5px;
+}
+
+.dataValGroup {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.dataValAddress {
+  font-family: var(--font-mono);
+  color: var(--text-secondary);
+}
+
+.dataValMuted {
+  font-family: var(--font-mono);
+  color: var(--text-disabled);
+  font-size: 9.5px;
+}
+
+.bondingProgressBar {
+  width: 100%;
+  height: 4px;
+  background: var(--bg-surface-raised);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.bondingProgressFill {
+  height: 100%;
+  background: #2fcb73;
+  border-radius: 2px;
+}
+
+.emptyAccordionText {
+  font-size: 10px;
+  color: var(--text-disabled);
+  margin: 0;
+  text-align: center;
+  padding: 4px 0;
+}
+
+/* Floating Toast */
+.floatingToast {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background: #161616;
+  border: 1px solid #2fcb73;
+  color: var(--text-primary);
+  padding: 8px 14px;
+  border-radius: var(--radius-md);
+  font-size: 12px;
+  font-weight: 600;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
+  z-index: 9999;
+  animation: slideToast 0.2s ease-out;
+}
+
+@keyframes slideToast {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

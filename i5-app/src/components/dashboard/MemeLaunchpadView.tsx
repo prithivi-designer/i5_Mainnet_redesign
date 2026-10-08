@@ -1452,16 +1452,11 @@ export default function MemeLaunchpadView() {
     setActiveSnipe((prev) => ({ ...prev, [tokenId]: amount }));
   };
 
-  const handleBuy = (token: LaunchpadToken) => {
-    const amt = activeSnipe[token.id] || (token.chain === "SOL" ? "0.5" : "0.1");
-    openTerminalForToken(token, amt);
-  };
-
-  const openTerminalForToken = (tokenObj: any, customAmount?: string) => {
+  const openQuickBuyModal = (tokenObj: any, customAmount?: string) => {
     if (!tokenObj) return;
-    if (customAmount) {
-      setTradingTerminalAmount(customAmount);
-    }
+    const amt = customAmount || activeSnipe[tokenObj.id] || (tokenObj.chain === "SOL" ? "0.5" : "0.1");
+    setTradingTerminalAmount(amt);
+
     const cleanTicker = (tokenObj.ticker || "").replace("$", "").toLowerCase();
     const existing = tokens.find(
       (t) => t.id === tokenObj.id || t.ticker.replace("$", "").toLowerCase() === cleanTicker
@@ -1499,7 +1494,7 @@ export default function MemeLaunchpadView() {
       i5Score: tokenObj.i5Score || 94,
       badge: "HIGH KOL BAG",
       status: "trending",
-      description: tokenObj.description || `${tokenObj.name || tokenObj.ticker} live trading terminal with real-time on-chain order flow and charts.`,
+      description: tokenObj.description || `${tokenObj.name || tokenObj.ticker} live trading terminal.`,
       bubbleSize: 45,
       bubbleX: 50,
       bubbleY: 50,
@@ -1514,6 +1509,51 @@ export default function MemeLaunchpadView() {
 
     setTradingTerminalToken(syntheticToken);
   };
+
+  const handleBuy = (token: LaunchpadToken) => {
+    const amt = activeSnipe[token.id] || (token.chain === "SOL" ? "0.5" : "0.1");
+    openQuickBuyModal(token, amt);
+  };
+
+  const navigateToTradingTerminal = (tokenObj: any) => {
+    if (!tokenObj) return;
+    const cleanTicker = (tokenObj.ticker || "").replace("$", "").toLowerCase();
+    const existing = tokens.find(
+      (t) => t.id === tokenObj.id || t.ticker.replace("$", "").toLowerCase() === cleanTicker
+    ) || tokenObj;
+
+    const memePayload = {
+      id: existing.id || "token-terminal",
+      name: existing.name || existing.ticker || "Meme Token",
+      ticker: existing.ticker?.startsWith("$") ? existing.ticker : `$${existing.ticker || "TOKEN"}`,
+      avatarEmoji: existing.avatarEmoji || existing.avatar || "💎",
+      avatarImg: existing.avatarImg,
+      chain: (existing.chain as "BNB" | "SOL" | "ETH") || (kolChainSelected === "SOL" ? "SOL" : "BNB"),
+      price: existing.price || "$0.00582",
+      priceNum: typeof existing.priceNum === "number" ? existing.priceNum : parseFloat(String(existing.price || "0.00582").replace(/[^0-9.]/g, "")) || 0.00582,
+      change24h: typeof existing.change24h === "number" ? existing.change24h : parseFloat(String(existing.change24h || "142.5").replace(/[^0-9.-]/g, "")) || 142.5,
+      marketCap: existing.marketCap || "$5.82M",
+      volume24h: existing.volume24h || "$2.4M",
+      liquidity: existing.liquidity || "$740K",
+      totalSupply: existing.totalSupply || "1B",
+      holders: existing.holders || 3840,
+      bondingPercent: existing.bondingPercent || 88,
+      contractAddress: (existing as any).contractAddress || (existing as any).contract || `${existing.id}...pump`,
+      devHandle: existing.devHandle || "@alpha_creator",
+      noMint: true,
+      noBlacklist: true,
+      burnt: false,
+      rugScore: 0,
+      top10Pct: parseFloat(String(existing.topTenPct || existing.top10Pct || "18.4").replace("%", "")),
+      i5Score: existing.i5Score || 94,
+      kolsHolding: existing.kolsHolding || 6,
+    };
+
+    window.dispatchEvent(new CustomEvent("i5-meme-trade", { detail: { token: memePayload } }));
+  };
+
+  // Alias for backward compatibility across sub-components
+  const openTerminalForToken = navigateToTradingTerminal;
 
   const openKolProfile = (kolOrTrade: any) => {
     if (!kolOrTrade) return;
@@ -2454,7 +2494,7 @@ export default function MemeLaunchpadView() {
                           onMouseEnter={() => setHoveredToken(token)}
                           onMouseLeave={() => setHoveredToken(null)}
                           onClick={() => setSelectedBubbleToken(token)}
-                          onDoubleClick={() => setTradingTerminalToken(token)}
+                          onDoubleClick={() => openTerminalForToken(token)}
                         >
                           {/* Main 3D Glossy Sphere (Identical to Crypto Bubble Map) */}
                           <div
@@ -2651,7 +2691,7 @@ export default function MemeLaunchpadView() {
 
                         <button
                           className={styles.sidePopupTerminalBtn}
-                          onClick={() => setTradingTerminalToken(selectedBubbleToken)}
+                          onClick={() => openTerminalForToken(selectedBubbleToken)}
                         >
                           <ExternalLink size={13} />
                           Open Trading Terminal
@@ -2762,13 +2802,21 @@ export default function MemeLaunchpadView() {
                           const isGain = token.change24h >= 0;
 
                           return (
-                            <tr key={token.id} className={styles.matrixTr}>
+                            <tr
+                              key={token.id}
+                              className={styles.matrixTr}
+                              onClick={() => openTerminalForToken(token)}
+                              style={{ cursor: "pointer" }}
+                            >
                               {/* ASSET CELL */}
                               <td className={styles.matrixTd}>
                                 <div className={styles.assetCellWrap}>
                                   <button
                                     className={styles.assetStarBtn}
-                                    onClick={() => toggleFavorite(token.id)}
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      toggleFavorite(token.id);
+                                    }}
                                   >
                                     <Star
                                       size={13}
@@ -2866,7 +2914,10 @@ export default function MemeLaunchpadView() {
                                       <button
                                         key={amt}
                                         className={`${styles.matrixSnipeBtn} ${snipeAmt === amt ? styles.matrixSnipeBtnActive : ""}`}
-                                        onClick={() => handleSnipe(token.id, amt)}
+                                        onClick={(e) => {
+                                          e.stopPropagation();
+                                          handleSnipe(token.id, amt);
+                                        }}
                                       >
                                         {amt}
                                       </button>
@@ -2874,14 +2925,20 @@ export default function MemeLaunchpadView() {
                                   </div>
                                   <button
                                     className={styles.matrixBuyBtn}
-                                    onClick={() => handleBuy(token)}
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      handleBuy(token);
+                                    }}
                                   >
                                     <ShoppingCart size={11} />
                                     Buy {snipeAmt} {token.chain === "SOL" ? "SOL" : "BNB"}
                                   </button>
                                   <button
                                     className={styles.matrixChartBtn}
-                                    onClick={() => setTradingTerminalToken(token)}
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      openTerminalForToken(token);
+                                    }}
                                   >
                                     <BarChart2 size={12} />
                                   </button>
@@ -2903,7 +2960,7 @@ export default function MemeLaunchpadView() {
             {view === "grid" && (
               <div className={styles.cardGrid}>
                 {filtered.map((token) => (
-                  <div key={token.id} className={styles.gridCard} onClick={() => setTradingTerminalToken(token)}>
+                  <div key={token.id} className={styles.gridCard} onClick={() => openTerminalForToken(token)}>
                     {/* Top Header Row */}
                     <div className={styles.gridCardTop}>
                       <div className={styles.gridCardIdentity}>

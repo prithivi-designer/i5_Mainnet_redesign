@@ -8,6 +8,7 @@ import MobileBottomNav from "./MobileBottomNav";
 import styles from "./AppShell.module.css";
 import AlphaTradeView from "@/components/dashboard/AlphaTradeView";
 import dynamic from "next/dynamic";
+import type { MemeToken } from "@/views/MemeTradingView";
 
 interface AppShellProps {
   children: React.ReactNode;
@@ -22,14 +23,19 @@ const CreateAlertsView = dynamic(() => import("@/views/CreateAlertsView"), { ssr
 const CommunityView = dynamic(() => import("@/views/CommunityView"), { ssr: false });
 const LeaderboardView = dynamic(() => import("@/views/LeaderboardView"), { ssr: false });
 const SubscriptionView = dynamic(() => import("@/views/SubscriptionView"), { ssr: false });
+const MemeTradingView = dynamic(() => import("@/views/MemeTradingView"), { ssr: false });
 
 /* ── Page router ────────────────────────────────────────── */
 function PageRouter({
   activeId,
   dashboardChildren,
+  memeToken,
+  onMemeBack,
 }: {
   activeId: string;
   dashboardChildren: React.ReactNode;
+  memeToken: MemeToken | null;
+  onMemeBack: () => void;
 }) {
   switch (activeId) {
     case "dashboard":
@@ -52,6 +58,8 @@ function PageRouter({
       return <LeaderboardView />;
     case "subscription":
       return <SubscriptionView />;
+    case "meme-trade":
+      return memeToken ? <MemeTradingView token={memeToken} onBack={onMemeBack} /> : <>{dashboardChildren}</>;
     default:
       return <>{dashboardChildren}</>;
   }
@@ -62,6 +70,8 @@ export default function AppShell({ children }: AppShellProps) {
   const [activeId, setActiveId] = useState<string>("dashboard");
   const [collapsed, setCollapsed] = useState<boolean>(false);
   const [isMobileDrawerOpen, setIsMobileDrawerOpen] = useState<boolean>(false);
+  const [activeMemeToken, setActiveMemeToken] = useState<MemeToken | null>(null);
+  const [prevActiveId, setPrevActiveId] = useState<string>("dashboard");
 
   // Responsive state
   const [isMobile, setIsMobile] = useState<boolean>(false);
@@ -90,6 +100,21 @@ export default function AppShell({ children }: AppShellProps) {
     window.addEventListener("i5-navigate", handleNavigate as EventListener);
     return () => window.removeEventListener("i5-navigate", handleNavigate as EventListener);
   }, []);
+
+  // Listen for meme token card clicks → navigate to full meme trading page
+  useEffect(() => {
+    const handleMemeTrade = (e: Event) => {
+      const evt = e as CustomEvent<{ token: MemeToken }>;
+      if (evt.detail?.token) {
+        setPrevActiveId(activeId);
+        setActiveMemeToken(evt.detail.token);
+        setActiveId("meme-trade");
+        setIsMobileDrawerOpen(false);
+      }
+    };
+    window.addEventListener("i5-meme-trade", handleMemeTrade as EventListener);
+    return () => window.removeEventListener("i5-meme-trade", handleMemeTrade as EventListener);
+  }, [activeId]);
 
   // Close mobile drawer when navigating
   const handleSelect = (id: string) => {
@@ -166,7 +191,15 @@ export default function AppShell({ children }: AppShellProps) {
           {isDashboard && (isMobile || isTablet) && (
             <DashboardSubSidebar mobileBottomSheet />
           )}
-          <PageRouter activeId={activeId} dashboardChildren={children} />
+          <PageRouter
+            activeId={activeId}
+            dashboardChildren={children}
+            memeToken={activeMemeToken}
+            onMemeBack={() => {
+              setActiveId(prevActiveId);
+              setActiveMemeToken(null);
+            }}
+          />
         </main>
       </div>
 
