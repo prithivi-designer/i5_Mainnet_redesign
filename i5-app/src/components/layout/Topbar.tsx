@@ -3,12 +3,11 @@
 import React, { useState, useEffect } from "react";
 import styles from "./Topbar.module.css";
 
-/* Search Icon */
-function IconSearch() {
+/* Plus Icon */
+function IconPlus() {
   return (
-    <svg width={15} height={15} viewBox="0 0 16 16" fill="none" aria-hidden>
-      <circle cx="7" cy="7" r="4.5" stroke="currentColor" strokeWidth="1.4" />
-      <path d="M10.5 10.5l3 3" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+    <svg width={13} height={13} viewBox="0 0 16 16" fill="none" aria-hidden>
+      <path d="M8 3v10M3 8h10" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
     </svg>
   );
 }
@@ -77,9 +76,9 @@ interface TopbarProps {
 export default function Topbar({ onOpenAccount, onMenuToggle, showMenuBtn }: TopbarProps) {
   const [isConnected, setIsConnected] = useState<boolean>(false);
   const [walletAddress] = useState<string>("0x8f2A1346...c41B");
-  const [searchValue, setSearchValue] = useState<string>("");
   const [theme, setTheme] = useState<"dark" | "light">("dark");
   const [isAccountOpen, setIsAccountOpen] = useState<boolean>(false);
+  const [accountInitialTab, setAccountInitialTab] = useState<"portfolio" | "wallet" | "profile" | "exchanges">("portfolio");
 
   // Load theme from localStorage on mount
   useEffect(() => {
@@ -104,7 +103,8 @@ export default function Topbar({ onOpenAccount, onMenuToggle, showMenuBtn }: Top
     }
   };
 
-  const handleOpenAccount = () => {
+  const handleOpenAccount = (tab: "portfolio" | "wallet" | "profile" | "exchanges" = "portfolio") => {
+    setAccountInitialTab(tab);
     if (onOpenAccount) {
       onOpenAccount();
     } else {
@@ -138,18 +138,55 @@ export default function Topbar({ onOpenAccount, onMenuToggle, showMenuBtn }: Top
           </div>
         </div>
 
-        {/* Right: Search, Bell, Sun, Wallet Connect, Avatar */}
+        {/* Right: Portfolio, Trade Cash, Bell, Sun, Wallet Connect, Avatar */}
         <div className={styles.right}>
-          {/* Search Bar — hidden on mobile */}
-          <div className={`${styles.searchBar} ${styles.searchBarResponsive}`}>
-            <IconSearch />
-            <input
-              type="text"
-              className={styles.searchInput}
-              placeholder="Search stocks, sectors or themes"
-              value={searchValue}
-              onChange={(e) => setSearchValue(e.target.value)}
-            />
+          {/* Portfolio & Trade Cash Navbar Widgets */}
+          <div className={styles.navStatsGroup}>
+            {/* Stack 1: Portfolio Card */}
+            <div
+              className={styles.navStatCard}
+              onClick={() => handleOpenAccount("portfolio")}
+              title="Open Portfolio ($4.58)"
+              role="button"
+              tabIndex={0}
+            >
+              <div className={styles.navStatHeader}>
+                <span className={styles.navStatLabel}>Portfolio</span>
+                <div className={styles.navPnlRow}>
+                  <span className={styles.navChangeRed}>-$0.23</span>
+                  <span className={styles.navChangeLabel}>24h</span>
+                </div>
+              </div>
+              <div className={styles.navStatBigVal}>$4.58</div>
+            </div>
+
+            {/* Stack 2: Trade Cash Card with Plus Button */}
+            <div
+              className={styles.navStatCard}
+              onClick={() => handleOpenAccount("portfolio")}
+              title="Trade Cash ($0.33)"
+              role="button"
+              tabIndex={0}
+            >
+              <div className={styles.navCashRow}>
+                <div className={styles.navCashMeta}>
+                  <span className={styles.navStatLabel}>Trade cash</span>
+                  <span className={styles.navCashBigVal}>$0.33</span>
+                </div>
+                <button
+                  type="button"
+                  className={styles.navPlusBtn}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleOpenAccount("portfolio");
+                  }}
+                  title="Add trade cash"
+                  aria-label="Add trade cash"
+                >
+                  <IconPlus />
+                </button>
+              </div>
+            </div>
           </div>
 
           {/* Notification Bell */}
@@ -178,7 +215,7 @@ export default function Topbar({ onOpenAccount, onMenuToggle, showMenuBtn }: Top
           ) : (
             <button
               className={styles.connectedPill}
-              onClick={handleOpenAccount}
+              onClick={() => handleOpenAccount("portfolio")}
               title="Open Account & Settings"
             >
               <div className={styles.walletAvatar}><span>I5</span></div>
@@ -189,7 +226,15 @@ export default function Topbar({ onOpenAccount, onMenuToggle, showMenuBtn }: Top
       </header>
 
       {/* Account Profile Popup Modal */}
-      <AccountModal isOpen={isAccountOpen} onClose={() => setIsAccountOpen(false)} />
+      <AccountModal
+        isOpen={isAccountOpen}
+        onClose={() => setIsAccountOpen(false)}
+        initialTab={accountInitialTab}
+        onSignOut={() => {
+          setIsConnected(false);
+          setIsAccountOpen(false);
+        }}
+      />
     </>
   );
 }

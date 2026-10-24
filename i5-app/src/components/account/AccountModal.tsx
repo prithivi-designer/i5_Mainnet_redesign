@@ -12,10 +12,8 @@ import {
   Pencil,
   Check,
   Link as LinkIcon,
-  Layers,
   RotateCw,
   Gift,
-  Shield,
   Sliders,
   Sparkles,
   Eye,
@@ -35,6 +33,12 @@ import {
   List,
   Activity,
   TrendingUp,
+  Mail,
+  Send,
+  LogOut,
+  Trash2,
+  AlertTriangle,
+  Unlink,
 } from "lucide-react";
 import styles from "./AccountModal.module.css";
 import { IconHyperliquid, IconAster } from "../dashboard/QuickTradeModal";
@@ -975,14 +979,34 @@ const SAMPLE_WALLET_ACTIVITIES: WalletActivityItem[] = [
   },
 ];
 
+export interface MailAccount {
+  id: string;
+  email: string;
+  label: string;
+  isPrimary: boolean;
+  isVerified: boolean;
+  addedAt: string;
+}
+
 interface AccountModalProps {
   isOpen: boolean;
   onClose: () => void;
+  onSignOut?: () => void;
+  initialTab?: "portfolio" | "wallet" | "profile" | "exchanges";
 }
 
-export default function AccountModal({ isOpen, onClose }: AccountModalProps) {
-  // Navigation State — Default to Profile Menu
-  const [activeTab, setActiveTab] = useState<"profile" | "wallet" | "userInfo" | "exchanges">("profile");
+export default function AccountModal({ isOpen, onClose, onSignOut, initialTab }: AccountModalProps) {
+  // Navigation State — Default to initialTab or Portfolio (Formerly Profile)
+  const [activeTab, setActiveTab] = useState<"portfolio" | "wallet" | "profile" | "exchanges">(
+    initialTab || "portfolio"
+  );
+
+  useEffect(() => {
+    if (initialTab && isOpen) {
+      setActiveTab(initialTab);
+    }
+  }, [initialTab, isOpen]);
+
   const [profileSectionTab, setProfileSectionTab] = useState<"portfolio" | "positions" | "activity">("portfolio");
   const [selectedExchangeFilter, setSelectedExchangeFilter] = useState<string>("all");
   const [isExchangeAccordionOpen, setIsExchangeAccordionOpen] = useState<boolean>(true);
@@ -1060,14 +1084,29 @@ export default function AccountModal({ isOpen, onClose }: AccountModalProps) {
   const [editNameInput, setEditNameInput] = useState<string>("web3noob3");
   const [editHandleInput, setEditHandleInput] = useState<string>("@web3noob3");
 
-  // User Info States
-  const [email, setEmail] = useState<string>("");
+  // Profile (User Info) States & Integrations
   const [walletAddress] = useState<string>("0x8f2A134659b3dc");
-  const [telegram, setTelegram] = useState<string>("");
-  const [isEditingTelegram, setIsEditingTelegram] = useState<boolean>(false);
-  const [telegramDraft, setTelegramDraft] = useState<string>("");
-  const [discordConnected, setDiscordConnected] = useState<boolean>(false);
-  const [xConnected, setXConnected] = useState<boolean>(false);
+  const [mailAccounts, setMailAccounts] = useState<MailAccount[]>([
+    {
+      id: "mail-1",
+      email: "prithivi.raj@appstarsapplications.in",
+      label: "Primary Google Workspace",
+      isPrimary: true,
+      isVerified: true,
+      addedAt: "Oct 2024",
+    },
+  ]);
+  const [isAddEmailOpen, setIsAddEmailOpen] = useState<boolean>(false);
+  const [newEmailInput, setNewEmailInput] = useState<string>("");
+  const [newEmailLabelInput, setNewEmailLabelInput] = useState<string>("");
+
+  const [isTelegramLinked, setIsTelegramLinked] = useState<boolean>(true);
+  const [telegramHandle, setTelegramHandle] = useState<string>("@prithivi_trader");
+  const [isTelegramLinkModalOpen, setIsTelegramLinkModalOpen] = useState<boolean>(false);
+  const [telegramInput, setTelegramInput] = useState<string>("");
+
+  const [isDeleteAccountModalOpen, setIsDeleteAccountModalOpen] = useState<boolean>(false);
+  const [deleteConfirmationInput, setDeleteConfirmationInput] = useState<string>("");
 
   // Connected Exchange Accounts
   const [accounts, setAccounts] = useState<ConnectedAccount[]>([]);
@@ -1093,11 +1132,89 @@ export default function AccountModal({ isOpen, onClose }: AccountModalProps) {
     }, 2400);
   };
 
+  // Sign out handler
+  const handleSignOut = () => {
+    showToast("Signed out successfully");
+    if (onSignOut) {
+      onSignOut();
+    } else {
+      onClose();
+    }
+  };
+
+  // Account deletion handler
+  const handleDeleteAccount = () => {
+    if (deleteConfirmationInput.trim().toUpperCase() !== "DELETE") {
+      showToast("Please type DELETE to confirm");
+      return;
+    }
+    showToast("Account deleted successfully");
+    setIsDeleteAccountModalOpen(false);
+    if (onSignOut) {
+      onSignOut();
+    } else {
+      onClose();
+    }
+  };
+
+  // Telegram handlers
+  const handleUnlinkTelegram = () => {
+    setIsTelegramLinked(false);
+    showToast("Telegram channel unlinked");
+  };
+
+  const handleLinkTelegram = () => {
+    const trimmed = telegramInput.trim();
+    if (!trimmed) {
+      showToast("Please enter your Telegram handle");
+      return;
+    }
+    const formatted = trimmed.startsWith("@") ? trimmed : `@${trimmed}`;
+    setTelegramHandle(formatted);
+    setIsTelegramLinked(true);
+    setIsTelegramLinkModalOpen(false);
+    setTelegramInput("");
+    showToast(`Linked Telegram ${formatted}`);
+  };
+
+  // Email handlers
+  const handleAddEmail = () => {
+    const emailTrimmed = newEmailInput.trim();
+    if (!emailTrimmed || !emailTrimmed.includes("@")) {
+      showToast("Please enter a valid email address");
+      return;
+    }
+    const newMail: MailAccount = {
+      id: `mail-${Date.now()}`,
+      email: emailTrimmed,
+      label: newEmailLabelInput.trim() || "Secondary Mail",
+      isPrimary: false,
+      isVerified: true,
+      addedAt: "Just now",
+    };
+    setMailAccounts((prev) => [...prev, newMail]);
+    setIsAddEmailOpen(false);
+    setNewEmailInput("");
+    setNewEmailLabelInput("");
+    showToast(`Added ${emailTrimmed}`);
+  };
+
+  const handleRemoveEmail = (id: string, emailAddr: string) => {
+    setMailAccounts((prev) => prev.filter((m) => m.id !== id));
+    showToast(`Removed ${emailAddr}`);
+  };
+
   // Close on Escape
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
-        if (isTransferModalOpen) {
+        if (isDeleteAccountModalOpen) {
+          setIsDeleteAccountModalOpen(false);
+        } else if (isTelegramLinkModalOpen) {
+          setIsTelegramLinkModalOpen(false);
+        } else if (isAddEmailOpen) {
+          setIsAddEmailOpen(false);
+        } else if (isTransferModalOpen) {
           setIsTransferModalOpen(false);
           setIsFromDropdownOpen(false);
           setIsToDropdownOpen(false);
@@ -1123,7 +1240,18 @@ export default function AccountModal({ isOpen, onClose }: AccountModalProps) {
       window.removeEventListener("keydown", handleKeyDown);
       document.body.style.overflow = "unset";
     };
-  }, [isOpen, isTransferModalOpen, isDepositModalOpen, isEditProfileOpen, isConnectModalOpen, isConnectingEmail, onClose]);
+  }, [
+    isOpen,
+    isDeleteAccountModalOpen,
+    isTelegramLinkModalOpen,
+    isAddEmailOpen,
+    isTransferModalOpen,
+    isDepositModalOpen,
+    isEditProfileOpen,
+    isConnectModalOpen,
+    isConnectingEmail,
+    onClose,
+  ]);
 
   const filteredWalletActivities = useMemo(() => {
     if (walletActivityFilter === "Deposits") {
@@ -1141,13 +1269,6 @@ export default function AccountModal({ isOpen, onClose }: AccountModalProps) {
   const handleCopy = (text: string, label: string) => {
     navigator.clipboard.writeText(text);
     showToast(`${label} copied to clipboard`);
-  };
-
-  // Telegram save
-  const handleSaveTelegram = () => {
-    setTelegram(telegramDraft.trim());
-    setIsEditingTelegram(false);
-    showToast("Telegram username updated");
   };
 
   // Add connected account
@@ -1245,15 +1366,15 @@ export default function AccountModal({ isOpen, onClose }: AccountModalProps) {
           {/* Left Navigation Sidebar */}
           <aside className={styles.sidebar}>
             <div className={styles.sidebarNavGroup}>
-              {/* Tab 1: Profile (Screenshot 1) */}
+              {/* Tab 1: Portfolio (Formerly Profile) */}
               <button
-                className={`${styles.navItem} ${activeTab === "profile" ? styles.navItemActive : ""}`}
-                onClick={() => setActiveTab("profile")}
+                className={`${styles.navItem} ${activeTab === "portfolio" ? styles.navItemActive : ""}`}
+                onClick={() => setActiveTab("portfolio")}
               >
                 <span className={styles.navItemIcon}>
-                  <User size={16} />
+                  <TrendingUp size={16} />
                 </span>
-                <span>Profile</span>
+                <span>Portfolio</span>
               </button>
 
               {/* Tab 2: Wallet with ACTIVE badge (Screenshot 2) */}
@@ -1268,15 +1389,15 @@ export default function AccountModal({ isOpen, onClose }: AccountModalProps) {
                 <span className={styles.walletActiveBadge}>ACTIVE</span>
               </button>
 
-              {/* Tab 3: User Info (Screenshot 4) */}
+              {/* Tab 3: Profile (Formerly User Info) */}
               <button
-                className={`${styles.navItem} ${activeTab === "userInfo" ? styles.navItemActive : ""}`}
-                onClick={() => setActiveTab("userInfo")}
+                className={`${styles.navItem} ${activeTab === "profile" ? styles.navItemActive : ""}`}
+                onClick={() => setActiveTab("profile")}
               >
                 <span className={styles.navItemIcon}>
-                  <Sliders size={16} />
+                  <User size={16} />
                 </span>
-                <span>User Info</span>
+                <span>Profile</span>
               </button>
 
               {/* Tab 4: Exchange Accounts */}
@@ -1298,7 +1419,7 @@ export default function AccountModal({ isOpen, onClose }: AccountModalProps) {
               <div
                 className={styles.sidebarStatCard}
                 onClick={() => {
-                  setActiveTab("profile");
+                  setActiveTab("portfolio");
                   setProfileSectionTab("portfolio");
                 }}
                 style={{ cursor: "pointer" }}
@@ -1350,8 +1471,8 @@ export default function AccountModal({ isOpen, onClose }: AccountModalProps) {
 
           {/* Right Content Area */}
           <main className={styles.contentArea}>
-            {/* VIEW 0: PROFILE (BLUEPRINT LAYOUT) */}
-            {activeTab === "profile" && (
+            {/* VIEW 0: PORTFOLIO (BLUEPRINT LAYOUT) */}
+            {activeTab === "portfolio" && (
               <div className={styles.profileContainer}>
                 {/* 1. TOP SECTION: PORTFOLIO TITLE & SEARCH BAR */}
                 <div className={styles.portfolioTopHeader}>
@@ -2215,31 +2336,258 @@ export default function AccountModal({ isOpen, onClose }: AccountModalProps) {
               </div>
             )}
 
-            {/* VIEW 2 & 3 in standard panelCard container */}
-            {(activeTab === "userInfo" || activeTab === "exchanges") && (
-              <div className={styles.panelCard}>
-                {/* VIEW 2: USER INFO (Screenshot 4) */}
-                {activeTab === "userInfo" && (
-                  <div className={styles.userInfoCenterWrap}>
-                    <div className={styles.userInfoIconCircle}>
-                      <Info size={22} />
-                    </div>
-                    <h3 className={styles.userInfoMainHeading}>User Info & Preferences</h3>
-                    <p className={styles.userInfoSubHeading}>
-                      Manage your personal details, security settings, and notification alerts.
+            {/* VIEW 2: PROFILE */}
+            {activeTab === "profile" && (
+              <div className={styles.profileContainer}>
+                {/* Header Row */}
+                <div className={styles.portfolioTopHeader}>
+                  <div className={styles.portfolioTopTitleCol}>
+                    <h2 className={styles.portfolioPageTitle}>Profile &amp; Credentials</h2>
+                    <p className={styles.portfolioPageSub}>
+                      Manage personal identity, verified mailboxes, connected Telegram bots, and security credentials.
                     </p>
-                    <button
-                      className={styles.returnProfileBtn}
-                      onClick={() => setActiveTab("profile")}
-                    >
-                      Return to Profile
-                    </button>
+                  </div>
+                      <div className={styles.profileViewHeaderActions}>
+                        <button
+                          type="button"
+                          className={styles.profileEditActionBtn}
+                          onClick={() => {
+                            setEditNameInput(profileName);
+                            setEditHandleInput(profileHandle);
+                            setIsEditProfileOpen(true);
+                          }}
+                        >
+                          <Pencil size={13} />
+                          <span>Edit Profile</span>
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* User Identity Hero Card */}
+                    <div className={styles.userIdentityCard}>
+                      <div className={styles.userHeroLeft}>
+                        <div className={styles.userAvatarWrap}>
+                          <div className={styles.userAvatarGradient}>
+                            <User size={28} color="#ffffff" />
+                          </div>
+                          <span className={styles.onlineBadgeDot} title="Online" />
+                        </div>
+                        <div className={styles.userIdentityMeta}>
+                          <div className={styles.userNameRow}>
+                            <span className={styles.userDisplayName}>{profileName}</span>
+                            <div className={styles.verifiedCheckBadge} title="Verified Trader">
+                              <Check size={11} strokeWidth={3.2} color="#000000" />
+                            </div>
+                          </div>
+                          <span className={styles.userHandleText}>{profileHandle}</span>
+                          <div>
+                            <span className={styles.tierPill}>MAINNET TIER 1</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className={styles.userHeroDivider} />
+
+                      <div className={styles.userHeroRight}>
+                        <span className={styles.walletBoxLabel}>Wallet Address</span>
+                        <div className={styles.walletAddressBox}>
+                          <CreditCard size={15} className={styles.walletCardIcon} />
+                          <span className={styles.walletAddressSnippet}>{walletAddress}</span>
+                          <button
+                            type="button"
+                            className={styles.walletCopyBtn}
+                            onClick={() => handleCopy(walletAddress, "Wallet address")}
+                            title="Copy wallet address"
+                          >
+                            <Copy size={13} />
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* 2-Column Grid: Mail Accounts (Left) & Telegram Integration (Right) */}
+                    <div className={styles.profileMiddleGrid}>
+                      {/* Column 1: Mail Accounts */}
+                      <div className={styles.profileSectionBlock}>
+                        <div className={styles.profileSectionHeader}>
+                          <div className={styles.profileSectionTitleRow}>
+                            <Mail size={17} className={styles.profileSectionIcon} />
+                            <span className={styles.profileSectionTitle}>
+                              Mail Accounts <span className={styles.sectionItemCount}>({mailAccounts.length})</span>
+                            </span>
+                          </div>
+                        </div>
+                        <p className={styles.profileSectionSub}>
+                          Manage your email accounts for notifications and security.
+                        </p>
+
+                        <div className={styles.mailAccountsList}>
+                          {mailAccounts.map((account) => (
+                            <div key={account.id} className={styles.mailAccountCard}>
+                              <div className={styles.mailCardTopRow}>
+                                <div className={styles.mailCardTopLeft}>
+                                  <div className={styles.mailIconBox}>
+                                    <Mail size={16} />
+                                  </div>
+                                  <div className={styles.mailCardInfo}>
+                                    <span className={styles.mailAddressText}>{account.email}</span>
+                                    <div className={styles.mailBadgesRow}>
+                                      {account.isPrimary && (
+                                        <span className={styles.primaryBadge}>PRIMARY</span>
+                                      )}
+                                      {account.isVerified && (
+                                        <span className={styles.verifiedMailBadge}>
+                                          <Check size={10} strokeWidth={3} /> VERIFIED
+                                        </span>
+                                      )}
+                                    </div>
+                                  </div>
+                                </div>
+                                <div className={styles.mailCardActions}>
+                                  <button
+                                    type="button"
+                                    className={styles.mailCopySquareBtn}
+                                    onClick={() => handleCopy(account.email, "Email address")}
+                                    title="Copy email address"
+                                  >
+                                    <Copy size={13} />
+                                  </button>
+                                  {!account.isPrimary && (
+                                    <button
+                                      type="button"
+                                      className={styles.mailRemoveBtn}
+                                      onClick={() => handleRemoveEmail(account.id, account.email)}
+                                      title="Remove email"
+                                    >
+                                      <Trash2 size={13} />
+                                    </button>
+                                  )}
+                                </div>
+                              </div>
+                              <div className={styles.mailCardSubtext}>
+                                {account.label} • Connected for trade receipts &amp; security 2FA
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* Column 2: Telegram Integration */}
+                      <div className={styles.profileSectionBlock}>
+                        <div className={styles.profileSectionHeader}>
+                          <div className={styles.profileSectionTitleRow}>
+                            <Send size={17} className={styles.profileSectionIcon} />
+                            <span className={styles.profileSectionTitle}>Telegram Integration</span>
+                          </div>
+                          {isTelegramLinked ? (
+                            <span className={styles.connectedStatusPill}>
+                              <span className={styles.connectedStatusDot} /> LINKED
+                            </span>
+                          ) : (
+                            <span className={styles.unlinkedStatusPill}>NOT LINKED</span>
+                          )}
+                        </div>
+                        <p className={styles.profileSectionSub}>
+                          Connect your Telegram account to receive real-time alerts.
+                        </p>
+
+                        <div className={styles.telegramInnerCard}>
+                          <div className={styles.telegramIconBox}>
+                            <svg width={20} height={20} viewBox="0 0 24 24" fill="none">
+                              <path
+                                d="M21.5 2.5L2 10.5L9.5 14L18 6.5L11.5 15.5L11 21.5L15 17.5L19.5 21L21.5 2.5Z"
+                                fill="#ffffff"
+                              />
+                            </svg>
+                          </div>
+                          <div className={styles.telegramMetaInfo}>
+                            {isTelegramLinked ? (
+                              <>
+                                <div className={styles.telegramHandleRow}>
+                                  <span className={styles.telegramHandleText}>{telegramHandle}</span>
+                                  <span className={styles.activeServiceTag}>Fast Alerts &amp; Bot Active</span>
+                                </div>
+                                <p className={styles.telegramMetaSub}>
+                                  Connected to i5 Mainnet Execution Bot. Instant limit order notifications, fill receipts, and margin warning signals are actively sent to this Telegram channel.
+                                </p>
+                              </>
+                            ) : (
+                              <>
+                                <div className={styles.telegramHandleRow}>
+                                  <span className={styles.telegramUnlinkedText}>No Telegram channel connected</span>
+                                </div>
+                                <p className={styles.telegramMetaSub}>
+                                  Link your Telegram handle to receive instantaneous order fills, liquidation safety buffers, and 1-click execution commands directly in chat.
+                                </p>
+                              </>
+                            )}
+                          </div>
+                        </div>
+
+                        {/* Unlink / Link Button */}
+                        {isTelegramLinked ? (
+                          <button
+                            type="button"
+                            className={styles.unlinkTelegramBtnFull}
+                            onClick={handleUnlinkTelegram}
+                            title="Disconnect Telegram channel"
+                          >
+                            <Unlink size={14} className={styles.unlinkIcon} />
+                            <span>Unlink Telegram</span>
+                          </button>
+                        ) : (
+                          <button
+                            type="button"
+                            className={styles.linkTelegramBtnFull}
+                            onClick={() => {
+                              setTelegramInput("");
+                              setIsTelegramLinkModalOpen(true);
+                            }}
+                            title="Link Telegram account"
+                          >
+                            <Send size={13} />
+                            <span>Link Telegram</span>
+                          </button>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Compact Sign Out & Delete Account Action Buttons */}
+                    <div className={styles.profileActionBtnsRow}>
+                      <button
+                        type="button"
+                        className={styles.profileSignOutBtn}
+                        onClick={handleSignOut}
+                        title="Sign out of session"
+                      >
+                        <LogOut size={13} />
+                        <span>Sign Out</span>
+                      </button>
+                      <button
+                        type="button"
+                        className={styles.profileDeleteBtn}
+                        onClick={() => {
+                          setDeleteConfirmationInput("");
+                          setIsDeleteAccountModalOpen(true);
+                        }}
+                        title="Delete account"
+                      >
+                        <Trash2 size={13} />
+                        <span>Delete Account</span>
+                      </button>
+                    </div>
+
+                    {/* Section for Version: Only Version Number */}
+                    <div className={styles.versionSectionBlock}>
+                      <span className={styles.versionLabel}>Version</span>
+                      <span className={styles.versionNumber}>0.1.0</span>
+                    </div>
                   </div>
                 )}
 
-              {/* VIEW 2: EXCHANGE ACCOUNTS (All Exchanges Shown Inside View) */}
-              {activeTab === "exchanges" && (
-                <>
+            {/* VIEW 3: EXCHANGE ACCOUNTS */}
+            {activeTab === "exchanges" && (
+              <div className={styles.panelCard}>
                   {/* Top Header Row */}
                   <div className={styles.exchangeHeaderRow}>
                     <div className={styles.exchangeHeaderLeft}>
@@ -2364,10 +2712,8 @@ export default function AccountModal({ isOpen, onClose }: AccountModalProps) {
                       );
                     })}
                   </div>
-                </>
+                </div>
               )}
-            </div>
-          )}
         </main>
       </div>
 
@@ -2429,6 +2775,161 @@ export default function AccountModal({ isOpen, onClose }: AccountModalProps) {
                   }}
                 >
                   Save Changes
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Sub-Dialog: Add Email Modal */}
+        {isAddEmailOpen && (
+          <div className={styles.subModalOverlay} onClick={() => setIsAddEmailOpen(false)}>
+            <div className={styles.subModal} onClick={(e) => e.stopPropagation()}>
+              <div className={styles.subModalHeader}>
+                <h3 className={styles.subModalTitle}>Add Mail Account</h3>
+                <button
+                  className={styles.iconOnlyBtn}
+                  onClick={() => setIsAddEmailOpen(false)}
+                >
+                  <X size={16} />
+                </button>
+              </div>
+
+              <div className={styles.subModalField}>
+                <label className={styles.subModalLabel}>Email Address</label>
+                <input
+                  type="email"
+                  className={styles.subModalInput}
+                  value={newEmailInput}
+                  onChange={(e) => setNewEmailInput(e.target.value)}
+                  placeholder="e.g. trader@i5mainnet.com"
+                  autoFocus
+                />
+              </div>
+
+              <div className={styles.subModalField}>
+                <label className={styles.subModalLabel}>Account Label (Optional)</label>
+                <input
+                  type="text"
+                  className={styles.subModalInput}
+                  value={newEmailLabelInput}
+                  onChange={(e) => setNewEmailLabelInput(e.target.value)}
+                  placeholder="e.g. Backup / Personal Alerts"
+                />
+              </div>
+
+              <div className={styles.subModalActions}>
+                <button
+                  className={styles.subModalCancelBtn}
+                  onClick={() => setIsAddEmailOpen(false)}
+                >
+                  Cancel
+                </button>
+                <button
+                  className={styles.subModalSubmitBtn}
+                  onClick={handleAddEmail}
+                >
+                  Add Email
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Sub-Dialog: Link Telegram Modal */}
+        {isTelegramLinkModalOpen && (
+          <div className={styles.subModalOverlay} onClick={() => setIsTelegramLinkModalOpen(false)}>
+            <div className={styles.subModal} onClick={(e) => e.stopPropagation()}>
+              <div className={styles.subModalHeader}>
+                <h3 className={styles.subModalTitle}>Link Telegram Account</h3>
+                <button
+                  className={styles.iconOnlyBtn}
+                  onClick={() => setIsTelegramLinkModalOpen(false)}
+                >
+                  <X size={16} />
+                </button>
+              </div>
+
+              <div className={styles.subModalField}>
+                <label className={styles.subModalLabel}>Telegram Handle / Username</label>
+                <input
+                  type="text"
+                  className={styles.subModalInput}
+                  value={telegramInput}
+                  onChange={(e) => setTelegramInput(e.target.value)}
+                  placeholder="e.g. @your_telegram"
+                  autoFocus
+                />
+              </div>
+
+              <div className={styles.subModalActions}>
+                <button
+                  className={styles.subModalCancelBtn}
+                  onClick={() => setIsTelegramLinkModalOpen(false)}
+                >
+                  Cancel
+                </button>
+                <button
+                  className={styles.subModalSubmitBtn}
+                  onClick={handleLinkTelegram}
+                >
+                  Connect Telegram
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Sub-Dialog: Delete Account Modal */}
+        {isDeleteAccountModalOpen && (
+          <div className={styles.subModalOverlay} onClick={() => setIsDeleteAccountModalOpen(false)}>
+            <div className={styles.subModal} onClick={(e) => e.stopPropagation()}>
+              <div className={styles.subModalHeader}>
+                <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                  <AlertTriangle size={18} color="var(--red-400, #ea5e5e)" />
+                  <h3 className={styles.subModalTitle} style={{ color: "var(--red-400, #ea5e5e)" }}>
+                    Delete Account
+                  </h3>
+                </div>
+                <button
+                  className={styles.iconOnlyBtn}
+                  onClick={() => setIsDeleteAccountModalOpen(false)}
+                >
+                  <X size={16} />
+                </button>
+              </div>
+
+              <div className={styles.subModalDangerBadge}>
+                This will permanently delete your account, saved exchange API keys, trading history, and active sessions. This action cannot be reversed.
+              </div>
+
+              <div className={styles.subModalField}>
+                <label className={styles.subModalLabel}>
+                  Type <strong style={{ color: "var(--text-primary, #ffffff)" }}>DELETE</strong> to confirm:
+                </label>
+                <input
+                  type="text"
+                  className={styles.subModalInput}
+                  value={deleteConfirmationInput}
+                  onChange={(e) => setDeleteConfirmationInput(e.target.value)}
+                  placeholder="DELETE"
+                  autoFocus
+                />
+              </div>
+
+              <div className={styles.subModalActions}>
+                <button
+                  className={styles.subModalCancelBtn}
+                  onClick={() => setIsDeleteAccountModalOpen(false)}
+                >
+                  Cancel
+                </button>
+                <button
+                  className={styles.subModalDeleteBtn}
+                  disabled={deleteConfirmationInput.trim().toUpperCase() !== "DELETE"}
+                  onClick={handleDeleteAccount}
+                >
+                  Permanently Delete
                 </button>
               </div>
             </div>

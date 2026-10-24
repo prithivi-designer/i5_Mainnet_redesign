@@ -78,38 +78,126 @@
   flex-shrink: 0;
 }
 
-/* Search Bar Pill Input */
-.searchBar {
+/* ── Portfolio & Trade Cash Navbar Widgets ───────────────── */
+.navStatsGroup {
   display: flex;
   align-items: center;
-  gap: var(--space-4);
-  background-color: var(--bg-surface-raised);
-  border: var(--border-width-default) solid var(--border-color-default);
-  border-radius: var(--radius-full);
-  padding: 0 var(--space-8);
-  height: 36px;
-  width: 310px;
-  color: var(--text-tertiary);
-  transition: border-color var(--duration-fast) var(--easing-standard);
+  gap: 8px;
 }
 
-.searchBar:focus-within {
-  border-color: var(--border-color-strong);
-  color: var(--text-primary);
+.navStatCard {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 5px 12px;
+  min-width: 140px;
+  height: 44px;
+  background-color: var(--card-bg, #161616);
+  border: var(--border-width-default) solid var(--border-color-default, rgba(228, 228, 228, 0.10));
+  border-radius: var(--radius-xl, 14px);
+  cursor: pointer;
+  user-select: none;
+  transition: all var(--duration-fast, 150ms) var(--easing-standard);
+  box-sizing: border-box;
 }
 
-.searchInput {
-  background: transparent;
-  border: none;
-  outline: none;
+.navStatCard:hover {
+  background-color: var(--neutral-850, #1c1c1c);
+  border-color: var(--border-color-strong, rgba(228, 228, 228, 0.22));
+  transform: translateY(-1px);
+}
+
+.navStatHeader {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.navStatLabel {
   font-family: var(--font-sans);
-  font-size: 13px;
-  color: var(--text-primary);
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text-tertiary, #787878);
+  line-height: 1.2;
+}
+
+.navPnlRow {
+  display: flex;
+  align-items: baseline;
+  gap: 3px;
+}
+
+.navChangeRed {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--red-500, #e13b3b);
+  line-height: 1.2;
+}
+
+.navChangeLabel {
+  font-family: var(--font-sans);
+  font-size: 10px;
+  font-weight: 400;
+  color: var(--text-tertiary, #787878);
+  line-height: 1.2;
+}
+
+.navStatBigVal {
+  font-family: var(--font-mono);
+  font-size: 14.5px;
+  font-weight: 700;
+  color: var(--text-primary, #ffffff);
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+
+.navCashRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
   width: 100%;
 }
 
-.searchInput::placeholder {
-  color: var(--text-tertiary);
+.navCashMeta {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1px;
+}
+
+.navCashBigVal {
+  font-family: var(--font-mono);
+  font-size: 14.5px;
+  font-weight: 700;
+  color: var(--text-primary, #ffffff);
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+
+.navPlusBtn {
+  width: 26px;
+  height: 26px;
+  border-radius: var(--radius-sm, 7px);
+  background-color: var(--button-secondary-bg, rgba(255, 255, 255, 0.06));
+  border: var(--border-width-default) solid var(--button-secondary-border, rgba(228, 228, 228, 0.12));
+  color: var(--text-primary, #ffffff);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  padding: 0;
+  transition: all var(--duration-fast, 150ms) var(--easing-standard);
+}
+
+.navPlusBtn:hover {
+  background-color: var(--button-secondary-bg-hover, rgba(255, 255, 255, 0.14));
+  border-color: var(--border-color-strong, rgba(228, 228, 228, 0.28));
+  color: var(--neutral-0, #ffffff);
+  transform: scale(1.06);
 }
 
 /* Pill Badges (Demo data & US Market Open) */
@@ -309,14 +397,15 @@
    Responsive Topbar Rules
    ---------------------------------------------------------- */
 
-/* Tablet (640px–1023px): narrow gap, hide market badges */
+/* Tablet (640px–1023px): narrow gap, adapt stat cards */
 @media (max-width: 1023px) {
   .right {
     gap: var(--space-3);
   }
 
-  .searchBar {
-    width: 200px;
+  .navStatCard {
+    min-width: 122px;
+    padding: 4px 9px;
   }
 }
 
@@ -330,7 +419,7 @@
     gap: var(--space-2);
   }
 
-  .searchBarResponsive {
+  .navStatsGroup {
     display: none;
   }
 
