@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
+import { Clock, Bookmark, Forward, ArrowDownRight, ArrowUpRight } from "lucide-react";
 import styles from "./IntelligenceFeed.module.css";
 import AnalysisDetailModal from "./AnalysisDetailModal";
 import MemeTrenchesView from "./MemeTrenchesView";
@@ -24,9 +25,35 @@ export interface FeedItem {
   priceChange: string;
   isPositiveChange: boolean;
   aiConfidence: number;
+  pair?: string;
+  pairType?: string;
+  avatarUrl?: string;
+  signalText?: string;
 }
 
 const mockFeedData: FeedItem[] = [
+  {
+    id: "crypto-beat-1",
+    ticker: "BEAT",
+    companyName: "Clublera",
+    pair: "BEATUSDT",
+    pairType: "USDT pair",
+    avatarUrl: "/tokens/beat.jpg",
+    avatarBg: "#1F1A3A",
+    category: "UNUSUAL VOLUME",
+    assetType: "CRYPTO",
+    stance: "BEARISH",
+    position: "SHORT",
+    title: "BEATUSDT dump -3.54% in 1m · 0.08171 USDT",
+    summary: "BEATUSDT dump -3.54% in 1m · 0.08171 USDT. Sharp sell-off detected with unusual order book liquidation volume.",
+    signalText: "BEATUSDT dump -3.54% in 1m · 0.08171 USDT",
+    timeAgo: "28m ago",
+    source: "Binance Futures",
+    publishPrice: "0.08171 USDT",
+    priceChange: "-3.54%",
+    isPositiveChange: false,
+    aiConfidence: 88,
+  },
   {
     id: "spcx-1",
     ticker: "SPCX",
@@ -144,6 +171,8 @@ const mockFeedData: FeedItem[] = [
     id: "crypto-options-1",
     ticker: "SOL",
     companyName: "Solana Protocol",
+    pair: "SOLUSDT",
+    pairType: "USDT pair",
     avatarBg: "#1F2B37",
     category: "OPTIONS ACTIVITY",
     assetType: "CRYPTO",
@@ -151,6 +180,7 @@ const mockFeedData: FeedItem[] = [
     title: "Solana call volume surges 340% as $180 strike open interest explodes",
     summary:
       "Deribit options data reveals aggressive institutional call buying for Q3 expiry, signaling strong bullish sentiment ahead of Firedancer testnet metrics.",
+    signalText: "SOLUSDT call surge +6.42% in 15m · 172.50 USDT",
     timeAgo: "6h ago",
     source: "Deribit Metrics",
     publishPrice: "$172.50 at publish",
@@ -162,6 +192,8 @@ const mockFeedData: FeedItem[] = [
     id: "crypto-ai-1",
     ticker: "BTC",
     companyName: "Bitcoin Network",
+    pair: "BTCUSDT",
+    pairType: "USDT pair",
     avatarBg: "#3A2A14",
     category: "AI TRADE IDEAS",
     assetType: "CRYPTO",
@@ -170,6 +202,7 @@ const mockFeedData: FeedItem[] = [
     title: "AI Quantitative Model: Spot institutional accumulation indicates breakout setup",
     summary:
       "On-chain ETF flow velocity and exchange reserve depletion flag a high-probability bullish expansion toward $72K resistance.",
+    signalText: "BTCUSDT breakout +3.85% in 1h · 67,420.00 USDT",
     timeAgo: "2h ago",
     source: "i5 Quantitative AI",
     publishPrice: "$67,420.00 at publish",
@@ -181,6 +214,8 @@ const mockFeedData: FeedItem[] = [
     id: "crypto-vol-1",
     ticker: "SUI",
     companyName: "Sui Network",
+    pair: "SUIUSDT",
+    pairType: "USDT pair",
     avatarBg: "#163A24",
     category: "UNUSUAL VOLUME",
     assetType: "CRYPTO",
@@ -189,6 +224,7 @@ const mockFeedData: FeedItem[] = [
     title: "Sui on-chain 24h DEX trading volume spikes +310% to record $1.42B",
     summary:
       "Massive liquidity inflows into Sui ecosystem protocols driven by zero-slippage AMMs and major centralized exchange staking integrations.",
+    signalText: "SUIUSDT spike +12.40% in 30m · 3.45 USDT",
     timeAgo: "3h ago",
     source: "DeFiLlama",
     publishPrice: "$3.45 at publish",
@@ -200,6 +236,8 @@ const mockFeedData: FeedItem[] = [
     id: "crypto-price-1",
     ticker: "AVAX",
     companyName: "Avalanche",
+    pair: "AVAXUSDT",
+    pairType: "USDT pair",
     avatarBg: "#4A181C",
     category: "PRICE MOVEMENT",
     assetType: "CRYPTO",
@@ -208,6 +246,7 @@ const mockFeedData: FeedItem[] = [
     title: "Avalanche surges +9.8% on Wall Street real-world asset (RWA) tokenization pilot",
     summary:
       "Major global asset manager deploys $500M tokenized fund testnet on dedicated Avalanche Evergreen Subnet with institutional compliance tooling.",
+    signalText: "AVAXUSDT rally +9.80% in 45m · 32.80 USDT",
     timeAgo: "4h ago",
     source: "Coindesk",
     publishPrice: "$32.80 at publish",
@@ -312,6 +351,8 @@ const mockFeedData: FeedItem[] = [
     id: "crypto-tech-1",
     ticker: "ETH",
     companyName: "Ethereum",
+    pair: "ETHUSDT",
+    pairType: "USDT pair",
     avatarBg: "#163A24",
     category: "TECHNICAL SIGNALS",
     assetType: "CRYPTO",
@@ -320,6 +361,7 @@ const mockFeedData: FeedItem[] = [
     title: "Ethereum confirms double bottom breakout with bullish RSI divergence on 4H",
     summary:
       "ETH crossed $2,450 resistance with 3.4x volume surge. 50 EMA golden cross over 200 EMA validates target trajectory toward $2,680.",
+    signalText: "ETHUSDT breakout +3.42% in 25m · 2,455.60 USDT",
     timeAgo: "25m ago",
     source: "TradingView AI",
     publishPrice: "$2,455.60 at publish",
@@ -331,6 +373,8 @@ const mockFeedData: FeedItem[] = [
     id: "crypto-tech-2",
     ticker: "SOL",
     companyName: "Solana",
+    pair: "SOLUSDT",
+    pairType: "USDT pair",
     avatarBg: "#1F2B37",
     category: "TECHNICAL SIGNALS",
     assetType: "CRYPTO",
@@ -339,6 +383,7 @@ const mockFeedData: FeedItem[] = [
     title: "Solana tests key ascending triangle apex at $148 with contracting Bollinger bands",
     summary:
       "Volatility squeeze pattern suggests imminent breakout with institutional delta turning positive on perpetual orderbooks.",
+    signalText: "SOLUSDT squeeze +5.12% in 1h · 148.60 USDT",
     timeAgo: "1h ago",
     source: "CoinGlass",
     publishPrice: "$148.60 at publish",
@@ -350,6 +395,8 @@ const mockFeedData: FeedItem[] = [
     id: "crypto-tech-3",
     ticker: "BTC",
     companyName: "Bitcoin Network",
+    pair: "BTCUSDT",
+    pairType: "USDT pair",
     avatarBg: "#3A2A14",
     category: "TECHNICAL SIGNALS",
     assetType: "CRYPTO",
@@ -358,6 +405,7 @@ const mockFeedData: FeedItem[] = [
     title: "Bitcoin 50/200 EMA Golden Cross confirmed on daily chart with $68.5K volume cluster",
     summary:
       "Bullish moving average convergence with elevated taker buy ratio indicates institutional momentum toward $72,000 range high.",
+    signalText: "BTCUSDT golden cross +4.12% in 1h · 67,890.00 USDT",
     timeAgo: "1h ago",
     source: "Glassnode",
     publishPrice: "$67,890.00 at publish",
@@ -369,6 +417,8 @@ const mockFeedData: FeedItem[] = [
     id: "crypto-tech-4",
     ticker: "LINK",
     companyName: "Chainlink",
+    pair: "LINKUSDT",
+    pairType: "USDT pair",
     avatarBg: "#112F4E",
     category: "TECHNICAL SIGNALS",
     assetType: "CRYPTO",
@@ -377,6 +427,7 @@ const mockFeedData: FeedItem[] = [
     title: "Chainlink daily RSI emerges from oversold territory at key 0.618 Fibonacci level",
     summary:
       "Rebound off $14.20 support with heavy spot accumulation confirms bullish reversal structure targeting $18.20.",
+    signalText: "LINKUSDT rebound +6.20% in 3h · 15.10 USDT",
     timeAgo: "3h ago",
     source: "Chart Analyzer",
     publishPrice: "$15.10 at publish",
@@ -426,6 +477,8 @@ const mockFeedData: FeedItem[] = [
     id: "crypto-macro-1",
     ticker: "BTC",
     companyName: "Bitcoin",
+    pair: "BTCUSDT",
+    pairType: "USDT pair",
     avatarBg: "#451A03",
     category: "MACRO SIGNALS",
     assetType: "CRYPTO",
@@ -434,6 +487,7 @@ const mockFeedData: FeedItem[] = [
     title: "Global M2 liquidity expansion signals strong tailwind for Bitcoin in Q3",
     summary:
       "Central bank balance sheet expansion across G10 economies correlates with historical Bitcoin re-accumulation cycles preceding major bull legs.",
+    signalText: "BTCUSDT liquidity pump +2.45% in 2h · 64,238.40 USDT",
     timeAgo: "2h ago",
     source: "MacroMicro",
     publishPrice: "$64,238.40 at publish",
@@ -464,6 +518,8 @@ const mockFeedData: FeedItem[] = [
     id: "crypto-macro-2",
     ticker: "ETH",
     companyName: "Ethereum Protocol",
+    pair: "ETHUSDT",
+    pairType: "USDT pair",
     avatarBg: "#163A24",
     category: "MACRO SIGNALS",
     assetType: "CRYPTO",
@@ -472,6 +528,7 @@ const mockFeedData: FeedItem[] = [
     title: "Sovereign and institutional treasury tokenization surpasses $2.4B on Ethereum",
     summary:
       "BlackRock BUIDL fund expansion and institutional real-world asset inflows establish new baseline yield floor for on-chain collateral.",
+    signalText: "ETHUSDT RWA inflow +4.10% in 5h · 2,480.00 USDT",
     timeAgo: "5h ago",
     source: "RWA.xyz",
     publishPrice: "$2,480.00 at publish",
@@ -685,7 +742,9 @@ export default function IntelligenceFeed() {
       activeTab === "signals" &&
       item.category !== "TECHNICAL SIGNALS" &&
       item.category !== "MACRO SIGNALS" &&
-      item.category !== "ON-CHAIN SIGNALS"
+      item.category !== "ON-CHAIN SIGNALS" &&
+      item.category !== "UNUSUAL VOLUME" &&
+      item.category !== "PRICE MOVEMENT"
     ) {
       return false;
     }
@@ -981,151 +1040,262 @@ export default function IntelligenceFeed() {
         </div>
       </div>
 
-      {/* 2 Cards Per Row Grid Layout */}
+      {/* 3 Cards Per Row Grid Layout */}
       <div className={styles.feedList}>
         {filteredFeedData.length === 0 ? (
           <div style={{ gridColumn: "1 / -1", textAlign: "center", padding: "64px 24px", color: "var(--text-tertiary)", fontSize: "14px" }}>
             No feed items match the selected filter criteria.
           </div>
         ) : (
-          filteredFeedData.map((item) => (
-          <article key={item.id} className={styles.feedCard}>
-            {/* TOP SECTION (Title, Summary, Tags, Time, Source, Price & AI Confidence) */}
-            <div className={styles.cardTopSection}>
-              {/* Article Headline Title */}
-              <h4 className={styles.articleTitle}>{item.title}</h4>
+          filteredFeedData.map((item) => {
+            if (item.assetType === "CRYPTO") {
+              return (
+                <article key={item.id} className={styles.cryptoCard}>
+                  {/* Top Row: Avatar + Info (Left) and Percentage Pill (Right) */}
+                  <div className={styles.cryptoTopRow}>
+                    <div className={styles.cryptoHeaderLeft}>
+                      <div className={styles.cryptoAvatarWrap} style={{ backgroundColor: item.avatarBg }}>
+                        {item.avatarUrl ? (
+                          <img
+                            src={item.avatarUrl}
+                            alt={item.ticker}
+                            className={styles.cryptoAvatarImg}
+                            onError={(e) => {
+                              (e.currentTarget as HTMLElement).style.display = "none";
+                            }}
+                          />
+                        ) : (
+                          <img
+                            src={`https://assets.coincap.io/assets/icons/${item.ticker.toLowerCase()}@2x.png`}
+                            alt={item.ticker}
+                            className={styles.cryptoAvatarImg}
+                            onError={(e) => {
+                              const img = e.currentTarget;
+                              img.src = `https://cryptologos.cc/logos/${item.companyName.toLowerCase().split(" ")[0]}-${item.ticker.toLowerCase()}-logo.svg?v=032`;
+                              img.onerror = () => {
+                                (img as HTMLElement).style.display = "none";
+                              };
+                            }}
+                          />
+                        )}
+                        <span className={styles.cryptoAvatarFallback}>{item.ticker.slice(0, 4)}</span>
+                      </div>
 
-              {/* Summary Text Body */}
-              <p className={styles.summaryBody}>{item.summary}</p>
+                      <div className={styles.cryptoTitleCol}>
+                        <div className={styles.cryptoNameRow}>
+                          <span className={styles.cryptoTicker}>{item.ticker}</span>
+                          <span className={styles.cryptoPair}>{item.pair || `${item.ticker}USDT`}</span>
+                        </div>
+                        <div className={styles.cryptoTimeRow}>
+                          <Clock size={12} className={styles.cryptoClockIcon} />
+                          <span>{item.timeAgo} · {item.pairType || "USDT pair"}</span>
+                        </div>
+                      </div>
+                    </div>
 
-              {/* Metadata & Tags Row */}
-              <div className={styles.metaRow}>
-                <div className={styles.pillsGroup}>
-                  <span className={styles.categoryPill}>{item.category}</span>
-                  <span
-                    className={`${styles.stancePill} ${
-                      item.stance === "BULLISH" ? styles.bullishPill : styles.bearishPill
-                    }`}
-                  >
-                    {item.stance}
-                  </span>
-                  {item.position && (
-                    <span
-                      className={`${styles.positionPill} ${
-                        item.position === "LONG" ? styles.longPill : styles.shortPill
-                      }`}
+                    <div className={item.isPositiveChange ? styles.cryptoPillUp : styles.cryptoPillDown}>
+                      {item.isPositiveChange ? (
+                        <ArrowUpRight size={13} strokeWidth={2.5} />
+                      ) : (
+                        <ArrowDownRight size={13} strokeWidth={2.5} />
+                      )}
+                      <span>{item.priceChange}</span>
+                    </div>
+                  </div>
+
+                  {/* Middle Row: Signal Summary Text */}
+                  <div className={styles.cryptoSignalRow}>
+                    <p className={styles.cryptoSignalText}>
+                      {item.signalText || `${item.pair || `${item.ticker}USDT`} ${item.isPositiveChange ? "pump" : "dump"} ${item.priceChange} in ${item.timeAgo} · ${item.publishPrice.replace(" at publish", "")}`}
+                    </p>
+                  </div>
+
+                  {/* Bottom Row: Badges (Left) + Actions (Right) */}
+                  <div className={styles.cryptoBottomRow}>
+                    <div className={styles.cryptoBadgesGroup}>
+                      <span className={styles.cryptoCategoryPill}>{item.category}</span>
+                      <span className={item.stance === "BULLISH" ? styles.cryptoStanceBullish : styles.cryptoStanceBearish}>
+                        {item.stance}
+                      </span>
+                    </div>
+
+                    <div className={styles.cryptoActionsGroup}>
+                      <button
+                        type="button"
+                        className={`${styles.cryptoSquareBtn} ${savedItemIds.includes(item.id) ? styles.cryptoSquareBtnActive : ""}`}
+                        onClick={() => toggleSave(item.id)}
+                        title={savedItemIds.includes(item.id) ? "Saved" : "Save bookmark"}
+                        aria-label="Bookmark"
+                      >
+                        <Bookmark size={13} fill={savedItemIds.includes(item.id) ? "currentColor" : "none"} />
+                      </button>
+
+                      <button
+                        type="button"
+                        className={styles.cryptoSquareBtn}
+                        onClick={() => {
+                          if (typeof navigator !== "undefined" && navigator.clipboard) {
+                            navigator.clipboard.writeText(window.location.href);
+                          }
+                        }}
+                        title="Share analysis"
+                        aria-label="Share"
+                      >
+                        <Forward size={13} />
+                      </button>
+
+                      <button
+                        type="button"
+                        className={styles.cryptoViewAnalysisBtn}
+                        onClick={() => handleItemAction(item)}
+                      >
+                        View Analysis
+                      </button>
+                    </div>
+                  </div>
+                </article>
+              );
+            }
+
+            return (
+              <article key={item.id} className={styles.feedCard}>
+                {/* TOP SECTION (Title, Summary, Tags, Time, Source, Price & AI Confidence) */}
+                <div className={styles.cardTopSection}>
+                  {/* Article Headline Title */}
+                  <h4 className={styles.articleTitle}>{item.title}</h4>
+
+                  {/* Summary Text Body */}
+                  <p className={styles.summaryBody}>{item.summary}</p>
+
+                  {/* Metadata & Tags Row */}
+                  <div className={styles.metaRow}>
+                    <div className={styles.pillsGroup}>
+                      <span className={styles.categoryPill}>{item.category}</span>
+                      <span
+                        className={`${styles.stancePill} ${
+                          item.stance === "BULLISH" ? styles.bullishPill : styles.bearishPill
+                        }`}
+                      >
+                        {item.stance}
+                      </span>
+                      {item.position && (
+                        <span
+                          className={`${styles.positionPill} ${
+                            item.position === "LONG" ? styles.longPill : styles.shortPill
+                          }`}
+                        >
+                          {item.position}
+                        </span>
+                      )}
+                    </div>
+
+                    <div className={styles.metaInfo}>
+                      <span className={styles.metaItem}>
+                        <svg width={12} height={12} viewBox="0 0 16 16" fill="none" aria-hidden>
+                          <circle cx="8" cy="8" r="6" stroke="currentColor" strokeWidth="1.3" />
+                          <path d="M8 4.5V8L10.5 9.5" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" />
+                        </svg>
+                        {item.timeAgo}
+                      </span>
+                      <span className={styles.dotSeparator}>•</span>
+                      <span className={styles.metaItem}>{item.source}</span>
+                      <span className={styles.dotSeparator}>•</span>
+                      <span className={styles.metaItem}>{item.publishPrice}</span>
+
+                      <span
+                        className={`${styles.priceBadge} ${
+                          item.isPositiveChange ? styles.priceUp : styles.priceDown
+                        }`}
+                      >
+                        {item.isPositiveChange ? "↗ " : "↘ "}
+                        {item.priceChange}
+                      </span>
+
+                      <span className={styles.aiConfidenceBadge}>
+                        AI confidence {item.aiConfidence}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* HORIZONTAL DIVIDER LINE */}
+                <div className={styles.dividerLine} />
+
+                {/* BOTTOM SECTION (2X Big Logo Avatar + Ticker ON TOP, Company Name below, Actions on Right) */}
+                <div className={styles.cardBottomSection}>
+                  <div className={styles.companyGroup}>
+                    {/* 2X Big Logo Avatar Box */}
+                    <div
+                      className={styles.bigAvatar2X}
+                      style={{ backgroundColor: item.avatarBg, position: 'relative', overflow: 'hidden', padding: 0 }}
                     >
-                      {item.position}
-                    </span>
-                  )}
+                      <span style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        {item.ticker.slice(0, 4)}
+                      </span>
+                      <img
+                        src={['NVDA', 'MSFT', 'TSLA', 'AAPL', 'AMD'].includes(item.ticker) ? `https://icons.duckduckgo.com/ip3/${({ NVDA: 'nvidia.com', MSFT: 'microsoft.com', TSLA: 'tesla.com', AAPL: 'apple.com', AMD: 'amd.com' } as Record<string, string>)[item.ticker]}.ico` : `https://assets.coincap.io/assets/icons/${item.ticker.toLowerCase()}@2x.png`}
+                        alt={item.ticker}
+                        style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'contain', padding: '4px', backgroundColor: 'inherit' }}
+                        onError={(e) => {
+                          const img = e.currentTarget;
+                          if (img.src.includes('coincap.io')) {
+                            img.src = `https://cryptologos.cc/logos/${item.companyName.toLowerCase().split(' ')[0]}-${item.ticker.toLowerCase()}-logo.svg?v=032`;
+                          } else {
+                            img.style.display = 'none';
+                          }
+                        }}
+                      />
+                    </div>
+
+                    {/* Company Meta: Ticker ON TOP, Company Name below */}
+                    <div className={styles.companyMeta}>
+                      <span className={styles.companyTicker}>{item.ticker}</span>
+                      <span className={styles.companyFullName}>{item.companyName}</span>
+                    </div>
+                  </div>
+
+                  {/* Action Buttons Row */}
+                  <div className={styles.actionsRow}>
+                    <button className={styles.viewAnalysisBtn} onClick={() => handleItemAction(item)}>
+                      {item.assetType === "MEME" ? `Trade ${item.ticker}` : "View Analytics"}
+                      <svg width={12} height={12} viewBox="0 0 16 16" fill="none" aria-hidden>
+                        <path d="M4.5 11.5L11.5 4.5M11.5 4.5H5.5M11.5 4.5V10.5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                    </button>
+
+                    <button
+                      className={`${styles.actionBtn} ${savedItemIds.includes(item.id) ? styles.actionBtnActive : ""}`}
+                      onClick={() => toggleSave(item.id)}
+                      title={savedItemIds.includes(item.id) ? "Remove from Watchlist" : "Save to Watchlist"}
+                    >
+                      <svg
+                        width={13}
+                        height={13}
+                        viewBox="0 0 16 16"
+                        fill={savedItemIds.includes(item.id) ? "var(--emerald-500)" : "none"}
+                        aria-hidden
+                      >
+                        <path
+                          d="M4 2.5H12V14.5L8 11.5L4 14.5V2.5Z"
+                          stroke={savedItemIds.includes(item.id) ? "var(--emerald-500)" : "currentColor"}
+                          strokeWidth="1.3"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                      {savedItemIds.includes(item.id) ? "Saved" : "Save"}
+                    </button>
+
+                    <button className={styles.actionBtn}>
+                      <svg width={13} height={13} viewBox="0 0 16 16" fill="none" aria-hidden>
+                        <path d="M4 8h8M8 4l4 4-4 4" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                      Share
+                    </button>
+                  </div>
                 </div>
-
-                <div className={styles.metaInfo}>
-                  <span className={styles.metaItem}>
-                    <svg width={12} height={12} viewBox="0 0 16 16" fill="none" aria-hidden>
-                      <circle cx="8" cy="8" r="6" stroke="currentColor" strokeWidth="1.3" />
-                      <path d="M8 4.5V8L10.5 9.5" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" />
-                    </svg>
-                    {item.timeAgo}
-                  </span>
-                  <span className={styles.dotSeparator}>•</span>
-                  <span className={styles.metaItem}>{item.source}</span>
-                  <span className={styles.dotSeparator}>•</span>
-                  <span className={styles.metaItem}>{item.publishPrice}</span>
-
-                  <span
-                    className={`${styles.priceBadge} ${
-                      item.isPositiveChange ? styles.priceUp : styles.priceDown
-                    }`}
-                  >
-                    {item.isPositiveChange ? "↗ " : "↘ "}
-                    {item.priceChange}
-                  </span>
-
-                  <span className={styles.aiConfidenceBadge}>
-                    AI confidence {item.aiConfidence}
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            {/* HORIZONTAL DIVIDER LINE */}
-            <div className={styles.dividerLine} />
-
-            {/* BOTTOM SECTION (2X Big Logo Avatar + Ticker ON TOP, Company Name below, Actions on Right) */}
-            <div className={styles.cardBottomSection}>
-              <div className={styles.companyGroup}>
-                {/* 2X Big Logo Avatar Box */}
-                <div
-                  className={styles.bigAvatar2X}
-                  style={{ backgroundColor: item.avatarBg, position: 'relative', overflow: 'hidden', padding: 0 }}
-                >
-                  <span style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    {item.ticker.slice(0, 4)}
-                  </span>
-                  <img
-                    src={['NVDA', 'MSFT', 'TSLA', 'AAPL', 'AMD'].includes(item.ticker) ? `https://icons.duckduckgo.com/ip3/${({ NVDA: 'nvidia.com', MSFT: 'microsoft.com', TSLA: 'tesla.com', AAPL: 'apple.com', AMD: 'amd.com' } as Record<string, string>)[item.ticker]}.ico` : `https://assets.coincap.io/assets/icons/${item.ticker.toLowerCase()}@2x.png`}
-                    alt={item.ticker}
-                    style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'contain', padding: '4px', backgroundColor: 'inherit' }}
-                    onError={(e) => {
-                      const img = e.currentTarget;
-                      if (img.src.includes('coincap.io')) {
-                        img.src = `https://cryptologos.cc/logos/${item.companyName.toLowerCase().split(' ')[0]}-${item.ticker.toLowerCase()}-logo.svg?v=032`;
-                      } else {
-                        img.style.display = 'none';
-                      }
-                    }}
-                  />
-                </div>
-
-                {/* Company Meta: Ticker ON TOP, Company Name below */}
-                <div className={styles.companyMeta}>
-                  <span className={styles.companyTicker}>{item.ticker}</span>
-                  <span className={styles.companyFullName}>{item.companyName}</span>
-                </div>
-              </div>
-
-              {/* Action Buttons Row */}
-              <div className={styles.actionsRow}>
-                <button className={styles.viewAnalysisBtn} onClick={() => handleItemAction(item)}>
-                  {item.assetType === "MEME" ? `Trade ${item.ticker}` : "View Analytics"}
-                  <svg width={12} height={12} viewBox="0 0 16 16" fill="none" aria-hidden>
-                    <path d="M4.5 11.5L11.5 4.5M11.5 4.5H5.5M11.5 4.5V10.5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                </button>
-
-                <button
-                  className={`${styles.actionBtn} ${savedItemIds.includes(item.id) ? styles.actionBtnActive : ""}`}
-                  onClick={() => toggleSave(item.id)}
-                  title={savedItemIds.includes(item.id) ? "Remove from Watchlist" : "Save to Watchlist"}
-                >
-                  <svg
-                    width={13}
-                    height={13}
-                    viewBox="0 0 16 16"
-                    fill={savedItemIds.includes(item.id) ? "var(--emerald-500)" : "none"}
-                    aria-hidden
-                  >
-                    <path
-                      d="M4 2.5H12V14.5L8 11.5L4 14.5V2.5Z"
-                      stroke={savedItemIds.includes(item.id) ? "var(--emerald-500)" : "currentColor"}
-                      strokeWidth="1.3"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                  {savedItemIds.includes(item.id) ? "Saved" : "Save"}
-                </button>
-
-                <button className={styles.actionBtn}>
-                  <svg width={13} height={13} viewBox="0 0 16 16" fill="none" aria-hidden>
-                    <path d="M4 8h8M8 4l4 4-4 4" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                  Share
-                </button>
-              </div>
-            </div>
-          </article>
-        )))}
+              </article>
+            );
+          }))}
       </div>
 
       {selectedAnalysisItem && (
