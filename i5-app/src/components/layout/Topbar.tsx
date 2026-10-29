@@ -2,27 +2,62 @@
 
 import React, { useState, useEffect } from "react";
 import styles from "./Topbar.module.css";
+import AccountModal from "@/components/account/AccountModal";
 
-/* Plus Icon */
-function IconPlus() {
+/* Refresh Icon */
+function IconRefresh({ isSpinning }: { isSpinning?: boolean }) {
   return (
-    <svg width={13} height={13} viewBox="0 0 16 16" fill="none" aria-hidden>
-      <path d="M8 3v10M3 8h10" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+    <svg
+      width={14}
+      height={14}
+      viewBox="0 0 16 16"
+      fill="none"
+      className={isSpinning ? styles.spinIcon : undefined}
+      aria-hidden
+    >
+      <path
+        d="M13.5 2.5v3.5h-3.5"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M2.5 13.5v-3.5h3.5"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M13.1 6A5.5 5.5 0 0 0 3.7 4.2L2.5 6M13.5 10l-1.2 1.8a5.5 5.5 0 0 1-9.4-1.8"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
     </svg>
   );
 }
 
-/* Bell Icon */
-function IconBell() {
+/* Deposit Icon (Tray down arrow) */
+function IconDeposit() {
   return (
-    <svg width={16} height={16} viewBox="0 0 18 18" fill="none" aria-hidden>
+    <svg width={14} height={14} viewBox="0 0 16 16" fill="none" aria-hidden>
       <path
-        d="M9 2a5 5 0 0 1 5 5v3l1.5 2.5H2.5L4 10V7a5 5 0 0 1 5-5z"
+        d="M2.75 9.75v3a.75.75 0 0 0 .75.75h9a.75.75 0 0 0 .75-.75v-3"
         stroke="currentColor"
-        strokeWidth="1.4"
+        strokeWidth="1.6"
+        strokeLinecap="round"
         strokeLinejoin="round"
       />
-      <path d="M7 13.5a2 2 0 0 0 4 0" stroke="currentColor" strokeWidth="1.4" />
+      <path
+        d="M8 2.5v7.25m0 0l-2.75-2.75M8 9.75l2.75-2.75"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
     </svg>
   );
 }
@@ -30,9 +65,14 @@ function IconBell() {
 /* Sun / Theme Icon */
 function IconSun() {
   return (
-    <svg width={16} height={16} viewBox="0 0 18 18" fill="none" aria-hidden>
-      <circle cx="9" cy="9" r="3.5" stroke="currentColor" strokeWidth="1.4" />
-      <path d="M9 1.5v1.5M9 15v1.5M1.5 9h1.5M15 9h1.5M3.7 3.7l1 1M13.3 13.3l1 1M3.7 14.3l1-1M13.3 4.7l1-1" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+    <svg width={18} height={18} viewBox="0 0 18 18" fill="none" aria-hidden>
+      <circle cx="9" cy="9" r="3.2" stroke="currentColor" strokeWidth="1.4" />
+      <path
+        d="M9 1.5v1.8M9 14.7v1.8M1.5 9h1.8M14.7 9h1.8M3.7 3.7l1.3 1.3M13 13l1.3 1.3M3.7 14.3l1.3-1.3M13 5l1.3-1.3"
+        stroke="currentColor"
+        strokeWidth="1.4"
+        strokeLinecap="round"
+      />
     </svg>
   );
 }
@@ -40,25 +80,19 @@ function IconSun() {
 /* Moon / Theme Icon */
 function IconMoon() {
   return (
-    <svg width={16} height={16} viewBox="0 0 18 18" fill="none" aria-hidden>
-      <path d="M15.5 10.5a5.5 5.5 0 1 1-7-7 7 7 0 1 0 7 7z" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+    <svg width={17} height={17} viewBox="0 0 18 18" fill="none" aria-hidden>
+      <path
+        d="M15.5 10.5a5.5 5.5 0 1 1-7-7 7 7 0 1 0 7 7z"
+        stroke="currentColor"
+        strokeWidth="1.4"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
     </svg>
   );
 }
 
-/* Wallet Icon */
-function IconWallet() {
-  return (
-    <svg width={16} height={16} viewBox="0 0 18 18" fill="none" aria-hidden>
-      <rect x="2" y="3.5" width="14" height="11" rx="2.5" stroke="currentColor" strokeWidth="1.4" />
-      <path d="M2 7h14" stroke="currentColor" strokeWidth="1.4" />
-      <circle cx="12.5" cy="10.5" r="1" fill="currentColor" />
-    </svg>
-  );
-}
-
-import AccountModal from "@/components/account/AccountModal";
-
+/* Menu Hamburger */
 function IconMenu() {
   return (
     <svg width={18} height={18} viewBox="0 0 18 18" fill="none" aria-hidden>
@@ -67,18 +101,56 @@ function IconMenu() {
   );
 }
 
-interface TopbarProps {
-  onOpenAccount?: () => void;
-  onMenuToggle?: () => void;
-  showMenuBtn?: boolean;
+/* Info Icon */
+function IconInfo() {
+  return (
+    <svg width={13} height={13} viewBox="0 0 16 16" fill="none" aria-hidden>
+      <circle cx="8" cy="8" r="6.25" stroke="currentColor" strokeWidth="1.3" />
+      <path d="M8 7v4M8 4.75v.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+    </svg>
+  );
 }
 
-export default function Topbar({ onOpenAccount, onMenuToggle, showMenuBtn }: TopbarProps) {
-  const [isConnected, setIsConnected] = useState<boolean>(false);
-  const [walletAddress] = useState<string>("0x8f2A1346...c41B");
+/* Next / Chevron Right Icon */
+function IconChevronRight() {
+  return (
+    <svg width={12} height={12} viewBox="0 0 16 16" fill="none" aria-hidden>
+      <path
+        d="M6 3.5L10.5 8L6 12.5"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+interface TopbarProps {
+  onOpenAccount?: (tab?: "portfolio" | "wallet" | "profile" | "exchanges") => void;
+  onMenuToggle?: () => void;
+  showMenuBtn?: boolean;
+  portfolioBalance?: string;
+  portfolio24hChange?: string;
+  mainBalance?: string;
+  userEmail?: string;
+}
+
+export default function Topbar({
+  onOpenAccount,
+  onMenuToggle,
+  showMenuBtn,
+  portfolioBalance = "$0.00",
+  portfolio24hChange = "$0.00 24h",
+  mainBalance = "$0.00",
+  userEmail = "prithiv******ions.in",
+}: TopbarProps) {
   const [theme, setTheme] = useState<"dark" | "light">("dark");
   const [isAccountOpen, setIsAccountOpen] = useState<boolean>(false);
   const [accountInitialTab, setAccountInitialTab] = useState<"portfolio" | "wallet" | "profile" | "exchanges">("portfolio");
+  const [isSpinning, setIsSpinning] = useState<boolean>(false);
+  const [isPortfolioTooltipOpen, setIsPortfolioTooltipOpen] = useState<boolean>(false);
+  const [isMainBalanceTooltipOpen, setIsMainBalanceTooltipOpen] = useState<boolean>(false);
 
   // Load theme from localStorage on mount
   useEffect(() => {
@@ -106,18 +178,25 @@ export default function Topbar({ onOpenAccount, onMenuToggle, showMenuBtn }: Top
   const handleOpenAccount = (tab: "portfolio" | "wallet" | "profile" | "exchanges" = "portfolio") => {
     setAccountInitialTab(tab);
     if (onOpenAccount) {
-      onOpenAccount();
+      onOpenAccount(tab);
     } else {
       setIsAccountOpen(true);
     }
   };
 
+  const handleRefresh = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setIsSpinning(true);
+    setTimeout(() => {
+      setIsSpinning(false);
+    }, 700);
+  };
+
   return (
     <>
       <header className={styles.topbar} role="banner">
-        {/* Left: Brand Logo + Divider + Page Title */}
+        {/* Left: Brand Logo + Hamburger */}
         <div className={styles.left}>
-          {/* Hamburger — visible on mobile/tablet */}
           {showMenuBtn && (
             <button
               className={styles.hamburgerBtn}
@@ -138,90 +217,149 @@ export default function Topbar({ onOpenAccount, onMenuToggle, showMenuBtn }: Top
           </div>
         </div>
 
-        {/* Right: Portfolio, Trade Cash, Bell, Sun, Wallet Connect, Avatar */}
+        {/* Right Section: [Portfolio | Main Balance + Refresh + Deposit]  [Sun]  [Avatar + Email] */}
         <div className={styles.right}>
-          {/* Portfolio & Trade Cash Navbar Widgets */}
-          <div className={styles.navStatsGroup}>
-            {/* Stack 1: Portfolio Card */}
+          {/* Unified Financial Capsule */}
+          <div className={styles.financialCapsule}>
+            {/* Portfolio Section */}
             <div
-              className={styles.navStatCard}
+              className={styles.statSection}
               onClick={() => handleOpenAccount("portfolio")}
-              title="Open Portfolio ($4.58)"
               role="button"
               tabIndex={0}
+              title="Portfolio"
             >
-              <div className={styles.navStatHeader}>
-                <span className={styles.navStatLabel}>Portfolio</span>
-                <div className={styles.navPnlRow}>
-                  <span className={styles.navChangeRed}>-$0.23</span>
-                  <span className={styles.navChangeLabel}>24h</span>
+              <div className={styles.statLabelRow}>
+                <span className={styles.statLabel}>Portfolio</span>
+                <div className={styles.statActionBtns}>
+                  <div className={styles.infoBtnWrap}>
+                    <button
+                      type="button"
+                      className={styles.statIconBtn}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setIsPortfolioTooltipOpen((v) => !v);
+                      }}
+                      aria-label="Portfolio Info"
+                      title="Portfolio Info"
+                    >
+                      <IconInfo />
+                    </button>
+                    <span className={`${styles.infoTooltip} ${isPortfolioTooltipOpen ? styles.infoTooltipVisible : ""}`}>
+                      Total portfolio value across connected accounts, including unrealized PnL.
+                    </span>
+                  </div>
+                  <button
+                    type="button"
+                    className={`${styles.statIconBtn} ${styles.statIconBtnNext}`}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleOpenAccount("portfolio");
+                    }}
+                    aria-label="Next: View portfolio"
+                    title="View portfolio"
+                  >
+                    <IconChevronRight />
+                  </button>
                 </div>
               </div>
-              <div className={styles.navStatBigVal}>$4.58</div>
+              <div className={styles.valRow}>
+                <span className={styles.statVal}>{portfolioBalance}</span>
+                <span className={styles.statSubVal}>{portfolio24hChange}</span>
+              </div>
             </div>
 
-            {/* Stack 2: Trade Cash Card with Plus Button */}
+            {/* Vertical Divider */}
+            <div className={styles.capsuleDivider} />
+
+            {/* Main Balance Section */}
             <div
-              className={styles.navStatCard}
-              onClick={() => handleOpenAccount("portfolio")}
-              title="Trade Cash ($0.33)"
+              className={styles.statSection}
+              onClick={() => handleOpenAccount("wallet")}
               role="button"
               tabIndex={0}
+              title="Main Balance"
             >
-              <div className={styles.navCashRow}>
-                <div className={styles.navCashMeta}>
-                  <span className={styles.navStatLabel}>Trade cash</span>
-                  <span className={styles.navCashBigVal}>$0.33</span>
+              <div className={styles.statLabelRow}>
+                <span className={styles.statLabel}>Main Balance</span>
+                <div className={styles.statActionBtns}>
+                  <div className={styles.infoBtnWrap}>
+                    <button
+                      type="button"
+                      className={styles.statIconBtn}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setIsMainBalanceTooltipOpen((v) => !v);
+                      }}
+                      aria-label="Main Balance Info"
+                      title="Main Balance Info"
+                    >
+                      <IconInfo />
+                    </button>
+                    <span className={`${styles.infoTooltip} ${isMainBalanceTooltipOpen ? styles.infoTooltipVisible : ""}`}>
+                      Available cash and margin balance ready for trading, transfers, and withdrawals.
+                    </span>
+                  </div>
                 </div>
-                <button
-                  type="button"
-                  className={styles.navPlusBtn}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleOpenAccount("portfolio");
-                  }}
-                  title="Add trade cash"
-                  aria-label="Add trade cash"
-                >
-                  <IconPlus />
-                </button>
+              </div>
+              <div className={styles.valRow}>
+                <span className={styles.statVal}>{mainBalance}</span>
               </div>
             </div>
-          </div>
 
-          {/* Notification Bell */}
-          <div className={styles.bellWrap}>
-            <button className={styles.iconBtn} aria-label="Notifications">
-              <IconBell />
+            {/* Refresh Button */}
+            <button
+              type="button"
+              className={styles.refreshBtn}
+              onClick={handleRefresh}
+              title="Refresh balances"
+              aria-label="Refresh balances"
+            >
+              <IconRefresh isSpinning={isSpinning} />
             </button>
-            <span className={styles.notifDotPurple} aria-hidden />
+
+            {/* Deposit Button */}
+            <button
+              type="button"
+              className={styles.depositBtn}
+              onClick={() => handleOpenAccount("wallet")}
+              title="Deposit funds"
+            >
+              <IconDeposit />
+              <span>Deposit</span>
+            </button>
           </div>
 
-          {/* Theme Toggle Sun/Moon Icon — hidden on mobile */}
-          <button className={`${styles.iconBtn} ${styles.hideOnMobile}`} aria-label="Toggle Theme" onClick={toggleTheme}>
+          {/* Theme Toggle Sun Icon */}
+          <button
+            type="button"
+            className={styles.themeToggleBtn}
+            onClick={toggleTheme}
+            aria-label="Toggle Theme"
+            title={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
+          >
             {theme === "light" ? <IconMoon /> : <IconSun />}
           </button>
 
-          {/* Wallet Connect / Connected State Button — label hidden on mobile */}
-          {!isConnected ? (
-            <button
-              className={styles.connectWalletBtn}
-              onClick={() => setIsConnected(true)}
-              title="Connect your crypto wallet"
-            >
-              <IconWallet />
-              <span className={styles.walletLabel}>Connect Wallet</span>
-            </button>
-          ) : (
-            <button
-              className={styles.connectedPill}
-              onClick={() => handleOpenAccount("portfolio")}
-              title="Open Account & Settings"
-            >
-              <div className={styles.walletAvatar}><span>I5</span></div>
-              <span className={`${styles.addressText} ${styles.hideOnMobile}`}>{walletAddress}</span>
-            </button>
-          )}
+          {/* User Profile Capsule */}
+          <div
+            className={styles.profileCapsule}
+            onClick={() => handleOpenAccount("profile")}
+            role="button"
+            tabIndex={0}
+            title={`Account: ${userEmail}`}
+          >
+            <div className={styles.avatarWrap}>
+              <img
+                src="/user_avatar.png"
+                alt="User avatar"
+                width={36}
+                height={36}
+                className={styles.avatarImg}
+              />
+            </div>
+            <span className={styles.userEmailText}>{userEmail}</span>
+          </div>
         </div>
       </header>
 
@@ -231,7 +369,6 @@ export default function Topbar({ onOpenAccount, onMenuToggle, showMenuBtn }: Top
         onClose={() => setIsAccountOpen(false)}
         initialTab={accountInitialTab}
         onSignOut={() => {
-          setIsConnected(false);
           setIsAccountOpen(false);
         }}
       />

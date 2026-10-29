@@ -1,4 +1,4 @@
-/* Topbar — Full Width Header with Wallet Connect (Design Token Button Color) */
+/* Topbar — Full Width Header */
 
 .topbar {
   position: fixed;
@@ -6,26 +6,26 @@
   left: 0;
   right: 0;
   width: 100%;
-  height: var(--layout-header-height);
+  height: var(--layout-header-height, 64px);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 var(--space-6);
-  background-color: var(--bg-surface);
-  border-bottom: var(--border-width-default) solid var(--border-color-default);
-  z-index: var(--z-header);
+  padding: 0 var(--space-6, 24px);
+  background-color: var(--bg-surface, #0f0f11);
+  border-bottom: var(--border-width-default, 1px) solid var(--border-color-default, rgba(255, 255, 255, 0.08));
+  z-index: var(--z-header, 100);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   user-select: none;
 }
 
 /* ----------------------------------------------------------
-   Left Section (Brand Mark + Divider + Title)
+   Left Section (Brand Logo)
    ---------------------------------------------------------- */
 .left {
   display: flex;
   align-items: center;
-  gap: var(--space-4);
+  gap: var(--space-4, 16px);
   min-width: 0;
 }
 
@@ -51,21 +51,24 @@
   filter: drop-shadow(0 4px 14px rgba(246, 235, 23, 0.45));
 }
 
-.headerDivider {
-  width: var(--border-width-default);
-  height: 18px;
-  background-color: var(--border-color-default);
+.hamburgerBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-md, 8px);
+  color: var(--text-secondary, #a1a1aa);
+  background: transparent;
+  border: none;
+  cursor: pointer;
   flex-shrink: 0;
+  transition: background-color 150ms ease, color 150ms ease;
 }
 
-.pageTitle {
-  color: var(--text-primary);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  font-weight: 600;
-  font-size: 15px;
-  font-family: var(--font-sans);
+.hamburgerBtn:hover {
+  background-color: var(--bg-surface-overlay, rgba(255, 255, 255, 0.08));
+  color: var(--text-primary, #ffffff);
 }
 
 /* ----------------------------------------------------------
@@ -74,377 +77,407 @@
 .right {
   display: flex;
   align-items: center;
-  gap: var(--space-6);
+  gap: 16px;
   flex-shrink: 0;
 }
 
-/* ── Portfolio & Trade Cash Navbar Widgets ───────────────── */
-.navStatsGroup {
+/* ── Unified Financial Capsule ───────────────────────────── */
+.financialCapsule {
   display: flex;
   align-items: center;
-  gap: 8px;
-}
-
-.navStatCard {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 5px 12px;
-  min-width: 140px;
-  height: 44px;
-  background-color: var(--card-bg, #161616);
-  border: var(--border-width-default) solid var(--border-color-default, rgba(228, 228, 228, 0.10));
-  border-radius: var(--radius-xl, 14px);
-  cursor: pointer;
-  user-select: none;
-  transition: all var(--duration-fast, 150ms) var(--easing-standard);
+  background-color: #141416;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 9999px;
+  padding: 5px 8px 5px 20px;
+  height: 48px;
   box-sizing: border-box;
 }
 
-.navStatCard:hover {
-  background-color: var(--neutral-850, #1c1c1c);
-  border-color: var(--border-color-strong, rgba(228, 228, 228, 0.22));
-  transform: translateY(-1px);
-}
-
-.navStatHeader {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 8px;
-}
-
-.navStatLabel {
-  font-family: var(--font-sans);
-  font-size: 11px;
-  font-weight: 500;
-  color: var(--text-tertiary, #787878);
-  line-height: 1.2;
-}
-
-.navPnlRow {
-  display: flex;
-  align-items: baseline;
-  gap: 3px;
-}
-
-.navChangeRed {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--red-500, #e13b3b);
-  line-height: 1.2;
-}
-
-.navChangeLabel {
-  font-family: var(--font-sans);
-  font-size: 10px;
-  font-weight: 400;
-  color: var(--text-tertiary, #787878);
-  line-height: 1.2;
-}
-
-.navStatBigVal {
-  font-family: var(--font-mono);
-  font-size: 14.5px;
-  font-weight: 700;
-  color: var(--text-primary, #ffffff);
-  line-height: 1.2;
-  letter-spacing: -0.01em;
-}
-
-.navCashRow {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-  width: 100%;
-}
-
-.navCashMeta {
+.statSection {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 1px;
+  gap: 2px;
+  cursor: pointer;
+  padding: 2px 4px;
+  border-radius: 6px;
+  transition: opacity 150ms ease;
 }
 
-.navCashBigVal {
-  font-family: var(--font-mono);
-  font-size: 14.5px;
-  font-weight: 700;
-  color: var(--text-primary, #ffffff);
-  line-height: 1.2;
+.statSection:hover {
+  opacity: 0.85;
+}
+
+.statLabelRow {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.statLabel {
+  font-family: var(--font-sans, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif);
+  font-size: 11.5px;
+  font-weight: 500;
+  color: #737373;
+  line-height: 1.1;
   letter-spacing: -0.01em;
 }
 
-.navPlusBtn {
-  width: 26px;
-  height: 26px;
-  border-radius: var(--radius-sm, 7px);
-  background-color: var(--button-secondary-bg, rgba(255, 255, 255, 0.06));
-  border: var(--border-width-default) solid var(--button-secondary-border, rgba(228, 228, 228, 0.12));
-  color: var(--text-primary, #ffffff);
-  display: flex;
+.statActionBtns {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.infoBtnWrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.statIconBtn {
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
-  flex-shrink: 0;
-  padding: 0;
-  transition: all var(--duration-fast, 150ms) var(--easing-standard);
-}
-
-.navPlusBtn:hover {
-  background-color: var(--button-secondary-bg-hover, rgba(255, 255, 255, 0.14));
-  border-color: var(--border-color-strong, rgba(228, 228, 228, 0.28));
-  color: var(--neutral-0, #ffffff);
-  transform: scale(1.06);
-}
-
-/* Pill Badges (Demo data & US Market Open) */
-.badgeDemo {
-  display: flex;
-  align-items: center;
-  gap: var(--space-3);
-  font-family: var(--font-sans);
-  font-size: 12px;
-  font-weight: 500;
-  color: var(--text-secondary);
-  background-color: var(--bg-surface-raised);
-  border: var(--border-width-default) solid var(--border-color-default);
-  border-radius: var(--radius-full);
-  padding: 6px 14px;
-  height: 34px;
-  white-space: nowrap;
-}
-
-.dotGrey {
-  width: 6px;
-  height: 6px;
-  border-radius: var(--radius-full);
-  background-color: var(--text-tertiary);
-}
-
-.badgeMarket {
-  display: flex;
-  align-items: center;
-  gap: var(--space-3);
-  font-family: var(--font-sans);
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--emerald-500);
-  background-color: var(--color-chart-bullish-fill);
-  border: var(--border-width-default) solid rgba(47, 203, 115, 0.3);
-  border-radius: var(--radius-full);
-  padding: 6px 14px;
-  height: 34px;
-  white-space: nowrap;
-}
-
-.dotGreen {
-  width: 6px;
-  height: 6px;
-  border-radius: var(--radius-full);
-  background-color: var(--emerald-500);
-  box-shadow: 0 0 6px rgba(47, 203, 115, 0.6);
-}
-
-/* Icon Buttons (Bell & Sun) */
-.iconBtn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 36px;
-  height: 36px;
-  border-radius: var(--radius-full);
-  color: var(--text-secondary);
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
   background: transparent;
   border: none;
+  color: #737373;
   cursor: pointer;
-  transition: background-color var(--duration-fast) var(--easing-standard), color var(--duration-fast) var(--easing-standard);
+  padding: 0;
+  transition: color 150ms ease, background-color 150ms ease, transform 150ms ease;
 }
 
-.iconBtn:hover {
-  background-color: var(--bg-surface-overlay);
-  color: var(--text-primary);
+.statIconBtn:hover {
+  color: #ffffff;
+  background-color: rgba(255, 255, 255, 0.12);
 }
 
-/* Bell Notification Dot */
-.bellWrap {
-  position: relative;
+.statIconBtnNext:hover {
+  transform: translateX(1px);
 }
 
-.notifDotPurple {
+.infoTooltip {
   position: absolute;
-  top: 7px;
-  right: 7px;
-  width: 7px;
-  height: 7px;
-  border-radius: var(--radius-full);
-  background-color: var(--emerald-500);
-  border: 1.5px solid var(--bg-surface);
+  top: calc(100% + 10px);
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #1a1a1c;
+  color: #e4e4e7;
+  font-family: var(--font-sans, sans-serif);
+  font-size: 11px;
+  font-weight: 400;
+  line-height: 1.35;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+  white-space: normal;
+  width: 210px;
+  text-align: left;
   pointer-events: none;
+  z-index: 300;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 150ms ease, visibility 150ms ease, transform 150ms ease;
 }
 
-/* Connect Wallet Button (Design Token Primary Button Color: White Platinum --button-primary-bg) */
-.connectWalletBtn {
+.infoTooltip::before {
+  content: "";
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent transparent #1a1a1c transparent;
+}
+
+.infoTooltip::after {
+  content: "";
+  position: absolute;
+  bottom: calc(100% + 1px);
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent transparent rgba(255, 255, 255, 0.14) transparent;
+  z-index: -1;
+}
+
+.infoBtnWrap:hover .infoTooltip,
+.infoTooltipVisible {
+  opacity: 1;
+  visibility: visible;
+}
+
+.valRow {
   display: flex;
-  align-items: center;
-  gap: var(--space-4);
-  font-family: var(--font-sans);
-  font-size: 13px;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.statVal {
+  font-family: var(--font-mono, "SF Mono", Monaco, Consolas, monospace);
+  font-size: 15px;
   font-weight: 700;
-  color: var(--button-primary-text);
-  background-color: var(--button-primary-bg);
-  border: none;
-  border-radius: var(--radius-full);
-  padding: 8px 18px;
-  height: 36px;
-  cursor: pointer;
-  transition: background-color var(--duration-fast) var(--easing-standard), transform var(--duration-fast) var(--easing-standard), box-shadow var(--duration-fast) var(--easing-standard);
-  box-shadow: var(--shadow-sm);
+  color: #ffffff;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+}
+
+.statSubVal {
+  font-family: var(--font-sans, -apple-system, BlinkMacSystemFont, sans-serif);
+  font-size: 12px;
+  font-weight: 500;
+  color: #666666;
+  line-height: 1.1;
   white-space: nowrap;
 }
 
-.connectWalletBtn:hover {
-  background-color: var(--button-primary-bg-hover);
-  transform: translateY(-1px);
-  box-shadow: var(--shadow-md);
+.capsuleDivider {
+  width: 1px;
+  height: 26px;
+  background-color: rgba(255, 255, 255, 0.12);
+  margin: 0 16px;
+  flex-shrink: 0;
 }
 
-.connectWalletBtn:active {
+/* Refresh Button */
+.refreshBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  margin-left: 14px;
+  border-radius: 8px;
+  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #c4c4c8;
+  cursor: pointer;
+  padding: 0;
+  flex-shrink: 0;
+  transition: all 150ms ease;
+}
+
+.refreshBtn:hover {
+  background-color: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+}
+
+.spinIcon {
+  animation: spin 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Deposit Button */
+.depositBtn {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  height: 36px;
+  margin-left: 10px;
+  padding: 0 16px;
+  border-radius: 9px;
+  background-color: #f4f4f5;
+  color: #09090b;
+  border: none;
+  font-family: var(--font-sans, -apple-system, BlinkMacSystemFont, sans-serif);
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: all 150ms ease;
+}
+
+.depositBtn:hover {
+  background-color: #ffffff;
+  transform: translateY(-0.5px);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+}
+
+.depositBtn:active {
   transform: translateY(0);
 }
 
-/* Connected State Pill */
-.connectedPill {
-  display: flex;
-  align-items: center;
-  gap: var(--space-4);
-  font-family: var(--font-mono);
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--text-primary);
-  background-color: var(--bg-surface-raised);
-  border: var(--border-width-default) solid var(--border-color-strong);
-  border-radius: var(--radius-full);
-  padding: 0 var(--space-8);
-  height: 38px;
-  cursor: pointer;
-  transition: border-color var(--duration-fast) var(--easing-standard), background-color var(--duration-fast) var(--easing-standard);
-  white-space: nowrap;
-}
-
-.connectedPill:hover {
-  border-color: rgba(47, 203, 115, 0.4);
-  background-color: var(--bg-surface-overlay);
-}
-
-.dotGreenPulse {
-  width: 8px;
-  height: 8px;
-  border-radius: var(--radius-full);
-  background-color: var(--emerald-500);
-  box-shadow: 0 0 8px var(--emerald-500);
-  flex-shrink: 0;
-}
-
-.addressText {
-  letter-spacing: 0.02em;
-}
-
-.walletAvatar {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 18px;
-  height: 18px;
-  border-radius: var(--radius-full);
-  background-color: var(--bg-surface-overlay);
-  color: var(--text-primary);
-  font-family: var(--font-sans);
-  font-weight: 700;
-  font-size: 9px;
-  border: var(--border-width-default) solid var(--border-color-default);
-  flex-shrink: 0;
-}
-
-/* ----------------------------------------------------------
-   Hamburger Menu Button (Mobile / Tablet)
-   ---------------------------------------------------------- */
-.hamburgerBtn {
+/* ── Theme Toggle Sun Button ─────────────────────────────── */
+.themeToggleBtn {
   display: flex;
   align-items: center;
   justify-content: center;
   width: 36px;
   height: 36px;
-  border-radius: var(--radius-md);
-  color: var(--text-secondary);
+  border-radius: 50%;
   background: transparent;
   border: none;
+  color: #d1d1d6;
   cursor: pointer;
+  padding: 0;
   flex-shrink: 0;
-  transition:
-    background-color var(--duration-fast) var(--easing-standard),
-    color var(--duration-fast) var(--easing-standard);
+  transition: color 150ms ease, background-color 150ms ease;
 }
 
-.hamburgerBtn:hover {
-  background-color: var(--bg-surface-overlay);
-  color: var(--text-primary);
+.themeToggleBtn:hover {
+  color: #ffffff;
+  background-color: rgba(255, 255, 255, 0.08);
+}
+
+/* ── User Profile Capsule ────────────────────────────────── */
+.profileCapsule {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: 48px;
+  padding: 4px 20px 4px 6px;
+  border-radius: 9999px;
+  background-color: #141416;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  cursor: pointer;
+  box-sizing: border-box;
+  flex-shrink: 0;
+  transition: all 150ms ease;
+}
+
+.profileCapsule:hover {
+  background-color: #1a1a1d;
+  border-color: rgba(255, 255, 255, 0.22);
+}
+
+.avatarWrap {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f7dcd6;
+  flex-shrink: 0;
+}
+
+.avatarImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.userEmailText {
+  font-family: var(--font-sans, -apple-system, BlinkMacSystemFont, sans-serif);
+  font-size: 14.5px;
+  font-weight: 500;
+  color: #ffffff;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
 }
 
 /* ----------------------------------------------------------
-   Responsive Topbar Rules
+   Light Mode Overrides
    ---------------------------------------------------------- */
+:global([data-theme="light"]) .financialCapsule,
+:global(.light) .financialCapsule {
+  background-color: #f4f4f5;
+  border-color: rgba(0, 0, 0, 0.08);
+}
 
-/* Tablet (640px–1023px): narrow gap, adapt stat cards */
-@media (max-width: 1023px) {
+:global([data-theme="light"]) .statVal,
+:global(.light) .statVal {
+  color: #09090b;
+}
+
+:global([data-theme="light"]) .refreshBtn,
+:global(.light) .refreshBtn {
+  background-color: rgba(0, 0, 0, 0.04);
+  border-color: rgba(0, 0, 0, 0.08);
+  color: #3f3f46;
+}
+
+:global([data-theme="light"]) .depositBtn,
+:global(.light) .depositBtn {
+  background-color: #09090b;
+  color: #ffffff;
+}
+
+:global([data-theme="light"]) .themeToggleBtn,
+:global(.light) .themeToggleBtn {
+  color: #3f3f46;
+}
+
+:global([data-theme="light"]) .profileCapsule,
+:global(.light) .profileCapsule {
+  background-color: #f4f4f5;
+  border-color: rgba(0, 0, 0, 0.08);
+}
+
+:global([data-theme="light"]) .userEmailText,
+:global(.light) .userEmailText {
+  color: #09090b;
+}
+
+:global([data-theme="light"]) .statIconBtn,
+:global(.light) .statIconBtn {
+  color: #71717a;
+}
+
+:global([data-theme="light"]) .statIconBtn:hover,
+:global(.light) .statIconBtn:hover {
+  color: #09090b;
+  background-color: rgba(0, 0, 0, 0.06);
+}
+
+:global([data-theme="light"]) .infoTooltip,
+:global(.light) .infoTooltip {
+  background-color: #ffffff;
+  color: #09090b;
+  border-color: rgba(0, 0, 0, 0.12);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+}
+
+:global([data-theme="light"]) .infoTooltip::before,
+:global(.light) .infoTooltip::before {
+  border-color: transparent transparent #ffffff transparent;
+}
+
+:global([data-theme="light"]) .infoTooltip::after,
+:global(.light) .infoTooltip::after {
+  border-color: transparent transparent rgba(0, 0, 0, 0.12) transparent;
+}
+
+/* ----------------------------------------------------------
+   Responsive Rules
+   ---------------------------------------------------------- */
+@media (max-width: 1024px) {
   .right {
-    gap: var(--space-3);
+    gap: 10px;
   }
 
-  .navStatCard {
-    min-width: 122px;
-    padding: 4px 9px;
+  .statSubVal {
+    display: none;
+  }
+
+  .financialCapsule {
+    padding: 5px 6px 5px 14px;
+  }
+
+  .capsuleDivider {
+    margin: 0 12px;
   }
 }
 
-/* Mobile (< 640px): minimal topbar */
-@media (max-width: 639px) {
-  .topbar {
-    padding: 0 var(--space-4);
-  }
-
-  .right {
-    gap: var(--space-2);
-  }
-
-  .navStatsGroup {
+@media (max-width: 768px) {
+  .financialCapsule {
     display: none;
-  }
-
-  .hideOnMobile {
-    display: none !important;
-  }
-
-  .walletLabel {
-    display: none;
-  }
-
-  .connectWalletBtn {
-    width: 36px;
-    height: 36px;
-    padding: 0;
-    border-radius: var(--radius-full);
-    justify-content: center;
-  }
-
-  .connectedPill {
-    width: 36px;
-    height: 36px;
-    padding: 0 var(--space-3);
-    gap: 0;
-    border-radius: var(--radius-full);
-    justify-content: center;
   }
 }
