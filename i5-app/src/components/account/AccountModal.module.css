@@ -4757,5 +4757,143 @@
   box-shadow: 0 0 12px rgba(196, 46, 46, 0.5);
 }
 
+/* ── Heading Info Tooltips ───────────────────────────────── */
+.headingWithInfoRow {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  vertical-align: middle;
+}
+
+.headingInfoWrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  vertical-align: middle;
+}
+
+.headingInfoBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: transparent;
+  border: none;
+  color: var(--text-tertiary, #787880);
+  cursor: pointer;
+  padding: 0;
+  transition: color 150ms ease, background-color 150ms ease, transform 150ms ease;
+  flex-shrink: 0;
+}
+
+.headingInfoBtn:hover {
+  color: var(--text-primary, #ffffff);
+  background-color: rgba(255, 255, 255, 0.12);
+  transform: scale(1.08);
+}
+
+.headingTooltip {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #1a1a1c;
+  color: #e4e4e7;
+  font-family: var(--font-sans, sans-serif);
+  font-size: 11px;
+  font-weight: 400;
+  line-height: 1.35;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+  white-space: normal;
+  width: 220px;
+  text-align: left;
+  pointer-events: none;
+  z-index: 500;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 150ms ease, visibility 150ms ease;
+}
+
+.headingTooltipBottom {
+  top: calc(100% + 8px);
+}
+
+.headingTooltipBottom::before {
+  content: "";
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent transparent #1a1a1c transparent;
+}
+
+.headingTooltipBottom::after {
+  content: "";
+  position: absolute;
+  bottom: calc(100% + 1px);
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent transparent rgba(255, 255, 255, 0.14) transparent;
+  z-index: -1;
+}
+
+.headingTooltipTop {
+  bottom: calc(100% + 8px);
+}
+
+.headingTooltipTop::before {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 5px;
+  border-style: solid;
+  border-color: #1a1a1c transparent transparent transparent;
+}
+
+.headingInfoWrap:hover .headingTooltip,
+.headingTooltipVisible {
+  opacity: 1;
+  visibility: visible;
+}
+
+:global([data-theme="light"]) .headingInfoBtn,
+:global(.light) .headingInfoBtn {
+  color: #71717a;
+}
+
+:global([data-theme="light"]) .headingInfoBtn:hover,
+:global(.light) .headingInfoBtn:hover {
+  color: #09090b;
+  background-color: rgba(0, 0, 0, 0.06);
+}
+
+:global([data-theme="light"]) .headingTooltip,
+:global(.light) .headingTooltip {
+  background-color: #ffffff;
+  color: #09090b;
+  border-color: rgba(0, 0, 0, 0.12);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+}
+
+:global([data-theme="light"]) .headingTooltipBottom::before,
+:global(.light) .headingTooltipBottom::before {
+  border-color: transparent transparent #ffffff transparent;
+}
+
+:global([data-theme="light"]) .headingTooltipTop::before,
+:global(.light) .headingTooltipTop::before {
+  border-color: #ffffff transparent transparent transparent;
+}
+
 
 

@@ -995,6 +995,43 @@ interface AccountModalProps {
   initialTab?: "portfolio" | "wallet" | "profile" | "exchanges";
 }
 
+interface HeadingInfoProps {
+  info: string;
+  size?: number;
+  placement?: "top" | "bottom";
+}
+
+function HeadingInfo({ info, size = 12, placement = "bottom" }: HeadingInfoProps) {
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+
+  return (
+    <span className={styles.headingInfoWrap} onClick={(e) => e.stopPropagation()}>
+      <button
+        type="button"
+        className={styles.headingInfoBtn}
+        onClick={(e) => {
+          e.stopPropagation();
+          setIsOpen((v) => !v);
+        }}
+        aria-label="More information"
+        title={info}
+      >
+        <svg width={size} height={size} viewBox="0 0 16 16" fill="none" aria-hidden>
+          <circle cx="8" cy="8" r="6.25" stroke="currentColor" strokeWidth="1.3" />
+          <path d="M8 7v4M8 4.75v.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+        </svg>
+      </button>
+      <span
+        className={`${styles.headingTooltip} ${
+          placement === "top" ? styles.headingTooltipTop : styles.headingTooltipBottom
+        } ${isOpen ? styles.headingTooltipVisible : ""}`}
+      >
+        {info}
+      </span>
+    </span>
+  );
+}
+
 export default function AccountModal({ isOpen, onClose, onSignOut, initialTab }: AccountModalProps) {
   // Navigation State — Default to initialTab or Portfolio (Formerly Profile)
   const [activeTab, setActiveTab] = useState<"portfolio" | "wallet" | "profile" | "exchanges">(
@@ -1329,7 +1366,20 @@ export default function AccountModal({ isOpen, onClose, onSignOut, initialTab }:
       {BALANCE_METRICS.map((metric) => (
         <div key={metric.id} className={styles.balanceCard}>
           <div className={styles.balanceCardHeader}>
-            <span className={styles.balanceCardLabel}>{metric.label}</span>
+            <div className={styles.headingWithInfoRow}>
+              <span className={styles.balanceCardLabel}>{metric.label}</span>
+              <HeadingInfo
+                info={
+                  metric.id === "total"
+                    ? "Sum of all available cash, margin collateral, and exchange sub-accounts."
+                    : metric.id === "main"
+                    ? "Primary liquid funds available for direct deployment or internal transfers."
+                    : metric.id === "hyperliquid"
+                    ? "Collateral and margin allocated on the Hyperliquid DEX account."
+                    : "Collateral and margin allocated on the Aster DEX account."
+                }
+              />
+            </div>
             <div className={styles.balanceCardIconWrap}>
               {metric.iconType === "wallet" && <Wallet size={13} />}
               {metric.iconType === "vault" && <Box size={13} />}
@@ -1352,7 +1402,10 @@ export default function AccountModal({ isOpen, onClose, onSignOut, initialTab }:
         {/* Header (Title + Subtitle on Left, Close Button on Right) */}
         <div className={styles.header}>
           <div className={styles.headerLeft}>
-            <h2 className={styles.title}>Account</h2>
+            <div className={styles.headingWithInfoRow}>
+              <h2 className={styles.title}>Account</h2>
+              <HeadingInfo info="Manage your overarching identity, active trading balances, and exchange credentials." />
+            </div>
             <p className={styles.subtitle}>Manage your account preferences and system configurations.</p>
           </div>
 
@@ -1477,13 +1530,16 @@ export default function AccountModal({ isOpen, onClose, onSignOut, initialTab }:
                 {/* 1. TOP SECTION: PORTFOLIO TITLE & SEARCH BAR */}
                 <div className={styles.portfolioTopHeader}>
                   <div className={styles.portfolioTopTitleCol}>
-                    <h2 className={styles.portfolioPageTitle}>
-                      {profileSectionTab === "portfolio"
-                        ? "Portfolio"
-                        : profileSectionTab === "positions"
-                        ? "Your Positions"
-                        : "Recent Activity"}
-                    </h2>
+                    <div className={styles.headingWithInfoRow}>
+                      <h2 className={styles.portfolioPageTitle}>
+                        {profileSectionTab === "portfolio"
+                          ? "Portfolio"
+                          : profileSectionTab === "positions"
+                          ? "Your Positions"
+                          : "Recent Activity"}
+                      </h2>
+                      <HeadingInfo info="Aggregated performance analytics across spot tokens, perpetual contracts, and cash reserves." />
+                    </div>
                     <p className={styles.portfolioPageSub}>
                       {profileSectionTab === "portfolio"
                         ? "Real-time performance across all your tokens and positions"
@@ -1573,7 +1629,10 @@ export default function AccountModal({ isOpen, onClose, onSignOut, initialTab }:
                   <div className={styles.portfolioCard}>
                     <div className={styles.portfolioHeader}>
                       <div className={styles.portfolioTitleRow}>
-                        <span>Portfolio Value</span>
+                        <div className={styles.headingWithInfoRow}>
+                          <span>Portfolio Value</span>
+                          <HeadingInfo info="Total estimated value of all holdings based on current mid-market prices." />
+                        </div>
                         <button
                           className={styles.eyeIconBtn}
                           onClick={() => setIsBalanceVisible(!isBalanceVisible)}
@@ -1660,7 +1719,10 @@ export default function AccountModal({ isOpen, onClose, onSignOut, initialTab }:
                     {/* Card 1: Total Cash */}
                     <div className={styles.topMiniCard}>
                       <div className={styles.topMiniCardHeader}>
-                        <span className={styles.topMiniCardLabel}>Total Cash</span>
+                        <div className={styles.headingWithInfoRow}>
+                          <span className={styles.topMiniCardLabel}>Total Cash</span>
+                          <HeadingInfo info="Available unallocated cash held in your primary account." />
+                        </div>
                         <button
                           className={styles.miniCardIconBtn}
                           onClick={() => setActiveTab("wallet")}
@@ -1682,7 +1744,10 @@ export default function AccountModal({ isOpen, onClose, onSignOut, initialTab }:
                       }}
                     >
                       <div className={styles.topMiniCardHeader}>
-                        <span className={styles.topMiniCardLabel}>Assets</span>
+                        <div className={styles.headingWithInfoRow}>
+                          <span className={styles.topMiniCardLabel}>Assets</span>
+                          <HeadingInfo info="Total count and categorization of active token and perps positions." />
+                        </div>
                         <ChevronRight size={15} className={styles.chevronMuted} />
                       </div>
                       <div className={styles.topMiniCardBigVal}>5</div>
@@ -1705,7 +1770,10 @@ export default function AccountModal({ isOpen, onClose, onSignOut, initialTab }:
                     {/* Card 3: 24H P&L */}
                     <div className={styles.topMiniCard}>
                       <div className={styles.topMiniCardHeader}>
-                        <span className={styles.topMiniCardLabel}>24H P&L</span>
+                        <div className={styles.headingWithInfoRow}>
+                          <span className={styles.topMiniCardLabel}>24H P&L</span>
+                          <HeadingInfo info="Net realized and unrealized profit/loss across all venues in the last 24 hours." />
+                        </div>
                       </div>
                       <div className={styles.pnlCardContentRow}>
                         <div>
@@ -1733,7 +1801,10 @@ export default function AccountModal({ isOpen, onClose, onSignOut, initialTab }:
                 <div className={styles.portfolioAllocationCard}>
                   <div className={styles.allocationHeader}>
                     <div className={styles.allocationTitleRow}>
-                      <span className={styles.allocationTitle}>Asset Distribution</span>
+                      <div className={styles.headingWithInfoRow}>
+                        <span className={styles.allocationTitle}>Asset Distribution</span>
+                        <HeadingInfo info="Visual ratio of your total capital allocated among spot tokens, perps, and cash." />
+                      </div>
                       <span className={styles.allocationSub}>Breakdown of holdings across categories</span>
                     </div>
                     <button
@@ -1777,9 +1848,12 @@ export default function AccountModal({ isOpen, onClose, onSignOut, initialTab }:
               <div className={styles.positionsSection}>
                   <div className={styles.positionsSectionHeader}>
                     <div className={styles.positionsTitleCol}>
-                      <h3 className={styles.positionsSectionTitle}>
-                        Your Positions <span className={styles.positionsCountMuted}>({filteredBlueprintPositions.length})</span>
-                      </h3>
+                      <div className={styles.headingWithInfoRow}>
+                        <h3 className={styles.positionsSectionTitle}>
+                          Your Positions <span className={styles.positionsCountMuted}>({filteredBlueprintPositions.length})</span>
+                        </h3>
+                        <HeadingInfo info="Live open positions with entry prices, size, margin ratio, and unrealized PnL." />
+                      </div>
                       <p className={styles.positionsSectionSub}>
                         Live performance across your tokens and perps
                       </p>
@@ -1996,7 +2070,10 @@ export default function AccountModal({ isOpen, onClose, onSignOut, initialTab }:
                   {/* Left Column: Recent Activity Card */}
                   <div className={styles.recentActivityCard}>
                     <div className={styles.recentActivityHeader}>
-                      <h4 className={styles.recentActivityTitle}>Recent Activity</h4>
+                      <div className={styles.headingWithInfoRow}>
+                        <h4 className={styles.recentActivityTitle}>Recent Activity</h4>
+                        <HeadingInfo info="Chronological audit log of all trade executions, swaps, and account operations." />
+                      </div>
 
                       {/* Activity Segment Filters */}
                       <div className={styles.activityTabsSegment}>
@@ -2171,7 +2248,10 @@ export default function AccountModal({ isOpen, onClose, onSignOut, initialTab }:
                       <span className={styles.actionBadgeGreen}>Instant EVM</span>
                     </div>
                     <div className={styles.actionCardBody}>
-                      <h4 className={styles.actionCardTitle}>Deposit</h4>
+                      <div className={styles.headingWithInfoRow}>
+                        <h4 className={styles.actionCardTitle}>Deposit</h4>
+                        <HeadingInfo info="Deposit crypto or fiat funds into your account via EVM or Solana networks." />
+                      </div>
                       <p className={styles.actionCardDesc}>
                         Deposit crypto or fiat into your account via EVM or Solana networks
                       </p>
@@ -2193,7 +2273,10 @@ export default function AccountModal({ isOpen, onClose, onSignOut, initialTab }:
                       </div>
                     </div>
                     <div className={styles.actionCardBody}>
-                      <h4 className={styles.actionCardTitle}>Withdraw</h4>
+                      <div className={styles.headingWithInfoRow}>
+                        <h4 className={styles.actionCardTitle}>Withdraw</h4>
+                        <HeadingInfo info="Withdraw funds directly to external Web3 wallets or bank accounts." />
+                      </div>
                       <p className={styles.actionCardDesc}>
                         Withdraw funds directly to external Web3 wallets or bank accounts
                       </p>
@@ -2216,7 +2299,10 @@ export default function AccountModal({ isOpen, onClose, onSignOut, initialTab }:
                       <span className={styles.actionBadgeBlue}>Internal</span>
                     </div>
                     <div className={styles.actionCardBody}>
-                      <h4 className={styles.actionCardTitle}>Transfer</h4>
+                      <div className={styles.headingWithInfoRow}>
+                        <h4 className={styles.actionCardTitle}>Transfer</h4>
+                        <HeadingInfo info="Instant zero-fee transfer between Main, Crypto, Hyperliquid, and Aster balances." />
+                      </div>
                       <p className={styles.actionCardDesc}>
                         Instant zero-fee transfer between Main, Crypto, Hyperliquid, and Aster balances
                       </p>
@@ -2237,6 +2323,7 @@ export default function AccountModal({ isOpen, onClose, onSignOut, initialTab }:
                     <div className={styles.activityHeaderLeft}>
                       <div className={styles.activityTitleRow}>
                         <span className={styles.activityMainTitle}>Wallet Activity</span>
+                        <HeadingInfo info="Comprehensive history of deposits, withdrawals, and internal transfer transactions." />
                         <span className={styles.activityRecentTag}>(Recent)</span>
                       </div>
                       <span className={styles.activitySubtitle}>
@@ -2342,7 +2429,10 @@ export default function AccountModal({ isOpen, onClose, onSignOut, initialTab }:
                 {/* Header Row */}
                 <div className={styles.portfolioTopHeader}>
                   <div className={styles.portfolioTopTitleCol}>
-                    <h2 className={styles.portfolioPageTitle}>Profile &amp; Credentials</h2>
+                    <div className={styles.headingWithInfoRow}>
+                      <h2 className={styles.portfolioPageTitle}>Profile &amp; Credentials</h2>
+                      <HeadingInfo info="Manage personal identity, verified mailboxes, connected Telegram bots, and security credentials." />
+                    </div>
                     <p className={styles.portfolioPageSub}>
                       Manage personal identity, verified mailboxes, connected Telegram bots, and security credentials.
                     </p>
@@ -2389,7 +2479,10 @@ export default function AccountModal({ isOpen, onClose, onSignOut, initialTab }:
                       <div className={styles.userHeroDivider} />
 
                       <div className={styles.userHeroRight}>
-                        <span className={styles.walletBoxLabel}>Wallet Address</span>
+                        <div className={styles.headingWithInfoRow}>
+                          <span className={styles.walletBoxLabel}>Wallet Address</span>
+                          <HeadingInfo info="Your connected primary Web3 wallet address used for signature authentications." />
+                        </div>
                         <div className={styles.walletAddressBox}>
                           <CreditCard size={15} className={styles.walletCardIcon} />
                           <span className={styles.walletAddressSnippet}>{walletAddress}</span>
@@ -2415,6 +2508,7 @@ export default function AccountModal({ isOpen, onClose, onSignOut, initialTab }:
                             <span className={styles.profileSectionTitle}>
                               Mail Accounts <span className={styles.sectionItemCount}>({mailAccounts.length})</span>
                             </span>
+                            <HeadingInfo info="Connected email inboxes used for trade confirmations and 2FA security alerts." />
                           </div>
                         </div>
                         <p className={styles.profileSectionSub}>
@@ -2478,6 +2572,7 @@ export default function AccountModal({ isOpen, onClose, onSignOut, initialTab }:
                           <div className={styles.profileSectionTitleRow}>
                             <Send size={17} className={styles.profileSectionIcon} />
                             <span className={styles.profileSectionTitle}>Telegram Integration</span>
+                            <HeadingInfo info="Connected Telegram bot used for instantaneous execution alerts and order receipts." />
                           </div>
                           {isTelegramLinked ? (
                             <span className={styles.connectedStatusPill}>
@@ -2591,7 +2686,10 @@ export default function AccountModal({ isOpen, onClose, onSignOut, initialTab }:
                   {/* Top Header Row */}
                   <div className={styles.exchangeHeaderRow}>
                     <div className={styles.exchangeHeaderLeft}>
-                      <span className={styles.exchangeHeaderTitle}>Exchange Accounts</span>
+                      <div className={styles.headingWithInfoRow}>
+                        <span className={styles.exchangeHeaderTitle}>Exchange Accounts</span>
+                        <HeadingInfo info="Manage connected exchange API keys and multi-venue trade execution routing." />
+                      </div>
                       <span className={styles.exchangeHeaderSub}>
                         Manage connected exchange API keys and multi-venue trade execution routing.
                       </span>
@@ -2722,7 +2820,10 @@ export default function AccountModal({ isOpen, onClose, onSignOut, initialTab }:
           <div className={styles.subModalOverlay} onClick={() => setIsEditProfileOpen(false)}>
             <div className={styles.subModal} onClick={(e) => e.stopPropagation()}>
               <div className={styles.subModalHeader}>
-                <h3 className={styles.subModalTitle}>Edit Profile</h3>
+                <div className={styles.headingWithInfoRow}>
+                  <h3 className={styles.subModalTitle}>Edit Profile</h3>
+                  <HeadingInfo info="Update your display name, username handle, and public preferences." />
+                </div>
                 <button
                   className={styles.iconOnlyBtn}
                   onClick={() => setIsEditProfileOpen(false)}
@@ -2786,7 +2887,10 @@ export default function AccountModal({ isOpen, onClose, onSignOut, initialTab }:
           <div className={styles.subModalOverlay} onClick={() => setIsAddEmailOpen(false)}>
             <div className={styles.subModal} onClick={(e) => e.stopPropagation()}>
               <div className={styles.subModalHeader}>
-                <h3 className={styles.subModalTitle}>Add Mail Account</h3>
+                <div className={styles.headingWithInfoRow}>
+                  <h3 className={styles.subModalTitle}>Add Mail Account</h3>
+                  <HeadingInfo info="Add an auxiliary verified mailbox for receipts and margin warnings." />
+                </div>
                 <button
                   className={styles.iconOnlyBtn}
                   onClick={() => setIsAddEmailOpen(false)}
@@ -2841,7 +2945,10 @@ export default function AccountModal({ isOpen, onClose, onSignOut, initialTab }:
           <div className={styles.subModalOverlay} onClick={() => setIsTelegramLinkModalOpen(false)}>
             <div className={styles.subModal} onClick={(e) => e.stopPropagation()}>
               <div className={styles.subModalHeader}>
-                <h3 className={styles.subModalTitle}>Link Telegram Account</h3>
+                <div className={styles.headingWithInfoRow}>
+                  <h3 className={styles.subModalTitle}>Link Telegram Account</h3>
+                  <HeadingInfo info="Authorize your Telegram channel for instant fill alerts and execution signals." />
+                </div>
                 <button
                   className={styles.iconOnlyBtn}
                   onClick={() => setIsTelegramLinkModalOpen(false)}
@@ -2887,9 +2994,12 @@ export default function AccountModal({ isOpen, onClose, onSignOut, initialTab }:
               <div className={styles.subModalHeader}>
                 <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
                   <AlertTriangle size={18} color="var(--red-400, #ea5e5e)" />
-                  <h3 className={styles.subModalTitle} style={{ color: "var(--red-400, #ea5e5e)" }}>
-                    Delete Account
-                  </h3>
+                  <div className={styles.headingWithInfoRow}>
+                    <h3 className={styles.subModalTitle} style={{ color: "var(--red-400, #ea5e5e)" }}>
+                      Delete Account
+                    </h3>
+                    <HeadingInfo info="Permanently wipes saved credentials, trading history, and active sessions." />
+                  </div>
                 </div>
                 <button
                   className={styles.iconOnlyBtn}
@@ -2941,7 +3051,10 @@ export default function AccountModal({ isOpen, onClose, onSignOut, initialTab }:
           <div className={styles.subModalOverlay} onClick={() => setIsConnectModalOpen(false)}>
             <div className={styles.subModal} onClick={(e) => e.stopPropagation()}>
               <div className={styles.subModalHeader}>
-                <h3 className={styles.subModalTitle}>Connect Exchange Account</h3>
+                <div className={styles.headingWithInfoRow}>
+                  <h3 className={styles.subModalTitle}>Connect Exchange Account</h3>
+                  <HeadingInfo info="Input API key and secret to enable multi-venue automated trading." />
+                </div>
                 <button
                   className={styles.iconOnlyBtn}
                   onClick={() => setIsConnectModalOpen(false)}
@@ -3024,7 +3137,10 @@ export default function AccountModal({ isOpen, onClose, onSignOut, initialTab }:
           <div className={styles.subModalOverlay} onClick={() => setIsDepositModalOpen(false)}>
             <div className={styles.depositModal} onClick={(e) => e.stopPropagation()}>
               <div className={styles.depositModalHeader}>
-                <h3 className={styles.depositModalTitle}>Deposit tokens</h3>
+                <div className={styles.headingWithInfoRow}>
+                  <h3 className={styles.depositModalTitle}>Deposit tokens</h3>
+                  <HeadingInfo info="Select network and destination address to fund your account." />
+                </div>
                 <button
                   className={styles.iconOnlyBtn}
                   onClick={() => setIsDepositModalOpen(false)}
@@ -3172,7 +3288,10 @@ export default function AccountModal({ isOpen, onClose, onSignOut, initialTab }:
                   </div>
                   <div className={styles.transferTitleGroup}>
                     <div className={styles.transferTitleRow}>
-                      <h3 className={styles.transferTitle}>Transfer</h3>
+                      <div className={styles.headingWithInfoRow}>
+                        <h3 className={styles.transferTitle}>Transfer</h3>
+                        <HeadingInfo info="Instant zero-fee internal transfer between your balances." />
+                      </div>
                       <span className={styles.transferZeroFeeBadge}>ZERO FEE</span>
                     </div>
                     <p className={styles.transferSubtitle}>
